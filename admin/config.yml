@@ -1,0 +1,92 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend:
+  url: "http://localhost:8081/api/v1"
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "pag_istituzionale"
+    label: "Pagine Istituzionali"
+    extension: "json"
+    format: "json"
+    files:
+      - file: "content/pagine/chi-siamo.json"
+        label: "Chi Siamo"
+        name: "chi_siamo"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+      - file: "content/pagine/cosa-facciamo.json"
+        label: "Cosa Facciamo"
+        name: "cosa_facciamo"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+      - file: "content/pagine/domotica.json"
+        label: "Domotica"
+        name: "domotica"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+      - file: "content/pagine/persone-famiglie.json"
+        label: "Persone e Famiglie"
+        name: "persone_famiglie"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+      - file: "content/pagine/trasparenza.json"
+        label: "Trasparenza"
+        name: "trasparenza"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+      - file: "content/pagine/contatti.json"
+        label: "Contatti"
+        name: "contatti"
+        fields:
+          - { label: "Titolo Pagina", name: "title", widget: "string" }
+          - { label: "Descrizione Hero", name: "subtitle", widget: "text" }
+          - { label: "Contenuto Principale", name: "body", widget: "markdown" }
+
+  - name: "pubblicazioni"
+    label: "Pubblicazioni ed E-book"
+    folder: "content/pubblicazioni"
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titolo Pubblicazione", name: "title", widget: "string" }
+      - { label: "Tipo Documento", name: "type", widget: "string" }
+      - { label: "Descrizione", name: "description", widget: "text", required: false }
+      - { label: "Link PDF Allegato", name: "pdf_file", widget: "file", required: false }
+
+  - name: "trasparenza"
+    label: "Documenti di Trasparenza"
+    folder: "content/trasparenza"
+    extension: "json"
+    format: "json"
+    media_folder: "assets/documenti/trasparenza"
+    public_folder: "/assets/documenti/trasparenza"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titolo Atto / Bilancio", name: "title", widget: "string" }
+      - { label: "Anno di Riferimento", name: "year", widget: "string" }
+      - { label: "PDF Trasparenza", name: "document", widget: "file" }

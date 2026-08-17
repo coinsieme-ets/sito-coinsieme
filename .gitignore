@@ -1,0 +1,24 @@
+# Dipendenze e runtime locali
+node_modules/
+node_extracted/
+node.zip
+
+# Anteprime, collaudi e profili browser locali
+scratch/
+build-preview/
+*.log
+
+# Segreti e configurazioni locali
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# File di sistema e degli editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

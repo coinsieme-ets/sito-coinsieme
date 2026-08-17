@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contattaci — Fondazione COINSIEME ETS</title>
+  <meta name="description" content="Contatta Fondazione COINSIEME ETS: scrivi per una consulenza, una collaborazione o semplicemente per saperne di più.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- SKIP LINK -->
+<a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+<!-- BADGE PROTOTIPO -->
+<div class="proto-badge" role="note" aria-label="Prototipo — contenuti da definire">⚠ Prototipo</div>
+
+<!-- ========== HEADER ========== -->
+<header class="site-header" role="banner">
+  <nav class="navbar container" aria-label="Navigazione principale">
+    <a href="index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
+      <img src="assets/official_logo.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
+      <div class="logo-wordmark">
+        <span class="logo-text">COINSIEME</span>
+        <span class="logo-sub">Fondazione ETS</span>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Apri menu di navigazione">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+        <ul class="nav-menu" id="nav-menu" role="list">
+      <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
+      <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
+      <li><a href="/contatti.html" class="nav-link" aria-disabled="true" tabindex="-1" style="opacity:.55;cursor:default;">Formazione</a></li>
+      <li><a href="articoli.html" class="nav-link">Conoscenza</a></li>
+      <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
+    </ul>
+    <a href="contatti.html" class="btn btn-nav" aria-current="page">Contattaci</a>
+  </nav>
+</header>
+
+<main id="main-content">
+
+  <!-- ========== HERO INTERNO ========== -->
+  <section class="hero-inner" aria-labelledby="contatti-titolo">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Percorso di navigazione">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span aria-current="page">Contattaci</span>
+      </nav>
+      <div class="page-intro">
+        <h1 id="contatti-titolo">Parliamoci</h1>
+        <p>
+          
+          Che tu abbia una domanda, voglia collaborare, chieda una consulenza o voglia semplicemente saperne di più — siamo qui. Scrivi e ti risponderemo nel minor tempo possibile.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FORM PRINCIPALE + INFO ========== -->
+  <section class="bg-crema fade-in" aria-labelledby="form-titolo">
+    <div class="container">
+      <div class="grid-2" style="gap:56px; align-items:flex-start;">
+
+        <!-- Form principale -->
+        <div>
+          <h2 id="form-titolo">Scrivici</h2>
+          
+        <div class="alert-info" role="status" style="margin-bottom:24px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <div>
+            <strong>Modulo dimostrativo:</strong> l'invio del messaggio non è ancora attivo. Per contatti istituzionali o comunicazioni dirette utilizzare l'indirizzo e-mail ufficiale della Fondazione.
+          </div>
+        </div>
+
+<form onsubmit="return false;" action="#" novalidate aria-label="Modulo di contatto principale" style="margin-top:28px;">
+            <div class="form-group">
+              <label for="c-nome">Nome e cognome <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <input type="text" id="c-nome" name="nome" autocomplete="name" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="c-email">Email <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <input type="email" id="c-email" name="email" autocomplete="email" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="c-oggetto">Oggetto <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <select id="c-oggetto" name="oggetto" required aria-required="true">
+                <option value="" disabled selected>Seleziona un argomento</option>
+                <option value="domotica">Consulenza domotica assistiva</option>
+                <option value="formazione">Informazioni sul corso</option>
+                <option value="collaborazione">Proposta di collaborazione</option>
+                <option value="coprogettazione">Co-progettazione con enti pubblici o ETS</option>
+                <option value="informazioni">Informazioni generali</option>
+                <option value="altro">Altro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="c-messaggio">Messaggio <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <textarea id="c-messaggio" name="messaggio" rows="6" required aria-required="true" placeholder="Descrivi la tua richiesta. Non servono termini tecnici: basta spiegarci la situazione."></textarea>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" id="c-privacy" name="privacy" required aria-required="true">
+              <label for="c-privacy">
+                Ho letto e accetto la <a href="/contatti.html" aria-label="Privacy policy — pagina in costruzione">privacy policy</a>
+                <span aria-hidden="true" style="color:var(--terracotta);"> *</span>
+              </label>
+            </div>
+            <p style="font-size:0.82rem; color:var(--grigio-testo); margin-bottom:16px;">
+              <span aria-hidden="true" style="color:var(--terracotta);">*</span> Campi obbligatori
+            </p>
+            <button type="submit" class="btn btn-primary btn-lg">Invia il messaggio</button>
+          </form>
+        </div>
+
+        <!-- Informazioni di contatto -->
+        <div>
+          <h2>Dove siamo e come trovarci</h2>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:28px;">
+            <div class="info-card">
+              <div class="info-card-icon" aria-hidden="true">📍</div>
+              <div class="info-card-body">
+                <h4>Sede Legale e Operativa</h4>
+                <p>Via Enrico Giglioli 54A, 00169 Roma (RM)</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon" aria-hidden="true">✉️</div>
+              <div class="info-card-body">
+                <h4>Email</h4>
+                <p>
+                  <a href="mailto:segreteria@coinsieme.it">segreteria@coinsieme.it</a>
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon" aria-hidden="true">🛡️</div>
+              <div class="info-card-body">
+                <h4>PEC</h4>
+                <p>
+                  <a href="mailto:COINONLUS@PEC.IT">COINONLUS@PEC.IT</a>
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon" aria-hidden="true">📞</div>
+              <div class="info-card-body">
+                <h4>Telefono</h4>
+                <p>
+                  <a href="tel:+393757869684">+39 375 786 9684</a>
+                </p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon" aria-hidden="true">🏢</div>
+              <div class="info-card-body">
+                <h4>Dati fiscali e RUNTS</h4>
+                <p style="font-size:0.9rem; line-height:1.5;">Codice Fiscale: 08429760583<br>Partita IVA: 02053531006<br>Iscrizione RUNTS: Rep. 130676 (20/08/2024)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mappa placeholder -->
+          <div class="map-placeholder" style="margin-top:24px; min-height:200px;" role="img" aria-label="[Placeholder mappa — da integrare con Google Maps o OpenStreetMap]">
+            <span aria-hidden="true" style="font-size:1.5rem;">🗺</span>
+            <span>[Mappa da inserire]</span>
+            <span style="font-size:0.8rem;"></span>
+          </div>
+
+          <!-- Social -->
+          <div style="margin-top:24px;">
+            <h3 style="font-size:0.95rem; color:var(--grigio-testo); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Seguici</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="/contatti.html" class="share-link" aria-label="Gruppo Facebook di COINSIEME">
+                <span aria-hidden="true">f</span> Gruppo Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTATTI DEDICATI PER TIPO ========== -->
+  <section class="bg-bianco fade-in" aria-labelledby="contatti-tipo-titolo">
+    <div class="container">
+      <h2 id="contatti-tipo-titolo">Hai una richiesta specifica?</h2>
+      <p style="color:var(--grigio-testo); margin-top:8px; max-width:560px;">
+        
+        Per alcune tipologie di richiesta puoi contattare direttamente l'interlocutore più adatto.
+      </p>
+      <div class="grid-3" style="margin-top:32px;">
+        <div class="card">
+          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">🤝</div>
+          <h3 style="font-size:1rem; margin-bottom:8px;">Collaborazioni e co-progettazione</h3>
+          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
+            
+            Per proposte di partnership, co-progettazione con enti pubblici o organizzazioni del Terzo Settore.
+          </p>
+          <a href="mailto:" aria-label="Email per collaborazioni — da inserire" style="font-size:0.88rem; font-weight:600;">
+            
+          </a>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">📚</div>
+          <h3 style="font-size:1rem; margin-bottom:8px;">Formazione e corsi</h3>
+          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
+            
+            Per informazioni sul corso Manager di Domotica Assistiva e sugli altri percorsi formativi.
+          </p>
+          <a href="mailto:" aria-label="Email per la formazione — da inserire" style="font-size:0.88rem; font-weight:600;">
+            
+          </a>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">🏠</div>
+          <h3 style="font-size:1rem; margin-bottom:8px;">Persone e famiglie</h3>
+          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
+            
+            Per richieste di consulenza domotica, orientamento o supporto personale.
+          </p>
+          <a href="persone-famiglie.html" style="font-size:0.88rem; font-weight:600;">
+            Vai alla sezione dedicata →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="pointer-events:none;">
+          <span class="logo-text" style="color:var(--bianco); font-family:var(--font-heading); font-size:1.45rem; font-weight:700;">COINSIEME</span><br>
+          <span class="logo-sub">Fondazione ETS</span>
+        </div>
+        <p>Domotica assistiva, formazione e innovazione sociale per l'inclusione reale.</p>
+      </div>
+      <nav class="footer-col" aria-label="Chi siamo">
+        <h4>Chi siamo</h4>
+        <ul>
+          <li><a href="/contatti.html" aria-label="Storia e radici — in costruzione">Storia e radici</a></li>
+          <li><a href="/contatti.html" aria-label="Missione — in costruzione">Missione e visione</a></li>
+          <li><a href="/contatti.html" aria-label="Team — in costruzione">Il team</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Cosa facciamo">
+        <h4>Cosa facciamo</h4>
+        <ul>
+          <li><a href="domotica.html">Domotica assistiva</a></li>
+          <li><a href="/contatti.html" aria-label="Formazione — in costruzione">Formazione</a></li>
+          <li><a href="articoli.html">Articoli</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Contatti">
+        <h4>Contatti</h4>
+        <ul>
+          <li><a href="contatti.html" aria-current="page">Scrivici</a></li>
+          <li><a href="/contatti.html" aria-label="Trasparenza — in costruzione">Trasparenza</a></li>
+        </ul>
+      </nav>
+    </div>
+        <div class="footer-sostienici">
+      <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
+      <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fondazione COINSIEME ETS</span>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="/contatti.html" aria-label="Privacy policy — in costruzione">Privacy policy</a>
+        <a href="/contatti.html" aria-label="Accessibilità — in costruzione">Accessibilità</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
+
+

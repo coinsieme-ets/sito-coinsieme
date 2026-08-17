@@ -1,0 +1,841 @@
+﻿{
+    "Articles":  [
+                     {
+                         "Title":  "Il ricordo di Don Franco - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/il-ricordo-di-don-franco",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a630d056d02c.jpg"
+                     },
+                     {
+                         "Title":  "innovazione sociale, inclusione e tecnologia al servizio delle perso...",
+                         "Url":  "https://www.coinsieme.it/articoli/fondazione-coinsieme-ets-innovazione-sociale-inclusione-e-tecnologia-al-servizio-delle-persone",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6a245e9805492.jpg"
+                     },
+                     {
+                         "Title":  "Smart working e disabilità:  cambia davvero con la nuova legge e...",
+                         "Url":  "https://www.coinsieme.it/articoli/smart-working-e-disabilit%C3%A0-cosa-cambia-davvero-con-la-nuova-legge-e-perch%C3%A9-%C3%A8-un-opportunit%C3%A0-da-non-perdere",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-69de71a9d8272.jpg"
+                     },
+                     {
+                         "Title":  "Nuove regole di vigilanza sulle cooperative: più trasparenza, più re...",
+                         "Url":  "https://www.coinsieme.it/articoli/nuove-regole-di-vigilanza-sulle-cooperative-pi%C3%B9-trasparenza-pi%C3%B9-responsabilit%C3%A0-pi%C3%B9-qualit%C3%A0-sociale",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-69bfaedede6fd.jpg"
+                     },
+                     {
+                         "Title":  "Il Lazio dimezza l’IRAP per le cooperative sociali: cosa cambia e pe...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-lazio-dimezza-l-irap-per-le-cooperative-sociali-cosa-cambia-e-perch%C3%A9-%C3%A8-importante",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-694994777b40d.jpg"
+                     },
+                     {
+                         "Title":  "Roma approva il nuovo Regolamento per le Cooperative Sociali di Tipo...",
+                         "Url":  "https://www.coinsieme.it/articoli/roma-approva-il-nuovo-regolamento-per-le-cooperative-sociali-di-tipo-b-speranze-e-criticit%C3%A0-da-non-ignorare",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-690dac0aace9f.jpg"
+                     },
+                     {
+                         "Title":  "La Fondazione Coinsieme ETS partecipa alla costruzione del Piano Naz...",
+                         "Url":  "https://www.coinsieme.it/articoli/la-fondazione-coinsieme-ets-partecipa-alla-costruzione-del-piano-nazionale-per-l-economia-sociale",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-690a16ced60fd.jpg"
+                     },
+                     {
+                         "Title":  "Rinnovo del Contratto Collettivo per Colf e Badanti: cosa cambia dal...",
+                         "Url":  "https://www.coinsieme.it/articoli/rinnovo-del-contratto-collettivo-per-colf-e-badanti-cosa-cambia-dal-2025",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6904880f4b355.jpg"
+                     },
+                     {
+                         "Title":  "Vanga e Fornello: l’agricoltura sostenibile - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/vanga-e-fornello-l-agricoltura-sostenibile",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-68f719ed847d3.jpg"
+                     },
+                     {
+                         "Title":  "Valore del no profit in Italia - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/valore-del-no-profit-in-italia",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-68e213698e895.jpg"
+                     },
+                     {
+                         "Title":  "Energia pulita, inclusione reale: a Grottaferrata prende vita il pri...",
+                         "Url":  "https://www.coinsieme.it/articoli/energia-pulita-inclusione-reale-a-grottaferrata-prende-vita-il-primo-fotovoltaico-sociale",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_68cceebe6fefa.jpg"
+                     },
+                     {
+                         "Title":  "🛡️ Nessun licenziamento per i caregiver: la Legge 104 tutela il diri...",
+                         "Url":  "https://www.coinsieme.it/articoli/nessun-licenziamento-per-i-caregiver-la-legge-104-tutela-il-diritto-al-lavoro",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6877555744aed.jpg"
+                     },
+                     {
+                         "Title":  "🧠 Innovazione e Domotica Assistiva: 5 Invenzioni del Futuro già tra ...",
+                         "Url":  "https://www.coinsieme.it/articoli/innovazione-e-domotica-assistiva-5-invenzioni-del-futuro-gi%C3%A0-tra-noi",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6877688b7cef1.jpg"
+                     },
+                     {
+                         "Title":  "🟦 Accessibilità digitale: dal 28 giugno è legge in tutta Europa. Ecc...",
+                         "Url":  "https://www.coinsieme.it/articoli/accessibilit%C3%A0-digitale-dal-28-giugno-%C3%A8-legge-in-tutta-europa-ecco-cosa-cambia-per-aziende-e-cittadini",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6863fb662fbeb.jpg"
+                     },
+                     {
+                         "Title":  "L\u0026#039;ultimo saluto di Don Franco - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/l-ultimo-saluto-di-don-franco",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_683b2fdbebbdd.jpg"
+                     },
+                     {
+                         "Title":  "Raggiunta finalmente l\u0026#039;intesa per il rinnovo del contratto dell...",
+                         "Url":  "https://www.coinsieme.it/articoli/raggiunta-finalmente-l-intesa-per-il-rinnovo-del-contratto-delle-cooperative-sociali",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65b766cfee7dd.png"
+                     },
+                     {
+                         "Title":  "BANCA D\u0026#039;ITALIA: LA POVERTA\u0026#039; CHE AVANZA UN BRUTTO SEGNALE P...",
+                         "Url":  "https://www.coinsieme.it/articoli/banca-d-italia-la-poverta-che-avanza-un-brutto-segnale-per-il-paese",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/23576/800_5cdc4d1db02e7.jpg"
+                     },
+                     {
+                         "Title":  "Dal 7 Novembre 2023, l\u0026#039;Associazione COIN Onlus Diventa Fondazio...",
+                         "Url":  "https://www.coinsieme.it/articoli/dal-7-novembre-associazione-coin-onlus-diventa-fondazione-coinsieme-un-nuovo-inizio-per-obiettivi-sociali-rinnovati",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_655350ca7948f.jpg"
+                     },
+                     {
+                         "Title":  "Le Anticipazioni sulle Nuove Misure Finanziarie 2024 e l’Impatto sul...",
+                         "Url":  "https://www.coinsieme.it/articoli/le-anticipazioni-sulle-nuove-misure-finanziarie-2024-e-l-impatto-sulle-imprese-sociali-e-l-assistenza-sociale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6543ddc248573.jpg"
+                     },
+                     {
+                         "Title":  "L\u0026#039;accesso on line ai servizi domiciliari di assistenza alla per...",
+                         "Url":  "https://www.coinsieme.it/articoli/l-accesso-on-line-ai-servizi-domiciliari-di-assistenza-alla-persona",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65267b259847e.jpg"
+                     },
+                     {
+                         "Title":  "Senza pace non può esserci progresso sociale - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/senza-pace-non-pu%C3%B2-esserci-progresso",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65256ae25577f.jpg"
+                     },
+                     {
+                         "Title":  "DISABILITY CARD a cosa serve e come ottenerla - FONDAZIONE COINSIEME...",
+                         "Url":  "https://www.coinsieme.it/articoli/disability-card-a-cosa-serve-e-come-ottenerla",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6523d2b789898.jpg"
+                     },
+                     {
+                         "Title":  "Diritti e benefici 2023 per le persone disabili - FONDAZIONE COINSIE...",
+                         "Url":  "https://www.coinsieme.it/articoli/diritti-e-benefici-2023-per-le-persone-disabili",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6523c34e07194.jpg"
+                     },
+                     {
+                         "Title":  "Il rapporto tra cooperative sociali e PNRR: possibili impieghi e rit...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-rapporto-tra-cooperative-sociali-e-pnrr-possibili-impieghi-e-ritorni-per-il-settore",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6523c32b17771.jpg"
+                     },
+                     {
+                         "Title":  "L\u0026#039;Inflazione e le Sue Ripercussioni sulle Cooperative Sociali: ...",
+                         "Url":  "https://www.coinsieme.it/articoli/l-inflazione-e-le-sue-ripercussioni-sulle-cooperative-sociali-una-sfida-per-l-aggiornamento-dei-ricavi-e-la-retribuzione-salariale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65033b0abe5fc.png"
+                     },
+                     {
+                         "Title":  "Potenziare l\u0026#039;agricoltura sociale per lo sviluppo della nostra e...",
+                         "Url":  "https://www.coinsieme.it/articoli/potenziare-l-agricoltura-sociale-per-lo-sviluppo-della-nostra-economia-locale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64f9f63bc81d8.png"
+                     },
+                     {
+                         "Title":  "Mercato del lavoro in Italia: la situazione delle categorie svantagg...",
+                         "Url":  "https://www.coinsieme.it/articoli/mercato-del-lavoro-in-italia-la-situazione-delle-categorie-svantaggiate-con-particolare-riferimento-alle-coop-sociali",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/21159/800_5cdbdf2709601.jpg"
+                     },
+                     {
+                         "Title":  "\u0026quot;Innovazione nell\u0026#039;Inclusione: Come le Tecnologie Stanno Tr...",
+                         "Url":  "https://www.coinsieme.it/articoli/innovazione-nell-inclusione-come-le-tecnologie-stanno-trasformando-il-lavoro-per-i-disabili",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64ea1c12c5d30.png"
+                     },
+                     {
+                         "Title":  "Esplorare nuovi Orizzonti nel Turismo per Tutti - FONDAZIONE COINSIE...",
+                         "Url":  "https://www.coinsieme.it/articoli/esplorare-nuovi-orizzonti-nel-turismo-per-tutti",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64e64788ba9c4.jpg"
+                     },
+                     {
+                         "Title":  "Start-up Innovative nel Settore dei Servizi per Disabili e Anziani: ...",
+                         "Url":  "https://www.coinsieme.it/articoli/start-up-innovative-nel-settore-dei-servizi-per-disabili-e-anziani-promuovere-l-inclusione-e-il-benessere",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64e4c90412f53.jpg"
+                     },
+                     {
+                         "Title":  "Il Lavoro nell’Integrazione Sociale ed Economica di ogni Individuo -...",
+                         "Url":  "https://www.coinsieme.it/articoli/l-importanza-del-lavoro-nell-integrazione-sociale-ed-economica-di-ogni-individuo",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/2711013/800_5e08f161127b6.jpg"
+                     },
+                     {
+                         "Title":  "Il Potenziale Trasformativo dell\u0026#039;Intelligenza Artificiale per l...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-potenziale-trasformativo-dell-intelligenza-artificiale-per-le-persone-disabili-e-anziane",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/33920/800_5cde41f26669b.jpg"
+                     },
+                     {
+                         "Title":  "Marche accessibili: percorsi in joilette - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/marche-accessibili-percorsi-in-joilette",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64e8a3706c117.jpg"
+                     },
+                     {
+                         "Title":  "L\u0026#039;importanza delle cooperative sociali e delle associazioni com...",
+                         "Url":  "https://www.coinsieme.it/articoli/l-importanza-delle-cooperative-sociali-e-delle-associazioni-come-il-coin",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64dfaa46265ee.png"
+                     },
+                     {
+                         "Title":  "Fondi privati per l\u0026#039;agricoltura sociale - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/fondi-privati-per-l-agricoltura-sociale",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/5191335/800_5ebd8dbd3ab47.jpg"
+                     },
+                     {
+                         "Title":  "Terzo Settore e digitale: per la prima volta, dei dati Istat su...",
+                         "Url":  "https://www.coinsieme.it/articoli/terzo-settore-e-digitale-per-la-prima-volta-dei-dati-istat-su-cui-riflettere",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64a81268e631b.jpg"
+                     },
+                     {
+                         "Title":  "IL LAVORO PER TUTTI - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/il-lavoro-per-tutti",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64cf77ef221f5.png"
+                     },
+                     {
+                         "Title":  "ANAC: nelle gare non ci possono essere discriminazioni fra regioni p...",
+                         "Url":  "https://www.coinsieme.it/articoli/anac-nelle-gare-non-ci-possono-essere-discriminazioni-fra-regioni-per-la-selezione-di-coop-sociali",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64ca92d0ababa.png"
+                     },
+                     {
+                         "Title":  "Nuove risorse per le cooperative sociali da CARIPLO - FONDAZIONE COI...",
+                         "Url":  "https://www.coinsieme.it/articoli/nuove-risorse-per-le-cooperative-sociali-da-cariplo",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/5200978/800_5ebe78f462255.jpg"
+                     },
+                     {
+                         "Title":  "PUBBLICATE LE LINEE GUIDA PER LE STAZIONI APPALTANTI PER FAVORIRE NE...",
+                         "Url":  "https://www.coinsieme.it/articoli/pubblicate-le-linee-guida-per-le-stazioni-appaltanti-per-favorire-nelle-gare-l-inclusione-sociale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64c4d9e9aff6b.png"
+                     },
+                     {
+                         "Title":  "Finanziamenti per start up innovative - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/finanziamenti-per-start-up-innovative",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/5102585/800_5ebe788cde3e3.jpg"
+                     },
+                     {
+                         "Title":  "LA TUA SCUOLA IN FATTORIA - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/la-tua-scuola-in-fattoria",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64aeea10b81b4.jpg"
+                     },
+                     {
+                         "Title":  "INTESE IN TOSCANA PER LA GESTIONE DEI RIFIUTI CON LE COOPERATIVE SOC...",
+                         "Url":  "https://www.coinsieme.it/articoli/intese-in-toscana-per-la-gestione-dei-rifiuti-con-le-cooperative-sociali",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64b189540a6be.jpg"
+                     },
+                     {
+                         "Title":  "Appalti, nuove regole per individuare i Ccnl - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/appalti-nuove-regole-per-individuare-i-ccnl",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64be530700807.png"
+                     },
+                     {
+                         "Title":  "IL FONDATORE DELLA COMUNITA\u0026#039; CAPODARCO E I GIOVANI - FONDAZIONE...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-fondatore-della-comunita-capodarco-e-i-giovani",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64aa6a75312a4.png"
+                     },
+                     {
+                         "Title":  "nuovo appuntamento - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/nuovo-appuntamento",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481c9521739c.jpg"
+                     },
+                     {
+                         "Title":  "PNRR E ACCESSIBILITA\u0026#039; LUOGHI DI CULTURA - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/pnrr-e-accessibilita-luoghi-di-cultura",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_648b3d099b562.jpg"
+                     },
+                     {
+                         "Title":  "50 anni fa le prime esperienze di integrazione lavorativa autogestit...",
+                         "Url":  "https://www.coinsieme.it/articoli/50-anni-fa-le-prime-esperienze-di-integrazione-lavorativa-autogestita",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6499ced4b4217.jpg"
+                     },
+                     {
+                         "Title":  "L\u0026#039;alluvione in Emilia Romagna - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/l-alluvione-in-emilia-romagna",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481cb2141b13.jpg"
+                     },
+                     {
+                         "Title":  "Si promette ma non si mantiene... - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/si-promette-ma-non-si-mantiene",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_64859934d1977.jpg"
+                     },
+                     {
+                         "Title":  "Il COIN e il Santa Maria della Pietà di Roma - FONDAZIONE...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-coin-e-il-santa-maria-della-piet%C3%A0-di-roma",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481c83ef2232.png"
+                     },
+                     {
+                         "Title":  "QUANDO LA CAPODARCO ERA LA CAPODARCO - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/quando-la-capodarco-era-la-capodarco",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_648589c42f0b7.jpg"
+                     },
+                     {
+                         "Title":  "LA FAVOLA DI UNA PERSONA DIVERSAMENTE ABILE - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/la-favola-di-una-persona-diversamente-abile",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_648586131184a.jpg"
+                     },
+                     {
+                         "Title":  "La società solidale genera plusvalore per sé e per i disagiati -...",
+                         "Url":  "https://www.coinsieme.it/articoli/la-societ%C3%A0-solidale-genera-plusvalore-per-s%C3%A9-e-per-i-disagiati",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/1719/800_5cc99b8c0fa87.jpg"
+                     },
+                     {
+                         "Title":  "Lavoro e inclusione: le esperienze di successo delle cooperative soc...",
+                         "Url":  "https://www.coinsieme.it/articoli/lavoro-e-inclusione-le-esperienze-di-successo-delle-cooperative-sociali",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/14965/800_5cdad9d6c6b2b.jpg"
+                     },
+                     {
+                         "Title":  "LAVORATORI DISABILI SI\u0026#039; ALLO SMART WORKING - FONDAZIONE COINSIE...",
+                         "Url":  "https://www.coinsieme.it/articoli/lavoratori-disabili-si-allo-smart-working",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6787742b84e44.jpg"
+                     },
+                     {
+                         "Title":  "Le nuove norme del “Decreto Sicurezza” e il rischio di un arretramen...",
+                         "Url":  "https://www.coinsieme.it/articoli/le-nuove-norme-del-decreto-sicurezza-e-il-rischio-di-un-arretramento-nell-inclusione-lavorativa-delle-persone-con-disabilit%C3%A0",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-695e18720f229.jpg"
+                     },
+                     {
+                         "Title":  "🧠 Innovazione e Domotica Assistiva: 5 Invenzioni del Futuro già tra ...",
+                         "Url":  "https://www.coinsieme.it/articoli/innovazione-e-domotica-assistiva-5-invenzioni-del-futuro-gi%C3%A0-tra-noi-copy",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-6877688b7cef1.jpg"
+                     },
+                     {
+                         "Title":  "Dal 2027 cambiano le regole per l’invalidità civile e la Legge 104...",
+                         "Url":  "https://www.coinsieme.it/articoli/dal-2027-cambiano-le-regole-per-l-invalidit%C3%A0-civile-e-la-legge-104",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_683ff874f1819.png"
+                     },
+                     {
+                         "Title":  "Congedo Straordinario per Caregiver: Una Guida Pratica - FONDAZIONE ...",
+                         "Url":  "https://www.coinsieme.it/articoli/congedo-straordinario-per-caregiver-una-guida-pratica",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_67fcaf82765d3.png"
+                     },
+                     {
+                         "Title":  "La Pericolosa Retorica di Trump e le Politiche Inclusive: Un ritorno...",
+                         "Url":  "https://www.coinsieme.it/articoli/la-pericolosa-retorica-di-trump-e-le-politiche-inclusive-un-ritorno-al-medioevo",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_679c8efd9243b.png"
+                     },
+                     {
+                         "Title":  "Gli occhiali innovativi che ti fanno sentire meglio - FONDAZIONE COI...",
+                         "Url":  "https://www.coinsieme.it/articoli/gli-occhiali-innovativi-che-ti-fanno-sentire-meglio",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-67b8b8e0eb030.jpg"
+                     },
+                     {
+                         "Title":  "Turismo Accessibile: Opportunità e Sfide per l\u0026#039;Industria turist...",
+                         "Url":  "https://www.coinsieme.it/articoli/turismo-accessibile-opportunit%C3%A0-e-sfide-per-l-industria-turistica-italiana",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_67000d9b5f9d7.jpg"
+                     },
+                     {
+                         "Title":  "Assegno Ordinario di Invalidità e Lavoro Dipendente: Decurtazioni e ...",
+                         "Url":  "https://www.coinsieme.it/articoli/assegno-ordinario-di-invalidit%C3%A0-e-lavoro-dipendente-decurtazioni-e-adempimenti",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_66e9401b7336a.png"
+                     },
+                     {
+                         "Title":  "Dall\u0026#039;esperienza di Turismo per Tutti al premio per i migliori a...",
+                         "Url":  "https://www.coinsieme.it/articoli/dall-esperienza-di-turismo-per-tutti-al-premio-per-i-migliori-aeroporti-accessibili-di-fiumicino-e-ciampino",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_66e01fcf67ee0.jpg"
+                     },
+                     {
+                         "Title":  "Finanziamento INAIL per la Formazione dei Disabili - FONDAZIONE COIN...",
+                         "Url":  "https://www.coinsieme.it/articoli/finanziamento-inail-per-la-formazione-dei-disabili",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/1723/800_5cc99b921f96c.jpg"
+                     },
+                     {
+                         "Title":  "INPS LANCIA UN PORTALE DI SERVIZIO PER I DISABILI - FONDAZIONE COINS...",
+                         "Url":  "https://www.coinsieme.it/articoli/inps-lancia-un-portale-di-servizio-per-i-disabili",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_657214b62faae.png"
+                     },
+                     {
+                         "Title":  "Giornata Internazionale della Disabilità: Uno Sguardo alle Politiche...",
+                         "Url":  "https://www.coinsieme.it/articoli/giornata-internazionale-della-disabilit%C3%A0-uno-sguardo-alle-politiche-di-inclusione-e-sostegno-in-italia",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/21214/800_5cdbe1565b3ba.jpg"
+                     },
+                     {
+                         "Title":  "Dalla lotta armata alla lotta per gli ultimi - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/dalla-lotta-armata-alla-lotta-per-gli-ultimi",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_68107a482a5cf.png"
+                     },
+                     {
+                         "Title":  "Gradualità nell’Applicazione del CCNL: uno Strumento di Tutela e Sos...",
+                         "Url":  "https://www.coinsieme.it/articoli/gradualit%C3%A0-nell-applicazione-del-ccnl-uno-strumento-di-tutela-e-sostenibilit%C3%A0-per-le-cooperative-sociali",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_67f6a45d86ad6.png"
+                     },
+                     {
+                         "Title":  "Cooperazione sociale e lavoro per i più fragili: una sfida vera o...",
+                         "Url":  "https://www.coinsieme.it/articoli/cooperazione-sociale-e-lavoro-per-i-pi%C3%B9-fragili-una-sfida-vera-o-solo-retorica-istituzionale",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-67e43e396122f.jpg"
+                     },
+                     {
+                         "Title":  "ROMA: Cooperative sociali di tipo B: pubblicato l’Elenco capitolino ...",
+                         "Url":  "https://www.coinsieme.it/articoli/roma-cooperative-sociali-di-tipo-b-pubblicato-l-elenco-capitolino",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_67bee7492a4ed.png"
+                     },
+                     {
+                         "Title":  "Il boom dell\u0026#039;Economia Sociale in Italia - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/il-boom-dell-economia-sociale-in-italia",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-67ae288b9ce4b.jpg"
+                     },
+                     {
+                         "Title":  "Indicazioni dall\u0026#039;ISTAT sull\u0026#039;andamento del terzo settore - ...",
+                         "Url":  "https://www.coinsieme.it/articoli/indicazioni-dall-istat-sull-andamento-del-terzo-settore",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_670b97f169976.png"
+                     },
+                     {
+                         "Title":  "Roma Capitale sostiene le cooperative sociali - FONDAZIONE COINSIEME...",
+                         "Url":  "https://www.coinsieme.it/articoli/roma-capitale-sostiene-le-cooperative-sociali",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_666e9d72cc6f3.png"
+                     },
+                     {
+                         "Title":  "BANDO DIGITALE SOCIALE - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/bando-digitale-sociale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_665d845f38ed7.png"
+                     },
+                     {
+                         "Title":  "15 milioni di euro per la digitalizzazione del Terzo settore - FONDA...",
+                         "Url":  "https://www.coinsieme.it/articoli/15-milioni-di-euro-per-la-digitalizzazione-del-terzo-settore",
+                         "Image":  "https://images.cdn-files-a.com/ready_uploads/media/146072/800_5ce9faabe9de4.jpg"
+                     },
+                     {
+                         "Title":  "E\u0026#039; UFFICIALE IL NUOVO CONTRATTO DELLE COOPERATIVE SOCIALI - FON...",
+                         "Url":  "https://www.coinsieme.it/articoli/e-ufficiale-il-nuovo-contratto-delle-cooperative-sociali",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65e8b066abd1c.png"
+                     },
+                     {
+                         "Title":  "Raggiunta finalmente l\u0026#039;intesa per il rinnovo del contratto dell...",
+                         "Url":  "https://www.coinsieme.it/articoli/raggiunta-finalmente-l-intesa-per-il-rinnovo-del-contratto-delle-cooperative-sociali-copy",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65b61cf0cc857.png"
+                     },
+                     {
+                         "Title":  "Agricoltura Capodarco vince la sua battaglia per la sede - FONDAZION...",
+                         "Url":  "https://www.coinsieme.it/articoli/agricoltura-capodarco-vince-la-sua-battaglia-per-la-sede",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65832c67caf99.jpg"
+                     },
+                     {
+                         "Title":  "Sostegno alle Imprese Cooperative: il nuovo bando della Regione Lazi...",
+                         "Url":  "https://www.coinsieme.it/articoli/sostegno-alle-imprese-cooperative-il-nuovo-bando-della-regione-lazio-per-il-2025",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-67c1f67cc0242.jpg"
+                     },
+                     {
+                         "Title":  "50 anni da Basaglia e dalla prima cooperative di integrazione social...",
+                         "Url":  "https://www.coinsieme.it/articoli/50-anni-da-basaglia-e-dalla-prima-cooperative-di-integrazione-sociale",
+                         "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_65aabcf7da1f0.png"
+                     },
+                     {
+                         "Title":  "La Rivoluzione del CUP: Dalla Visione di Capodarco al Modello Nazion...",
+                         "Url":  "https://www.coinsieme.it/articoli/la-rivoluzione-del-cup-dalla-visione-di-capodarco-al-modello-nazionale",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-66a22056a4373.jpg"
+                     },
+                     {
+                         "Title":  "Bonus assunzione disabili  per gli ETS - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/bonus-assunzione-disabili-per-gli-ets",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_66d6ba8d5003e.jpg"
+                     },
+                     {
+                         "Title":  "ULTIMI DATI ISTAT SU TERZO SETTORE - FONDAZIONE COINSIEME ETS",
+                         "Url":  "https://www.coinsieme.it/articoli/ultimi-dati-istat-su-terzo-settore",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-67290f93b00fb.jpg"
+                     },
+                     {
+                         "Title":  "Il Terzo Settore cresce: le nuove opportunità per COINSIEME ETS - FO...",
+                         "Url":  "https://www.coinsieme.it/articoli/il-terzo-settore-cresce-le-nuove-opportunit%C3%A0-per-coinsieme-ets",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_67c56801329fa.png"
+                     },
+                     {
+                         "Title":  "Dal 2027 cambiano le regole per l’invalidità civile e la Legge 104...",
+                         "Url":  "https://www.coinsieme.it/articoli/dal-2027-cambiano-le-regole-per-l-invalidit%C3%A0-civile-e-la-legge-104-copy",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_683ff874f1819.png"
+                     },
+                     {
+                         "Title":  "Regolamento per l’affidamento di contratti pubblici a cooperative so...",
+                         "Url":  "https://www.coinsieme.it/articoli/regolamento-per-l-affidamento-di-contratti-pubblici-a-cooperative-sociali-di-tipo-b",
+                         "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_gi-688ccb928978b.jpg"
+                     }
+                 ],
+    "Galleries":  [
+                      {
+                          "Title":  "Galleria - Immagine 78 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e81a7d66d7",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e81a656d5b.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 70 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f91152cd",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a72ced.mp4"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 64 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7eacb18a6",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7eabb6f6d.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 61 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7daed47d4",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7dad31354.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 79 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e8868d0a61",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e8865e4b7c.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 62 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7daf37d2b",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7dad2e47c.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 18 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481adc1d56c2",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481adc17188d.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 19 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481aea19e8fe",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481aea15a89b.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 8 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ab951a5d9",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ab9417fe3.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 35 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b6d563311",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b6d44ff6a.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 31 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b4da008f6",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b4d97a928.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 23 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fc2235ded",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fc21a628d.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 20 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481af0fea2c4",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481af0f045ed.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 30 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b4b78758b",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b4b71b058.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 41 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491bb0f951b6",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491bb0f38af0.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 15 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ad5bddd06",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ad5b2977d.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 26 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fd9562fff",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fd94cf0e8.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 22 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fbb1ab2ca",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fbb13b3f0.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 37 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b868ae0b7",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b8682ed7d.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 36 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b8330088a",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b832128e5.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 24 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fc785c2e1",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fc7796b9d.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 34 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b60bb297f",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b60b35e11.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 12 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ac5aae326",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ac5a4acf9.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 42 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491bb7a21937",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491bb7939cac.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 16 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ad8188884",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ad811cccb.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 10 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481abf8d57ff",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481abf846f73.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 25 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fce26e847",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fce1a3818.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 11 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ac2b0b759",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ac2a7d48f.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 7 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ab4793f7d",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ab46dd0ef.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 21 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481af3ec9b07",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481af3e71f73.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 9 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481abca9d677",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481abca0d402.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 33 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b59f21b0c",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b59e8b000.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 39 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b9afd2a6c",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b9af3b62c.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 13 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ac7dd57c2",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ac7d5480b.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 5 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a9c202320",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a9c1706b9.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 6 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a9e740f51",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a9e6bdd75.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 3 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a994ea9eb",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a99475052.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 2 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a970bf4ce",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a9706283a.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 17 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481ada1310a6",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481ada087683.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 14 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481acec5f6bf",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481acebe2ce8.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 1 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a91f44b75",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a91ea4fe4_filter_6481aa5b055ea.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 40 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491ba4ab7ebb",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491ba4a6064f.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 43 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491bc3a37024",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491bc39dcc10.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 32 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b552252ee",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b5517c90d.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 29 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fe50758de",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fe4f7542a.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 4 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481a9a4b549c",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481a9a43e369.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 27 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fdf30735f",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fdf2aed35.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 28 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6481fe132a306",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6481fe12c2231.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 38 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6491b8fc4015e",
+                          "Image":  "https://images.cdn-files-a.com/uploads/8161177/800_6491b8fbdeccf.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 45 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d37cf9fd",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d363cc6d.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 63 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7e0c49610",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7e09b2faa.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 46 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4d65f23",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4ae45bb.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 57 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d5416672",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4ae8e0e.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 48 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4e67401",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4ae6c90.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 47 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4e1e997",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4aec3b9.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 49 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4e8e2d1",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4af3314.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 58 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d55d7d1e",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4aea968.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 51 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4f06d02",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4aee168.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 50 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4ec4191",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b0193e.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 52 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4f08e04",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4af0a35.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 55 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4f711ed",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b06876.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 53 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4f331bb",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b09010.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 56 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4faba85",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b0b5a4.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 54 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d4f6bcab",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b0d40f.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 59 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d81838dc",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4ae1c62.mp4"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 44 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d144bdaf",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d11c5d1f.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 60 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7d824c8e7",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7d4b04194.mp4"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 65 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f8bd3643",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a6e514.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 66 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f8c9cb01",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a7476c.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 68 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f8d86172",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a7127c.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 67 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f8d18d1d",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a75f71.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 69 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7f8e748d8",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7f8a77568.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 71 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e7fbd81e2c",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e7fbb0d0da.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 72 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b0a8732",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af32179.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 74 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b0ebcfd",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af2ff65.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 73 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b0e312b",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af2d892.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 75 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b1164bd",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af33c15.jpg"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 76 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b15152b",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af2b305.png"
+                      },
+                      {
+                          "Title":  "Galleria - Immagine 77 di 79 - FONDAZIONE COINSIEME ETS",
+                          "Url":  "https://www.coinsieme.it/galleria/item-id-6a2e80b2aaef3",
+                          "Image":  "https://files.cdn-files-a.com/uploads/8161177/800_6a2e80af282ce.png"
+                      }
+                  ]
+}

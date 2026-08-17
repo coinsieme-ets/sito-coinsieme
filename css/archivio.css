@@ -1,0 +1,179 @@
+/* CSS integrativo per gli archivi, usando il design system di COINSIEME */
+
+.hero-compact {
+    padding-top: 180px; /* Accounts for header */
+    padding-bottom: 60px;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .hero-compact {
+        padding-top: 140px;
+        padding-bottom: 50px;
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-compact {
+        padding-top: 120px;
+        padding-bottom: 40px;
+        min-height: 280px;
+    }
+}
+
+.hero-compact-content h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.archivio-header {
+    margin-bottom: 2.5rem;
+}
+
+.archivio-search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    max-width: 600px;
+}
+
+.archivio-search-input {
+    flex: 1;
+    padding: 0.85rem 1.2rem;
+    font-size: 1.05rem;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: var(--radius-md, 8px);
+    font-family: inherit;
+    background-color: var(--bianco);
+    color: var(--notte);
+    transition: box-shadow 0.2s;
+}
+
+.archivio-search-input:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(196, 94, 26, 0.2);
+}
+
+.archivio-stats {
+    font-size: 1.05rem;
+    color: var(--grigio-testo);
+    font-weight: 500;
+}
+
+.archivio-no-results {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: var(--grigio-testo);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--radius-lg, 12px);
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.archivio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+@media (min-width: 640px) {
+    .archivio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+/* Card layout responsivo e accessibile */
+.archivio-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: var(--radius-lg, 12px);
+    overflow: hidden;
+    background-color: var(--bianco);
+    transition: transform 0.25s, box-shadow 0.25s;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.archivio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.archivio-card:focus-within {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 4px;
+}
+
+.archivio-card-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.archivio-card-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.archivio-card-meta {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--terracotta);
+    margin-bottom: 0.75rem;
+}
+
+.archivio-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--notte);
+    line-height: 1.4;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1;
+}
+
+.archivio-card-action {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--terracotta);
+    font-size: 0.95rem;
+    margin-top: auto;
+}
+
+.archivio-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.archivio-card-link:focus {
+    outline: none; /* Handled by focus-within on the card */
+}
+
+/* Testo solo card */
+.archivio-card-text-only {
+    padding: 2.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.archivio-card-text-only .archivio-card-title {
+    font-size: 1.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
