@@ -77,6 +77,29 @@ collections:
       - { label: "Descrizione", name: "description", widget: "text", required: false }
       - { label: "Link PDF Allegato", name: "pdf_file", widget: "file", required: false }
 
+  - name: "articoli"
+    label: "Nuovi Articoli"
+    label_singular: "Nuovo Articolo"
+    folder: "content/articoli"
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string" }
+      - label: "Indirizzo breve (slug)"
+        name: "slug"
+        widget: "string"
+        hint: "Solo lettere minuscole, numeri e trattini. Esempio: progetto-inclusione-2026"
+        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Usa solo lettere minuscole, numeri e trattini"]
+      - { label: "Sintesi", name: "summary", widget: "text" }
+      - { label: "Testo", name: "body", widget: "markdown" }
+      - { label: "Autore", name: "author", widget: "string", required: false }
+      - { label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, required: false }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
+      - { label: "Testo alternativo immagine", name: "image_alt", widget: "string", required: false, hint: "Obbligatorio quando inserisci un'immagine" }
+
   - name: "trasparenza"
     label: "Documenti di Trasparenza"
     folder: "content/trasparenza"

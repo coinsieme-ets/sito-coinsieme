@@ -1,0 +1,7 @@
+{
+  "name": "sito-coinsieme",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-cms.js"
+  }
+}
