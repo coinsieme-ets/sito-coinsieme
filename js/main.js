@@ -163,6 +163,7 @@ function creaCard(a, featured = false) {
 function inizializzaArticoliHome() {
   const el = document.getElementById('home-articles');
   if (!el) return;
+  if (el.dataset.cmsGenerated === 'true') return;
   const recenti = [...ARTICOLI]
     .sort((a, b) => new Date(b.data) - new Date(a.data))
     .slice(0, 3);

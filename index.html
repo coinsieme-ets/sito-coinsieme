@@ -252,7 +252,7 @@
     <div class="container">
       <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:28px;">
         <div>
-          <h2 id="conoscenza-titolo">Dal nostro archivio</h2>
+          <h2 id="conoscenza-titolo">Ultimi articoli</h2>
           <p style="color:var(--grigio-testo); margin-top:8px; font-size:1rem;">
             
           </p>
@@ -260,9 +260,19 @@
         <a href="articoli.html" class="btn btn-secondary btn-sm">Tutti gli articoli →</a>
       </div>
 
-      <!-- Articoli dinamici via JS -->
-      <div id="home-articles" class="grid-3" aria-live="polite" aria-label="Ultimi articoli pubblicati — ordinati per data">
-        <!-- Generati da JS — prima card = articolo in evidenza (più recente) -->
+      <div id="home-articles" class="grid-3" data-cms-generated="true" aria-live="polite" aria-label="Ultimi articoli pubblicati — ordinati per data">
+        <!-- CMS_ULTIMI_ARTICOLI_START -->
+<article class="article-card article-card--featured">
+    <div class="article-card-img"><img src="/assets/hero_inclusion.jpg" alt="persone e tecnologie per l&#039;inclusione sociale" width="800" height="450" loading="lazy"></div>
+    <div class="article-card-body">
+      <div style="margin-bottom:10px;"><span class="badge badge-terracotta">Articolo</span></div>
+      <h2>La calda estate</h2>
+      <p>un&#039;estate caldissima incide sulla qualità della vita di famiglie e persone nel 2026</p>
+      <div class="article-card-meta"><time datetime="2026-08-19">19 agosto 2026</time><span aria-hidden="true">·</span><span>di Mau</span></div>
+      <div style="margin-top:18px;"><a href="/articoli/progetto-clima/" class="btn btn-primary btn-sm">Leggi l'articolo →</a></div>
+    </div>
+  </article>
+        <!-- CMS_ULTIMI_ARTICOLI_END -->
       </div>
     </div>
   </section>

@@ -209,6 +209,29 @@ function buildCard(item) {
   </a>`;
 }
 
+function buildHomeCard(item, featured = false) {
+  const imageSrc = item.imageIsExternal ? item.image : `/${item.image}`;
+  const imageHtml = item.image
+    ? `<div class="article-card-img"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" width="800" height="450" loading="lazy"></div>`
+    : '';
+  const dateHtml = item.date
+    ? `<time datetime="${escapeHtml(item.date)}">${new Date(`${item.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
+    : '';
+  const authorHtml = item.author ? `<span>di ${escapeHtml(item.author)}</span>` : '';
+  const metaSeparator = dateHtml && authorHtml ? '<span aria-hidden="true">·</span>' : '';
+  const headingLevel = featured ? 'h2' : 'h3';
+  return `<article class="article-card${featured ? ' article-card--featured' : ''}">
+    ${imageHtml}
+    <div class="article-card-body">
+      <div style="margin-bottom:10px;"><span class="badge badge-terracotta">Articolo</span></div>
+      <${headingLevel}>${escapeHtml(item.title)}</${headingLevel}>
+      <p>${escapeHtml(item.summary)}</p>
+      <div class="article-card-meta">${dateHtml}${metaSeparator}${authorHtml}</div>
+      <div style="margin-top:18px;"><a href="/articoli/${escapeHtml(item.slug)}/" class="btn btn-primary btn-sm">Leggi l'articolo →</a></div>
+    </div>
+  </article>`;
+}
+
 async function main() {
   const convertedImages = await convertHeicUploads();
   const historicData = readJson(path.join(root, 'data', 'articoli.json'));
@@ -238,7 +261,22 @@ async function main() {
     .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
   fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
 
-  console.log(`Build CMS completata: ${historic.length} articoli storici, ${fresh.length} nuovi articoli, ${allForIndex.length} card, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
+  const latest = [...fresh]
+    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title, 'it'))
+    .slice(0, 3);
+  const latestHtml = latest.length
+    ? latest.map((item, index) => buildHomeCard(item, index === 0)).join('\n')
+    : '<p>Nessun nuovo articolo pubblicato.</p>';
+  const homepagePath = path.join(root, 'index.html');
+  const homepage = fs.readFileSync(homepagePath, 'utf8');
+  const homepageUpdated = homepage.replace(
+    /(<!-- CMS_ULTIMI_ARTICOLI_START -->)[\s\S]*?(<!-- CMS_ULTIMI_ARTICOLI_END -->)/,
+    `$1\n${latestHtml}\n        $2`
+  );
+  assert(homepageUpdated !== homepage || homepage.includes(latestHtml), 'Homepage: marcatori ultimi articoli mancanti');
+  fs.writeFileSync(homepagePath, homepageUpdated, 'utf8');
+
+  console.log(`Build CMS completata: ${historic.length} articoli storici, ${fresh.length} nuovi articoli, ${allForIndex.length} card, ${latest.length} articoli in homepage, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
 main().catch((error) => {
