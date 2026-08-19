@@ -3,5 +3,9 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-cms.js"
+  },
+  "dependencies": {
+    "heic-convert": "2.1.0",
+    "sharp": "0.35.3"
   }
 }

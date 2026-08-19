@@ -1,9 +1,35 @@
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
+const heicConvert = require('heic-convert');
 
 const root = path.join(__dirname, '..');
 const newArticlesDir = path.join(root, 'content', 'articoli');
 const articlesDir = path.join(root, 'articoli');
+const uploadsDir = path.join(root, 'assets', 'uploads');
+
+function webpPathFor(imagePath) {
+  return imagePath.replace(/\.(heic|heif)$/i, '.webp');
+}
+
+async function convertHeicUploads() {
+  if (!fs.existsSync(uploadsDir)) return 0;
+  const files = fs.readdirSync(uploadsDir).filter((name) => /\.(heic|heif)$/i.test(name));
+  for (const name of files) {
+    const source = path.join(uploadsDir, name);
+    const destination = path.join(uploadsDir, webpPathFor(name));
+    const jpegBuffer = await heicConvert({
+      buffer: fs.readFileSync(source),
+      format: 'JPEG',
+      quality: 0.92
+    });
+    await sharp(jpegBuffer)
+      .rotate()
+      .webp({ quality: 82, effort: 4 })
+      .toFile(destination);
+  }
+  return files.length;
+}
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
@@ -107,13 +133,14 @@ function loadNewArticles(historicSlugs) {
       const rawImage = String(item.image).trim();
       const previewOrigin = 'https://coinsieme-ets-preview.netlify.app/';
       if (rawImage.startsWith(previewOrigin)) {
-        image = rawImage.slice(previewOrigin.length).replace(/^\//, '');
+        image = webpPathFor(rawImage.slice(previewOrigin.length).replace(/^\//, ''));
         assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
       } else if (/^https:\/\//i.test(rawImage)) {
+        assert(!/\.(heic|heif)(?:[?#].*)?$/i.test(rawImage), `${name}: URL HEIC esterno non convertibile; carica il file nel CMS`);
         image = rawImage;
         imageIsExternal = true;
       } else {
-        image = rawImage.replace(/^\//, '').replace(/\\/g, '/');
+        image = webpPathFor(rawImage.replace(/^\//, '').replace(/\\/g, '/'));
         assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
       }
       assert(item.image_alt && item.image_alt.trim(), `${name}: testo alternativo immagine mancante`);
@@ -182,31 +209,39 @@ function buildCard(item) {
   </a>`;
 }
 
-const historicData = readJson(path.join(root, 'data', 'articoli.json'));
-const historic = historicData
-  .filter((item) => item.indicizzabile === true)
-  .filter((item) => fs.existsSync(path.join(articlesDir, item.slug, 'index.html')))
-  .map((item) => ({
-    title: item.titolo,
-    slug: item.slug,
-    image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : ''
-  }));
+async function main() {
+  const convertedImages = await convertHeicUploads();
+  const historicData = readJson(path.join(root, 'data', 'articoli.json'));
+  const historic = historicData
+    .filter((item) => item.indicizzabile === true)
+    .filter((item) => fs.existsSync(path.join(articlesDir, item.slug, 'index.html')))
+    .map((item) => ({
+      title: item.titolo,
+      slug: item.slug,
+      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : ''
+    }));
 
-const historicSlugs = new Set(historic.map((item) => item.slug));
-const fresh = loadNewArticles(historicSlugs);
-const articleTemplate = fs.readFileSync(path.join(root, 'templates', 'articolo-template.html'), 'utf8');
+  const historicSlugs = new Set(historic.map((item) => item.slug));
+  const fresh = loadNewArticles(historicSlugs);
+  const articleTemplate = fs.readFileSync(path.join(root, 'templates', 'articolo-template.html'), 'utf8');
 
-for (const item of fresh) {
-  const outputDir = path.join(articlesDir, item.slug);
-  fs.mkdirSync(outputDir, { recursive: true });
-  fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate), 'utf8');
+  for (const item of fresh) {
+    const outputDir = path.join(articlesDir, item.slug);
+    fs.mkdirSync(outputDir, { recursive: true });
+    fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate), 'utf8');
+  }
+
+  const allForIndex = [...historic, ...fresh].sort((a, b) => a.title.localeCompare(b.title, 'it'));
+  const archiveTemplate = fs.readFileSync(path.join(root, 'templates', 'archivio-articoli-template.html'), 'utf8');
+  const archiveHtml = archiveTemplate
+    .replace('{{COUNT}}', String(allForIndex.length))
+    .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
+  fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
+
+  console.log(`Build CMS completata: ${historic.length} articoli storici, ${fresh.length} nuovi articoli, ${allForIndex.length} card, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
-const allForIndex = [...historic, ...fresh].sort((a, b) => a.title.localeCompare(b.title, 'it'));
-const archiveTemplate = fs.readFileSync(path.join(root, 'templates', 'archivio-articoli-template.html'), 'utf8');
-const archiveHtml = archiveTemplate
-  .replace('{{COUNT}}', String(allForIndex.length))
-  .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
-fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
-
-console.log(`Build CMS completata: ${historic.length} articoli storici, ${fresh.length} nuovi articoli, ${allForIndex.length} card.`);
+main().catch((error) => {
+  console.error(error.message);
+  process.exit(1);
+});
