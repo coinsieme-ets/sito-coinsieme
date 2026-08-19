@@ -102,9 +102,20 @@ function loadNewArticles(historicSlugs) {
     seen.add(item.slug);
 
     let image = '';
+    let imageIsExternal = false;
     if (item.image) {
-      image = String(item.image).replace(/^\//, '').replace(/\\/g, '/');
-      assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
+      const rawImage = String(item.image).trim();
+      const previewOrigin = 'https://coinsieme-ets-preview.netlify.app/';
+      if (rawImage.startsWith(previewOrigin)) {
+        image = rawImage.slice(previewOrigin.length).replace(/^\//, '');
+        assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
+      } else if (/^https:\/\//i.test(rawImage)) {
+        image = rawImage;
+        imageIsExternal = true;
+      } else {
+        image = rawImage.replace(/^\//, '').replace(/\\/g, '/');
+        assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
+      }
       assert(item.image_alt && item.image_alt.trim(), `${name}: testo alternativo immagine mancante`);
     }
 
@@ -116,6 +127,7 @@ function loadNewArticles(historicSlugs) {
       author: item.author ? String(item.author).trim() : '',
       date: item.date ? String(item.date).slice(0, 10) : '',
       image,
+      imageIsExternal,
       imageAlt: item.image_alt ? String(item.image_alt).trim() : ''
     };
   });
@@ -131,8 +143,9 @@ function renderArticle(item, template) {
   const dateHtml = item.date
     ? `<time datetime="${escapeHtml(item.date)}">${new Date(`${item.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time><span aria-hidden="true">·</span>`
     : '';
+  const imageSrc = item.imageIsExternal ? item.image : `../../${item.image}`;
   const imageHtml = item.image
-    ? `<figure style="margin:0 0 40px;"><img src="../../${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt)}" style="width:100%; height:auto; border-radius:var(--radius-lg);" loading="lazy"></figure>`
+    ? `<figure style="margin:0 0 40px;"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" style="width:100%; height:auto; border-radius:var(--radius-lg);" loading="lazy"></figure>`
     : '';
 
   let html = template
@@ -153,8 +166,10 @@ function renderArticle(item, template) {
 
 function buildCard(item) {
   const title = escapeHtml(item.title);
-  const image = item.image && fs.existsSync(path.join(root, item.image))
-    ? `<img src="/${escapeHtml(item.image)}" alt="" class="archivio-card-image" loading="lazy" width="600" height="337">`
+  const imageAvailable = item.image && (item.imageIsExternal || fs.existsSync(path.join(root, item.image)));
+  const cardImageSrc = item.imageIsExternal ? item.image : `/${item.image}`;
+  const image = imageAvailable
+    ? `<img src="${escapeHtml(cardImageSrc)}" alt="" class="archivio-card-image" loading="lazy" width="600" height="337">`
     : '';
   const wrapperClass = image ? 'archivio-card-content' : 'archivio-card-text-only';
   return `<a href="/articoli/${escapeHtml(item.slug)}/" class="archivio-card archivio-card-link" data-title="${escapeHtml(item.title.toLowerCase())}">
