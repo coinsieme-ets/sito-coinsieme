@@ -91,13 +91,13 @@ if (fs.existsSync(newArticlesDir)) {
 }
 console.log(`- Nuovi articoli Decap: ${newDecapArticles.length}`);
 
-if (historicalIndexable.length !== 80 || historicalExcluded.length !== 8 || newDecapArticles.length !== 0) {
-    console.error(`❌ ERRORE CONTEGGIO: Attesi 80 storici indicizzabili, 8 esclusi, 0 nuovi Decap. Trovati: ${historicalIndexable.length}, ${historicalExcluded.length}, ${newDecapArticles.length}`);
+if (historicalIndexable.length !== 80 || historicalExcluded.length !== 8) {
+    console.error(`❌ ERRORE CONTEGGIO: Attesi esattamente 80 storici indicizzabili ed 8 esclusi. Trovati: ${historicalIndexable.length} indicizzabili, ${historicalExcluded.length} esclusi.`);
     process.exit(1);
 }
 
-// 5. Generate Preview HTML with ALL 80 Cards & Verify Reachable Hrefs
-console.log("\n5. Generazione dell'anteprima HTML con tutte le 80 card ed elisione degli 8 esclusi...");
+// 5. Generate Preview HTML with ALL Cards & Verify Reachable Hrefs
+console.log("\n5. Generazione dell'anteprima HTML con tutte le card ed elisione degli 8 esclusi...");
 let mergedForIndex = [...newDecapArticles, ...historicalIndexable];
 
 let hrefSet = new Set();
@@ -120,11 +120,12 @@ if (invalidHrefs.length > 0) {
     process.exit(1);
 }
 
-if (hrefSet.size !== 80) {
-    console.error(`❌ ERRORE: Href unici attesi 80, trovati: ${hrefSet.size}`);
+let expectedTotalCards = 80 + newDecapArticles.length;
+if (hrefSet.size !== expectedTotalCards) {
+    console.error(`❌ ERRORE: Href unici attesi ${expectedTotalCards}, trovati: ${hrefSet.size}`);
     process.exit(1);
 }
-console.log("✅ 80 href unici e fisicamente raggiungibili su disco (directory e index.html esistenti).");
+console.log(`✅ ${hrefSet.size} href unici e fisicamente raggiungibili su disco (80 storici + ${newDecapArticles.length} nuovi Decap).`);
 
 // Render Preview HTML with ALL 80 Cards
 let previewPath = path.join(scratchDir, 'anteprima-ibrida-articoli.html');
