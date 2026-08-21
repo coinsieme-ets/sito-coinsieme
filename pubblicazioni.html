@@ -3,15 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Archivio Pubblicazioni — COINSIEME</title>
-  <meta name="description" content="L'archivio delle pubblicazioni e dei materiali editoriali della Fondazione COINSIEME ETS.">
+  <title>Pubblicazioni e memoria sociale — Fondazione COINSIEME ETS</title>
+  <meta name="description" content="L'archivio delle pubblicazioni, dei manuali, delle ricerche e dei progetti di documentazione della Fondazione COINSIEME ETS e del CO.IN.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="canonical" href="https://www.coinsieme.it/pubblicazioni.html">
-  <link rel="stylesheet" href="/css/archivio.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* STILI DEDICATI PER L'AREA PUBBLICAZIONI - UX EDITORIALE PREMIUM */
+    .pub-recent-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      background: var(--bianco);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--grigio-bordino);
+      border-left: 5px solid var(--terracotta);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .pub-recent-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    @media (min-width: 840px) {
+      .pub-recent-card {
+        grid-template-columns: 220px 1fr;
+        gap: 36px;
+        align-items: start;
+      }
+    }
+    .pub-cover-stage-recent {
+      background: var(--crema-chiara);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(85,51,17,0.06);
+    }
+    .pub-cover-stage-recent img {
+      width: 100%;
+      max-width: 180px;
+      height: auto;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 24px -4px rgba(85,51,17,0.18);
+      transition: transform 0.3s ease;
+    }
+    .pub-recent-card:hover .pub-cover-stage-recent img {
+      transform: translateY(-4px) scale(1.02);
+    }
+    .pub-recent-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* ARCHIVIO STORICO GRID & CARD */
+    .pub-archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .pub-archive-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bianco);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--grigio-bordino);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow var(--transition), transform var(--transition);
+      height: 100%;
+    }
+    .pub-archive-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .pub-cover-stage-archive {
+      background: #fbf9f6;
+      padding: 24px 16px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 250px;
+      border-bottom: 1px solid rgba(85,51,17,0.05);
+      position: relative;
+    }
+    .pub-cover-stage-archive img {
+      max-height: 210px;
+      width: auto;
+      max-width: 90%;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(85,51,17,0.14));
+      transition: transform 0.3s ease;
+    }
+    .pub-archive-card:hover .pub-cover-stage-archive img {
+      transform: scale(1.03);
+    }
+    .pub-archive-body {
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .pub-archive-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .pub-archive-title {
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--marrone-scuro);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .pub-archive-filone {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--terracotta-deep);
+      margin-bottom: 10px;
+    }
+    .pub-archive-desc {
+      font-size: 0.9rem;
+      color: var(--grigio-testo);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .pub-credits-box {
+      font-size: 0.82rem;
+      color: var(--marrone);
+      background: var(--crema-chiara);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(85,51,17,0.06);
+      margin-top: auto;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
+
 <!-- SKIP LINK -->
 <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
 
@@ -21,8 +155,8 @@
 <!-- ========== HEADER ========== -->
 <header class="site-header" role="banner">
   <nav class="navbar container" aria-label="Navigazione principale">
-    <a href="/index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
-      <img src="/assets/official_logo.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
+    <a href="index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
+      <img src="assets/official_logo.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
       <div class="logo-wordmark">
         <span class="logo-text">COINSIEME</span>
         <span class="logo-sub">Fondazione ETS</span>
@@ -35,49 +169,373 @@
       <span class="hamburger-bar"></span>
     </button>
 
-        <ul class="nav-menu" id="nav-menu" role="list">
-      <li><a href="/chi-siamo.html" class="nav-link">Chi siamo</a></li>
-      <li><a href="/cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
-      <li><a href="javascript:void(0)" class="nav-link" aria-disabled="true" tabindex="-1" style="opacity:.55;cursor:default;">Formazione</a></li>
-      <li><a href="/articoli.html" class="nav-link">Conoscenza</a></li>
-      <li><a href="/trasparenza.html" class="nav-link">Trasparenza</a></li>
+    <ul class="nav-menu" id="nav-menu" role="list">
+      <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
+      <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
+      <li><a href="contatti.html" class="nav-link">Formazione</a></li>
+      <li><a href="articoli.html" class="nav-link active" aria-current="page">Conoscenza</a></li>
+      <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
     </ul>
 
-    <a href="/contatti.html" class="btn btn-nav">Contattaci</a>
+    <a href="contatti.html" class="btn btn-nav">Contattaci</a>
   </nav>
 </header>
 
 <main id="main-content">
-  <section class="section bg-crema-chiara">
+
+  <!-- ========== HERO INTRODUTTIVO ========== -->
+  <section class="hero-inner">
     <div class="container">
-      <div class="section-header text-center">
-        <h1 class="section-title">Pubblicazioni e Documenti</h1>
-        <p class="section-subtitle">Cataloghi, e-book e testi storici curati dalla Fondazione COINSIEME ETS</p>
-      </div>
+      <nav aria-label="Breadcrumb" style="margin-bottom:20px;">
+        <ol style="list-style:none; display:flex; gap:8px; padding:0; margin:0; font-size:0.9rem; color:rgba(255,255,255,0.75);">
+          <li><a href="index.html" style="color:var(--terracotta-lite); font-weight:500; text-decoration:underline; text-underline-offset:3px;">Home</a></li>
+          <li style="color:rgba(255,255,255,0.5);">/</li>
+          <li aria-current="page" style="color:rgba(255,255,255,0.92); font-weight:500;">Pubblicazioni e memoria sociale</li>
+        </ol>
+      </nav>
+
+      <h1 style="font-size:clamp(2.15rem, 5vw, 3.25rem); color:var(--bianco); margin-bottom:16px; text-shadow:0 2px 10px rgba(0,0,0,0.3);">Pubblicazioni e memoria sociale</h1>
       
-      <div class="grid grid-2-col gap-lg" style="margin-top:40px;">
-        <article class="card-pubblicazione">
-          <div class="badge badge-terracotta" style="margin-bottom:12px;">E-Book / PDF</div>
-          <h2 style="font-family:var(--font-heading); font-size:1.5rem; color:var(--marrone-scuro); margin-bottom:12px;">70 e + Percorsi di vita e sguardi al futuro</h2>
-          <p style="color:var(--grigio-testo); margin-bottom:20px; font-size:0.95rem;">Raccolta di testimonianze, esperienze e riflessioni sulle prospettive dell'inclusione sociale e dell'autonomia personale.</p>
-          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-            <a href="/documenti/pnrr-linee-guida-accessibilita.pdf" target="_blank" class="btn btn-primary" aria-label="Scarica e-book 70 e + in formato PDF">Scarica e-Book (PDF)</a>
-            <span style="font-size:0.85rem; color:var(--grigio-testo);">Formato digitale consultabile</span>
+      <p class="hero-subtitle" style="font-size:clamp(1.08rem, 2.2vw, 1.28rem); color:var(--terracotta-pale); max-width:860px; margin-bottom:20px; font-weight:500; line-height:1.55; text-shadow:0 1px 4px rgba(0,0,0,0.2);">
+        La produzione editoriale, le ricerche, le guide e la memoria dell'innovazione sociale curate dalla Fondazione COINSIEME ETS e dal CO.IN.
+      </p>
+      
+      <p style="max-width:880px; color:rgba(253,249,245,0.94); font-size:1.02rem; line-height:1.7;">
+        L'attività editoriale è uno strumento fondamentale con cui CO.IN. prima e la Fondazione COINSIEME ETS oggi hanno documentato, custodito e diffuso esperienze, conoscenze, ricerche sull'accessibilità, l'inclusione ed il valore dell'impresa sociale. In questa pagina presentiamo il nostro patrimonio di pubblicazioni storiche e recenti ed i progetti di comunicazione in sviluppo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== SEZIONE 1: PUBBLICAZIONI RECENTI ========== -->
+  <section class="section-sm bg-white" style="border-top:1px solid var(--grigio-bordino);">
+    <div class="container">
+      <div style="margin-bottom:36px;">
+        <span class="badge badge-terracotta" style="margin-bottom:10px;">Opere Recenti</span>
+        <h2 style="font-size:clamp(1.6rem, 3.5vw, 2.3rem); color:var(--marrone-scuro); margin-bottom:8px;">Pubblicazioni recenti</h2>
+        <p style="color:var(--grigio-testo); max-width:780px; margin:0;">
+          I volumi monografici e le produzioni editoriali edite direttamente dalla Fondazione COINSIEME ETS.
+        </p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:32px;">
+        
+        <!-- Card Recente 1: Don Franco Monterubbianesi (Edizione Aprile 2026) -->
+        <article class="pub-recent-card">
+          <div class="pub-cover-stage-recent">
+            <img src="assets/copertine/2026_don-franco-monterubbianesi.png" alt="Copertina del libro Don Franco Monterubbianesi - La storia di un profeta tra terra e cielo, nuova edizione ampliata aprile 2026">
+          </div>
+          <div class="pub-recent-content">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+              <span class="badge badge-terracotta">2026 — Edizione Ampliata</span>
+              <span class="badge badge-blu">Libro &amp; Audiolibro</span>
+            </div>
+            <h3 style="font-size:clamp(1.3rem, 2.8vw, 1.65rem); color:var(--marrone-scuro); margin-bottom:6px; line-height:1.3;">Don Franco Monterubbianesi – La storia di un profeta tra terra e cielo</h3>
+            <p style="font-size:0.95rem; font-weight:600; color:var(--terracotta-deep); margin-bottom:12px;">Autore: Maurizio Marotta</p>
+            <p style="font-size:0.92rem; color:var(--grigio-testo); line-height:1.65; margin-bottom:14px;">
+              Il volume ricostruisce la figura e l’opera di Don Franco Monterubbianesi, fondatore della Comunità di Capodarco, attraverso un percorso che attraversa oltre cinquant’anni di storia sociale e civile italiana. Nato negli anni Sessanta, il progetto di Capodarco ha rappresentato una delle esperienze più significative nel ripensare il rapporto tra disabilità, lavoro e vita comunitaria.
+            </p>
+            <div style="background:var(--crema-chiara); padding:12px 16px; border-radius:var(--radius-sm); margin-bottom:18px; font-size:0.88rem; color:var(--marrone); border:1px solid rgba(85,51,17,0.06);">
+              <strong>Contributi presenti nel volume:</strong> Don Vinicio Albanesi, Augusto Battaglia, Marco Damilano, Matteo Amati, Michelangelo Chiuerchiù.<br>
+              <em style="color:var(--grigio-testo); display:block; margin-top:4px;">📌 Nota bibliografica: Prima edizione settembre 2025; nuova edizione ampliata ed aggiornata aprile 2026.</em>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:auto;">
+              <a href="https://www.amazon.it/dp/B0GX5XVDNQ" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Acquista il libro su Amazon ↗</a>
+              <a href="https://drive.google.com/drive/folders/1UE14FTpsOw_NDn4v4dLugxZyN5gYW0dM?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Ascolta l'Audiolibro MP3 ↗</a>
+            </div>
           </div>
         </article>
 
-        <article class="card-pubblicazione">
-          <div class="badge badge-terracotta" style="margin-bottom:12px;">Volume Storico</div>
-          <h2 style="font-family:var(--font-heading); font-size:1.5rem; color:var(--marrone-scuro); margin-bottom:12px;">Guida alla Città di Roma (Anno 1990)</h2>
-          <p style="color:var(--grigio-testo); margin-bottom:20px; font-size:0.95rem;">Storica pubblicazione pionieristica sull'accessibilità urbana e i servizi sociali nella capitale.</p>
-          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-            <a href="/trasparenza.html" class="btn btn-secondary" aria-label="Scheda informativa Guida Roma 1990">Scheda Informativa</a>
-            <span style="font-size:0.85rem; color:var(--grigio-testo);">Archivio storico Fondazione</span>
+        <!-- Card Recente 2: 70 e + -->
+        <article class="pub-recent-card">
+          <div class="pub-cover-stage-recent">
+            <img src="assets/copertine/2024_70-e-piu-marotta.jpg" alt="Copertina del libro 70 e + - Percorsi di vita e sguardi al futuro di Maurizio Marotta">
+          </div>
+          <div class="pub-recent-content">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+              <span class="badge badge-terracotta">2024 — Libro, E-Book &amp; Audiolibro</span>
+              <span class="badge badge-verde">Disponibile su Amazon</span>
+            </div>
+            <h3 style="font-size:clamp(1.3rem, 2.8vw, 1.65rem); color:var(--marrone-scuro); margin-bottom:6px; line-height:1.3;">70 e + – Percorsi di vita e sguardi al futuro</h3>
+            <p style="font-size:0.95rem; font-weight:600; color:var(--terracotta-deep); margin-bottom:12px;">Autore: Maurizio Marotta</p>
+            <p style="font-size:0.92rem; color:var(--grigio-testo); line-height:1.65; margin-bottom:16px;">
+              Un racconto autobiografico e generazionale che intreccia esperienze personali, storie di famiglia, l'energia dei movimenti sociali nella Roma degli anni '60, l'entusiasmo delle prime cooperative e la tenerezza dei legami che resistono al tempo. Un invito a raccontarsi ed a credere che ogni età può essere l'inizio di qualcosa di nuovo.
+            </p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:auto;">
+              <a href="https://amzn.eu/d/08EtYYek" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Acquista il libro su Amazon ↗</a>
+              <a href="https://drive.google.com/file/d/1feqwK8tRqaDjee-hAWJOyq_Kv6w6OY3H/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Leggi / Scarica E-Book (PDF) ↗</a>
+              <a href="https://drive.google.com/drive/folders/1ARsoRcs0RV9LlZ_aBaBKeYNV4Y2-IH7Q?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Ascolta l'Audiolibro ↗</a>
+            </div>
           </div>
         </article>
+
       </div>
     </div>
   </section>
+
+  <!-- ========== SEZIONE 2: ARCHIVIO EDITORIALE E MEMORIA STORICA ========== -->
+  <section class="section-sm bg-crema" style="border-top:1px solid var(--grigio-bordino);">
+    <div class="container">
+      <div style="margin-bottom:36px;">
+        <span class="badge badge-blu" style="margin-bottom:10px;">Patrimonio Storico (1990–2003)</span>
+        <h2 style="font-size:clamp(1.6rem, 3.5vw, 2.3rem); color:var(--marrone-scuro); margin-bottom:8px;">Archivio editoriale e memoria storica</h2>
+        <p style="color:var(--grigio-testo); max-width:840px; margin:0;">
+          Un decennio decisivo di ricerca, manualistica nazionale, guide per l'accessibilità ed analisi culturali nate dall'attività del CO.IN. e delle sue strutture.
+        </p>
+      </div>
+
+      <div class="pub-archive-grid">
+
+        <!-- Card Storica 1: Lazio una guida per tutti (2003) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/2003_lazio-una-guida-per-tutti.jpg" alt="Copertina blu della guida Lazio, una guida per tutti (Maggio 2003)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Maggio 2003</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Guida Territoriale</span>
+            </div>
+            <h3 class="pub-archive-title">Lazio, una guida per tutti</h3>
+            <p class="pub-archive-filone">Turismo e territorio accessibile</p>
+            <p class="pub-archive-desc">
+              Realizzata da CO.IN. Cooperative Integrate Onlus nell'ambito del progetto promosso dalla Regione Lazio – Assessorato Politiche per la Famiglia e Servizi Sociali. Collegata al <em>Presidio del Lazio — Centro Servizi per bisogni speciali</em>.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Coordinamento:</strong> M. Marotta, L. Lo Guzzo.<br>
+              <strong>Consulenza scientifica:</strong> D. Orlandi, S. Panunzio.<br>
+              <strong>Stampa:</strong> Officina della Carta.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 2: Roma Accessibile Giubileo 2000 -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/2000_roma-accessibile-giubileo.png" alt="Copertina della guida Roma Accessibile - guida turistica per persone con disabilità (Giubileo 2000)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Anno 2000</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Guida Giubileo</span>
+            </div>
+            <h3 class="pub-archive-title">Roma Accessibile – guida turistica per persone con disabilità</h3>
+            <p class="pub-archive-filone">Turismo accessibile / Roma e Giubileo 2000</p>
+            <p class="pub-archive-desc">
+              Guida turistica prodotta per l'accoglienza in vista del Giubileo del 2000 per rilevare la fruibilità di percorsi e monumenti della Capitale.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Enti promotori in copertina:</strong><br>
+              Comune di Roma – Assessorato Politiche Sociali,<br>
+              CO.IN. Cooperative Integrate ONLUS,<br>
+              Officina della Carta Cooperativa Sociale.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 3: Nessuna Pietà (Giugno 2000) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/2000_nessuna-pieta.jpg" alt="Copertina del volume Nessuna Pietà (Giugno 2000)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Giugno 2000</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Saggio / Volume</span>
+            </div>
+            <h3 class="pub-archive-title">Nessuna Pietà</h3>
+            <p class="pub-archive-filone">Impresa sociale e rappresentazione della disabilità</p>
+            <p class="pub-archive-desc">
+              Pubblicazione d'analisi realizzata nell'ambito del Progetto IMAGES. Artisti, politici, imprenditori, sportivi e giornalisti riflettono sulla rappresentazione della disabilità e dell'esclusione sociale nei mezzi di informazione.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Progetto editoriale:</strong> IMAGES / CO.IN.<br>
+              Contributi di rappresentanti delle istituzioni, del Terzo Settore e del mondo della comunicazione.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 4: Manuale Nazionale PCM (Maggio 1998) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/1998_manuale-accoglienza-turistica-pcm.png" alt="Copertina del manuale Qualità nell'accoglienza turistica di clienti con bisogni speciali (Maggio 1998)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Maggio 1998</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Manuale Nazionale</span>
+            </div>
+            <h3 class="pub-archive-title">Qualità nell'accoglienza turistica di clienti con bisogni speciali</h3>
+            <p class="pub-archive-filone">Turismo accessibile e qualità dell'accoglienza</p>
+            <p class="pub-archive-desc">
+              Manuale nazionale destinato agli operatori dell'ospitalità turistica, realizzato da CO.IN. su incarico del Dipartimento del Turismo della Presidenza del Consiglio dei Ministri per il progetto Italia per Tutti.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Coordinamento:</strong> D. Orlandi, A. Petrangeli.<br>
+              <strong>Grafica:</strong> Dedalo.<br>
+              <strong>Stampa:</strong> Istituto Poligrafico e Zecca dello Stato.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 5: Collana Conoscere Roma (Dicembre 1994) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive" style="gap: 8px;">
+            <img src="assets/copertine/1994_conoscere-roma-musei.png" alt="Volume Musei (Collana Conoscere Roma)" style="height:155px; width:auto;">
+            <img src="assets/copertine/1994_conoscere-roma-monumenti.png" alt="Volume Monumenti e Ville (Collana Conoscere Roma)" style="height:155px; width:auto;">
+            <img src="assets/copertine/1994_conoscere-roma-passeggiate.png" alt="Volume Passeggiate d'Arte (Collana Conoscere Roma)" style="height:155px; width:auto;">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Dicembre 1994</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Trilogia di Guide</span>
+            </div>
+            <h3 class="pub-archive-title">Collana “Conoscere Roma”</h3>
+            <p class="pub-archive-filone">Accessibilità, cultura e città per tutti</p>
+            <p class="pub-archive-desc">
+              Trilogia composta dai volumi <em>Musei</em>, <em>Monumenti e Ville</em> e <em>Passeggiate d'Arte</em>. Realizzata da CO.IN. Consorzio Cooperative Integrate per la Ripartizione VIII del Comune di Roma.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Responsabili del progetto:</strong><br>
+              Marta Nicolini e Maurizio Marotta.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 6: Roma Accessibile (1993) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/1993_roma-accessibile.jpg" alt="Copertina della guida verde multilingue Roma Accessibile - Turismo e barriere architettoniche (1993)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Anno 1993</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Guida Multilingue</span>
+            </div>
+            <h3 class="pub-archive-title">Roma Accessibile – Turismo e barriere architettoniche</h3>
+            <p class="pub-archive-filone">Turismo accessibile</p>
+            <p class="pub-archive-desc">
+              Pubblicazione specialistica con copertina verde multilingue (italiano, inglese, francese, tedesco) promossa dall'Assessorato al Turismo della Regione Lazio e curata da CO.IN.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Promozione:</strong> Regione Lazio – Assessorato Turismo.<br>
+              <strong>Curatela:</strong> Consorzio CO.IN.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 7: La città accessibile (Dicembre 1991) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/1991_la-citta-accessibile.jpg" alt="Copertina rossa originale della guida La città accessibile (Dicembre 1991)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Dicembre 1991</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Volume di Progettazione</span>
+            </div>
+            <h3 class="pub-archive-title">La città accessibile – Itinerari senza barriere per Roma capitale</h3>
+            <p class="pub-archive-filone">Accessibilità urbana e progettazione della città</p>
+            <p class="pub-archive-desc">
+              Volume storico edito da Consorzio Cooperative Integrate / Gangemi Editore per la pianificazione degli itinerari accessibili nella Capitale.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Autori:</strong> M. Bilò, M. Casciato, A. D'Innocenzo, M. Nicolini, E. Paris.<br>
+              <strong>Editore:</strong> Gangemi Editore.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 8: Guida alla città di Roma (1990) -->
+        <article class="pub-archive-card">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/copertine/1990_guida-roma-accessibilita.jpg" alt="Copertina azzurra originale della Guida alla città di Roma (1990)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-blu">Anno 1990</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Prima Guida Storica</span>
+            </div>
+            <h3 class="pub-archive-title">Guida alla città di Roma – Accessibilità e barriere architettoniche</h3>
+            <p class="pub-archive-filone">Accessibilità urbana</p>
+            <p class="pub-archive-desc">
+              La prima opera storica pionieristica promossa dal Comune di Roma – Assessorato ai Servizi Sociali e curata dal Consorzio Cooperative Integrate per rilevare la fruibilità dei servizi e degli spazi cittadini.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Promozione:</strong> Comune di Roma – Ass. Servizi Sociali.<br>
+              <strong>A cura di:</strong> Consorzio Cooperative Integrate (CO.IN.).
+            </div>
+          </div>
+        </article>
+
+        <!-- Card Storica 9: Scheda Documentaria Progetto IMAGES -->
+        <article class="pub-archive-card" style="border-left: 4px solid var(--terracotta);">
+          <div class="pub-cover-stage-archive">
+            <img src="assets/archivio-editoriale/1998_progetto-images-campagna.jpg" alt="Materiali storici del Progetto IMAGES (1998-2000)">
+          </div>
+          <div class="pub-archive-body">
+            <div class="pub-archive-meta">
+              <span class="badge badge-viola">1998–2000</span>
+              <span class="badge" style="background:#e8ecef; color:#495057;">Campagna / Progetto</span>
+            </div>
+            <h3 class="pub-archive-title">Progetto IMAGES – imprenditori sociali per una diversa abilità</h3>
+            <p class="pub-archive-filone">Impresa sociale e campagne di comunicazione</p>
+            <p class="pub-archive-desc">
+              Iniziativa e campagna di comunicazione storica sull'impresa sociale, la narrazione pubblica della disabilità ed il valore del lavoro integrato. Concettualmente legata al volume <em>Nessuna Pietà</em>.
+            </p>
+            <div class="pub-credits-box">
+              <strong>Promozione:</strong> Programma HORIZON 97/99, CO.IN. Roma, GESCO Napoli, ELPENDU' Bari, Min. Lavoro.
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SEZIONE 3: PROGETTI EDITORIALI IN SVILUPPO ========== -->
+  <section class="section-sm bg-white" style="border-top:1px solid var(--grigio-bordino);">
+    <div class="container">
+      <div style="margin-bottom:36px;">
+        <span class="badge badge-viola" style="margin-bottom:10px;">Iniziative in Itinere</span>
+        <h2 style="font-size:clamp(1.6rem, 3.5vw, 2.3rem); color:var(--marrone-scuro); margin-bottom:8px;">Progetti editoriali in sviluppo</h2>
+        <p style="color:var(--grigio-testo); max-width:800px; margin:0;">
+          I nuovi canali di comunicazione e le iniziative di ricerca attualmente in fase di progettazione.
+        </p>
+      </div>
+
+      <div class="grid-2" style="gap:24px;">
+        
+        <article class="dimensione-card" style="height:100%; border-top:3px solid var(--terracotta);">
+          <span class="badge badge-terracotta" style="align-self:flex-start;">Progetto di Comunicazione</span>
+          <h3 style="font-size:1.25rem; color:var(--marrone-scuro); margin-top:8px; margin-bottom:8px;">Il nuovo sito internet della Fondazione COINSIEME ETS</h3>
+          <p style="font-size:0.9rem; color:var(--grigio-testo); line-height:1.6; margin:0;">
+            Un canale digitale concepito come spazio aperto di documentazione, diffusione delle conoscenze, divulgazione scientifica e trasmissione della memoria sociale dell'inclusione.
+          </p>
+        </article>
+
+        <article class="dimensione-card" style="height:100%; border-top:3px solid var(--terracotta);">
+          <span class="badge badge-viola" style="align-self:flex-start;">Iniziativa Editoriale in Sviluppo</span>
+          <h3 style="font-size:1.25rem; color:var(--marrone-scuro); margin-top:8px; margin-bottom:8px;">Progetto sulle esperienze degli imprenditori sociali</h3>
+          <p style="font-size:0.9rem; color:var(--grigio-testo); line-height:1.6; margin:0;">
+            Iniziativa volta a raccogliere e raccontare le storie, le testimonianze e la visione degli imprenditori sociali che hanno lasciato un segno nella storia recente del Terzo Settore.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SEZIONE 4: COLLABORA CON LA FONDAZIONE ========== -->
+  <section class="section-sm bg-crema-2" style="border-top:1px solid var(--grigio-bordino);">
+    <div class="container text-center" style="max-width:800px;">
+      <h2 style="font-size:clamp(1.6rem, 3.5vw, 2.3rem); color:var(--marrone-scuro); margin-bottom:14px;">Collabora con la Fondazione COINSIEME ETS</h2>
+      <p style="font-size:1.05rem; color:var(--marrone); margin-bottom:28px; line-height:1.6;">
+        Sei un ente pubblico, un'organizzazione del Terzo Settore o un centro di ricerca interessato a consultare il nostro archivio o a collaborare allo sviluppo di nuovi progetti editoriali?
+      </p>
+      <a href="contatti.html" class="btn btn-primary btn-lg">Contattaci per informazioni istituzionali →</a>
+    </div>
+  </section>
+
 </main>
 
 <!-- ========== OVERLAY PIATTAFORMA ========== -->
@@ -107,49 +565,48 @@
         </div>
         <p>Domotica assistiva, formazione e innovazione sociale per l'inclusione reale delle persone con disabilità.</p>
       </div>
-            <nav class="footer-col" aria-label="Chi siamo">
+      <nav class="footer-col" aria-label="Chi siamo">
         <h4>Chi siamo</h4>
         <ul>
-          <li><a href="/chi-siamo.html">Storia e radici</a></li>
-          <li><a href="/chi-siamo.html">Missione e visione</a></li>
-          <li><a href="javascript:void(0)" aria-label="Team — in costruzione">Il team</a></li>
-          <li><a href="javascript:void(0)" aria-label="Collaborazioni — in costruzione">Collaborazioni</a></li>
+          <li><a href="chi-siamo.html">Storia e radici</a></li>
+          <li><a href="chi-siamo.html">Missione e visione</a></li>
+          <li><a href="contatti.html">Il team</a></li>
+          <li><a href="contatti.html">Collaborazioni</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Cosa facciamo">
         <h4>Cosa facciamo</h4>
         <ul>
-          <li><a href="/cosa-facciamo.html">I nostri servizi</a></li>
-          <li><a href="/domotica.html">Domotica assistiva</a></li>
-          <li><a href="javascript:void(0)" aria-label="Formazione — in costruzione">Formazione</a></li>
-          <li><a href="/articoli.html">Articoli</a></li>
+          <li><a href="cosa-facciamo.html">I nostri servizi</a></li>
+          <li><a href="domotica.html">Domotica assistiva</a></li>
+          <li><a href="contatti.html">Formazione</a></li>
+          <li><a href="articoli.html">Articoli</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Trasparenza e contatti">
         <h4>Trasparenza</h4>
         <ul>
-          <li><a href="/trasparenza.html#statuto-titolo">Statuto</a></li>
-          <li><a href="/trasparenza.html#bilanci-2024-titolo">Bilanci</a></li>
-          <li><a href="/trasparenza.html#statuto-titolo">Iscrizione RUNTS</a></li>
-          <li><a href="/contatti.html">Contattaci</a></li>
+          <li><a href="trasparenza.html#statuto-titolo">Statuto</a></li>
+          <li><a href="trasparenza.html#bilanci-2024-titolo">Bilanci</a></li>
+          <li><a href="trasparenza.html#statuto-titolo">Iscrizione RUNTS</a></li>
+          <li><a href="contatti.html">Contattaci</a></li>
         </ul>
       </nav>
     </div>
-        <div class="footer-sostienici">
+    <div class="footer-sostienici">
       <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
       <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Fondazione COINSIEME ETS. Tutti i diritti riservati.</span>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="javascript:void(0)" aria-label="Privacy policy — in costruzione">Privacy policy</a>
-        <a href="javascript:void(0)" aria-label="Dichiarazione di accessibilità — in costruzione">Accessibilità</a>
+        <a href="contatti.html">Privacy policy</a>
+        <a href="contatti.html">Accessibilità</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script src="/js/main.js"></script>
-<script src="/js/archivio.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
