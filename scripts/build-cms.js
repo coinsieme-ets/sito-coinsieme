@@ -99,6 +99,13 @@ function markdownToHtml(markdown = '') {
       continue;
     }
 
+    const quote = line.match(/^>\s+(.+)$/);
+    if (quote) {
+      closeList();
+      out.push(`<blockquote>${renderInline(quote[1])}</blockquote>`);
+      continue;
+    }
+
     closeList();
     out.push(`<p>${renderInline(line)}</p>`);
   }
@@ -120,12 +127,21 @@ function loadNewArticles(historicSlugs) {
     const file = path.join(newArticlesDir, name);
     const item = readJson(file);
     assert(item.title && item.title.trim(), `${name}: titolo mancante`);
-    assert(item.slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug), `${name}: slug non valido`);
+    
+    // Auto-generate slug from title if omitted or empty
+    let slug = item.slug ? item.slug.trim() : '';
+    if (!slug) {
+      slug = item.title.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+    assert(slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug), `${name}: slug non valido (${slug})`);
     assert(item.summary && item.summary.trim(), `${name}: sintesi mancante`);
     assert(item.body && item.body.trim(), `${name}: testo mancante`);
-    assert(!historicSlugs.has(item.slug), `${name}: slug gia usato da un articolo storico`);
-    assert(!seen.has(item.slug), `${name}: slug duplicato nei nuovi articoli`);
-    seen.add(item.slug);
+    assert(!historicSlugs.has(slug), `${name}: slug gia usato da un articolo storico`);
+    assert(!seen.has(slug), `${name}: slug duplicato nei nuovi articoli`);
+    seen.add(slug);
 
     let image = '';
     let imageIsExternal = false;
@@ -143,19 +159,24 @@ function loadNewArticles(historicSlugs) {
         image = webpPathFor(rawImage.replace(/^\//, '').replace(/\\/g, '/'));
         assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
       }
-      assert(item.image_alt && item.image_alt.trim(), `${name}: testo alternativo immagine mancante`);
+      const imageAlt = item.image_alt && item.image_alt.trim() ? String(item.image_alt).trim() : `Immagine per: ${item.title.trim()}`;
     }
+
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const articleDate = item.date && String(item.date).trim() ? String(item.date).slice(0, 10) : todayStr;
 
     return {
       title: item.title.trim(),
-      slug: item.slug,
+      slug,
+      category: item.category ? String(item.category).trim() : 'innovazione-digitale',
+      contentType: item.content_type ? String(item.content_type).trim() : 'approfondimento',
       summary: item.summary.trim(),
       body: item.body,
       author: item.author ? String(item.author).trim() : '',
-      date: item.date ? String(item.date).slice(0, 10) : '',
+      date: articleDate,
       image,
       imageIsExternal,
-      imageAlt: item.image_alt ? String(item.image_alt).trim() : ''
+      imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : '')
     };
   });
 }

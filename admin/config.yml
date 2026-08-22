@@ -70,7 +70,7 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    slug: "{{slug}}"
+    slug: "{{title}}"
     fields:
       - { label: "Titolo Pubblicazione", name: "title", widget: "string" }
       - { label: "Tipo Documento", name: "type", widget: "string" }
@@ -84,21 +84,52 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    slug: "{{slug}}"
+    slug: "{{title}}"
     summary: "{{title}}"
     fields:
-      - { label: "Titolo", name: "title", widget: "string" }
-      - label: "Indirizzo breve (slug)"
-        name: "slug"
-        widget: "string"
-        hint: "Solo lettere minuscole, numeri e trattini. Esempio: progetto-inclusione-2026"
-        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Usa solo lettere minuscole, numeri e trattini"]
-      - { label: "Sintesi", name: "summary", widget: "text" }
-      - { label: "Testo", name: "body", widget: "markdown" }
+      - { label: "Titolo", name: "title", widget: "string", required: true }
+      - label: "Rubrica Tematica"
+        name: "category"
+        widget: "select"
+        required: true
+        hint: "Seleziona la rubrica tematica dell'articolo"
+        options:
+          - { label: "🛠️ Domotica, autonomia e tecnologie assistive", value: "domotica-autonomia" }
+          - { label: "⚖️ Disabilità, diritti e welfare", value: "diritti-welfare" }
+          - { label: "💼 Lavoro, cooperazione e inclusione", value: "lavoro-cooperazione" }
+          - { label: "🎓 Formazione e competenze", value: "formazione-competenze" }
+          - { label: "💡 Innovazione sociale e digitale", value: "innovazione-digitale" }
+          - { label: "📜 Storie, esperienze e memoria sociale", value: "storie-memoria" }
+        default: "innovazione-digitale"
+      - label: "Tipo di Contenuto"
+        name: "content_type"
+        widget: "select"
+        required: true
+        hint: "Seleziona il formato del contenuto"
+        options:
+          - { label: "📰 Notizia / Comunicato", value: "notizia" }
+          - { label: "📘 Approfondimento / Saggio", value: "approfondimento" }
+          - { label: "💡 Guida pratica / Scheda informativa", value: "guida" }
+          - { label: "📢 Bando / Opportunità", value: "bando" }
+          - { label: "🎙️ Intervista / Testimonianza", value: "intervista" }
+        default: "approfondimento"
+      - { label: "Sintesi", name: "summary", widget: "text", required: true }
+      - { label: "Testo dell'articolo", name: "body", widget: "markdown", required: true }
       - { label: "Autore", name: "author", widget: "string", required: false }
-      - { label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, required: false }
-      - { label: "Immagine", name: "image", widget: "image", required: false }
-      - { label: "Testo alternativo immagine", name: "image_alt", widget: "string", required: false, hint: "Obbligatorio quando inserisci un'immagine" }
+      - label: "Data di pubblicazione"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+        required: false
+        hint: "Se non compilata, verrà assegnata automaticamente la data di oggi."
+      - { label: "Immagine (opzionale)", name: "image", widget: "image", required: false, hint: "Foto per l'articolo (JPG, PNG, WebP o foto iPhone)." }
+      - label: "Testo alternativo immagine"
+        name: "image_alt"
+        widget: "string"
+        required: false
+        hint: "Se l'immagine comunica informazioni utili, descrivi brevemente ciò che mostra. Non ripetere semplicemente il titolo dell'articolo."
 
   - name: "trasparenza"
     label: "Documenti di Trasparenza"
@@ -108,7 +139,7 @@ collections:
     media_folder: "assets/documenti/trasparenza"
     public_folder: "/assets/documenti/trasparenza"
     create: true
-    slug: "{{slug}}"
+    slug: "{{title}}"
     fields:
       - { label: "Titolo Atto / Bilancio", name: "title", widget: "string" }
       - { label: "Anno di Riferimento", name: "year", widget: "string" }
