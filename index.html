@@ -298,6 +298,17 @@
         gap: 28px !important;
       }
     }
+  
+    /* STILI DOMOTICA AZIONE BLOCCO 4 */
+    @media (max-width: 900px) {
+      .domotica-grid-5050 {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+      .domotica-grid-5050 img {
+        height: 280px !important;
+      }
+    }
   </style>
 
   <!-- ========================================================
@@ -599,10 +610,78 @@
     </div>
   </section>
 
+  
   <!-- ========================================================
-       BLOCCO 4 — Conoscenza (articoli recenti)
+       BLOCCO 4 — Dal metodo all'azione: Domotica Assistiva
        ======================================================== -->
-  <section class="bg-white fade-in" aria-labelledby="conoscenza-titolo">
+  <section id="domotica-azione" class="bg-bianco" aria-labelledby="domotica-titolo" style="padding: 68px 0 88px 0; border-bottom: 1px solid var(--grigio-bordino);">
+    <div class="container">
+      <div class="domotica-grid-5050" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+        
+        <!-- Colonna Sinistra: Testi, Micro-punti e CTA -->
+        <div>
+          <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">
+            Dal metodo all’azione · Domotica assistiva
+          </p>
+          <h2 id="domotica-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 14px; font-weight: 700; line-height: 1.25;">
+            La casa si adatta alla persona, non il contrario.
+          </h2>
+          <p style="font-size: 1.08rem; color: var(--grigio-testo); line-height: 1.65; margin-bottom: 24px;">
+            L’autonomia abitativa non nasce dai dispositivi o dalle tecnologie: nasce dall’ascolto dei desideri, delle abitudini e dei bisogni quotidiani della persona e della sua famiglia. Progettiamo gli ambienti di vita scegliendo soluzioni di domotica assistiva semplici, accessibili e realmente utili nella vita di ogni giorno.
+          </p>
+
+          <!-- Tre Micro-punti di Qualità -->
+          <ul style="list-style: none; padding: 0; margin: 0 0 32px 0; display: flex; flex-direction: column; gap: 12px;">
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 0.98rem; color: var(--marrone-scuro); font-weight: 500;">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--crema-chiara); color: var(--terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              Valutazione personalizzata degli ambienti di vita
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 0.98rem; color: var(--marrone-scuro); font-weight: 500;">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--crema-chiara); color: var(--terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              Soluzioni tecnologiche semplici e comprensibili
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 0.98rem; color: var(--marrone-scuro); font-weight: 500;">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--crema-chiara); color: var(--terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              Accompagnamento alla persona e ai caregiver
+            </li>
+          </ul>
+
+          <div>
+            <a href="domotica.html" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; font-weight: 600; text-decoration: none; border-radius: 6px;">
+              Scopri il percorso domotico <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonna Destra: Fotografia Reale Laboratorio Tecnologie Assistive -->
+        <div style="position: relative;">
+          <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 10px 32px rgba(85, 51, 17, 0.10); border: 1px solid rgba(85, 51, 17, 0.08); background: #ffffff;">
+            <img src="assets/gallery_domotics_lab.jpg" alt="Laboratorio e soluzioni di domotica assistiva Fondazione COINSIEME ETS" width="1200" height="896" style="width: 100%; height: 380px; display: block; object-fit: cover;" loading="lazy">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Frase Raccordo verso Ultimi Articoli -->
+      <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--grigio-bordino); text-align: left;">
+        <p style="font-size: 0.95rem; color: var(--grigio-testo); margin: 0; font-style: normal; line-height: 1.5;">
+          Dall’esperienza concreta sul campo nascono anche le nostre riflessioni e gli approfondimenti.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       BLOCCO 5 — Conoscenza (articoli recenti)
+       ======================================================== -->
+  <section class="bg-white" aria-labelledby="conoscenza-titolo">
     <div class="container">
       <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:28px;">
         <div>
