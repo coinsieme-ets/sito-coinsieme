@@ -49,126 +49,389 @@
 <main id="main-content">
 
   <!-- ========================================================
-       BLOCCO 1 — Hero fotografico + promessa ampia
+       BLOCCO 1 — Hero equilibrata 50/50 e luminosa
        ======================================================== -->
-  <section class="hero-bright bg-crema-chiara" aria-labelledby="hero-titolo" style="padding: 96px 0 88px 0; border-bottom: 1px solid var(--grigio-bordino);">
+  <section class="hero-bright bg-crema-chiara" aria-labelledby="hero-titolo" style="padding: 88px 0 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
-      <div class="hero-grid-refined" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center;">
+      <div class="hero-grid-5050" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+        
         <!-- Colonna Sinistra: Testi ed Unico CTA -->
         <div>
           <p class="section-tag" style="color: var(--terracotta); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem;">Fondazione COINSIEME ETS</p>
-          <h1 id="hero-titolo" style="color: var(--marrone-scuro); font-size: clamp(2.1rem, 3.6vw, 2.75rem); line-height: 1.25; font-weight: 700; margin-bottom: 22px;">
+          <h1 id="hero-titolo" style="color: var(--marrone-scuro); font-size: clamp(2.1rem, 3.5vw, 2.7rem); line-height: 1.25; font-weight: 700; margin-bottom: 22px;">
             Persone, autonomia e innovazione sociale: costruiamo insieme nuove possibilità.
           </h1>
-          <p style="font-size: 1.15rem; line-height: 1.65; color: var(--grigio-testo); margin-bottom: 34px; font-weight: 400; max-width: 620px;">
+          <p style="font-size: 1.125rem; line-height: 1.65; color: var(--grigio-testo); margin-bottom: 32px; font-weight: 400; max-width: 580px;">
             Accompagniamo persone, famiglie, organizzazioni e territori con progetti di domotica assistiva, formazione, inclusione lavorativa e innovazione sociale.
           </p>
           <div>
-            <a href="#chi-siamo" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; text-decoration: none; box-shadow: 0 4px 16px rgba(196, 94, 26, 0.22);">
+            <a href="#orientamento" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; text-decoration: none; box-shadow: 0 4px 16px rgba(196, 94, 26, 0.22);">
               Scopri cosa facciamo <span aria-hidden="true" style="font-size: 1.1rem; transition: transform 0.2s ease;">↓</span>
             </a>
           </div>
         </div>
 
-        <!-- Colonna Destra: Fotografia Reale Ampliata (Colori Naturali) -->
+        <!-- Colonna Destra: Fotografia Reale Ampliata (Pari Dignità 50/50) -->
         <div style="position: relative;">
           <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 12px 36px rgba(85, 51, 17, 0.12); border: 1px solid rgba(85, 51, 17, 0.08); background: #ffffff;">
-            <img src="assets/hero_inclusion.jpg" alt="Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" style="width: 100%; height: auto; display: block; object-fit: cover;" loading="eager">
+            <img src="assets/hero_inclusion.jpg" alt="Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" style="width: 100%; height: 380px; display: block; object-fit: cover;" loading="eager">
           </div>
         </div>
+
       </div>
     </div>
   </section>
   <style>
     @media (max-width: 900px) {
-      .hero-grid-refined {
+      .hero-grid-5050 {
         grid-template-columns: 1fr !important;
-        gap: 36px !important;
+        gap: 32px !important;
+      }
+      .hero-grid-5050 img {
+        height: 280px !important;
+      }
+    }
+
+    /* STILI LAYOUT ASIMMETRICO BLOCCO 2 */
+    .orientamento-asymmetric-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 28px;
+      margin-bottom: 48px;
+      align-items: stretch;
+    }
+
+    .card-persona-featured {
+      background: #ffffff;
+      border: 1px solid var(--grigio-bordino);
+      border-top: 4px solid var(--terracotta);
+      border-radius: 14px;
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(196, 94, 26, 0.06);
+    }
+
+    .grid-2x2-compact {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .compact-percorso-card {
+      background: #ffffff;
+      border: 1px solid var(--grigio-bordino);
+      border-radius: 12px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--marrone-scuro);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(85, 51, 17, 0.03);
+    }
+    .compact-percorso-card:hover, .compact-percorso-card:focus-visible {
+      border-color: var(--terracotta);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(196, 94, 26, 0.10);
+      outline: none;
+    }
+    .compact-percorso-card:focus-visible {
+      outline: 3px solid var(--terracotta);
+      outline-offset: 2px;
+    }
+    .compact-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--crema-chiara);
+      color: var(--terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .compact-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .compact-card-desc {
+      font-size: 0.88rem;
+      color: var(--grigio-testo);
+      line-height: 1.48;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+    .compact-card-link {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--terracotta);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: auto;
+    }
+
+    .chi-siamo-banner {
+      background: transparent;
+      border: none;
+      border-top: 1px solid var(--grigio-bordino);
+      border-bottom: 1px solid var(--grigio-bordino);
+      border-radius: 0;
+      padding: 32px 0 28px 0;
+      margin-top: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      box-shadow: none;
+    }
+
+    @media (max-width: 900px) {
+      .orientamento-asymmetric-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .grid-2x2-compact {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .chi-siamo-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+    }
+    @media (max-width: 560px) {
+      .grid-2x2-compact {
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
 
   <!-- ========================================================
-       BLOCCO 2 — "Per chi sei" + Chi siamo (fusi)
+       BLOCCO 2 — Orientamento Asimmetrico (Persona in evidenza + Griglia 2x2)
        ======================================================== -->
-  <section id="chi-siamo" class="bg-white fade-in" aria-labelledby="orientamento-titolo">
+  <section id="orientamento" class="bg-crema-chiara" aria-labelledby="orientamento-titolo" style="padding: 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
-      <div class="grid-2" style="gap:64px; align-items:start;">
+      
+      <!-- Intestazione di Sezione -->
+      <div style="max-width: 760px; margin-bottom: 40px;">
+        <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Orientamento</p>
+        <h2 id="orientamento-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
+          Come possiamo esserti utili?
+        </h2>
+        <p style="font-size: 1.1rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
+          Parti da chi sei: ti aiutiamo a trovare più rapidamente progetti, servizi e opportunità che possono interessarti.
+        </p>
+      </div>
 
-        <!-- Sinistra: orientamento per pubblico -->
-        <div>
-          <h2 id="orientamento-titolo">Come possiamo esserti utili?</h2>
-          <p style="color:var(--grigio-testo); margin:12px 0 24px; font-size:1.05rem;">
-            
-          </p>
-          <nav aria-label="Percorsi per tipo di pubblico">
-            <ul class="orientamento-grid" style="margin-top:0;">
-              <li>
-                <a href="persone-famiglie.html" class="orientamento-tag">
-                  <span>Sono una persona o un familiare</span>
-                  <span class="orientamento-arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="/cosa-facciamo.html" class="orientamento-tag" aria-disabled="true" tabindex="-1" style="opacity:.6;cursor:default;">
-                  <span>Sono un ente pubblico</span>
-                  <span class="orientamento-arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="/cosa-facciamo.html" class="orientamento-tag" aria-disabled="true" tabindex="-1" style="opacity:.6;cursor:default;">
-                  <span>Sono un'organizzazione del Terzo Settore</span>
-                  <span class="orientamento-arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="/cosa-facciamo.html" class="orientamento-tag" aria-disabled="true" tabindex="-1" style="opacity:.6;cursor:default;">
-                  <span>Sono un'impresa</span>
-                  <span class="orientamento-arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="/cosa-facciamo.html" class="orientamento-tag" aria-disabled="true" tabindex="-1" style="opacity:.6;cursor:default;">
-                  <span>Sono un professionista o formatore</span>
-                  <span class="orientamento-arrow" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+      <!-- Layout Asimmetrico (Card Persona a SX + Griglia 2x2 a DX) -->
+      <div class="orientamento-asymmetric-layout" role="list">
+        
+        <!-- CARD PRINCIPALE PREDOMINANTE: Persona o familiare -->
+        <div class="card-persona-featured" role="listitem">
+          <div>
+            <span style="display: inline-block; font-size: 0.8rem; font-weight: 700; color: var(--terracotta); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Percorso Primario</span>
+            <div class="percorso-icon-box" style="width: 44px; height: 44px; background: var(--crema-chiara); color: var(--terracotta); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </div>
+            <h3 style="font-size: 1.45rem; font-weight: 700; color: var(--marrone-scuro); margin-bottom: 12px; line-height: 1.25;">Persona o familiare</h3>
+            <p style="font-size: 1.02rem; color: var(--grigio-testo); line-height: 1.6; margin-bottom: 18px;">
+              “Cerchi maggiore autonomia, una soluzione per la casa, orientamento o supporto per la vita indipendente?”
+            </p>
+          </div>
+          <div>
+            <a href="persone-famiglie.html" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-weight: 600; text-decoration: none; border-radius: 6px;">
+              Parti da qui <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Destra: chi siamo in breve -->
+        <!-- GRIGLIA 2x2 COMPATTA (4 Percorsi) -->
+        <div class="grid-2x2-compact">
+          
+          <!-- 2. Ente pubblico -->
+          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
+            <div class="compact-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9V10z"></path></svg>
+            </div>
+            <h3 class="compact-card-title">Ente pubblico</h3>
+            <p class="compact-card-desc">Co-progettazione sociale, pianificazione di servizi domiciliari ed interventi sul territorio.</p>
+            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
+          </a>
+
+          <!-- 3. Organizzazione del Terzo Settore -->
+          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
+            <div class="compact-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 class="compact-card-title">Terzo Settore</h3>
+            <p class="compact-card-desc">Sviluppo di reti d'impresa sociale, affiancamento metodologico e co-progettazione.</p>
+            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
+          </a>
+
+          <!-- 4. Impresa -->
+          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
+            <div class="compact-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <h3 class="compact-card-title">Impresa</h3>
+            <p class="compact-card-desc">Inclusione lavorativa L. 68/99, accessibilità dei luoghi di lavoro ed innovazione sociale.</p>
+            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
+          </a>
+
+          <!-- 5. Professionista o formatore -->
+          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
+            <div class="compact-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            </div>
+            <h3 class="compact-card-title">Professionista o formatore</h3>
+            <p class="compact-card-desc">Alta formazione e qualificazione per la figura del Manager di Domotica Assistiva.</p>
+            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Passaggio Narrativo Editoriale: Chi siamo e le radici -->
+      <div class="chi-siamo-banner">
+        <div style="max-width: 700px;">
+          <p style="font-size: 0.85rem; font-weight: 700; color: var(--terracotta); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Chi siamo</p>
+          <h3 style="font-size: 1.2rem; color: var(--marrone-scuro); margin-bottom: 6px; font-weight: 700;">Continuità tra storia dell'inclusione ed attività attuale</h3>
+          <p style="font-size: 0.95rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
+            Oltre cinquant'anni di storia e cooperazione integrata che continuano oggi nella Fondazione COINSIEME ETS per promuovere l'autonomia ed i diritti delle persone.
+          </p>
+        </div>
         <div>
-          <div style="display:inline-flex; align-items:center; gap:8px; background:var(--terracotta-pale); color:var(--terracotta-deep); border-radius:var(--radius-pill); padding:5px 14px; font-size:0.75rem; font-weight:700; font-family:var(--font-heading); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:20px;">
-            Chi siamo
-          </div>
-          <h2 style="font-size:clamp(1.4rem,3vw,2rem); margin-bottom:16px; line-height:1.25;">
-            
-          </h2>
-          <p style="font-size:1.05rem; color:var(--grigio-testo); line-height:1.75; margin-bottom:20px;">
-            
-          </p>
-          <p style="font-size:1.05rem; color:var(--grigio-testo); line-height:1.75; margin-bottom:24px;">
-            
-          </p>
-          <a href="chi-siamo.html" style="font-weight:600; display:inline-flex; align-items:center; gap:6px; color:var(--terracotta);">
-            La nostra storia e le nostre radici
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <a href="chi-siamo.html" class="btn btn-secondary" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; font-weight: 600;">
+            Scopri la nostra storia e le nostre radici <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
+
     </div>
   </section>
+
+  <style>
+    /* STILI DEDICATI BLOCCO 2 ORIENTAMENTO */
+    .percorsi-grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .percorsi-grid-container > :nth-child(4) {
+      grid-column: 1 / 2;
+    }
+    .percorsi-grid-container > :nth-child(5) {
+      grid-column: 2 / 3;
+    }
+    /* Centra la seconda riga con 2 schede bilanciate su desktop largo */
+    @media (min-width: 901px) {
+      .percorsi-grid-container {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .percorsi-grid-container > :nth-child(1) { grid-column: 1 / span 2; }
+      .percorsi-grid-container > :nth-child(2) { grid-column: 3 / span 2; }
+      .percorsi-grid-container > :nth-child(3) { grid-column: 5 / span 2; }
+      .percorsi-grid-container > :nth-child(4) { grid-column: 2 / span 2; }
+      .percorsi-grid-container > :nth-child(5) { grid-column: 4 / span 2; }
+    }
+
+    .percorso-card {
+      background: #ffffff;
+      border: 1px solid var(--grigio-bordino);
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--marrone-scuro);
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(85, 51, 17, 0.04);
+      height: 100%;
+    }
+    .percorso-card:hover, .percorso-card:focus-visible {
+      border-color: var(--terracotta);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(196, 94, 26, 0.12);
+      outline: none;
+    }
+    .percorso-card:focus-visible {
+      outline: 3px solid var(--terracotta);
+      outline-offset: 2px;
+    }
+    .percorso-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--crema-chiara);
+      color: var(--terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .percorso-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .percorso-card-desc {
+      font-size: 0.95rem;
+      color: var(--grigio-testo);
+      line-height: 1.55;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .percorso-card-link {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--terracotta);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .chi-siamo-banner {
+      background: #ffffff;
+      border: 1px solid var(--grigio-bordino);
+      border-radius: 12px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.03);
+    }
+
+    @media (max-width: 900px) {
+      .percorsi-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+      }
+      .percorsi-grid-container > * {
+        grid-column: auto !important;
+      }
+      .chi-siamo-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+    }
+    @media (max-width: 600px) {
+      .percorsi-grid-container {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
 
   <!-- ========================================================
        BLOCCO 3 — Come lavoriamo (4 dimensioni) + Domotica (fusi)
