@@ -51,25 +51,42 @@
   <!-- ========================================================
        BLOCCO 1 — Hero fotografico + promessa ampia
        ======================================================== -->
-  <section class="hero" aria-labelledby="hero-titolo">
-    <!-- Fotografia -->
-    <img src="assets/hero_inclusion.jpg" class="hero-bg" alt="Attività di inclusione e cooperazione sociale Fondazione COINSIEME ETS" width="1200" height="600" loading="eager">
-<!-- ASSET TEMPORANEO: Sostituibile con fotografia finale della sede/laboratorio -->
-    <!-- Overlay gradiente -->
-    <div class="hero-overlay" aria-hidden="true"></div>
-    <!-- Contenuto -->
+  <section class="hero-bright bg-crema-chiara" aria-labelledby="hero-titolo" style="padding: 96px 0 88px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
-      <div class="hero-content">
-        <p class="hero-tagline">Fondazione COINSIEME ETS</p>
-        <h1 id="hero-titolo">Coltiviamo inclusione, autonomia e innovazione sociale</h1>
-        <p class="hero-subtitle">Da oltre cinquant'anni promuoviamo i diritti delle persone con disabilità, l'integrazione lavorativa e la domotica assistiva per la vita indipendente.</p>
-        <div class="hero-ctas">
-          <a href="chi-siamo.html" class="btn btn-white btn-lg">Scopri chi siamo</a>
-          <a href="contatti.html" class="btn btn-ghost">Parliamoci →</a>
+      <div class="hero-grid-refined" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center;">
+        <!-- Colonna Sinistra: Testi ed Unico CTA -->
+        <div>
+          <p class="section-tag" style="color: var(--terracotta); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem;">Fondazione COINSIEME ETS</p>
+          <h1 id="hero-titolo" style="color: var(--marrone-scuro); font-size: clamp(2.1rem, 3.6vw, 2.75rem); line-height: 1.25; font-weight: 700; margin-bottom: 22px;">
+            Persone, autonomia e innovazione sociale: costruiamo insieme nuove possibilità.
+          </h1>
+          <p style="font-size: 1.15rem; line-height: 1.65; color: var(--grigio-testo); margin-bottom: 34px; font-weight: 400; max-width: 620px;">
+            Accompagniamo persone, famiglie, organizzazioni e territori con progetti di domotica assistiva, formazione, inclusione lavorativa e innovazione sociale.
+          </p>
+          <div>
+            <a href="#chi-siamo" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; text-decoration: none; box-shadow: 0 4px 16px rgba(196, 94, 26, 0.22);">
+              Scopri cosa facciamo <span aria-hidden="true" style="font-size: 1.1rem; transition: transform 0.2s ease;">↓</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonna Destra: Fotografia Reale Ampliata (Colori Naturali) -->
+        <div style="position: relative;">
+          <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 12px 36px rgba(85, 51, 17, 0.12); border: 1px solid rgba(85, 51, 17, 0.08); background: #ffffff;">
+            <img src="assets/hero_inclusion.jpg" alt="Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" style="width: 100%; height: auto; display: block; object-fit: cover;" loading="eager">
+          </div>
         </div>
       </div>
     </div>
   </section>
+  <style>
+    @media (max-width: 900px) {
+      .hero-grid-refined {
+        grid-template-columns: 1fr !important;
+        gap: 36px !important;
+      }
+    }
+  </style>
 
   <!-- ========================================================
        BLOCCO 2 — "Per chi sei" + Chi siamo (fusi)
