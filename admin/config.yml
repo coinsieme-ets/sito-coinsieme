@@ -130,6 +130,18 @@ collections:
         widget: "string"
         required: false
         hint: "Se l'immagine comunica informazioni utili, descrivi brevemente ciò che mostra. Non ripetere semplicemente il titolo dell'articolo."
+      - label: "Focalizzazione / Posizione immagine (opzionale)"
+        name: "image_position"
+        widget: "select"
+        required: false
+        hint: "Scegli la focalizzazione del ritaglio (es. Alto per ritratti di persone, Centro per paesaggi)."
+        options:
+          - { label: "Alto (Consigliato per volti/ritratti)", value: "center 20%" }
+          - { label: "Centro", value: "center center" }
+          - { label: "Basso", value: "center bottom" }
+          - { label: "Sinistra", value: "left center" }
+          - { label: "Destra", value: "right center" }
+        default: "center 20%"
 
   - name: "trasparenza"
     label: "Documenti di Trasparenza"

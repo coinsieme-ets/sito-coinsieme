@@ -86,7 +86,9 @@ let newArticlesDir = path.join(contentDir, 'articoli');
 if (fs.existsSync(newArticlesDir)) {
     let files = fs.readdirSync(newArticlesDir).filter(f => f.endsWith('.json'));
     for (let f of files) {
-        newDecapArticles.push(JSON.parse(fs.readFileSync(path.join(newArticlesDir, f), 'utf8')));
+        let parsed = JSON.parse(fs.readFileSync(path.join(newArticlesDir, f), 'utf8'));
+        parsed._filename = f;
+        newDecapArticles.push(parsed);
     }
 }
 console.log(`- Nuovi articoli Decap: ${newDecapArticles.length}`);
@@ -104,7 +106,7 @@ let hrefSet = new Set();
 let invalidHrefs = [];
 
 for (let art of mergedForIndex) {
-    let slug = art.slug || (art.href ? art.href.replace(/^\/articoli\//, '').replace(/\/index\.html$/, '') : '');
+    let slug = art.slug ? art.slug.trim() : (art._filename ? art._filename.replace('.json', '') : (art.title ? art.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') : (art.href ? art.href.replace(/^\/articoli\//, '').replace(/\/index\.html$/, '') : '')));
     let relPath = `articoli/${slug}/index.html`;
     let absPath = path.join(rootDir, relPath);
 

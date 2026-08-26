@@ -1,3 +1,27 @@
+
+const monthsMap = {
+  gennaio: '01', febbraio: '02', marzo: '03', aprile: '04', maggio: '05', giugno: '06',
+  luglio: '07', agosto: '08', settembre: '09', ottobre: '10', novembre: '11', dicembre: '12'
+};
+
+function parseArticleDate(item) {
+  if (item.date && /^\d{4}-\d{2}-\d{2}/.test(String(item.date).trim())) {
+    return String(item.date).trim().slice(0, 10);
+  }
+  if (item.data && /^\d{4}-\d{2}-\d{2}/.test(String(item.data).trim())) {
+    return String(item.data).trim().slice(0, 10);
+  }
+  const text = (item.sintesi || '') + ' ' + (item.corpoHtml || '');
+  const match = text.match(/\b(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)\s+(\d{4})\b/i);
+  if (match) {
+    const day = match[1].padStart(2, '0');
+    const month = monthsMap[match[2].toLowerCase()];
+    const year = match[3];
+    if (month) return year + '-' + month + '-' + day;
+  }
+  return '2024-01-01';
+}
+
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
@@ -176,7 +200,8 @@ function loadNewArticles(historicSlugs) {
       date: articleDate,
       image,
       imageIsExternal,
-      imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : '')
+      imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : ''),
+      image_position: item.image_position ? String(item.image_position).trim() : (item.imagePosition ? String(item.imagePosition).trim() : '')
     };
   });
 }
@@ -230,27 +255,71 @@ function buildCard(item) {
   </a>`;
 }
 
-function buildHomeCard(item, featured = false) {
-  const imageSrc = item.imageIsExternal ? item.image : `/${item.image}`;
-  const imageHtml = item.image
-    ? `<div class="article-card-img"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" width="800" height="450" loading="lazy"></div>`
+function buildHomeSection(items) {
+  if (!items || items.length === 0) {
+    return '<p style="color:var(--grigio-testo);">Nessun articolo disponibile.</p>';
+  }
+
+  const primary = items[0];
+  const secondaries = items.slice(1, 3);
+
+  const primaryImageSrc = primary.image ? (primary.imageIsExternal ? primary.image : `/${primary.image}`) : '';
+  const primaryImgPos = primary.image_position || primary.imagePosition || 'center 20%';
+  const primaryImageHtml = primaryImageSrc
+    ? `<div class="conoscenza-featured-img-wrap"><img src="${escapeHtml(primaryImageSrc)}" alt="${escapeHtml(primary.imageAlt || '')}" class="conoscenza-featured-img" style="object-position: ${escapeHtml(primaryImgPos)};" width="800" height="450" loading="lazy"></div>`
     : '';
-  const dateHtml = item.date
-    ? `<time datetime="${escapeHtml(item.date)}">${new Date(`${item.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
+
+  const primaryDateHtml = primary.date
+    ? `<time datetime="${escapeHtml(primary.date)}">${new Date(`${primary.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
     : '';
-  const authorHtml = item.author ? `<span>di ${escapeHtml(item.author)}</span>` : '';
-  const metaSeparator = dateHtml && authorHtml ? '<span aria-hidden="true">·</span>' : '';
-  const headingLevel = featured ? 'h2' : 'h3';
-  return `<article class="article-card${featured ? ' article-card--featured' : ''}">
-    ${imageHtml}
-    <div class="article-card-body">
-      <div style="margin-bottom:10px;"><span class="badge badge-terracotta">Articolo</span></div>
-      <${headingLevel}>${escapeHtml(item.title)}</${headingLevel}>
-      <p>${escapeHtml(item.summary)}</p>
-      <div class="article-card-meta">${dateHtml}${metaSeparator}${authorHtml}</div>
-      <div style="margin-top:18px;"><a href="/articoli/${escapeHtml(item.slug)}/" class="btn btn-primary btn-sm">Leggi l'articolo →</a></div>
+  const primaryAuthorHtml = primary.author ? `<span>di ${escapeHtml(primary.author)}</span>` : '';
+  const primaryMetaSep = primaryDateHtml && primaryAuthorHtml ? '<span aria-hidden="true">·</span>' : '';
+  const primaryCategory = escapeHtml(primary.category || primary.contentType || 'Conoscenza');
+
+  const primaryHtml = `<article class="conoscenza-featured-card">
+    ${primaryImageHtml}
+    <div class="conoscenza-featured-body">
+      <div style="margin-bottom:8px;"><span class="badge badge-terracotta" style="font-size:0.75rem;">${primaryCategory}</span></div>
+      <h3 style="font-size:1.3rem; color:var(--marrone-scuro); font-weight:700; line-height:1.3; margin-bottom:8px;">${escapeHtml(primary.title)}</h3>
+      <p style="font-size:0.95rem; color:var(--grigio-testo); line-height:1.5; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(primary.summary)}</p>
+      <div class="article-card-meta" style="font-size:0.85rem; margin-bottom:16px;">${primaryDateHtml}${primaryMetaSep}${primaryAuthorHtml}</div>
+      <div style="margin-top:auto;"><a href="/articoli/${escapeHtml(primary.slug)}/" class="btn btn-terracotta" style="display:inline-flex; width:fit-content; align-items:center; gap:6px; padding:8px 18px; font-weight:600; text-decoration:none; border-radius:6px; font-size:0.88rem;">Leggi l'articolo <span aria-hidden="true">→</span></a></div>
     </div>
   </article>`;
+
+  if (secondaries.length === 0) {
+    return `<div class="conoscenza-asymmetric-grid" style="grid-template-columns: 1fr;">${primaryHtml}</div>`;
+  }
+
+  const secondariesHtml = secondaries.map((sec) => {
+    const secImageSrc = sec.image ? (sec.imageIsExternal ? sec.image : `/${sec.image}`) : '';
+    const secThumbHtml = secImageSrc
+      ? `<img src="${escapeHtml(secImageSrc)}" alt="" class="conoscenza-compact-thumb" width="80" height="64" loading="lazy">`
+      : '';
+    const secDateHtml = sec.date
+      ? `<time datetime="${escapeHtml(sec.date)}">${new Date(`${sec.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
+      : '';
+    const secCategory = escapeHtml(sec.category || sec.contentType || 'Approfondimento');
+
+    return `<article class="conoscenza-compact-card">
+      ${secThumbHtml}
+      <div class="conoscenza-compact-body">
+        <div style="margin-bottom:4px;"><span class="badge badge-subtle" style="font-size:0.72rem; background:var(--crema-chiara); color:var(--terracotta); border:1px solid var(--grigio-bordino); border-radius:4px; padding:1px 6px; font-weight:600;">${secCategory}</span></div>
+        <h4 style="font-size:0.95rem; font-weight:700; color:var(--marrone-scuro); margin-bottom:6px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(sec.title)}</h4>
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; color:var(--grigio-testo); margin-top:auto;">
+          ${secDateHtml}
+          <a href="/articoli/${escapeHtml(sec.slug)}/" style="font-weight:600; color:var(--terracotta); text-decoration:none; display:inline-flex; align-items:center; gap:3px; margin-left:auto;">Leggi <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </article>`;
+  }).join('\n');
+
+  return `<div class="conoscenza-asymmetric-grid">
+    ${primaryHtml}
+    <div class="conoscenza-secondary-column">
+      ${secondariesHtml}
+    </div>
+  </div>`;
 }
 
 async function main() {
@@ -282,12 +351,33 @@ async function main() {
     .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
   fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
 
-  const latest = [...fresh]
-    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title, 'it'))
-    .slice(0, 3);
-  const latestHtml = latest.length
-    ? latest.map((item, index) => buildHomeCard(item, index === 0)).join('\n')
-    : '<p>Nessun nuovo articolo pubblicato.</p>';
+    const historicFull = historicData
+    .filter((item) => item.indicizzabile === true)
+    .filter((item) => fs.existsSync(path.join(articlesDir, item.slug, 'index.html')))
+    .map((item) => ({
+      title: item.titolo,
+      slug: item.slug,
+      category: item.categoria || 'Diritti & Innovazione',
+      summary: item.sintesi || '',
+      author: item.autore || '',
+      date: parseArticleDate(item),
+      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : (item.immagine ? String(item.immagine).replace(/^\//, '') : ''),
+      imageIsExternal: false,
+      imageAlt: `Immagine per: ${item.titolo}`
+    }));
+
+  const freshMapped = fresh.map((item) => ({
+    ...item,
+    date: parseArticleDate(item)
+  }));
+
+  // Unified chronological sorting across ALL articles (CMS fresh + Historic)
+  const allArticlesForHome = [...freshMapped, ...historicFull].sort(
+    (a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title, 'it')
+  );
+
+  const latest = allArticlesForHome.slice(0, 3);
+  const latestHtml = buildHomeSection(latest);
   const homepagePath = path.join(root, 'index.html');
   const homepage = fs.readFileSync(homepagePath, 'utf8');
   const homepageUpdated = homepage.replace(

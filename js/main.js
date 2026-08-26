@@ -108,7 +108,7 @@ function formatData(str) {
 }
 
 /* ============================================================
-   GENERAZIONE CARD ARTICOLO
+   GENERAZIONE CARD ARTICOLO (Fallback per pagine prototipo)
    ============================================================ */
 
 function creaCard(a, featured = false) {
@@ -157,17 +157,12 @@ function creaCard(a, featured = false) {
 }
 
 /* ============================================================
-   HOMEPAGE — 3 articoli recenti
+   HOMEPAGE — Disattivato: build-cms.js è l'unica fonte per #home-articles
    ============================================================ */
 
 function inizializzaArticoliHome() {
-  const el = document.getElementById('home-articles');
-  if (!el) return;
-  if (el.dataset.cmsGenerated === 'true') return;
-  const recenti = [...ARTICOLI]
-    .sort((a, b) => new Date(b.data) - new Date(a.data))
-    .slice(0, 3);
-  el.innerHTML = recenti.map((a, i) => creaCard(a, i === 0)).join('');
+  // Disattivato per eliminare il conflitto: build-cms.js genera la sezione #home-articles
+  return;
 }
 
 /* ============================================================
@@ -292,7 +287,6 @@ function inizializzaOverlayPiattaforma() {
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
     removeTrap = trapFocus(overlay);
-    // Focus al primo pulsante del modale
     const primo = overlay.querySelector('button');
     if (primo) setTimeout(() => primo.focus(), 50);
   };
@@ -348,51 +342,7 @@ function inizializzaSmoothScroll() {
 }
 
 /* ============================================================
-   ELEMENTI DIMOSTRATIVI DEL PROTOTIPO
-   ============================================================ */
-
-function inizializzaElementiDimostrativi() {
-  document.querySelectorAll('a[href="#"]').forEach(link => {
-    link.setAttribute('aria-disabled', 'true');
-    link.setAttribute('title', 'Collegamento non ancora attivo nel prototipo');
-    link.addEventListener('click', e => e.preventDefault());
-  });
-
-  document.querySelectorAll('form').forEach((form, index) => {
-    const nota = document.createElement('p');
-    const notaId = `demo-form-note-${index + 1}`;
-    nota.id = notaId;
-    nota.className = 'demo-form-note';
-    nota.tabIndex = -1;
-    nota.textContent = 'Modulo dimostrativo: l\u2019invio non \u00e8 ancora attivo.';
-    form.prepend(nota);
-    form.setAttribute('aria-describedby', notaId);
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      nota.textContent = 'Questo \u00e8 un prototipo: nessun dato \u00e8 stato inviato.';
-      nota.setAttribute('role', 'status');
-      nota.focus({ preventScroll: true });
-    });
-  });
-}
-
-/* ============================================================
-   NAV ATTIVO
-   ============================================================ */
-
-function evidenziaNavAttivo() {
-  const pagina = location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-link').forEach(l => {
-    const href = l.getAttribute('href');
-    if (href && href !== '#' && href.includes(pagina)) {
-      l.classList.add('active');
-      l.setAttribute('aria-current', 'page');
-    }
-  });
-}
-
-/* ============================================================
-   FADE-IN (Intersection Observer)
+   FADE IN ANIMATION
    ============================================================ */
 
 function inizializzaFadeIn() {
@@ -402,6 +352,18 @@ function inizializzaFadeIn() {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   els.forEach(el => obs.observe(el));
+}
+
+function inizializzaElementiDimostrativi() {}
+
+function evidenziaNavAttivo() {
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === 'index.html' && href === '#')) {
+      link.classList.add('active');
+    }
+  });
 }
 
 /* ============================================================
@@ -418,25 +380,4 @@ document.addEventListener('DOMContentLoaded', () => {
   evidenziaNavAttivo();
   inizializzaArticoliHome();
   inizializzaFiltri();
-});
-
-
-/* EDITORIAL MENU FIX */
-document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.querySelector('.nav-toggle, #menu-toggle');
-    const menu = document.querySelector('.nav-menu, #main-nav');
-    if (toggle && menu) {
-        toggle.addEventListener('click', () => {
-            const expanded = toggle.getAttribute('aria-expanded') === 'true' || false;
-            toggle.setAttribute('aria-expanded', !expanded);
-            menu.classList.toggle('is-open');
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && menu.classList.contains('is-open')) {
-                toggle.setAttribute('aria-expanded', 'false');
-                menu.classList.remove('is-open');
-                toggle.focus();
-            }
-        });
-    }
 });
