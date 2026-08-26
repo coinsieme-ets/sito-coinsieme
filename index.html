@@ -410,6 +410,448 @@
         padding: 14px 16px;
       }
     }
+
+    /* STILI SEZIONE PIATTAFORMA BLOCCO 6 (DESKTOP ASIMMETRICO 56/44) */
+    .piattaforma-section {
+      background: var(--notte);
+      padding: clamp(76px, 8vw, 104px) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .piattaforma-grid {
+      display: grid;
+      grid-template-columns: 56% calc(44% - 48px);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .piattaforma-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .piattaforma-tag {
+      color: #eb894f;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      font-family: var(--font-heading);
+    }
+
+    .piattaforma-title {
+      color: var(--bianco);
+      font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+      line-height: 1.25;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .piattaforma-text {
+      font-size: 1.06rem;
+      line-height: 1.68;
+      color: rgba(253, 249, 245, 0.92);
+      margin-bottom: 28px;
+      font-weight: 400;
+      max-width: 580px;
+    }
+
+    .piattaforma-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .piattaforma-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      background: #b85210;
+      color: #ffffff;
+      border: 2px solid #b85210;
+      box-shadow: 0 4px 18px rgba(184, 82, 16, 0.28);
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: all 0.2s ease;
+    }
+
+    .piattaforma-btn:hover,
+    .piattaforma-btn:focus-visible {
+      background: #d96d24;
+      border-color: #d96d24;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(217, 109, 36, 0.35);
+      outline: none;
+    }
+
+    .piattaforma-btn:focus-visible {
+      outline: 3px solid #ffffff;
+      outline-offset: 3px;
+    }
+
+    .piattaforma-microtext {
+      font-size: 0.84rem;
+      color: rgba(253, 249, 245, 0.78);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .piattaforma-phases {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+
+    .piattaforma-phases::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 16px;
+      bottom: 16px;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      z-index: 1;
+    }
+
+    .piattaforma-phase-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .phase-badge {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: #24333c;
+      border: 1.5px solid #eb894f;
+      color: #eb894f;
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 3px var(--notte);
+      flex-shrink: 0;
+    }
+
+    .phase-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .phase-title {
+      font-family: var(--font-heading);
+      font-size: 0.90rem;
+      font-weight: 700;
+      color: var(--bianco);
+      letter-spacing: 0.06em;
+      margin: 0 0 2px 0;
+      text-transform: uppercase;
+    }
+
+    .phase-desc {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      line-height: 1.48;
+      color: rgba(253, 249, 245, 0.88);
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .piattaforma-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+      }
+      .piattaforma-left {
+        display: contents;
+      }
+      .piattaforma-intro {
+        order: 1;
+      }
+      .piattaforma-phases {
+        order: 2;
+      }
+      .piattaforma-action {
+        order: 3;
+        width: 100%;
+        align-items: stretch;
+      }
+      .piattaforma-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .piattaforma-microtext {
+        text-align: center;
+      }
+    }
+
+    /* STILI SEZIONE CONTATTI BLOCCO 7 (DESKTOP BILANCIATO 48/52) */
+    .contatti-home-section {
+      background: var(--crema-chiara);
+      padding: clamp(72px, 8vw, 100px) 0;
+      border-top: 1px solid var(--grigio-bordino);
+      border-bottom: 1px solid var(--grigio-bordino);
+      position: relative;
+    }
+
+    .contatti-home-grid {
+      display: grid;
+      grid-template-columns: 46% calc(54% - 48px);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .contatti-home-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contatti-home-tag {
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      font-family: var(--font-heading);
+    }
+
+    .contatti-home-title {
+      font-size: clamp(2rem, 3.5vw, 2.5rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      line-height: 1.22;
+      margin-bottom: 18px;
+    }
+
+    .contatti-home-text {
+      font-size: 1.10rem;
+      line-height: 1.70;
+      color: var(--grigio-testo);
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    .contatti-editorial-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 32px;
+      padding-top: 4px;
+    }
+
+    .contatti-editorial-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(85, 51, 17, 0.08);
+    }
+
+    .contatti-editorial-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .contatti-editorial-icon {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 8px;
+      background: var(--terracotta-pale);
+      color: var(--terracotta-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contatti-editorial-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .contatti-editorial-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--marrone);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0;
+      font-family: var(--font-heading);
+    }
+
+    .contatti-editorial-value {
+      font-size: 1.05rem;
+      color: var(--marrone-scuro);
+      margin: 0;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .contatti-editorial-value a {
+      color: var(--terracotta-deep);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .contatti-editorial-value a:hover,
+    .contatti-editorial-value a:focus-visible {
+      color: var(--terracotta);
+      text-decoration: underline;
+    }
+
+    .contatti-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      font-size: 0.98rem;
+      text-decoration: none;
+      transition: gap 0.2s ease, color 0.15s ease;
+    }
+
+    .contatti-home-link:hover,
+    .contatti-home-link:focus-visible {
+      color: var(--terracotta);
+      gap: 10px;
+      text-decoration: underline;
+    }
+
+    .contatti-form-card {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: clamp(28px, 4vw, 40px);
+      box-shadow: 0 6px 24px rgba(85, 51, 17, 0.05);
+    }
+
+    .contatti-form-heading {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 8px;
+      font-family: var(--font-heading);
+    }
+
+    .contatti-form-notice {
+      font-size: 0.92rem;
+      color: var(--grigio-testo);
+      line-height: 1.58;
+      margin-bottom: 22px;
+    }
+
+    .contatti-home-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .contatti-form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .contatti-form-row label {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--marrone-scuro);
+    }
+
+    .contatti-form-row input,
+    .contatti-form-row select,
+    .contatti-form-row textarea {
+      padding: 12px 16px;
+      font-size: 0.98rem;
+      font-family: var(--font-body);
+      border: 1px solid rgba(85, 51, 17, 0.20);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--marrone-scuro);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .contatti-form-row input:focus,
+    .contatti-form-row select:focus,
+    .contatti-form-row textarea:focus {
+      outline: none;
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 3px rgba(196, 94, 26, 0.15);
+    }
+
+    .contatti-form-privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--grigio-testo);
+      margin-top: 4px;
+    }
+
+    .contatti-form-privacy input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--terracotta);
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .contatti-form-privacy a {
+      color: var(--terracotta-deep);
+      text-decoration: underline;
+    }
+
+    .contatti-btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-size: 1.02rem;
+      font-weight: 600;
+      border-radius: 6px;
+      background: #b85210;
+      color: #ffffff;
+      border: 2px solid #b85210;
+      cursor: not-allowed;
+      font-family: var(--font-heading);
+      width: 100%;
+      margin-top: 8px;
+      opacity: 0.88;
+    }
+
+    @media (max-width: 900px) {
+      .contatti-home-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .contatti-home-text {
+        max-width: 100%;
+      }
+    }
   </style>
 
   <!-- ========================================================
@@ -849,60 +1291,167 @@
   </section>
 
   <!-- ========================================================
-       BLOCCO 5 — Piattaforma + Contatto breve (fusi)
+       BLOCCO 6 — Piattaforma COINSIEME: Dal racconto all'azione
        ======================================================== -->
-  <section class="bg-notte fade-in" aria-labelledby="chiusura-titolo">
+  <section id="piattaforma" class="piattaforma-section" aria-labelledby="piattaforma-titolo">
     <div class="container">
-      <div class="grid-2" style="gap:56px; align-items:center;">
+      <div class="piattaforma-grid">
 
-        <!-- Piattaforma -->
-        <div>
-          <div style="display:inline-flex; align-items:center; gap:7px; background:rgba(196,94,26,0.18); border:1px solid rgba(196,94,26,0.3); border-radius:var(--radius-pill); padding:5px 13px; font-size:0.73rem; font-weight:700; letter-spacing:0.05em; color:var(--terracotta-lite); text-transform:uppercase; margin-bottom:18px;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1a5 5 0 0 1 5 5 5 5 0 0 1-5 5A5 5 0 0 1 7 6a5 5 0 0 1 5-5m0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
-            Ambiente separato
+        <!-- Colonna Sinistra (Intro + Azione su desktop) -->
+        <div class="piattaforma-left">
+          <div class="piattaforma-intro">
+            <p class="piattaforma-tag">PIATTAFORMA COINSIEME · UNO SPAZIO DEDICATO ALLA PERSONA</p>
+            <h2 id="piattaforma-titolo" class="piattaforma-title">
+              Dal racconto all’azione. Partiamo da ciò che serve a te.
+            </h2>
+            <p class="piattaforma-text">
+              Il sito racconta ciò che facciamo. La Piattaforma è lo spazio in cui puoi raccontarci la tua situazione e costruire con noi un primo percorso di orientamento.
+            </p>
           </div>
-          <h2 id="chiusura-titolo" style="color:var(--bianco); margin-bottom:16px;">
-            
+
+          <div class="piattaforma-action">
+            <button class="piattaforma-btn show-platform" type="button" aria-haspopup="dialog">
+              Entra nella Piattaforma <span aria-hidden="true">→</span>
+            </button>
+            <p class="piattaforma-microtext">
+              Stai entrando in un ambiente interattivo distinto dal sito istituzionale.
+            </p>
+          </div>
+        </div>
+
+        <!-- Colonna Destra: Le Quattro Fasi -->
+        <div class="piattaforma-phases" role="list" aria-label="Le quattro fasi del percorso di orientamento">
+          <div class="piattaforma-phase-item" role="listitem">
+            <div class="phase-badge" aria-hidden="true">01</div>
+            <div class="phase-content">
+              <h3 class="phase-title">01 · ASCOLTARE</h3>
+              <p class="phase-desc">Racconta la tua situazione quotidiana con parole tue, senza partire da moduli rigidi.</p>
+            </div>
+          </div>
+
+          <div class="piattaforma-phase-item" role="listitem">
+            <div class="phase-badge" aria-hidden="true">02</div>
+            <div class="phase-content">
+              <h3 class="phase-title">02 · COMPRENDERE</h3>
+              <p class="phase-desc">Mettiamo a fuoco insieme desideri, contesto abitativo, abitudini e risorse.</p>
+            </div>
+          </div>
+
+          <div class="piattaforma-phase-item" role="listitem">
+            <div class="phase-badge" aria-hidden="true">03</div>
+            <div class="phase-content">
+              <h3 class="phase-title">03 · CONFERMARE</h3>
+              <p class="phase-desc">Verifichiamo che la sintesi rispecchi fedelmente ciò che conta davvero per te.</p>
+            </div>
+          </div>
+
+          <div class="piattaforma-phase-item" role="listitem">
+            <div class="phase-badge" aria-hidden="true">04</div>
+            <div class="phase-content">
+              <h3 class="phase-title">04 · ORIENTARE</h3>
+              <p class="phase-desc">Ricevi prime indicazioni chiare su percorsi, servizi, opportunità e possibili soluzioni.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       BLOCCO 7 — Contatti / Parliamoci
+       ======================================================== -->
+  <section id="contatti" class="contatti-home-section" aria-labelledby="contatti-home-titolo">
+    <div class="container">
+      <div class="contatti-home-grid">
+
+        <!-- Colonna Sinistra: Introduzione e Recapiti -->
+        <div class="contatti-home-left">
+          <p class="contatti-home-tag">CONTATTI DIRETTI · FONDAZIONE COINSIEME ETS</p>
+          <h2 id="contatti-home-titolo" class="contatti-home-title">
+            Parliamoci. Ogni progetto nasce da un incontro.
           </h2>
-          <p style="color:rgba(253,249,245,0.78); font-size:1.04rem; line-height:1.72; margin-bottom:24px;">
-            
+          <p class="contatti-home-text">
+            Che tu voglia approfondire le nostre attività, proporre una collaborazione, co-progettare un intervento o semplicemente chiedere informazioni, puoi contattarci direttamente.
           </p>
-          <button class="btn btn-ghost show-platform">Scopri la piattaforma →</button>
+
+          <div class="contatti-editorial-list" role="list">
+            <div class="contatti-editorial-item" role="listitem">
+              <div class="contatti-editorial-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div class="contatti-editorial-content">
+                <p class="contatti-editorial-label">Posta Elettronica</p>
+                <p class="contatti-editorial-value"><a href="mailto:segreteria@coinsieme.it">segreteria@coinsieme.it</a></p>
+              </div>
+            </div>
+
+            <div class="contatti-editorial-item" role="listitem">
+              <div class="contatti-editorial-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="contatti-editorial-content">
+                <p class="contatti-editorial-label">Sede</p>
+                <p class="contatti-editorial-value">Roma</p>
+              </div>
+            </div>
+          </div>
+
+          <p style="margin: 0;">
+            <a href="contatti.html" class="contatti-home-link">
+              Come raggiungerci e tutti i dettagli di contatto <span aria-hidden="true">→</span>
+            </a>
+          </p>
         </div>
 
-        <!-- Contatto breve -->
-        <div>
-          <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius-lg); padding:clamp(24px,4vw,36px);">
-            <h3 style="color:var(--bianco); margin-bottom:8px;">Parliamoci</h3>
-            <p style="color:rgba(253,249,245,0.72); font-size:0.95rem; line-height:1.65; margin-bottom:20px;">
-              
-            </p>
-            <form action="#" novalidate style="display:flex; flex-direction:column; gap:14px;" aria-label="Contatto rapido">
-              <div class="form-group" style="margin:0;">
-                <label for="quick-nome" style="color:rgba(253,249,245,0.65); font-size:0.82rem;">Nome</label>
-                <input type="text" id="quick-nome" name="nome" autocomplete="name" required style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); color:var(--bianco);">
-              </div>
-              <div class="form-group" style="margin:0;">
-                <label for="quick-email" style="color:rgba(253,249,245,0.65); font-size:0.82rem;">Email</label>
-                <input type="email" id="quick-email" name="email" autocomplete="email" required style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); color:var(--bianco);">
-              </div>
-              <div class="form-group" style="margin:0;">
-                <label for="quick-msg" style="color:rgba(253,249,245,0.65); font-size:0.82rem;">Messaggio breve</label>
-                <textarea id="quick-msg" name="messaggio" rows="3" required style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); color:var(--bianco); min-height:80px;"></textarea>
-              </div>
-              <div class="form-check" style="gap:10px;">
-                <input type="checkbox" id="quick-privacy" name="privacy" required style="accent-color:var(--terracotta);">
-                <label for="quick-privacy" style="color:rgba(253,249,245,0.6); font-size:0.82rem; font-weight:400;">
-                  Ho letto la <a href="/cosa-facciamo.html" style="color:rgba(253,249,245,0.75);" aria-label="Privacy policy — pagina in costruzione">privacy policy</a>
-                </label>
-              </div>
-              <button type="submit" class="btn btn-primary">Invia →</button>
-            </form>
-            <p style="margin-top:12px; text-align:center;">
-              <a href="contatti.html" style="color:rgba(253,249,245,0.5); font-size:0.82rem;">Tutte le modalità di contatto →</a>
-            </p>
-          </div>
+        <!-- Colonna Destra: Scheda Modulo Parliamoci -->
+        <div class="contatti-form-card">
+          <h3 class="contatti-form-heading">Invia un messaggio</h3>
+          <p class="contatti-form-notice">
+            Il modulo di contatto sarà disponibile a breve. Nel frattempo puoi scriverci a <a href="mailto:segreteria@coinsieme.it" style="color:var(--terracotta-deep); font-weight:600;">segreteria@coinsieme.it</a>.
+          </p>
+
+          <form onsubmit="return false;" action="#" novalidate class="contatti-home-form" aria-label="Modulo di contatto Parliamoci">
+            <div class="contatti-form-row">
+              <label for="home-c-nome">Nome e cognome <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <input type="text" id="home-c-nome" name="nome" autocomplete="name" required placeholder="Il tuo nome e cognome">
+            </div>
+
+            <div class="contatti-form-row">
+              <label for="home-c-email">Email <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <input type="email" id="home-c-email" name="email" autocomplete="email" required placeholder="indirizzo@esempio.it">
+            </div>
+
+            <div class="contatti-form-row">
+              <label for="home-c-motivo">Motivo del contatto <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <select id="home-c-motivo" name="motivo" required>
+                <option value="" disabled selected>Seleziona un argomento</option>
+                <option value="informazioni">Informazioni generali</option>
+                <option value="collaborazione">Proposta di collaborazione</option>
+                <option value="domotica">Domotica assistiva e progetti</option>
+                <option value="formazione">Formazione</option>
+                <option value="altro">Altro</option>
+              </select>
+            </div>
+
+            <div class="contatti-form-row">
+              <label for="home-c-messaggio">Messaggio <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
+              <textarea id="home-c-messaggio" name="messaggio" rows="4" required placeholder="Scrivi qui la tua richiesta o proposta..."></textarea>
+            </div>
+
+            <div class="contatti-form-privacy">
+              <input type="checkbox" id="home-c-privacy" name="privacy" required>
+              <label for="home-c-privacy">
+                Ho letto e accetto la <a href="/cosa-facciamo.html" aria-label="Privacy policy — pagina in costruzione">privacy policy</a> <span aria-hidden="true" style="color:var(--terracotta);">*</span>
+              </label>
+            </div>
+
+            <button type="button" class="contatti-btn-submit" disabled aria-disabled="true">
+              Invia il messaggio <span aria-hidden="true">→</span>
+            </button>
+          </form>
         </div>
+
       </div>
     </div>
   </section>
