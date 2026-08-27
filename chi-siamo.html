@@ -3,11 +3,535 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fondazione COINSIEME ETS — Domotica assistiva, formazione, inclusione</title>
-  <meta name="description" content="Fondazione COINSIEME ETS promuove l'inclusione reale attraverso domotica assistiva, formazione e innovazione sociale. Scopri cosa facciamo e come collaborare.">
+  <title>Chi siamo — Fondazione COINSIEME ETS | Radici, Visione, Governance</title>
+  <meta name="description" content="Scopri la storia, i valori e la governance della Fondazione COINSIEME ETS: oltre quarant'anni di esperienza nella cooperazione sociale e nell'inclusione, oggi dedicati a domotica assistiva e autonomia.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ========================================================
+       STILI SPECIFICI PER LA PAGINA CHI SIAMO
+       ======================================================== */
+    
+    /* 0. HERO */
+    .chi-siamo-hero {
+      background: var(--crema-chiara);
+      padding: clamp(64px, 8vw, 92px) 0 clamp(54px, 6.5vw, 78px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .chi-siamo-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 340px);
+      gap: clamp(36px, 5vw, 56px);
+      align-items: center;
+    }
+    .chi-siamo-tag {
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      font-family: var(--font-heading);
+    }
+    .chi-siamo-title {
+      font-size: clamp(2.15rem, 4.2vw, 3.05rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 22px;
+    }
+    .chi-siamo-lead {
+      font-size: 1.15rem;
+      line-height: 1.76;
+      color: var(--grigio-testo);
+      margin: 0;
+      max-width: 680px;
+    }
+    .badge-card-istituzionale {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.14);
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+      box-shadow: 0 6px 22px rgba(85, 51, 17, 0.05);
+    }
+    .badge-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--terracotta-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(85, 51, 17, 0.08);
+      font-family: var(--font-heading);
+    }
+    .badge-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .badge-card-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.98rem;
+      color: var(--marrone-scuro);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .badge-card-item svg {
+      flex-shrink: 0;
+      color: var(--terracotta);
+      margin-top: 3px;
+    }
+
+    /* 1. SEZIONE VISIONE */
+    .sezione-visione {
+      background: #ffffff;
+      padding: clamp(64px, 7vw, 92px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .visione-grid {
+      display: grid;
+      grid-template-columns: 50% calc(50% - 40px);
+      gap: 40px;
+      align-items: start;
+    }
+    .principio-guida-box {
+      background: var(--crema-chiara);
+      border-left: 4px solid var(--terracotta);
+      padding: 18px 22px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 24px;
+      border-top: 1px solid var(--grigio-bordino);
+      border-right: 1px solid var(--grigio-bordino);
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .principio-guida-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--terracotta-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: var(--font-heading);
+    }
+    .principio-guida-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--marrone-scuro);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .cardini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cardine-item {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.10);
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .cardine-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 8px;
+      background: var(--terracotta-pale);
+      color: var(--terracotta-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cardine-content h3 {
+      font-size: 1.08rem;
+      color: var(--marrone-scuro);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .cardine-content p {
+      font-size: 0.92rem;
+      color: var(--grigio-testo);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* 2. SEZIONE STORIA */
+    .sezione-storia {
+      background: var(--crema-chiara);
+      padding: clamp(64px, 7vw, 92px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .storia-grid {
+      display: grid;
+      grid-template-columns: 56% calc(44% - 40px);
+      gap: 40px;
+      align-items: start;
+    }
+    .storia-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      padding-left: 28px;
+      border-left: 2px solid var(--terracotta-pale);
+    }
+    .storia-step {
+      position: relative;
+    }
+    .storia-step::before {
+      content: '';
+      position: absolute;
+      left: -35px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px var(--terracotta);
+    }
+    .storia-era {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--terracotta-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      font-family: var(--font-heading);
+    }
+    .storia-heading {
+      font-size: 1.15rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .storia-desc {
+      font-size: 0.94rem;
+      color: var(--grigio-testo);
+      line-height: 1.62;
+      margin: 0;
+    }
+
+    /* PANNELLO COPERTINE DOCUMENTALI */
+    .documenti-archivio-card {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 18px rgba(85, 51, 17, 0.05);
+    }
+    .documenti-archivio-card h3 {
+      font-size: 1.05rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-family: var(--font-heading);
+    }
+    .documenti-archivio-card p.doc-sub {
+      font-size: 0.86rem;
+      color: var(--grigio-testo);
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+    .covers-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .cover-item {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    .cover-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      box-shadow: 0 2px 8px rgba(85, 51, 17, 0.08);
+      background: #fdf9f5;
+    }
+    .cover-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--marrone-scuro);
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+
+    /* 3. SEZIONE GOVERNANCE & TRASPARENZA */
+    .sezione-governance {
+      background: #ffffff;
+      padding: clamp(64px, 7vw, 92px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .governance-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .gov-card {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+    }
+    .gov-card-tag {
+      color: var(--terracotta-deep);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      font-family: var(--font-heading);
+    }
+    .gov-card-title {
+      font-size: 1.32rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .gov-card-intro {
+      font-size: 0.94rem;
+      color: var(--grigio-testo);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .cda-members-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cda-member-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.08);
+      border-radius: 8px;
+    }
+    .cda-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+    }
+    .cda-role {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--terracotta-deep);
+      background: var(--terracotta-pale);
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    .trasparenza-docs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .trasp-doc-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--marrone-scuro);
+      font-weight: 500;
+    }
+    .trasp-doc-item svg {
+      color: var(--terracotta);
+      flex-shrink: 0;
+    }
+
+    /* 4. SEZIONE PRESENTE E FUTURO */
+    .sezione-impegno {
+      background: var(--crema-chiara);
+      padding: clamp(64px, 7vw, 92px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .impegno-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 36px;
+    }
+    .impegno-col {
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+      display: flex;
+      flex-direction: column;
+    }
+    .impegno-col-oggi {
+      background: #ffffff;
+      border: 1.5px solid rgba(85, 51, 17, 0.16);
+      box-shadow: 0 4px 20px rgba(85, 51, 17, 0.05);
+    }
+    .impegno-col-futuro {
+      background: rgba(251, 232, 216, 0.40);
+      border: 1.5px dashed rgba(163, 77, 20, 0.45);
+    }
+    .impegno-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      align-self: flex-start;
+      font-family: var(--font-heading);
+    }
+    .badge-status-operativo {
+      background: var(--marrone-scuro);
+      color: #ffffff;
+    }
+    .badge-status-sviluppo {
+      background: var(--terracotta-pale);
+      color: var(--terracotta-deep);
+      border: 1px solid rgba(163, 77, 20, 0.30);
+    }
+    .impegno-col-title {
+      font-size: 1.25rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .impegno-col-subtitle {
+      font-size: 0.88rem;
+      color: var(--grigio-testo);
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+    .impegno-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .impegno-card-inner {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(85, 51, 17, 0.08);
+    }
+    .impegno-card-inner:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .impegno-card-inner h4 {
+      font-size: 1.02rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .impegno-card-inner p {
+      font-size: 0.90rem;
+      color: var(--grigio-testo);
+      line-height: 1.58;
+      margin: 0;
+    }
+
+    /* 5. SEZIONE CTA FINALE */
+    .sezione-cta {
+      background: #ffffff;
+      padding: clamp(64px, 8vw, 96px) 0;
+    }
+    .cta-inner-card {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 16px;
+      padding: clamp(40px, 6vw, 60px) clamp(28px, 5vw, 56px);
+      text-align: center;
+      max-width: 960px;
+      margin: 0 auto;
+      box-shadow: 0 6px 24px rgba(85, 51, 17, 0.04);
+    }
+    .cta-inner-card h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.45rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+    .cta-inner-card p {
+      font-size: 1.10rem;
+      color: var(--grigio-testo);
+      line-height: 1.70;
+      margin-bottom: 28px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-cta-chi-siamo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #b85210;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.02rem;
+      padding: 14px 30px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: var(--font-heading);
+      transition: all 0.2s ease;
+    }
+    .btn-cta-chi-siamo:hover,
+    .btn-cta-chi-siamo:focus-visible {
+      background: var(--terracotta-deep);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(184, 82, 16, 0.25);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .chi-siamo-hero-grid,
+      .visione-grid,
+      .storia-grid,
+      .governance-grid,
+      .impegno-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .storia-timeline {
+        padding-left: 24px;
+      }
+      .covers-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .covers-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .cover-item img {
+        height: 180px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -34,10 +558,10 @@
       <span class="hamburger-bar"></span>
     </button>
 
-        <ul class="nav-menu" id="nav-menu" role="list">
-      <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
+    <ul class="nav-menu" id="nav-menu" role="list">
+      <li><a href="chi-siamo.html" class="nav-link active" aria-current="page">Chi siamo</a></li>
       <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
-      <li><a href="/trasparenza.html" class="nav-link" aria-disabled="true" tabindex="-1" style="opacity:.55;cursor:default;">Formazione</a></li>
+      <li><a href="contatti.html" class="nav-link">Formazione</a></li>
       <li><a href="articoli.html" class="nav-link">Conoscenza</a></li>
       <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
     </ul>
@@ -47,21 +571,374 @@
 </header>
 
 <main id="main-content">
-  <div class="container" style="padding-top:120px; padding-bottom:80px;">
-    <!-- Breadcrumbs -->
-    <nav aria-label="Breadcrumb" style="margin-bottom:24px;">
-      <ol style="list-style:none; display:flex; gap:8px; padding:0; margin:0; font-size:0.9rem; color:var(--grigio-testo);">
-        <li><a href="index.html" style="color:var(--terracotta);">Home</a></li>
-        <li>/</li>
-        <li aria-current="page">Chi siamo</li>
-      </ol>
-    </nav>
-    <h1 style="font-size:clamp(2rem, 5vw, 3rem); color:var(--marrone-scuro); margin-bottom:24px;">Storia e missione</h1>
-    <div style="max-width:800px; font-size:1.1rem; line-height:1.8; color:var(--marrone);">
-      <p>La Fondazione COINSIEME ETS è un Ente di Terzo Settore iscritto al RUNTS. Nasce dalla trasformazione e dall'esperienza storica di CO.IN. Cooperative Integrate / COIN Onlus, una realtà che ha contribuito alla promozione della cooperazione sociale, dell'inclusione lavorativa e dei diritti delle persone con disabilità.</p>
-      <p style="margin-top:20px;">La Fondazione prosegue oggi questo percorso con iniziative dedicate all'autonomia personale, alla domotica assistiva, al superamento delle barriere digitali, alla formazione e all'innovazione sociale. La nostra missione è favorire partecipazione, accessibilità e qualità della vita, costruendo soluzioni concrete insieme alle persone, alle famiglie, alle istituzioni e alle reti del territorio.</p>
+
+  <!-- ========================================================
+       SEZIONE 0 — HERO DI PAGINA
+       ======================================================== -->
+  <section class="chi-siamo-hero" aria-labelledby="chi-siamo-hero-titolo">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <nav aria-label="Breadcrumb" style="margin-bottom:20px;">
+        <ol style="list-style:none; display:flex; gap:8px; padding:0; margin:0; font-size:0.9rem; color:var(--grigio-testo);">
+          <li><a href="index.html" style="color:var(--terracotta); text-decoration:underline;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page" style="color:var(--marrone-scuro); font-weight:600;">Chi siamo</li>
+        </ol>
+      </nav>
+
+      <div class="chi-siamo-hero-grid">
+        <div>
+          <p class="chi-siamo-tag">IDENTITÀ E VALORI · FONDAZIONE COINSIEME ETS</p>
+          <h1 id="chi-siamo-hero-titolo" class="chi-siamo-title">
+            Radici nell'inclusione, sguardo nel futuro.
+          </h1>
+          <p class="chi-siamo-lead">
+            La Fondazione COINSIEME ETS è un Ente del Terzo Settore costituito il 7 novembre 2023 e iscritto al RUNTS. Raccoglie e rinnova un patrimonio di esperienze, competenze e relazioni maturato in oltre quarant'anni di attività nella cooperazione sociale e nella tutela dei diritti delle persone con disabilità, traducendolo oggi in iniziative dedicate all'autonomia, alle tecnologie assistive e all'innovazione sociale.
+          </p>
+        </div>
+
+        <div class="badge-card-istituzionale" role="region" aria-label="Informazioni istituzionali essenziali">
+          <div class="badge-card-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Ente del Terzo Settore
+          </div>
+          <ul class="badge-card-list">
+            <li class="badge-card-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Costituita il 7 novembre 2023</strong></span>
+            </li>
+            <li class="badge-card-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Iscritta al RUNTS</strong> dal 2024</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 1 — LA NOSTRA VISIONE
+       ======================================================== -->
+  <section class="sezione-visione" aria-labelledby="visione-titolo">
+    <div class="container">
+      
+      <div class="visione-grid">
+        <div>
+          <p class="chi-siamo-tag">LA VISIONE</p>
+          <h2 id="visione-titolo" class="chi-siamo-title" style="font-size:clamp(1.8rem, 3.2vw, 2.3rem); margin-bottom:18px;">
+            La persona, le sue scelte, la sua autonomia.
+          </h2>
+          <p style="font-size:1.06rem; line-height:1.72; color:var(--grigio-testo); margin-bottom:16px;">
+            Al centro dell'impegno della Fondazione c'è il riconoscimento pieno della dignità e dell'autodeterminazione di ogni persona. Riteniamo che la condizione di disabilità o di fragilità non debba mai tradursi in dipendenza o isolamento, ma richieda contesti capaci di valorizzare desideri, capacità e progetti di vita.
+          </p>
+          <p style="font-size:1.04rem; line-height:1.70; color:var(--grigio-testo); margin:0;">
+            L'obiettivo istituzionale è promuovere le condizioni concrete affinché le persone e i loro nuclei familiari possano compiere scelte consapevoli, vivere nel proprio ambiente domestico con il supporto di soluzioni tecnologiche adeguate e accedere a una rete integrata di relazioni, servizi e opportunità.
+          </p>
+
+          <div class="principio-guida-box">
+            <p class="principio-guida-label">Principio Guida</p>
+            <p class="principio-guida-text">Costruire contesti capaci di valorizzare desideri, capacità e progetti di vita.</p>
+          </div>
+        </div>
+
+        <div>
+          <p class="chi-siamo-tag" style="margin-bottom:12px;">I TRE CARDINI DELL'AZIONE</p>
+          <div class="cardini-list" role="list">
+            
+            <div class="cardine-item" role="listitem">
+              <div class="cardine-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="cardine-content">
+                <h3>Autonomia e autodeterminazione</h3>
+                <p>Favorire la permanenza a casa propria, la vita indipendente e la partecipazione attiva alla comunità.</p>
+              </div>
+            </div>
+
+            <div class="cardine-item" role="listitem">
+              <div class="cardine-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="cardine-content">
+                <h3>Tecnologia al servizio dell'abitare</h3>
+                <p>Impiegare la domotica e il digitale come strumenti accessibili, orientati a semplificare la quotidianità e aumentare la sicurezza.</p>
+              </div>
+            </div>
+
+            <div class="cardine-item" role="listitem">
+              <div class="cardine-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="cardine-content">
+                <h3>Integrazione e reti territoriali</h3>
+                <p>Collaborare con istituzioni, enti del Terzo Settore e comunità locali per favorire risposte coordinate e sostenibili.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 2 — ORIGINI ED ESPERIENZA STORICA
+       ======================================================== -->
+  <section class="sezione-storia" aria-labelledby="storia-titolo">
+    <div class="container">
+      
+      <div style="max-width:820px; margin-bottom:36px;">
+        <p class="chi-siamo-tag">STORIA ED ESPERIENZA</p>
+        <h2 id="storia-titolo" class="chi-siamo-title" style="font-size:clamp(1.8rem, 3.2vw, 2.3rem); margin-bottom:14px;">
+          Un patrimonio di competenze che si rinnova.
+        </h2>
+        <p style="font-size:1.06rem; line-height:1.70; color:var(--grigio-testo); margin:0;">
+          Costituita il 7 novembre 2023 mediante atto di trasformazione dell'Associazione CO.IN. Cooperative Integrate Onlus, la Fondazione rappresenta l'approdo contemporaneo di un percorso storico che ha contribuito allo sviluppo della cooperazione sociale e all'affermazione dei diritti delle persone con disabilità.
+        </p>
+      </div>
+
+      <div class="storia-grid">
+        
+        <!-- Timeline a nastro editoriale -->
+        <div class="storia-timeline" role="list">
+          
+          <div class="storia-step" role="listitem">
+            <p class="storia-era">Anni '80</p>
+            <h3 class="storia-heading">La cooperazione sociale e l'integrazione lavorativa</h3>
+            <p class="storia-desc">
+              L'esperienza trae origine dal movimento delle cooperative integrate promosso a partire dagli anni Ottanta da CO.IN., realtà pionieristica nei percorsi di inserimento lavorativo e integrazione sociale delle persone con disabilità.
+            </p>
+          </div>
+
+          <div class="storia-step" role="listitem">
+            <p class="storia-era">Anni '90 – 2023</p>
+            <h3 class="storia-heading">Ricerche, accessibilità e servizi nazionali</h3>
+            <p class="storia-desc">
+              Nel corso dei decenni, questo percorso ha prodotto ricerche sull'accessibilità urbana e sul turismo per tutti (tra cui le guide storiche alla città di Roma e le indagini per il Dipartimento del Turismo della Presidenza del Consiglio dei Ministri) e ha visto la partecipazione all'ideazione e alla successiva gestione, tramite le cooperative della rete, del servizio di informazione SUPERABILE per conto di INAIL fino a tutto il 2023.
+            </p>
+          </div>
+
+          <div class="storia-step" role="listitem">
+            <p class="storia-era">Dal 2023</p>
+            <h3 class="storia-heading">La scelta della Fondazione ETS</h3>
+            <p class="storia-desc">
+              Con la riforma del Terzo Settore e l'iscrizione al RUNTS, la trasformazione in Fondazione è stata deliberata per custodire questo patrimonio storico e dotarlo di uno strumento giuridico solido e autonomo, capace di sviluppare nuove progettualità nell'innovazione tecnologica e sociale.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Pannello Documentario Copertine -->
+        <div class="documenti-archivio-card">
+          <h3>Testimonianze documentali</h3>
+          <p class="doc-sub">Dalle prime guide storiche all'accessibilità fino alle edizioni odierne sulla memoria sociale del Terzo Settore:</p>
+          
+          <div class="covers-row">
+            <div class="cover-item">
+              <img src="assets/copertine/1990_guida-roma-accessibilita.jpg" alt="Copertina della Guida alla città di Roma per persone disabili, anno 1990" width="160" height="220" loading="lazy">
+              <span class="cover-label">Guida Roma (1990)</span>
+            </div>
+            <div class="cover-item">
+              <img src="assets/copertine/1998_manuale-accoglienza-turistica-pcm.jpg" alt="Copertina del Manuale di informazione ed accoglienza turistica, Presidenza del Consiglio dei Ministri 1998" width="160" height="220" loading="lazy">
+              <span class="cover-label">Manuale PCM (1998)</span>
+            </div>
+            <div class="cover-item">
+              <img src="assets/copertine/2026_don-franco-monterubbianesi.png" alt="Copertina del libro Don Franco Monterubbianesi - La storia di un profeta tra terra e cielo, edizione 2026" width="160" height="220" loading="lazy">
+              <span class="cover-label">Don Franco (2026)</span>
+            </div>
+          </div>
+
+          <p style="margin: 0; padding-top: 12px; border-top: 1px solid rgba(85,51,17,0.08);">
+            <a href="pubblicazioni.html" style="color:var(--terracotta-deep); font-weight:700; font-size:0.92rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              Esplora i volumi e l'archivio storico nella sezione Pubblicazioni <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 3 — GOVERNANCE E AMMINISTRAZIONE TRASPARENTE
+       ======================================================== -->
+  <section class="sezione-governance" aria-labelledby="governance-titolo">
+    <div class="container">
+      
+      <div style="max-width:760px; margin-bottom:36px;">
+        <p class="chi-siamo-tag">ORGANI E RESPONSABILITÀ</p>
+        <h2 id="governance-titolo" class="chi-siamo-title" style="font-size:clamp(1.8rem, 3.2vw, 2.3rem); margin-bottom:12px;">
+          Organi istituzionali e trasparenza.
+        </h2>
+        <p style="font-size:1.05rem; color:var(--grigio-testo); line-height:1.65; margin:0;">
+          La Fondazione persegue finalità civiche, solidaristiche e di utilità sociale secondo criteri di legalità, efficacia gestionale e rendicontazione pubblica.
+        </p>
+      </div>
+
+      <div class="governance-grid">
+        
+        <!-- Scheda 1: CDA -->
+        <div class="gov-card">
+          <p class="gov-card-tag">Organo di Governo</p>
+          <h3 class="gov-card-title">Consiglio di Amministrazione</h3>
+          <p class="gov-card-intro">
+            La Fondazione è retta da un Consiglio di Amministrazione che ne guida gli indirizzi strategici e la programmazione delle attività:
+          </p>
+          <ul class="cda-members-list">
+            <li class="cda-member-item">
+              <span class="cda-name">Maurizio Marotta</span>
+              <span class="cda-role">Presidente</span>
+            </li>
+            <li class="cda-member-item">
+              <span class="cda-name">Matteo Amati</span>
+              <span class="cda-role">Consigliere</span>
+            </li>
+            <li class="cda-member-item">
+              <span class="cda-name">Silvana Mazzullo</span>
+              <span class="cda-role">Consigliera</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Scheda 2: Trasparenza -->
+        <div class="gov-card">
+          <p class="gov-card-tag">Atti e Rendicontazione</p>
+          <h3 class="gov-card-title">Trasparenza e atti ufficiali</h3>
+          <p class="gov-card-intro">
+            In conformità agli obblighi del Codice del Terzo Settore e ai principi di responsabilità pubblica, la Fondazione rende disponibili e consultabili:
+          </p>
+          <ul class="trasparenza-docs-list">
+            <li class="trasp-doc-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Statuto della Fondazione COINSIEME ETS</span>
+            </li>
+            <li class="trasp-doc-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Comunicazione di iscrizione al RUNTS (2024)</span>
+            </li>
+            <li class="trasp-doc-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Bilanci d'esercizio approvati e Bilancio Sociale</span>
+            </li>
+            <li class="trasp-doc-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Relazioni dell'Organo di controllo</span>
+            </li>
+          </ul>
+          <p style="margin: 0;">
+            <a href="trasparenza.html" style="color:var(--terracotta-deep); font-weight:700; font-size:0.92rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              Consulta tutti i documenti ufficiali nella pagina Trasparenza <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 4 — PRESENTE E FUTURO
+       ======================================================== -->
+  <section class="sezione-impegno" aria-labelledby="impegno-titolo">
+    <div class="container">
+      
+      <div style="max-width:800px;">
+        <p class="chi-siamo-tag">AMBITI DI ATTIVITÀ</p>
+        <h2 id="impegno-titolo" class="chi-siamo-title" style="font-size:clamp(1.8rem, 3.2vw, 2.3rem); margin-bottom:12px;">
+          Linee di lavoro attuali e prospettive in sviluppo.
+        </h2>
+        <p style="font-size:1.06rem; line-height:1.70; color:var(--grigio-testo); margin:0;">
+          L'impegno della Fondazione si articola tra le attività operative già attive e le nuove aree di studio e progettazione.
+        </p>
+      </div>
+
+      <div class="impegno-grid">
+        
+        <!-- Colonna A: CIÒ CHE FACCIAMO OGGI -->
+        <div class="impegno-col impegno-col-oggi">
+          <span class="impegno-badge-status badge-status-operativo">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Attività operative
+          </span>
+          <h3 class="impegno-col-title">Ciò che facciamo oggi</h3>
+          <p class="impegno-col-subtitle">Interventi, consulenze e attività ordinarie attualmente in corso:</p>
+          
+          <div class="impegno-items">
+            <div class="impegno-card-inner">
+              <h4>Domotica assistiva e adattamento degli ambienti</h4>
+              <p>Attività di orientamento, analisi dei bisogni e accompagnamento per l'adattamento tecnologico degli spazi domestici attraverso dispositivi smart e sensori su misura, a supporto dell'autonomia di persone con disabilità e anziani.</p>
+            </div>
+            <div class="impegno-card-inner">
+              <h4>Pubblicazioni e documentazione sociale</h4>
+              <p>Produzione editoriale e diffusione culturale dedicate alla valorizzazione di memorie storiche, studi ed esperienze nel campo del Terzo Settore e dell'innovazione sociale.</p>
+            </div>
+            <div class="impegno-card-inner">
+              <h4>Divulgazione e cultura dell'accessibilità</h4>
+              <p>Attività informative sui temi dell'accessibilità, dei diritti e delle opportunità offerte dalle tecnologie inclusive.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonna B: CIÒ CHE STIAMO COSTRUENDO -->
+        <div class="impegno-col impegno-col-futuro">
+          <span class="impegno-badge-status badge-status-sviluppo">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Iniziative in progettazione e sviluppo
+          </span>
+          <h3 class="impegno-col-title">Ciò che stiamo costruendo</h3>
+          <p class="impegno-col-subtitle">Progetti di innovazione, percorsi di orientamento e proposte formative non ancora operative:</p>
+          
+          <div class="impegno-items">
+            <div class="impegno-card-inner">
+              <h4>Piattaforma digitale COINSIEME (In sviluppo)</h4>
+              <p>Studio e progettazione di un ambiente interattivo dedicato alla persona, finalizzato ad accogliere racconti di bisogni e a favorire percorsi di orientamento personalizzato.</p>
+            </div>
+            <div class="impegno-card-inner">
+              <h4>Servizi di orientamento per le famiglie e candidature progettuali (In progettazione)</h4>
+              <p>Definizione di modelli di supporto orientativo e partecipazione a bandi pubblici istituzionali in rete con partner territoriali.</p>
+            </div>
+            <div class="impegno-card-inner">
+              <h4>Proposte formative specialistiche (In fase di studio)</h4>
+              <p>Progetti per percorsi formativi dedicati allo sviluppo di nuove competenze per l'abitare accessibile (tra cui il profilo del Manager di Domotica Assistiva), attualmente in fase di studio e non ancora avviati.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p style="margin-top: 28px; text-align: center;">
+        <a href="cosa-facciamo.html" style="color:var(--terracotta-deep); font-weight:700; font-size:0.96rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          Consulta il quadro completo delle attività e dei progetti in Cosa facciamo <span aria-hidden="true">→</span>
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 5 — PARLIAMOCI / CTA FINALE
+       ======================================================== -->
+  <section class="sezione-cta" aria-labelledby="cta-titolo">
+    <div class="container">
+      <div class="cta-inner-card">
+        <p class="chi-siamo-tag" style="margin-bottom:8px;">PARLIAMOCI</p>
+        <h2 id="cta-titolo">Costruire alleanze e condividere percorsi.</h2>
+        <p>
+          Per approfondire le nostre attività, proporre collaborazioni tra enti e organizzazioni del Terzo Settore o richiedere informazioni istituzionali, puoi scriverci o metterti in contatto con la nostra segreteria.
+        </p>
+        <a href="contatti.html" class="btn-cta-chi-siamo">
+          Accedi ai recapiti e inviaci un messaggio nella pagina Contatti <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- ========== OVERLAY PIATTAFORMA ========== -->
@@ -91,13 +968,13 @@
         </div>
         <p>Domotica assistiva, formazione e innovazione sociale per l'inclusione reale delle persone con disabilità.</p>
       </div>
-            <nav class="footer-col" aria-label="Chi siamo">
+      <nav class="footer-col" aria-label="Chi siamo">
         <h4>Chi siamo</h4>
         <ul>
           <li><a href="chi-siamo.html">Storia e radici</a></li>
           <li><a href="chi-siamo.html">Missione e visione</a></li>
-          <li><a href="/trasparenza.html" aria-label="Team — in costruzione">Il team</a></li>
-          <li><a href="/trasparenza.html" aria-label="Collaborazioni — in costruzione">Collaborazioni</a></li>
+          <li><a href="contatti.html">Il team</a></li>
+          <li><a href="contatti.html">Collaborazioni</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Cosa facciamo">
@@ -105,7 +982,7 @@
         <ul>
           <li><a href="cosa-facciamo.html">I nostri servizi</a></li>
           <li><a href="domotica.html">Domotica assistiva</a></li>
-          <li><a href="/trasparenza.html" aria-label="Formazione — in costruzione">Formazione</a></li>
+          <li><a href="contatti.html">Formazione</a></li>
           <li><a href="articoli.html">Articoli</a></li>
         </ul>
       </nav>
@@ -119,15 +996,15 @@
         </ul>
       </nav>
     </div>
-        <div class="footer-sostienici">
+    <div class="footer-sostienici">
       <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
       <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Fondazione COINSIEME ETS. Tutti i diritti riservati.</span>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="/trasparenza.html" aria-label="Privacy policy — in costruzione">Privacy policy</a>
-        <a href="/trasparenza.html" aria-label="Dichiarazione di accessibilità — in costruzione">Accessibilità</a>
+        <a href="contatti.html">Privacy policy</a>
+        <a href="contatti.html">Accessibilità</a>
       </div>
     </div>
   </div>
