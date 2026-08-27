@@ -18,8 +18,8 @@ if (!fs.existsSync(pdfPath)) {
 console.log("✅ PDF reale del Bilancio Sociale 2025 verificato su disco (0 PDF fittizi creati o presenti).");
 
 // 2. Institutional Pages Deep Text Verification
-console.log("\n2. Verifica integrale del testo delle 6 Pagine Istituzionali...");
-const pagesList = ['chi-siamo', 'cosa-facciamo', 'domotica', 'persone-famiglie', 'trasparenza', 'contatti'];
+console.log("\n2. Verifica integrale del testo delle 7 Pagine Istituzionali...");
+const pagesList = ['chi-siamo', 'cosa-facciamo', 'formazione', 'domotica', 'persone-famiglie', 'trasparenza', 'contatti'];
 let verifiedPagesCount = 0;
 
 function normalizeText(text) {
@@ -51,7 +51,7 @@ for (let p of pagesList) {
     verifiedPagesCount++;
     console.log(`[PAGINA OK] ${p}.json: testo verificato al 100% rispetto a ${p}.html`);
 }
-console.log(`✅ Verificate integralmente ${verifiedPagesCount}/6 pagine istituzionali reali.`);
+console.log(`✅ Verificate integralmente ${verifiedPagesCount}/${pagesList.length} pagine istituzionali reali.`);
 
 // 3. Publications & Transparency check
 console.log("\n3. Verifica Pubblicazioni e Trasparenza...");

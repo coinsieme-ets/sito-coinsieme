@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formazione — Nuove competenze per il welfare dell'abitare | Fondazione COINSIEME ETS</title>
+  <meta name="description" content="Percorsi di alta formazione e progetti per lo sviluppo di nuove competenze nel welfare dell'abitare accessibile e dell'autonomia personale.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ========================================================
+       STILI SPECIFICI PER LA PAGINA FORMAZIONE
+       ======================================================== */
+    
+    /* 0. HERO */
+    .formazione-hero {
+      background: var(--crema-chiara);
+      padding: clamp(64px, 8vw, 92px) 0 clamp(54px, 6.5vw, 78px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .formazione-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(290px, 350px);
+      gap: clamp(36px, 5vw, 60px);
+      align-items: center;
+    }
+    .formazione-tag {
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      font-family: var(--font-heading);
+    }
+    .formazione-title {
+      font-size: clamp(2.15rem, 4.2vw, 3.05rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 22px;
+    }
+    .formazione-lead {
+      font-size: 1.15rem;
+      line-height: 1.76;
+      color: var(--grigio-testo);
+      margin: 0;
+      max-width: 680px;
+    }
+    .badge-formazione-card {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.14);
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+      box-shadow: 0 6px 22px rgba(85, 51, 17, 0.05);
+    }
+    .badge-formazione-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--terracotta-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(85, 51, 17, 0.08);
+      font-family: var(--font-heading);
+    }
+    .badge-formazione-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .badge-formazione-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.93rem;
+      color: var(--marrone-scuro);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .badge-formazione-item svg {
+      flex-shrink: 0;
+      color: var(--terracotta);
+      margin-top: 3px;
+    }
+
+    /* 1. SEZIONE IL BISOGNO FORMATIVO */
+    .sezione-bisogno {
+      background: #ffffff;
+      padding: clamp(72px, 8.5vw, 104px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .bisogno-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(24px, 3.5vw, 40px);
+      margin-top: 44px;
+    }
+    .card-bisogno {
+      background: transparent;
+      border: none;
+      border-top: 2px solid var(--terracotta);
+      border-radius: 0;
+      padding: 24px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: none;
+    }
+    .card-bisogno-num {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--terracotta-deep);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-family: var(--font-heading);
+    }
+    .card-bisogno-title {
+      font-size: 1.22rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.34;
+    }
+    .card-bisogno-desc {
+      font-size: 0.98rem;
+      color: var(--grigio-testo);
+      line-height: 1.70;
+      margin: 0;
+    }
+    .box-alfabetizzazione {
+      margin-top: 40px;
+      padding: 18px 22px;
+      background: rgba(251, 232, 216, 0.35);
+      border-left: 3px solid var(--terracotta);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      color: var(--grigio-testo);
+      line-height: 1.58;
+      font-style: italic;
+    }
+
+    /* 2. SEZIONE PROPOSTA PRINCIPALE: DOMOTICA ASSISTIVA */
+    .sezione-domotica-manager {
+      background: var(--crema-chiara);
+      padding: clamp(80px, 9.5vw, 114px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .domotica-feature-card {
+      background: #ffffff;
+      border: 1.5px solid rgba(163, 77, 20, 0.35);
+      border-radius: 18px;
+      padding: clamp(36px, 5.5vw, 56px);
+      box-shadow: 0 10px 36px rgba(85, 51, 17, 0.07);
+      margin-top: 40px;
+    }
+    .badge-status-prioritario {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 15px;
+      border-radius: 20px;
+      background: var(--marrone-scuro);
+      color: #ffffff;
+      margin-bottom: 22px;
+      font-family: var(--font-heading);
+    }
+    .domotica-feature-title {
+      font-size: clamp(1.95rem, 3.8vw, 2.55rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.24;
+    }
+    .domotica-feature-lead {
+      font-size: 1.15rem;
+      color: var(--marrone-scuro);
+      line-height: 1.78;
+      margin-bottom: 36px;
+      max-width: 920px;
+    }
+    .domotica-aree-title {
+      font-size: 1.14rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+      font-family: var(--font-heading);
+    }
+    .aree-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .area-card {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.10);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .area-card-title {
+      font-size: 1.05rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .area-card-desc {
+      font-size: 0.90rem;
+      color: var(--grigio-testo);
+      line-height: 1.58;
+      margin: 0;
+    }
+    .destinatari-box {
+      background: rgba(85, 51, 17, 0.03);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .destinatari-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 10px;
+      font-family: var(--font-heading);
+    }
+    .destinatari-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 0.92rem;
+      color: var(--grigio-testo);
+      line-height: 1.62;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .status-callout-domotica {
+      background: #ffffff;
+      border: 1.5px dashed var(--terracotta);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 0.90rem;
+      color: var(--terracotta-deep);
+      line-height: 1.60;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .status-callout-domotica svg {
+      flex-shrink: 0;
+      color: var(--terracotta);
+      margin-top: 2px;
+    }
+
+    /* 3. SEZIONE LINEA SECONDARIA: AGRITURISMO DIGITALE */
+    .sezione-agriturismo {
+      background: #ffffff;
+      padding: clamp(60px, 7vw, 84px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .agriturismo-card {
+      background: rgba(251, 232, 216, 0.25);
+      border: 1.5px dashed rgba(163, 77, 20, 0.35);
+      border-radius: 14px;
+      padding: clamp(24px, 3.5vw, 36px);
+    }
+    .badge-status-secondario {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #ffffff;
+      color: var(--terracotta-deep);
+      border: 1px solid rgba(163, 77, 20, 0.30);
+      margin-bottom: 14px;
+      font-family: var(--font-heading);
+    }
+    .agriturismo-title {
+      font-size: 1.35rem;
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .agriturismo-desc {
+      font-size: 0.98rem;
+      color: var(--grigio-testo);
+      line-height: 1.66;
+      margin-bottom: 18px;
+      max-width: 840px;
+    }
+    .agriturismo-obiettivi {
+      margin: 0 0 20px 0;
+      padding-left: 20px;
+      font-size: 0.92rem;
+      color: var(--grigio-testo);
+      line-height: 1.62;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .agriturismo-status-note {
+      font-size: 0.84rem;
+      color: var(--terracotta-deep);
+      font-style: italic;
+      line-height: 1.45;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(163, 77, 20, 0.20);
+    }
+
+    /* 4. SEZIONE PATRIMONIO STORICO NELLA FORMAZIONE */
+    .sezione-storia-formazione {
+      background: var(--crema-chiara);
+      padding: clamp(68px, 8vw, 98px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .storia-formazione-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(36px, 5vw, 60px);
+      align-items: center;
+      margin-top: 36px;
+    }
+    .pilastri-metodo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .pilastro-metodo-item {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 10px;
+      padding: 18px 22px;
+      box-shadow: 0 4px 14px rgba(85, 51, 17, 0.03);
+    }
+    .pilastro-metodo-title {
+      font-size: 1.04rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pilastro-metodo-title svg {
+      color: var(--terracotta);
+    }
+    .pilastro-metodo-desc {
+      font-size: 0.90rem;
+      color: var(--grigio-testo);
+      line-height: 1.56;
+      margin: 0;
+    }
+
+    /* 5. SEZIONE CTA FINALE */
+    .sezione-cta-formazione {
+      background: var(--crema-chiara);
+      padding: clamp(68px, 8vw, 100px) 0;
+    }
+    .cta-formazione-card {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 16px;
+      padding: clamp(44px, 6vw, 64px) clamp(28px, 5vw, 56px);
+      text-align: center;
+      max-width: 960px;
+      margin: 0 auto;
+      box-shadow: 0 6px 24px rgba(85, 51, 17, 0.04);
+    }
+    .cta-formazione-card h2 {
+      font-size: clamp(1.85rem, 3.5vw, 2.45rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .cta-formazione-card p {
+      font-size: 1.10rem;
+      color: var(--grigio-testo);
+      line-height: 1.72;
+      margin-bottom: 30px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-cta-formazione {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #b85210;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.02rem;
+      padding: 14px 32px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: var(--font-heading);
+      transition: all 0.2s ease;
+    }
+    .btn-cta-formazione:hover,
+    .btn-cta-formazione:focus-visible {
+      background: var(--terracotta-deep);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(184, 82, 16, 0.25);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .formazione-hero-grid,
+      .storia-formazione-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .bisogno-grid,
+      .aree-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SKIP LINK -->
+<a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+<!-- BADGE PROTOTIPO -->
+<div class="proto-badge" role="note" aria-label="Prototipo — contenuti da definire con la Fondazione">⚠ Prototipo</div>
+
+<!-- ========== HEADER ========== -->
+<header class="site-header" role="banner">
+  <nav class="navbar container" aria-label="Navigazione principale">
+    <a href="index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
+      <img src="assets/official_logo.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
+      <div class="logo-wordmark">
+        <span class="logo-text">COINSIEME</span>
+        <span class="logo-sub">Fondazione ETS</span>
+      </div>
+    </a>
+
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Apri menu di navigazione">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+    <ul class="nav-menu" id="nav-menu" role="list">
+      <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
+      <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
+      <li><a href="formazione.html" class="nav-link active" aria-current="page">Formazione</a></li>
+      <li><a href="articoli.html" class="nav-link">Conoscenza</a></li>
+      <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
+    </ul>
+
+    <a href="contatti.html" class="btn btn-nav">Contattaci</a>
+  </nav>
+</header>
+
+<main id="main-content">
+
+  <!-- ========================================================
+       SEZIONE 0 — HERO DI PAGINA
+       ======================================================== -->
+  <section class="formazione-hero" aria-labelledby="formazione-hero-titolo">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <nav aria-label="Breadcrumb" style="margin-bottom:20px;">
+        <ol style="list-style:none; display:flex; gap:8px; padding:0; margin:0; font-size:0.9rem; color:var(--grigio-testo);">
+          <li><a href="index.html" style="color:var(--terracotta); text-decoration:underline;">Home</a></li>
+          <li>/</li>
+          <li aria-current="page" style="color:var(--marrone-scuro); font-weight:600;">Formazione</li>
+        </ol>
+      </nav>
+
+      <div class="formazione-hero-grid">
+        <div>
+          <p class="formazione-tag">ALTA FORMAZIONE E COMPETENZE · FONDAZIONE COINSIEME ETS</p>
+          <h1 id="formazione-hero-titolo" class="formazione-title">
+            Nuove competenze per il welfare dell'abitare e dell'autonomia.
+          </h1>
+          <p class="formazione-lead">
+            La Fondazione COINSIEME ETS studia e sviluppa proposte di alta formazione specialistica, in dialogo con Atenei universitari ed enti del Terzo Settore, per contribuire alla formazione dei professionisti dell'abitare accessibile e della vita autonoma.
+          </p>
+        </div>
+
+        <div class="badge-formazione-card" role="region" aria-label="Stato dei percorsi formativi">
+          <div class="badge-formazione-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Stato dei percorsi formativi
+          </div>
+          <ul class="badge-formazione-list">
+            <li class="badge-formazione-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span><strong>Proposte in fase di studio</strong> con Atenei universitari</span>
+            </li>
+            <li class="badge-formazione-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span><strong>Iscrizioni non ancora attive</strong> al pubblico</span>
+            </li>
+            <li class="badge-formazione-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Confronto aperto</strong> con Enti e Università</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 1 — PERCHÉ NUOVE COMPETENZE
+       ======================================================== -->
+  <section class="sezione-bisogno" aria-labelledby="bisogno-titolo">
+    <div class="container">
+      
+      <div style="max-width:860px;">
+        <p class="formazione-tag">IL CONTESTO E LA VISIONE</p>
+        <h2 id="bisogno-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:14px;">
+          Il ponte necessario tra cura, tecnologia e progetto di vita.
+        </h2>
+        <p style="font-size:1.10rem; line-height:1.72; color:var(--grigio-testo); margin:0;">
+          L'invecchiamento della popolazione, l'aumento della domanda di assistenza domiciliare e la disponibilità di tecnologie domotiche avanzate stanno ridisegnando il modo in cui pensiamo alla non autosufficienza e alla disabilità. Tuttavia, la tecnologia da sola non basta: serve una nuova cultura professionale capace di integrarla nei percorsi di vita delle persone.
+        </p>
+      </div>
+
+      <div class="bisogno-grid">
+        
+        <article class="card-bisogno">
+          <span class="card-bisogno-num">Cardine 01</span>
+          <h3 class="card-bisogno-title">Superare la frammentazione dei servizi</h3>
+          <p class="card-bisogno-desc">
+            Spesso la persona e la famiglia si trovano a dover dialogare separatamente con il mondo sanitario, quello sociale e i fornitori tecnologici. Da qui nasce l'esigenza di sviluppare competenze capaci di mettere in relazione questi diversi linguaggi.
+          </p>
+        </article>
+
+        <article class="card-bisogno">
+          <span class="card-bisogno-num">Cardine 02</span>
+          <h3 class="card-bisogno-title">Dalla tecnologia all'autonomia su misura</h3>
+          <p class="card-bisogno-desc">
+            Dispositivi smart, sensori e assistenti vocali hanno valore reale solo se scelti e configurati sui desideri, le abitudini e le reali capacità dell'individuo, rispettandone la dignità e la privacy.
+          </p>
+        </article>
+
+        <article class="card-bisogno">
+          <span class="card-bisogno-num">Cardine 03</span>
+          <h3 class="card-bisogno-title">Qualificare il lavoro di cura nel Terzo Settore</h3>
+          <p class="card-bisogno-desc">
+            Offrire a operatori, educatori, assistenti sociali e progettisti opportunità di specializzazione post-laurea e aggiornamento continuo per rispondere alle sfide del welfare contemporaneo.
+          </p>
+        </article>
+
+      </div>
+
+      <div class="box-alfabetizzazione">
+        Nota: Accanto ai percorsi specialistici per operatori, la Fondazione promuove anche iniziative di accompagnamento pratico e autoaiuto ai cittadini, come l'esperienza “Superare le Barriere Digitali!”, volte all'alfabetizzazione digitale quotidiana ma distinte dai percorsi formativi professionalizzanti.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 2 — PROPOSTA PRINCIPALE: MANAGER DI DOMOTICA ASSISTIVA
+       ======================================================== -->
+  <section class="sezione-domotica-manager" aria-labelledby="domotica-manager-titolo">
+    <div class="container">
+      
+      <div style="max-width:860px;">
+        <p class="formazione-tag">PROPOSTA FORMATIVA PRIORITARIA · IN CORSO DI STUDIO CON ATENEI</p>
+        <h2 id="domotica-manager-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:12px;">
+          Manager di Domotica Assistiva: una figura professionale innovativa.
+        </h2>
+      </div>
+
+      <div class="domotica-feature-card">
+        
+        <span class="badge-status-prioritario">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Proposta in progettazione accademica
+        </span>
+
+        <p class="domotica-feature-lead">
+          Il <strong>Manager di Domotica Assistiva</strong> è una figura professionale emergente concepita per operare come anello di congiunzione tra la persona con disabilità o anziana, la sua famiglia, la rete dei servizi socio-sanitari e i tecnici installatori. Non è un semplice tecnico di impianti, ma un consulente e progettista dei contesti di vita, capace di valutare il bisogno assistivo, co-progettare l'adattamento dell'ambiente domestico e accompagnare all'uso consapevole della tecnologia.
+        </p>
+
+        <h3 class="domotica-aree-title">Aree di competenza oggetto della progettazione formativa</h3>
+
+        <div class="aree-grid">
+          
+          <div class="area-card">
+            <h4 class="area-card-title">Area Sociale e Relazionale</h4>
+            <p class="area-card-desc">
+              Ascolto attivo, analisi del bisogno, supporto alla famiglia e al caregiver, etica della cura e tutela della privacy.
+            </p>
+          </div>
+
+          <div class="area-card">
+            <h4 class="area-card-title">Area Tecnologica e Domotica</h4>
+            <p class="area-card-desc">
+              Conoscenza di sensori, ausili per l'autonomia, controllo ambientale, comandi vocali e piattaforme di teleassistenza.
+            </p>
+          </div>
+
+          <div class="area-card">
+            <h4 class="area-card-title">Area Normativa e Gestionale</h4>
+            <p class="area-card-desc">
+              Quadro legislativo sull'accessibilità, agevolazioni fiscali, project management nel Terzo Settore e coordinamento della rete dei servizi.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="destinatari-box">
+          <h4 class="destinatari-title">Destinatari ideali del percorso formativo:</h4>
+          <ul class="destinatari-list">
+            <li>Laureati in discipline socio-sanitarie, psicologiche, educative o ingegneristiche/architettoniche;</li>
+            <li>Operatori ed educatori del Terzo Settore e dei servizi sociali e sociosanitari;</li>
+            <li>Professionisti della progettazione accessibile e dell'adattamento ambientale.</li>
+          </ul>
+        </div>
+
+        <div class="status-callout-domotica">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>Stato del percorso:</strong> Proposta formativa di livello specialistico/post-laurea attualmente in fase di studio e confronto accademico con Atenei universitari. <em>Le iscrizioni non sono aperte e non sono ancora definiti calendari, quote o crediti formativi.</em>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 3 — LINEA SECONDARIA: AGRITURISMO DIGITALE
+       ======================================================== -->
+  <section class="sezione-agriturismo" aria-labelledby="agriturismo-titolo">
+    <div class="container">
+      
+      <div class="agriturismo-card">
+        <span class="badge-status-secondario">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Ulteriore linea di studio progettuale
+        </span>
+
+        <h2 id="agriturismo-titolo" class="agriturismo-title">Agriturismo Digitale, accessibilità e territorio.</h2>
+        
+        <p class="agriturismo-desc">
+          Una proposta progettuale complementare in fase di studio, finalizzata a formare competenze capaci di unire turismo rurale, accoglienza accessibile, promozione delle filiere agroalimentari locali e digitalizzazione dei servizi di ospitalità.
+        </p>
+
+        <ul class="agriturismo-obiettivi">
+          <li>Favorire l'accessibilità fisica e sensoriale nelle strutture ricettive rurali ed agrituristiche;</li>
+          <li>Utilizzare gli strumenti digitali per promuovere esperienze inclusive e fruibili da tutte le persone;</li>
+          <li>Valorizzare l'agricoltura sociale e l'integrazione con le comunità locali.</li>
+        </ul>
+
+        <div class="agriturismo-status-note">
+          Stato del progetto: Proposta in fase di studio e valutazione preliminare. Corso non ancora avviato.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 4 — PATRIMONIO STORICO NELLA FORMAZIONE
+       ======================================================== -->
+  <section class="sezione-storia-formazione" aria-labelledby="storia-formazione-titolo">
+    <div class="container">
+      
+      <div class="storia-formazione-grid">
+        
+        <div>
+          <p class="formazione-tag">RADICI ED ESPERIENZA MATURATA</p>
+          <h2 id="storia-formazione-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:14px;">
+            Una storia di formazione, inclusione e qualificazione al lavoro.
+          </h2>
+          <p style="font-size:1.06rem; line-height:1.70; color:var(--grigio-testo); margin-bottom:16px;">
+            L'impegno formativo della Fondazione COINSIEME ETS affonda le radici nell'esperienza quarantennale della cooperazione sociale e della rete CO.IN. Sin dagli anni Ottanta, la formazione non è mai stata considerata un'attività teorica a sé stante, ma la chiave primaria per l'emancipazione, la conquista dell'autonomia e l'inserimento lavorativo stabile di persone con disabilità.
+          </p>
+          <p style="margin:0;">
+            <a href="chi-siamo.html" style="color:var(--terracotta-deep); font-weight:700; font-size:0.96rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              Approfondisci le radici e la storia della Fondazione in Chi siamo <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        </div>
+
+        <div>
+          <ul class="pilastri-metodo-list">
+            <li class="pilastro-metodo-item">
+              <h3 class="pilastro-metodo-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Formazione sul campo
+              </h3>
+              <p class="pilastro-metodo-desc">
+                Percorsi basati su casi reali, laboratori pratici e apprendimento cooperativo.
+              </p>
+            </li>
+            <li class="pilastro-metodo-item">
+              <h3 class="pilastro-metodo-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Interdisciplinarità
+              </h3>
+              <p class="pilastro-metodo-desc">
+                Integrazione costante tra competenze sociali, sanitarie, gestionali e tecnologiche.
+              </p>
+            </li>
+            <li class="pilastro-metodo-item">
+              <h3 class="pilastro-metodo-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Valorizzazione della persona
+              </h3>
+              <p class="pilastro-metodo-desc">
+                Costruire percorsi che abilitino capacità e talenti individuali, contrastando l'assistenzialismo passivo.
+              </p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SEZIONE 5 — PARLIAMOCI / CTA FINALE
+       ======================================================== -->
+  <section class="sezione-cta-formazione" aria-labelledby="cta-formazione-titolo">
+    <div class="container">
+      <div class="cta-formazione-card">
+        <p class="formazione-tag" style="margin-bottom:8px;">PARTENARIATI E RETI ISTITUZIONALI</p>
+        <h2 id="cta-formazione-titolo">Co-progettare la formazione del futuro.</h2>
+        <p>
+          Sei un Ateneo universitario interessato ad attivare percorsi congiunti di alta formazione? Un ente del Terzo Settore, un operatore o una persona interessata a contribuire alla definizione dei profili professionali o a ricevere aggiornamenti sulle future edizioni formative? Contatta la segreteria della Fondazione per avviare un dialogo o manifestare il tuo interesse.
+        </p>
+        <a href="contatti.html" class="btn-cta-formazione">
+          Manifesta il tuo interesse o proponi una collaborazione <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== OVERLAY PIATTAFORMA ========== -->
+<div id="piattaforma-overlay" class="piattaforma-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titolo" aria-hidden="true" hidden>
+  <div class="piattaforma-modal">
+    <span class="modal-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:middle; margin-right:4px;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+      Ambiente separato
+    </span>
+    <h2 id="modal-titolo">Stai per accedere allo spazio personale COINSIEME</h2>
+    <p>È un ambiente distinto da questo sito, progettato per ascoltarti e orientarti in modo personalizzato. Accedendo lascerai il sito istituzionale.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary close-modal">Torna al sito</button>
+      <button class="btn btn-primary" onclick="alert('[Prototipo] La piattaforma è in sviluppo separato — il link sarà inserito quando disponibile.')">Continua →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div>
+          <span class="logo-text">COINSIEME</span><br>
+          <span class="logo-sub">Fondazione ETS</span>
+        </div>
+        <p>Domotica assistiva, formazione e innovazione sociale per l'inclusione reale delle persone con disabilità.</p>
+      </div>
+      <nav class="footer-col" aria-label="Chi siamo">
+        <h4>Chi siamo</h4>
+        <ul>
+          <li><a href="chi-siamo.html">Storia e radici</a></li>
+          <li><a href="chi-siamo.html">Missione e visione</a></li>
+          <li><a href="contatti.html">Il team</a></li>
+          <li><a href="contatti.html">Collaborazioni</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Cosa facciamo">
+        <h4>Cosa facciamo</h4>
+        <ul>
+          <li><a href="cosa-facciamo.html">I nostri servizi</a></li>
+          <li><a href="domotica.html">Domotica assistiva</a></li>
+          <li><a href="formazione.html">Formazione</a></li>
+          <li><a href="articoli.html">Articoli</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Trasparenza e contatti">
+        <h4>Trasparenza</h4>
+        <ul>
+          <li><a href="trasparenza.html#statuto-titolo">Statuto</a></li>
+          <li><a href="trasparenza.html#bilanci-2024-titolo">Bilanci</a></li>
+          <li><a href="trasparenza.html#statuto-titolo">Iscrizione RUNTS</a></li>
+          <li><a href="contatti.html">Contattaci</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-sostienici">
+      <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
+      <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fondazione COINSIEME ETS. Tutti i diritti riservati.</span>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="contatti.html">Privacy policy</a>
+        <a href="contatti.html">Accessibilità</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
