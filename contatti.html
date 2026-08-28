@@ -3,228 +3,321 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contattaci — Fondazione COINSIEME ETS</title>
-  <meta name="description" content="Contatta Fondazione COINSIEME ETS: scrivi per una consulenza, una collaborazione o semplicemente per saperne di più.">
+  <title>Contatti — Fondazione COINSIEME ETS</title>
+  <meta name="description" content="Contatta Fondazione COINSIEME ETS: scrivi o chiama per richieste di informazioni, orientamento o proposte di collaborazione.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ========================================================
+       STILI SPECIFICI PER LA PAGINA CONTATTI
+       ======================================================== */
+
+    /* 1. HERO */
+    .contatti-hero {
+      background: var(--crema-chiara);
+      padding: clamp(56px, 7.5vw, 92px) 0 clamp(44px, 6vw, 72px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .contatti-tag {
+      font-family: var(--font-heading);
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.10em;
+      margin-bottom: 14px;
+    }
+    .contatti-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 4.2vw, 3.1rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+    .contatti-hero-lead {
+      font-size: 1.14rem;
+      line-height: 1.76;
+      color: var(--grigio-testo);
+      margin: 0;
+      max-width: 780px;
+    }
+
+    /* 2. CANALI PRIORITARI */
+    .canali-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .canale-card {
+      background: #ffffff;
+      border: 1.5px solid rgba(85, 51, 17, 0.14);
+      border-radius: 14px;
+      padding: clamp(28px, 4vw, 36px);
+      box-shadow: 0 4px 18px rgba(85, 51, 17, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .canale-card--primary {
+      border-color: rgba(163, 77, 20, 0.35);
+    }
+    .canale-tag {
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta-deep);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .canale-valore {
+      font-family: var(--font-heading);
+      font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 12px;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .canale-desc {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      color: var(--grigio-testo);
+      margin-bottom: 24px;
+    }
+    .canale-btn-wrap {
+      margin-top: auto;
+    }
+
+    /* 3. BOX RASSICURAZIONE */
+    .contatti-rassicurazione {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+      margin-top: 32px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.03);
+    }
+    .contatti-rassicurazione p {
+      font-size: 1.08rem;
+      line-height: 1.72;
+      color: var(--marrone-scuro);
+      margin: 0;
+      max-width: 720px;
+      margin-inline: auto;
+      font-weight: 500;
+    }
+
+    /* 4. RECAPITI ISTITUZIONALI */
+    .istituzionali-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .istituzionale-card {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: clamp(22px, 3vw, 28px);
+      box-shadow: 0 2px 10px rgba(85, 51, 17, 0.02);
+    }
+    .istituzionale-tag {
+      font-family: var(--font-heading);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta-deep);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .istituzionale-titolo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 8px;
+    }
+    .istituzionale-testo {
+      font-size: 0.96rem;
+      line-height: 1.60;
+      color: var(--grigio-testo);
+      margin: 0;
+    }
+    .istituzionale-testo a {
+      color: var(--marrone-scuro);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .istituzionale-testo a:hover {
+      color: var(--terracotta-deep);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 840px) {
+      .canali-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .istituzionali-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <!-- SKIP LINK -->
 <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
-<!-- BADGE PROTOTIPO -->
-<div class="proto-badge" role="note" aria-label="Prototipo — contenuti da definire">⚠ Prototipo</div>
 
 <!-- ========== HEADER ========== -->
 <header class="site-header" role="banner">
   <nav class="navbar container" aria-label="Navigazione principale">
     <a href="index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
-      <img src="assets/logo-symbol.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
+      <img src="assets/logo-symbol.png" class="logo-img" alt="" aria-hidden="true" width="44" height="39">
       <div class="logo-wordmark">
         <span class="logo-text">COINSIEME</span>
         <span class="logo-sub">Fondazione ETS</span>
       </div>
     </a>
+
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Apri menu di navigazione">
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
     </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
+
+    <ul class="nav-menu" id="nav-menu" role="list">
       <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
       <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
       <li><a href="formazione.html" class="nav-link">Formazione</a></li>
       <li><a href="articoli.html" class="nav-link">Conoscenza</a></li>
       <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
     </ul>
+
     <a href="contatti.html" class="btn btn-nav" aria-current="page">Contattaci</a>
   </nav>
 </header>
 
 <main id="main-content">
 
-  <!-- ========== HERO INTERNO ========== -->
-  <section class="hero-inner" aria-labelledby="contatti-titolo">
+  <!-- ========================================================
+       1. HERO — Luminosa ed Accogliente
+       ======================================================== -->
+  <section class="contatti-hero" aria-labelledby="contatti-hero-titolo">
     <div class="container">
-      <nav class="breadcrumb" aria-label="Percorso di navigazione">
+      <nav class="breadcrumb" aria-label="Percorso di navigazione" style="margin-bottom: 20px;">
         <a href="index.html">Home</a>
         <span class="breadcrumb-sep" aria-hidden="true">›</span>
         <span aria-current="page">Contattaci</span>
       </nav>
-      <div class="page-intro">
-        <h1 id="contatti-titolo">Parliamoci</h1>
+
+      <p class="contatti-tag">CONTATTI E RECAPITI ISTITUZIONALI</p>
+      <h1 id="contatti-hero-titolo" class="contatti-hero-title">Parliamoci</h1>
+      <p class="contatti-hero-lead">
+        Che tu abbia una domanda, voglia collaborare o semplicemente saperne di più sulle nostre attività, siamo a disposizione. Scrivici o chiamaci per raccontarci la tua situazione.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       2. CANALI PRIORITARI & RASSICURAZIONE
+       ======================================================== -->
+  <section class="bg-crema" aria-labelledby="canali-titolo">
+    <div class="container">
+      <h2 id="canali-titolo" class="sr-only">Canali di contatto principali</h2>
+
+      <div class="canali-grid">
+        <!-- Card 1: Email -->
+        <article class="canale-card canale-card--primary">
+          <div>
+            <span class="canale-tag">Scrivici via email</span>
+            <p class="canale-valore">segreteria@coinsieme.it</p>
+            <p class="canale-desc">
+              Per richieste di informazioni, orientamento o proposte di collaborazione.
+            </p>
+          </div>
+          <div class="canale-btn-wrap">
+            <a href="mailto:segreteria@coinsieme.it?subject=Richiesta%20informazioni" class="btn btn-primary btn-lg">
+              Invia un'email <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: Telefono -->
+        <article class="canale-card">
+          <div>
+            <span class="canale-tag">Chiamaci al telefono</span>
+            <p class="canale-valore">+39 375 786 9684</p>
+            <p class="canale-desc">
+              Per metterti in contatto diretto con la segreteria della Fondazione.
+            </p>
+          </div>
+          <div class="canale-btn-wrap">
+            <a href="tel:+393757869684" class="btn btn-secondary btn-lg">
+              Chiama il numero <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Box di rassicurazione -->
+      <div class="contatti-rassicurazione">
         <p>
-          
-          Che tu abbia una domanda, voglia collaborare, chieda una consulenza o voglia semplicemente saperne di più — siamo qui. Scrivi e ti risponderemo nel minor tempo possibile.
+          Non occorre usare termini tecnici o sapere già cosa chiedere. Scrivici o chiamaci raccontandoci semplicemente la tua situazione: partiremo da lì per capire come possiamo esserti utili.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ========== FORM PRINCIPALE + INFO ========== -->
-  <section class="bg-crema fade-in" aria-labelledby="form-titolo">
+  <!-- ========================================================
+       3. RECAPITI ISTITUZIONALI
+       ======================================================== -->
+  <section class="bg-bianco" aria-labelledby="recapiti-istituzionali-titolo">
     <div class="container">
-      <div class="grid-2" style="gap:56px; align-items:flex-start;">
-
-        <!-- Form principale -->
-        <div>
-          <h2 id="form-titolo">Scrivici</h2>
-          
-        <div class="alert-info" role="status" style="margin-bottom:24px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          <div>
-            <strong>Modulo dimostrativo:</strong> l'invio del messaggio non è ancora attivo. Per contatti istituzionali o comunicazioni dirette utilizzare l'indirizzo e-mail ufficiale della Fondazione.
-          </div>
-        </div>
-
-<form onsubmit="return false;" action="#" novalidate aria-label="Modulo di contatto principale" style="margin-top:28px;">
-            <div class="form-group">
-              <label for="c-nome">Nome e cognome <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
-              <input type="text" id="c-nome" name="nome" autocomplete="name" required aria-required="true">
-            </div>
-            <div class="form-group">
-              <label for="c-email">Email <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
-              <input type="email" id="c-email" name="email" autocomplete="email" required aria-required="true">
-            </div>
-            <div class="form-group">
-              <label for="c-oggetto">Oggetto <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
-              <select id="c-oggetto" name="oggetto" required aria-required="true">
-                <option value="" disabled selected>Seleziona un argomento</option>
-                <option value="domotica">Consulenza domotica assistiva</option>
-                <option value="formazione">Informazioni sul corso</option>
-                <option value="collaborazione">Proposta di collaborazione</option>
-                <option value="coprogettazione">Co-progettazione con enti pubblici o ETS</option>
-                <option value="informazioni">Informazioni generali</option>
-                <option value="altro">Altro</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="c-messaggio">Messaggio <span aria-hidden="true" style="color:var(--terracotta);">*</span></label>
-              <textarea id="c-messaggio" name="messaggio" rows="6" required aria-required="true" placeholder="Descrivi la tua richiesta. Non servono termini tecnici: basta spiegarci la situazione."></textarea>
-            </div>
-            <div class="form-group form-check">
-              <input type="checkbox" id="c-privacy" name="privacy" required aria-required="true">
-              <label for="c-privacy">
-                Ho letto e accetto la <a href="/contatti.html" aria-label="Privacy policy — pagina in costruzione">privacy policy</a>
-                <span aria-hidden="true" style="color:var(--terracotta);"> *</span>
-              </label>
-            </div>
-            <p style="font-size:0.82rem; color:var(--grigio-testo); margin-bottom:16px;">
-              <span aria-hidden="true" style="color:var(--terracotta);">*</span> Campi obbligatori
-            </p>
-            <button type="submit" class="btn btn-primary btn-lg">Invia il messaggio</button>
-          </form>
-        </div>
-
-        <!-- Informazioni di contatto -->
-        <div>
-          <h2>Dove siamo e come trovarci</h2>
-          <div style="display:flex; flex-direction:column; gap:16px; margin-top:28px;">
-            <div class="info-card">
-              <div class="info-card-icon" aria-hidden="true">📍</div>
-              <div class="info-card-body">
-                <h4>Sede Legale e Operativa</h4>
-                <p>Via Enrico Giglioli 54A, 00169 Roma (RM)</p>
-              </div>
-            </div>
-            <div class="info-card">
-              <div class="info-card-icon" aria-hidden="true">✉️</div>
-              <div class="info-card-body">
-                <h4>Email</h4>
-                <p>
-                  <a href="mailto:segreteria@coinsieme.it">segreteria@coinsieme.it</a>
-                </p>
-              </div>
-            </div>
-            <div class="info-card">
-              <div class="info-card-icon" aria-hidden="true">🛡️</div>
-              <div class="info-card-body">
-                <h4>PEC</h4>
-                <p>
-                  <a href="mailto:COINONLUS@PEC.IT">COINONLUS@PEC.IT</a>
-                </p>
-              </div>
-            </div>
-            <div class="info-card">
-              <div class="info-card-icon" aria-hidden="true">📞</div>
-              <div class="info-card-body">
-                <h4>Telefono</h4>
-                <p>
-                  <a href="tel:+393757869684">+39 375 786 9684</a>
-                </p>
-              </div>
-            </div>
-            <div class="info-card">
-              <div class="info-card-icon" aria-hidden="true">🏢</div>
-              <div class="info-card-body">
-                <h4>Dati fiscali e RUNTS</h4>
-                <p style="font-size:0.9rem; line-height:1.5;">Codice Fiscale: 08429760583<br>Partita IVA: 02053531006<br>Iscrizione RUNTS: Rep. 130676 (20/08/2024)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Mappa placeholder -->
-          <div class="map-placeholder" style="margin-top:24px; min-height:200px;" role="img" aria-label="[Placeholder mappa — da integrare con Google Maps o OpenStreetMap]">
-            <span aria-hidden="true" style="font-size:1.5rem;">🗺</span>
-            <span>[Mappa da inserire]</span>
-            <span style="font-size:0.8rem;"></span>
-          </div>
-
-          <!-- Social -->
-          <div style="margin-top:24px;">
-            <h3 style="font-size:0.95rem; color:var(--grigio-testo); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Seguici</h3>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <a href="/contatti.html" class="share-link" aria-label="Gruppo Facebook di COINSIEME">
-                <span aria-hidden="true">f</span> Gruppo Facebook
-              </a>
-            </div>
-          </div>
-        </div>
+      <div style="max-width: 780px;">
+        <p class="contatti-tag">INFORMAZIONI GENERALI</p>
+        <h2 id="recapiti-istituzionali-titolo" style="font-size: clamp(1.75rem, 3vw, 2.2rem); color: var(--marrone-scuro); margin-bottom: 10px; line-height: 1.25;">
+          Sede e riferimenti istituzionali
+        </h2>
+        <p style="font-size: 1.05rem; line-height: 1.68; color: var(--grigio-testo); margin: 0;">
+          Coordinate legali, amministrative e iscrizione al Registro Unico Nazionale del Terzo Settore.
+        </p>
       </div>
-    </div>
-  </section>
 
-  <!-- ========== CONTATTI DEDICATI PER TIPO ========== -->
-  <section class="bg-bianco fade-in" aria-labelledby="contatti-tipo-titolo">
-    <div class="container">
-      <h2 id="contatti-tipo-titolo">Hai una richiesta specifica?</h2>
-      <p style="color:var(--grigio-testo); margin-top:8px; max-width:560px;">
-        
-        Per alcune tipologie di richiesta puoi contattare direttamente l'interlocutore più adatto.
-      </p>
-      <div class="grid-3" style="margin-top:32px;">
-        <div class="card">
-          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">🤝</div>
-          <h3 style="font-size:1rem; margin-bottom:8px;">Collaborazioni e co-progettazione</h3>
-          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
-            
-            Per proposte di partnership, co-progettazione con enti pubblici o organizzazioni del Terzo Settore.
+      <div class="istituzionali-grid">
+        <div class="istituzionale-card">
+          <span class="istituzionale-tag">Sede Legale e Operativa</span>
+          <h3 class="istituzionale-titolo">Roma</h3>
+          <p class="istituzionale-testo">
+            Via Enrico Giglioli 54A<br>
+            00169 Roma (RM)
           </p>
-          <a href="mailto:" aria-label="Email per collaborazioni — da inserire" style="font-size:0.88rem; font-weight:600;">
-            
-          </a>
         </div>
-        <div class="card">
-          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">📚</div>
-          <h3 style="font-size:1rem; margin-bottom:8px;">Formazione e corsi</h3>
-          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
-            
-            Per informazioni sul corso Manager di Domotica Assistiva e sugli altri percorsi formativi.
+
+        <div class="istituzionale-card">
+          <span class="istituzionale-tag">Comunicazioni Formali</span>
+          <h3 class="istituzionale-titolo">PEC istituzionale</h3>
+          <p class="istituzionale-testo">
+            <a href="mailto:COINONLUS@PEC.IT">COINONLUS@PEC.IT</a><br>
+            <span style="font-size:0.86rem; color:var(--grigio-testo);">Posta Elettronica Certificata</span>
           </p>
-          <a href="mailto:" aria-label="Email per la formazione — da inserire" style="font-size:0.88rem; font-weight:600;">
-            
-          </a>
         </div>
-        <div class="card">
-          <div style="font-size:1.5rem; margin-bottom:12px;" aria-hidden="true">🏠</div>
-          <h3 style="font-size:1rem; margin-bottom:8px;">Persone e famiglie</h3>
-          <p style="font-size:0.88rem; color:var(--grigio-testo); margin-bottom:14px;">
-            
-            Per richieste di consulenza domotica, orientamento o supporto personale.
+
+        <div class="istituzionale-card">
+          <span class="istituzionale-tag">Dati Fiscali e RUNTS</span>
+          <h3 class="istituzionale-titolo">Fondazione ETS</h3>
+          <p class="istituzionale-testo" style="font-size:0.90rem; line-height:1.55;">
+            Codice Fiscale: 08429760583<br>
+            Partita IVA: 02053531006<br>
+            Iscrizione RUNTS: Rep. 130676 (20/08/2024)
           </p>
-          <a href="persone-famiglie.html" style="font-size:0.88rem; font-weight:600;">
-            Vai alla sezione dedicata →
-          </a>
         </div>
       </div>
     </div>
@@ -232,7 +325,7 @@
 
 </main>
 
-<!-- ========== FOOTER ========== -->
+<!-- ========== FOOTER ISTITUZIONALE ========== -->
 <footer class="site-footer" role="contentinfo">
   <div class="container">
     <div class="footer-grid">
@@ -246,37 +339,37 @@
       <nav class="footer-col" aria-label="Chi siamo">
         <h4>Chi siamo</h4>
         <ul>
-          <li><a href="/contatti.html" aria-label="Storia e radici — in costruzione">Storia e radici</a></li>
-          <li><a href="/contatti.html" aria-label="Missione — in costruzione">Missione e visione</a></li>
-          <li><a href="/contatti.html" aria-label="Team — in costruzione">Il team</a></li>
+          <li><a href="chi-siamo.html">Storia e radici</a></li>
+          <li><a href="chi-siamo.html#governance">Governance</a></li>
+          <li><a href="chi-siamo.html#statuto">Statuto e documenti</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Cosa facciamo">
         <h4>Cosa facciamo</h4>
         <ul>
-          <li><a href="cosa-facciamo.html">I nostri servizi</a></li>
+          <li><a href="cosa-facciamo.html">Le nostre attività</a></li>
           <li><a href="domotica.html">Domotica assistiva</a></li>
           <li><a href="formazione.html">Formazione</a></li>
-          <li><a href="articoli.html">Articoli</a></li>
+          <li><a href="articoli.html">Conoscenza</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Contatti">
         <h4>Contatti</h4>
         <ul>
           <li><a href="contatti.html" aria-current="page">Scrivici</a></li>
-          <li><a href="/contatti.html" aria-label="Trasparenza — in costruzione">Trasparenza</a></li>
+          <li><a href="trasparenza.html">Trasparenza</a></li>
         </ul>
       </nav>
     </div>
-        <div class="footer-sostienici">
+    <div class="footer-sostienici">
       <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
-      <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
+      <span style="opacity:0.6; font-size:0.9rem;">Fondazione COINSIEME ETS</span>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Fondazione COINSIEME ETS</span>
       <div style="display:flex; gap:16px; flex-wrap:wrap;">
-        <a href="/contatti.html" aria-label="Privacy policy — in costruzione">Privacy policy</a>
-        <a href="/contatti.html" aria-label="Accessibilità — in costruzione">Accessibilità</a>
+        <a href="trasparenza.html">Privacy & Trasparenza</a>
+        <a href="contatti.html">Accessibilità</a>
       </div>
     </div>
   </div>
@@ -285,5 +378,3 @@
 <script src="js/main.js"></script>
 </body>
 </html>
-
-
