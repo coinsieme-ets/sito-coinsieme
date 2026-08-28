@@ -427,10 +427,47 @@
       box-shadow: 0 4px 14px rgba(184, 82, 16, 0.25);
     }
 
+    /* FOTOGRAFIE STORICHE D'ARCHIVIO */
+    .foto-storica-card {
+      margin: 0;
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.04);
+    }
+    .foto-storica-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(85, 51, 17, 0.08);
+      display: block;
+    }
+    .foto-storica-caption {
+      padding: 8px 4px 2px 4px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--grigio-testo);
+    }
+    .foto-storica-desc {
+      display: block;
+      color: var(--marrone-scuro);
+      font-weight: 500;
+    }
+    .foto-storica-credit {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--terracotta-deep);
+      margin-top: 3px;
+      font-style: italic;
+      font-family: var(--font-heading);
+    }
+
     /* RESPONSIVE */
     @media (max-width: 960px) {
       .formazione-hero-grid,
-      .storia-formazione-grid {
+      .storia-formazione-grid,
+      .bisogno-intro-grid {
         grid-template-columns: 1fr;
         gap: 32px;
       }
@@ -538,20 +575,30 @@
   <section class="sezione-bisogno" aria-labelledby="bisogno-titolo">
     <div class="container">
       
-      <div style="max-width:860px;">
-        <p class="formazione-tag">IL CONTESTO E LA VISIONE</p>
-        <h2 id="bisogno-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:14px;">
-          Il ponte necessario tra cura, tecnologia e progetto di vita.
-        </h2>
-        <p style="font-size:1.10rem; line-height:1.72; color:var(--grigio-testo); margin:0;">
-          L'invecchiamento della popolazione, l'aumento della domanda di assistenza domiciliare e la disponibilità di tecnologie domotiche avanzate stanno ridisegnando il modo in cui pensiamo alla non autosufficienza e alla disabilità. Tuttavia, la tecnologia da sola non basta: serve una nuova cultura professionale capace di integrarla nei percorsi di vita delle persone.
-        </p>
+      <div class="bisogno-intro-grid" style="display: grid; grid-template-columns: 1fr minmax(280px, 420px); gap: clamp(24px, 4vw, 44px); align-items: start; margin-bottom: 36px;">
+        <div>
+          <p class="formazione-tag">IL CONTESTO E LA VISIONE</p>
+          <h2 id="bisogno-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:14px;">
+            Il ponte necessario tra cura, tecnologia e progetto di vita.
+          </h2>
+          <p style="font-size:1.10rem; line-height:1.72; color:var(--grigio-testo); margin:0;">
+            L'invecchiamento della popolazione, l'aumento della domanda di assistenza domiciliare e la disponibilità di tecnologie domotiche avanzate stanno ridisegnando il modo in cui pensiamo alla non autosufficienza e alla disabilità. Tuttavia, la tecnologia da sola non basta: serve una nuova cultura professionale capace di integrarla nei percorsi di vita delle persone.
+          </p>
+        </div>
+
+        <figure class="foto-storica-card">
+          <img src="assets/archivio-storico/storico-allievi-aula-formazione.jpg" alt="Partecipanti seduti in fila durante una sessione di formazione e confronto" width="480" height="320" loading="lazy">
+          <figcaption class="foto-storica-caption">
+            <span class="foto-storica-desc">Partecipanti durante un incontro di formazione e confronto.</span>
+            <span class="foto-storica-credit">Foto Mario ed Eva Mulas — Archivio Capodarco / CO.IN.</span>
+          </figcaption>
+        </figure>
       </div>
 
       <div class="bisogno-grid">
         
         <article class="card-bisogno">
-          <span class="card-bisogno-num">Cardine 01</span>
+          <span class="card-bisogno-num">01 · Integrazione dei linguaggi</span>
           <h3 class="card-bisogno-title">Superare la frammentazione dei servizi</h3>
           <p class="card-bisogno-desc">
             Spesso la persona e la famiglia si trovano a dover dialogare separatamente con il mondo sanitario, quello sociale e i fornitori tecnologici. Da qui nasce l'esigenza di sviluppare competenze capaci di mettere in relazione questi diversi linguaggi.
@@ -559,7 +606,7 @@
         </article>
 
         <article class="card-bisogno">
-          <span class="card-bisogno-num">Cardine 02</span>
+          <span class="card-bisogno-num">02 · Autonomia su misura</span>
           <h3 class="card-bisogno-title">Dalla tecnologia all'autonomia su misura</h3>
           <p class="card-bisogno-desc">
             Dispositivi smart, sensori e assistenti vocali hanno valore reale solo se scelti e configurati sui desideri, le abitudini e le reali capacità dell'individuo, rispettandone la dignità e la privacy.
@@ -567,7 +614,7 @@
         </article>
 
         <article class="card-bisogno">
-          <span class="card-bisogno-num">Cardine 03</span>
+          <span class="card-bisogno-num">03 · Competenze per il welfare</span>
           <h3 class="card-bisogno-title">Qualificare il lavoro di cura nel Terzo Settore</h3>
           <p class="card-bisogno-desc">
             Offrire a operatori, educatori, assistenti sociali e progettisti opportunità di specializzazione post-laurea e aggiornamento continuo per rispondere alle sfide del welfare contemporaneo.
@@ -698,16 +745,24 @@
         <div>
           <p class="formazione-tag">RADICI ED ESPERIENZA MATURATA</p>
           <h2 id="storia-formazione-titolo" class="formazione-title" style="font-size:clamp(1.85rem, 3.4vw, 2.35rem); margin-bottom:14px;">
-            Una storia di formazione, inclusione e qualificazione al lavoro.
+            Formare per lavorare: una storia di competenze e inclusione.
           </h2>
           <p style="font-size:1.06rem; line-height:1.70; color:var(--grigio-testo); margin-bottom:16px;">
             L'impegno formativo della Fondazione COINSIEME ETS affonda le radici nell'esperienza quarantennale della cooperazione sociale e della rete CO.IN. Sin dagli anni Ottanta, la formazione non è mai stata considerata un'attività teorica a sé stante, ma la chiave primaria per l'emancipazione, la conquista dell'autonomia e l'inserimento lavorativo stabile di persone con disabilità.
           </p>
-          <p style="margin:0;">
+          <p style="margin:0 0 20px 0;">
             <a href="chi-siamo.html" style="color:var(--terracotta-deep); font-weight:700; font-size:0.96rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
               Approfondisci le radici e la storia della Fondazione in Chi siamo <span aria-hidden="true">→</span>
             </a>
           </p>
+
+          <figure class="foto-storica-card">
+            <img src="assets/archivio-storico/storico-schede-elettroniche-rai.jpg" alt="Operatori al banco di montaggio di schede elettroniche in un laboratorio professionale" width="480" height="360" loading="lazy">
+            <figcaption class="foto-storica-caption">
+              <span class="foto-storica-desc">Operatori al banco di montaggio di schede elettroniche in un laboratorio professionale (da servizio RAI).</span>
+              <span class="foto-storica-credit">Archivio Capodarco / CO.IN. — riprese RAI</span>
+            </figcaption>
+          </figure>
         </div>
 
         <div>
