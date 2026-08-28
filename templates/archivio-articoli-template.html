@@ -51,38 +51,126 @@
   <section class="hero-compact bg-notte" aria-labelledby="hero-titolo">
     <div class="container">
       <div class="hero-compact-content">
-        <p class="hero-tagline" style="color:var(--terracotta-lite); margin-bottom: 8px;">Archivio</p>
-        <h1 id="hero-titolo" style="color:var(--bianco); margin-bottom: 24px;">Tutti gli articoli</h1>
+        <p class="hero-tagline" style="color:var(--terracotta-lite); margin-bottom: 8px;">Conoscenza &amp; Approfondimenti</p>
+        <h1 id="hero-titolo" style="color:var(--bianco); margin-bottom: 16px;">Articoli e prospettive</h1>
+        <p style="color:rgba(255,255,255,0.8); font-size:1.06rem; max-width:640px; margin-bottom:24px; line-height:1.6;">
+          Ricerche, riflessioni sull'innovazione sociale, domotica assistiva, diritti ed evoluzione del welfare inclusivo.
+        </p>
         <a href="/pubblicazioni.html" class="btn btn-ghost" style="color:var(--bianco); border-color:rgba(255,255,255,0.3);">Consulta anche le pubblicazioni →</a>
       </div>
     </div>
   </section>
   <section class="bg-crema fade-in">
-    <div class="container" style="padding-top: 40px; padding-bottom: 80px;">
-        <div class="archivio-header">
-            <div class="archivio-search-container">
-                <input type="text" id="archivio-search" class="archivio-search-input" placeholder="Cerca nel titolo..." aria-label="Cerca articoli per titolo">
-                <button id="archivio-clear" class="btn btn-secondary" aria-label="Azzera ricerca">Azzera</button>
+    <div class="container" style="padding-top: 48px; padding-bottom: 80px;">
+
+      <!-- FASCIA EDITORIALE IN APERTURA -->
+      <section class="evidenza-section" aria-labelledby="evidenza-titolo">
+        <div class="evidenza-header">
+          <p class="evidenza-tag">IN PRIMO PIANO · SELEZIONE EDITORIALE</p>
+          <h2 id="evidenza-titolo" class="evidenza-title">Letture, innovazione e memoria del Terzo Settore</h2>
+          <p class="evidenza-lead">Approfondimenti tematici, radici storiche e novità normative selezionati dalla redazione:</p>
+        </div>
+
+        <div class="evidenza-grid">
+          
+          <!-- Articolo Principale in Evidenza (1 grande con immagine contemporanea domotica) -->
+          <article class="evidenza-main-card">
+            <div class="evidenza-main-img-wrap">
+              <img src="/assets/domotics_assistive.jpg" alt="Ambiente domestico assistivo con comandi e sensori domotici per l'autonomia" class="evidenza-main-img" width="720" height="340" loading="lazy">
             </div>
-            <div class="archivio-stats" aria-live="polite">
-                Mostrati <span id="archivio-stats-count">{{COUNT}}</span> risultati.
+            <div class="evidenza-main-body">
+              <div class="evidenza-meta-row">
+                <span class="evidenza-badge">Domotica &amp; Innovazione</span>
+                <span class="evidenza-date">Approfondimento tematico</span>
+              </div>
+              <h3 class="evidenza-main-title">
+                <a href="/articoli/innovazione-e-domotica-assistiva-5-invenzioni-del-futuro-gia-tra-noi/">Innovazione e Domotica Assistiva: 5 Invenzioni del Futuro già tra Noi</a>
+              </h3>
+              <p class="evidenza-main-abstract">
+                Dagli assistenti vocali ambientali ai sensori intelligenti per la sicurezza: come le tecnologie per l'abitare supportano concretamente l'autonomia delle persone e la serenità delle famiglie, senza mai sostituire la relazione umana.
+              </p>
+              <a href="/articoli/innovazione-e-domotica-assistiva-5-invenzioni-del-futuro-gia-tra-noi/" class="evidenza-main-cta">
+                Leggi l'articolo <span aria-hidden="true">→</span>
+              </a>
             </div>
-        </div>
+          </article>
 
-        <div id="archivio-no-results" class="archivio-no-results" role="status" style="display: none;">
-            Nessun risultato trovato per questo criterio di ricerca.
-        </div>
+          <!-- Colonna 2 Articoli Secondari Selezionati -->
+          <div class="evidenza-secondary-column">
+            
+            <!-- Secondario 1: Storia e Radici CO.IN. (con foto d'archivio autentica) -->
+            <article class="evidenza-sec-card">
+              <div class="evidenza-sec-img-wrap">
+                <img src="/assets/archivio-storico/storico-capodarco-autocostruzione.jpg" alt="Esperienza storica di cantiere e lavoro per l'accessibilità" class="evidenza-sec-img" width="300" height="200" loading="lazy">
+              </div>
+              <div class="evidenza-sec-body">
+                <div class="evidenza-sec-meta">
+                  <span class="evidenza-badge-subtle">Storia &amp; Radici CO.IN.</span>
+                </div>
+                <h3 class="evidenza-sec-title">
+                  <a href="/articoli/dal-7-novembre-associazione-coin-onlus-diventa-fondazione-coinsieme-un-nuovo-inizio-per-obiettivi-sociali-rinnovati/">Dal 7 Novembre 2023, l'Associazione COIN Onlus Diventa Fondazione COINSIEME</a>
+                </h3>
+                <a href="/articoli/dal-7-novembre-associazione-coin-onlus-diventa-fondazione-coinsieme-un-nuovo-inizio-per-obiettivi-sociali-rinnovati/" class="evidenza-sec-link">
+                  Leggi l'articolo <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
 
-        <div class="archivio-grid">
-            {{CARDS}}
-        </div>
+            <!-- Secondario 2: Normativa, Diritti ed Europa (con elemento grafico sobrio) -->
+            <article class="evidenza-sec-card">
+              <div class="evidenza-sec-icon-wrap" aria-hidden="true">
+                <div class="evidenza-icon-circle">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+              </div>
+              <div class="evidenza-sec-body">
+                <div class="evidenza-sec-meta">
+                  <span class="evidenza-badge-subtle">Normativa &amp; Diritti Europei</span>
+                </div>
+                <h3 class="evidenza-sec-title">
+                  <a href="/articoli/accessibilita-digitale-dal-28-giugno-e-legge-in-tutta-europa-ecco-cosa-cambia-per-aziende-e-cittadini/">Accessibilità digitale: dal 28 giugno è legge in tutta Europa. Ecco cosa cambia per aziende e cittadini</a>
+                </h3>
+                <a href="/articoli/accessibilita-digitale-dal-28-giugno-e-legge-in-tutta-europa-ecco-cosa-cambia-per-aziende-e-cittadini/" class="evidenza-sec-link">
+                  Leggi l'articolo <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
 
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <button id="archivio-load-more" class="btn btn-primary" style="display: none;" aria-live="polite">
-                Mostra altri articoli
-            </button>
+          </div>
+
         </div>
+      </section>
+
+      <!-- SEZIONE ARCHIVIO COMPLETO -->
+      <div class="archivio-section-header" style="margin-top: 48px; margin-bottom: 24px; padding-top: 36px; border-top: 1px solid rgba(85,51,17,0.12);">
+        <p style="font-size:0.80rem; font-weight:800; color:var(--terracotta-deep); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:6px; font-family:var(--font-heading);">ARCHIVIO COMPLETO</p>
+        <h2 style="font-size:clamp(1.5rem, 2.6vw, 1.95rem); color:var(--marrone-scuro); font-weight:700; margin:0 0 20px 0;">Tutti gli articoli</h2>
+      </div>
+
+      <div class="archivio-header">
+          <div class="archivio-search-container">
+              <input type="text" id="archivio-search" class="archivio-search-input" placeholder="Cerca nel titolo..." aria-label="Cerca articoli per titolo">
+              <button id="archivio-clear" class="btn btn-secondary" aria-label="Azzera ricerca">Azzera</button>
+          </div>
+          <div class="archivio-stats" aria-live="polite">
+              Mostrati <span id="archivio-stats-count">{{COUNT}}</span> risultati.
+          </div>
+      </div>
+
+      <div id="archivio-no-results" class="archivio-no-results" role="status" style="display: none;">
+          Nessun risultato trovato per questo criterio di ricerca.
+      </div>
+
+      <div class="archivio-grid">
+          {{CARDS}}
+      </div>
+
+      
+      <div style="text-align: center; margin-top: 3rem;">
+          <button id="archivio-load-more" class="btn btn-primary" style="display: none;" aria-live="polite">
+              Mostra altri articoli
+          </button>
+      </div>
     </div>
   </section>
 </main>

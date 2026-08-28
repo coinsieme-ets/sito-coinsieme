@@ -239,16 +239,33 @@ function renderArticle(item, template) {
 
 function buildCard(item) {
   const title = escapeHtml(item.title);
+  const category = escapeHtml(item.category || 'Articolo');
+  const imageType = item.imageType || (item.image ? 'photo' : 'text');
   const imageAvailable = item.image && (item.imageIsExternal || fs.existsSync(path.join(root, item.image)));
   const cardImageSrc = item.imageIsExternal ? item.image : `/${item.image}`;
-  const image = imageAvailable
-    ? `<img src="${escapeHtml(cardImageSrc)}" alt="" class="archivio-card-image" loading="lazy" width="600" height="337">`
-    : '';
-  const wrapperClass = image ? 'archivio-card-content' : 'archivio-card-text-only';
+
+  let topVisual = '';
+  if (imageType === 'document' && imageAvailable) {
+    topVisual = `<div class="archivio-card-image-wrap archivio-card-doc-wrap">
+      <img src="${escapeHtml(cardImageSrc)}" alt="${title}" class="archivio-card-image-doc" loading="lazy" width="600" height="337">
+    </div>`;
+  } else if (imageType === 'photo' && imageAvailable) {
+    topVisual = `<div class="archivio-card-image-wrap">
+      <img src="${escapeHtml(cardImageSrc)}" alt="${title}" class="archivio-card-image" loading="lazy" width="600" height="337">
+    </div>`;
+  } else if (imageType === 'graphic') {
+    topVisual = `<div class="archivio-card-graphic-wrap" aria-hidden="true">
+      <div class="archivio-card-graphic-circle">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+    </div>`;
+  }
+
+  const wrapperClass = topVisual ? 'archivio-card-content' : 'archivio-card-text-only';
   return `<a href="/articoli/${escapeHtml(item.slug)}/" class="archivio-card archivio-card-link" data-title="${escapeHtml(item.title.toLowerCase())}">
-    ${image}
+    ${topVisual}
     <div class="${wrapperClass}">
-      <div class="archivio-card-meta">Articolo</div>
+      <div class="archivio-card-meta">${category}</div>
       <h2 class="archivio-card-title">${title}</h2>
       <div class="archivio-card-action">Leggi l'articolo <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </div>
@@ -331,7 +348,9 @@ async function main() {
     .map((item) => ({
       title: item.titolo,
       slug: item.slug,
-      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : ''
+      category: item.categoria || 'Articolo',
+      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : (item.immagine ? String(item.immagine).replace(/^\//, '') : ''),
+      imageType: item.immagineTipo || (item.immagineCopertina ? 'photo' : 'text')
     }));
 
   const historicSlugs = new Set(historic.map((item) => item.slug));
@@ -344,7 +363,15 @@ async function main() {
     fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate), 'utf8');
   }
 
-  const allForIndex = [...historic, ...fresh].sort((a, b) => a.title.localeCompare(b.title, 'it'));
+  const freshMappedForIndex = fresh.map((item) => ({
+    title: item.title,
+    slug: item.slug,
+    category: item.category || 'Articolo',
+    image: item.image ? String(item.image).replace(/^\//, '') : '',
+    imageType: item.image ? 'photo' : 'text'
+  }));
+
+  const allForIndex = [...historic, ...freshMappedForIndex].sort((a, b) => a.title.localeCompare(b.title, 'it'));
   const archiveTemplate = fs.readFileSync(path.join(root, 'templates', 'archivio-articoli-template.html'), 'utf8');
   const archiveHtml = archiveTemplate
     .replace('{{COUNT}}', String(allForIndex.length))
