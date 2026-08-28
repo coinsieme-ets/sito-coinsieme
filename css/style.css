@@ -268,28 +268,34 @@ section { padding: var(--section-v) 0; }
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
 }
-.logo-img { width: 36px; height: 36px; object-fit: contain; }
+.logo-img {
+  width: 44px;
+  height: 39px;
+  object-fit: contain;
+  display: block;
+}
 .logo-wordmark {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .logo-text {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.48rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--marrone-scuro);
-  line-height: 1;
+  line-height: 1.05;
 }
 .logo-sub {
-  font-size: 0.6rem;
-  font-weight: 600;
+  font-size: 0.74rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--terracotta);
   line-height: 1;
   margin-top: 2px;
