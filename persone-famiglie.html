@@ -3,250 +3,451 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Persone e famiglie — Fondazione COINSIEME ETS</title>
-  <meta name="description" content="Sei una persona con disabilità o un familiare? COINSIEME ti aiuta a orientarti: domotica assistiva, orientamento ai servizi e percorso personalizzato.">
+  <title>Persone e famiglie — Ascolto, autonomia e percorsi su misura | Fondazione COINSIEME ETS</title>
+  <meta name="description" content="Una disabilità, una perdita di autonomia o nuove esigenze in famiglia: COINSIEME parte dall'ascolto della situazione per aiutare a individuare possibilità, strumenti e percorsi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ========================================================
+       STILI SPECIFICI PER LA PAGINA PERSONE E FAMIGLIE
+       ======================================================== */
+
+    /* 1. HERO */
+    .pf-hero {
+      background: var(--crema-chiara);
+      padding: clamp(56px, 7.5vw, 92px) 0 clamp(44px, 6vw, 72px) 0;
+      border-bottom: 1px solid var(--grigio-bordino);
+    }
+    .pf-tag {
+      font-family: var(--font-heading);
+      color: var(--terracotta-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.10em;
+      margin-bottom: 14px;
+    }
+    .pf-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.05rem, 3.9vw, 2.85rem);
+      color: var(--marrone-scuro);
+      font-weight: 700;
+      line-height: 1.20;
+      margin-bottom: 18px;
+      max-width: 840px;
+    }
+    .pf-hero-lead {
+      font-size: 1.14rem;
+      line-height: 1.76;
+      color: var(--grigio-testo);
+      margin-bottom: 28px;
+      max-width: 760px;
+    }
+    .pf-hero-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    /* 2. SITUAZIONI (OGNI SITUAZIONE HA LA SUA STORIA) */
+    .situazioni-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .situazione-card {
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: clamp(22px, 3vw, 30px);
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .situazione-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(85, 51, 17, 0.07);
+    }
+    .situazione-card-num {
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta-deep);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .situazione-card-title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .situazione-card-text {
+      font-size: 1.02rem;
+      line-height: 1.68;
+      color: var(--grigio-testo);
+      margin: 0;
+    }
+
+    /* 3. AMBITI (COME POSSIAMO ESSERTI UTILI) */
+    .ambiti-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .ambito-card {
+      background: var(--crema-chiara);
+      border: 1px solid rgba(85, 51, 17, 0.14);
+      border-radius: 12px;
+      padding: clamp(24px, 3.5vw, 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.03);
+    }
+    .ambito-card-tag {
+      font-family: var(--font-heading);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta-deep);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .ambito-card-title {
+      font-size: 1.26rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin-bottom: 12px;
+      line-height: 1.32;
+    }
+    .ambito-card-text {
+      font-size: 1.02rem;
+      line-height: 1.68;
+      color: var(--grigio-testo);
+      margin-bottom: 18px;
+    }
+    .ambito-link {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--terracotta-deep);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+      transition: color 0.18s ease;
+    }
+    .ambito-link:hover {
+      color: var(--marrone-scuro);
+      text-decoration: underline;
+    }
+
+    /* 4. COMPONENTE FOTOGRAFICA D'ARCHIVIO */
+    .sezione-foto-ascolto {
+      background: var(--crema-chiara);
+      border-top: 1px solid var(--grigio-bordino);
+      border-bottom: 1px solid var(--grigio-bordino);
+      padding: clamp(44px, 5.5vw, 68px) 0;
+    }
+    .foto-storica-panel {
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 18px rgba(85, 51, 17, 0.05);
+      max-width: 860px;
+    }
+    .foto-storica-panel img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(85, 51, 17, 0.08);
+    }
+    .foto-storica-caption {
+      padding: 12px 6px 4px 6px;
+      font-size: 0.86rem;
+      line-height: 1.48;
+      color: var(--grigio-testo);
+    }
+    .foto-storica-desc {
+      display: block;
+      color: var(--marrone-scuro);
+      font-weight: 500;
+    }
+    .foto-storica-credit {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--terracotta-deep);
+      margin-top: 4px;
+      font-style: italic;
+      font-family: var(--font-heading);
+    }
+
+    /* 5. CHIUSURA / BOX RACCONTACI */
+    .sezione-chiusura-raccontaci {
+      background: var(--crema);
+      padding: clamp(44px, 5.5vw, 68px) 0 clamp(56px, 7vw, 84px) 0;
+    }
+    .cta-box-raccontaci {
+      background: #ffffff;
+      border: 1.5px solid rgba(163, 77, 20, 0.25);
+      border-radius: 16px;
+      padding: clamp(32px, 5vw, 48px);
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto;
+      box-shadow: 0 6px 24px rgba(85, 51, 17, 0.06);
+    }
+    .cta-box-raccontaci h2 {
+      font-size: clamp(1.85rem, 3.4vw, 2.35rem);
+      color: var(--marrone-scuro);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .cta-box-raccontaci p {
+      font-size: 1.10rem;
+      line-height: 1.74;
+      color: var(--grigio-testo);
+      margin-bottom: 28px;
+      max-width: 640px;
+      margin-inline: auto;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .ambiti-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+    @media (max-width: 768px) {
+      .situazioni-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <!-- SKIP LINK -->
 <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
-<!-- BADGE PROTOTIPO -->
-<div class="proto-badge" role="note" aria-label="Prototipo — contenuti da definire">⚠ Prototipo</div>
 
 <!-- ========== HEADER ========== -->
 <header class="site-header" role="banner">
   <nav class="navbar container" aria-label="Navigazione principale">
     <a href="index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
-      <img src="assets/logo-symbol.png" class="logo-img" alt="" aria-hidden="true" width="36" height="36">
+      <img src="assets/logo-symbol.png" class="logo-img" alt="" aria-hidden="true" width="44" height="39">
       <div class="logo-wordmark">
         <span class="logo-text">COINSIEME</span>
         <span class="logo-sub">Fondazione ETS</span>
       </div>
     </a>
+
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Apri menu di navigazione">
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
     </button>
-        <ul class="nav-menu" id="nav-menu" role="list">
+
+    <ul class="nav-menu" id="nav-menu" role="list">
       <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
       <li><a href="cosa-facciamo.html" class="nav-link">Cosa facciamo</a></li>
       <li><a href="formazione.html" class="nav-link">Formazione</a></li>
       <li><a href="articoli.html" class="nav-link">Conoscenza</a></li>
       <li><a href="trasparenza.html" class="nav-link">Trasparenza</a></li>
     </ul>
+
     <a href="contatti.html" class="btn btn-nav">Contattaci</a>
   </nav>
 </header>
 
 <main id="main-content">
 
-  <!-- ========== HERO — empatico e accogliente ========== -->
-  <section style="background: linear-gradient(135deg, #3d2208 0%, #7a4a20 60%, #c45e1a 100%); padding: clamp(72px, 10vw, 120px) 0;" aria-labelledby="pf-hero-titolo">
+  <!-- ========================================================
+       1. HERO — Luminosa, Accogliente e Umana
+       ======================================================== -->
+  <section class="pf-hero" aria-labelledby="pf-hero-titolo">
     <div class="container">
-      <nav class="breadcrumb" aria-label="Percorso di navigazione" style="color:rgba(255,255,255,0.6); margin-bottom:24px;">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
+      <nav class="breadcrumb" aria-label="Percorso di navigazione" style="margin-bottom: 20px;">
+        <a href="index.html">Home</a>
         <span class="breadcrumb-sep" aria-hidden="true">›</span>
-        <span style="color:rgba(255,255,255,0.8);" aria-current="page">Persone e famiglie</span>
+        <span aria-current="page">Persone e famiglie</span>
       </nav>
-      <div style="max-width:680px;">
-        <div class="placeholder-banner" role="note" style="margin-bottom:24px;">
-          <span>⚠</span><span>I testi in evidenza sono placeholder da definire con la Fondazione</span>
-        </div>
-        <h1 id="pf-hero-titolo" style="color:var(--bianco); margin-bottom:16px;">
-          Siamo qui per te
-        </h1>
-        <p style="font-size:clamp(1rem, 2vw, 1.18rem); color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom:32px;">
-          
-          Sappiamo che orientarsi tra servizi, tecnologie e opportunità può essere difficile e faticoso. Non devi farlo da solo. Siamo qui per ascoltarti e aiutarti a trovare il percorso giusto per te.
-        </p>
-        <a href="#primo-passo" class="btn btn-white btn-lg">Fai il primo passo →</a>
+
+      <p class="pf-tag">PERSONE, FAMIGLIE E PROGETTI DI VITA</p>
+      <h1 id="pf-hero-titolo" class="pf-hero-title">
+        Quando qualcosa cambia, capire da dove cominciare può fare la differenza.
+      </h1>
+      <p class="pf-hero-lead">
+        Una disabilità, una perdita di autonomia, nuove esigenze in famiglia o semplicemente il bisogno di rendere più facile la vita quotidiana. COINSIEME parte dall'ascolto della situazione per aiutare a individuare possibilità, strumenti e percorsi.
+      </p>
+
+      <div class="pf-hero-actions">
+        <a href="contatti.html" class="btn btn-primary btn-lg">Parliamone <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ========== RICONOSCIMENTO DEL BISOGNO ========== -->
-  <section class="bg-crema fade-in" aria-labelledby="pf-bisogno-titolo">
+  <!-- ========================================================
+       2. OGNI SITUAZIONE HA LA SUA STORIA (Situazioni di vita)
+       ======================================================== -->
+  <section class="bg-crema" aria-labelledby="pf-situazioni-titolo">
     <div class="container">
-      <div class="container--narrow" style="padding:0;">
-        <h2 id="pf-bisogno-titolo">
-          
-          Ogni situazione è diversa
+      <div style="max-width: 780px;">
+        <p class="pf-tag">LE SITUAZIONI DI VITA</p>
+        <h2 id="pf-situazioni-titolo" style="font-size: clamp(1.85rem, 3.4vw, 2.35rem); color: var(--marrone-scuro); margin-bottom: 14px; line-height: 1.25;">
+          Ogni situazione ha la sua storia.
         </h2>
-        <p style="font-size:1.05rem; color:var(--grigio-testo); line-height:1.75; margin-top:16px;">
-          
-          C'è chi convive con una disabilità da sempre e cerca soluzioni per vivere con più autonomia. C'è chi assiste un familiare e non sa da dove cominciare. C'è chi ha avuto un incidente o una malattia e deve ripensare gli spazi della propria vita. C'è chi è anziano e vuole restare nella propria casa il più a lungo possibile.
-        </p>
-        <p style="font-size:1.05rem; color:var(--grigio-testo); line-height:1.75;">
-          
-          Non esiste una risposta uguale per tutti. Per questo il nostro primo passo è sempre l'ascolto.
+        <p style="font-size: 1.10rem; line-height: 1.74; color: var(--grigio-testo); margin: 0;">
+          Non crediamo nelle etichette né nelle risposte preconfezionate. Guardiamo alla complessità della vita quotidiana e ai momenti di cambiamento in cui serve un punto di riferimento per ritrovare equilibrio e autonomia.
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- ========== COSA OFFRE COINSIEME ========== -->
-  <section class="bg-crema-chiara fade-in" aria-labelledby="pf-offerta-titolo">
-    <div class="container">
-      <h2 id="pf-offerta-titolo">Cosa possiamo fare per te</h2>
-      <p style="color:var(--grigio-testo); margin-top:8px; max-width:560px;">
-        
-        Tre percorsi principali, adattati alla tua situazione.
-      </p>
-      <div class="offerte-grid">
-        <div class="offerta-card">
-          <div class="offerta-icon" aria-hidden="true">🏠</div>
-          <h3>Domotica assistiva</h3>
-          <p>
-            
-            Valutiamo la tua casa, ascoltiamo i tuoi bisogni e progettiamo soluzioni su misura per aiutarti a vivere con più autonomia e sicurezza.
+      <div class="situazioni-grid">
+        <article class="situazione-card">
+          <span class="situazione-card-num">01 · Autonomia personale</span>
+          <h3 class="situazione-card-title">Autonomia personale e vita quotidiana</h3>
+          <p class="situazione-card-text">
+            Chi affronta una disabilità o una riduzione dell'autosufficienza desidera preservare il più possibile la propria indipendenza, la libertà di scelta e il controllo sulle attività di ogni giorno.
           </p>
-          <a href="domotica.html" class="btn btn-secondary btn-sm" style="margin-top:8px;">Scopri come →</a>
-        </div>
-        <div class="offerta-card">
-          <div class="offerta-icon" aria-hidden="true">🧭</div>
-          <h3>Orientamento ai servizi</h3>
-          <p>
-            
-            Ti aiutiamo a capire a quali servizi hai diritto, come accedervi e quali risorse sono disponibili nel tuo territorio.
+        </article>
+
+        <article class="situazione-card">
+          <span class="situazione-card-num">02 · Ambiente domestico</span>
+          <h3 class="situazione-card-title">La casa e gli spazi della vita</h3>
+          <p class="situazione-card-text">
+            L'ambiente domestico può diventare improvvisamente fonte di fatica, insicurezza o barriere invisibili. Riadattarlo significa restituire comfort, facilità di movimento e tranquillità a tutta la famiglia.
           </p>
-          <a href="contatti.html" class="btn btn-secondary btn-sm" style="margin-top:8px;">Parliamoci →</a>
-        </div>
-        <div class="offerta-card">
-          <div class="offerta-icon" aria-hidden="true">✨</div>
-          <h3>Piattaforma personale</h3>
-          <p>
-            
-            La piattaforma COINSIEME ti accompagna con un percorso personalizzato: ti ascolta, comprende la tua situazione e ti orienta.
+        </article>
+
+        <article class="situazione-card">
+          <span class="situazione-card-num">03 · Sostegno familiare</span>
+          <h3 class="situazione-card-title">L'equilibrio familiare e il lavoro di cura</h3>
+          <p class="situazione-card-text">
+            Assistere un genitore anziano, un figlio o un familiare fragile comporta un carico emotivo e pratico gravoso. Trovare risposte adeguate aiuta chi cura a non sentirsi solo e sopraffatto.
           </p>
-          <button class="btn btn-secondary btn-sm show-platform" style="margin-top:8px;">Scopri la piattaforma →</button>
-        </div>
+        </article>
+
+        <article class="situazione-card">
+          <span class="situazione-card-num">04 · Orientamento</span>
+          <h3 class="situazione-card-title">Orientarsi tra possibilità e opportunità</h3>
+          <p class="situazione-card-text">
+            Quando cambiano le esigenze può essere difficile capire quali opportunità, servizi, strumenti e interlocutori possano essere utili. Avere informazioni più chiare aiuta a individuare le possibilità da approfondire.
+          </p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ========== FORM PRIMO PASSO ========== -->
-  <section id="primo-passo" class="bg-bianco fade-in" aria-labelledby="pf-form-titolo">
+  <!-- ========================================================
+       3. COME POSSIAMO ESSERTI UTILI (I Tre Ambiti)
+       ======================================================== -->
+  <section class="bg-bianco" aria-labelledby="pf-ambiti-titolo">
     <div class="container">
-      <div class="grid-2" style="gap:56px; align-items:flex-start;">
-        <div>
-          <h2 id="pf-form-titolo">Come fare il primo passo</h2>
-          <p style="color:var(--grigio-testo); margin-top:16px; font-size:1.05rem; line-height:1.75;">
-            
-            Non occorre sapere cosa vuoi esattamente. Raccontaci la tua situazione con parole semplici — ci occuperemo noi di capire come possiamo aiutarti.
-          </p>
-          <div style="display:flex; flex-direction:column; gap:16px; margin-top:28px;">
-            <div style="display:flex; gap:14px; align-items:flex-start;">
-              <span style="width:32px; height:32px; border-radius:50%; background:var(--terracotta); color:var(--bianco); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:var(--font-heading); flex-shrink:0;" aria-hidden="true">1</span>
-              <p style="margin:0; color:var(--grigio-testo);">
-                
-                Compila il modulo con il tuo nome, email e una breve descrizione della tua situazione.
-              </p>
-            </div>
-            <div style="display:flex; gap:14px; align-items:flex-start;">
-              <span style="width:32px; height:32px; border-radius:50%; background:var(--terracotta); color:var(--bianco); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:var(--font-heading); flex-shrink:0;" aria-hidden="true">2</span>
-              <p style="margin:0; color:var(--grigio-testo);">
-                
-                Ti ricontatteremo entro [X giorni lavorativi — da definire] per capire insieme come procedere.
-              </p>
-            </div>
-            <div style="display:flex; gap:14px; align-items:flex-start;">
-              <span style="width:32px; height:32px; border-radius:50%; background:var(--terracotta); color:var(--bianco); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:var(--font-heading); flex-shrink:0;" aria-hidden="true">3</span>
-              <p style="margin:0; color:var(--grigio-testo);">
-                
-                Costruiamo insieme il percorso più adatto a te, senza fretta e senza tecnicismi.
-              </p>
-            </div>
+      <div style="max-width: 780px;">
+        <p class="pf-tag">LE NOSTRE AREE DI IMPEGNO</p>
+        <h2 id="pf-ambiti-titolo" style="font-size: clamp(1.85rem, 3.4vw, 2.35rem); color: var(--marrone-scuro); margin-bottom: 14px; line-height: 1.25;">
+          Come possiamo esserti utili.
+        </h2>
+        <p style="font-size: 1.10rem; line-height: 1.74; color: var(--grigio-testo); margin: 0;">
+          Tre ambiti di intervento guidati da un principio chiaro: la tecnologia, gli strumenti e i servizi hanno valore solo quando rispondono alle scelte, alle abitudini e ai desideri reali della persona.
+        </p>
+      </div>
+
+      <div class="ambiti-grid">
+        <article class="ambito-card">
+          <div>
+            <span class="ambito-card-tag">Ambito 01</span>
+            <h3 class="ambito-card-title">Ascoltare e orientare</h3>
+            <p class="ambito-card-text">
+              Partire dalla situazione concreta della persona e della famiglia, comprendere ciò che sta cambiando e mettere a fuoco bisogni, priorità e possibilità, senza partire da prodotti o soluzioni predefinite.
+            </p>
           </div>
-        </div>
-        <form action="#" class="card" novalidate aria-label="Modulo di primo contatto per persone e famiglie">
-          <h3 style="margin-bottom:20px;">Scrivici</h3>
-          <div class="form-group">
-            <label for="pf-nome">Nome e cognome</label>
-            <input type="text" id="pf-nome" name="nome" autocomplete="name" required>
+        </article>
+
+        <article class="ambito-card">
+          <div>
+            <span class="ambito-card-tag">Ambito 02</span>
+            <h3 class="ambito-card-title">Casa, autonomia e domotica assistiva</h3>
+            <p class="ambito-card-text">
+              Aiutare a comprendere come l'ambiente domestico, gli ausili e le tecnologie assistive possano contribuire all'autonomia, alla sicurezza e alla qualità della vita, individuando possibili soluzioni da approfondire.
+            </p>
           </div>
-          <div class="form-group">
-            <label for="pf-email">Email</label>
-            <input type="email" id="pf-email" name="email" autocomplete="email" required>
+          <a href="domotica.html" class="ambito-link">
+            Approfondisci la Domotica Assistiva <span aria-hidden="true">→</span>
+          </a>
+        </article>
+
+        <article class="ambito-card">
+          <div>
+            <span class="ambito-card-tag">Ambito 03</span>
+            <h3 class="ambito-card-title">Informare e accompagnare</h3>
+            <p class="ambito-card-text">
+              Mettere a disposizione informazioni, esperienze e conoscenze utili per orientarsi tra opportunità, servizi, iniziative e possibili percorsi, individuando quando necessario gli interlocutori più appropriati.
+            </p>
           </div>
-          <div class="form-group">
-            <label for="pf-situazione">Come possiamo aiutarti?</label>
-            <textarea id="pf-situazione" name="situazione" rows="5" placeholder="Descrivi la tua situazione con parole tue. Non servono termini tecnici."></textarea>
-          </div>
-          <div class="form-group form-check">
-            <input type="checkbox" id="pf-privacy" name="privacy" required>
-            <label for="pf-privacy">Ho letto e accetto la <a href="/contatti.html" aria-label="Privacy policy — pagina in costruzione">privacy policy</a></label>
-          </div>
-          <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">Invia</button>
-          <p style="margin-top:12px; font-size:0.82rem; color:var(--grigio-testo); text-align:center;">
-            
-            Ti risponderemo entro [X] giorni lavorativi.
-          </p>
-        </form>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ========== RISORSE UTILI (articoli) ========== -->
-  <section class="bg-crema-chiara fade-in" aria-labelledby="pf-risorse-titolo">
+  <!-- ========================================================
+       4. COMPONENTE VISIVA AUTENTICA D'ARCHIVIO
+       ======================================================== -->
+  <section class="sezione-foto-ascolto" aria-labelledby="pf-foto-titolo">
     <div class="container">
-      <h2 id="pf-risorse-titolo">Risorse che potrebbero esserti utili</h2>
-      <p style="color:var(--grigio-testo); margin-top:8px; margin-bottom:28px;">
-        Articoli e approfondimenti selezionati per te.
-      </p>
-      <div class="grid-3">
-        <article class="article-card">
-          <div class="article-card-img" style="background:linear-gradient(135deg, rgba(123,63,0,0.85), #7b3f00);" role="img" aria-label="Immagine illustrativa">
-            <span style="font-size:0.75rem; color:rgba(255,255,255,0.5); font-style:italic;">[placeholder]</span>
-          </div>
-          <div class="article-card-body">
-            <span class="badge badge-terracotta" style="margin-bottom:10px;">Domotica e autonomia</span>
-            <h3> Domotica assistiva: non solo dispositivi, ma autonomia</h3>
-            <p> Come un intervento cambia concretamente la vita quotidiana.</p>
-            <div class="article-card-meta"><time datetime="2023-11-05">5 novembre 2023</time></div>
-            <a href="articolo.html" class="btn btn-secondary btn-sm" style="margin-top:12px;" aria-label="Leggi: Domotica assistiva non solo dispositivi">Leggi →</a>
-          </div>
-        </article>
-        <article class="article-card">
-          <div class="article-card-img" style="background:linear-gradient(135deg, rgba(196,94,26,0.85), #c45e1a);" role="img" aria-label="Immagine illustrativa">
-            <span style="font-size:0.75rem; color:rgba(255,255,255,0.5); font-style:italic;">[placeholder]</span>
-          </div>
-          <div class="article-card-body">
-            <span class="badge badge-terracotta" style="margin-bottom:10px;">Diritti e normativa</span>
-            <h3> Smart working e disabilità: diritti, strumenti e buone pratiche</h3>
-            <p> Cosa prevede la normativa e cosa serve concretamente.</p>
-            <div class="article-card-meta"><time datetime="2024-09-15">15 settembre 2024</time></div>
-            <a href="articolo.html" class="btn btn-secondary btn-sm" style="margin-top:12px;" aria-label="Leggi: Smart working e disabilità">Leggi →</a>
-          </div>
-        </article>
-        <div class="article-card" style="background:var(--crema); border-style:dashed; display:flex; align-items:center; justify-content:center; min-height:200px;">
-          <div style="text-align:center; color:var(--grigio-testo); padding:24px; font-size:0.88rem;">
-            <span aria-hidden="true" style="font-size:1.5rem; display:block; margin-bottom:8px;">📚</span>
-            <a href="articoli.html" style="font-weight:600;">Vai all'archivio completo →</a>
-          </div>
-        </div>
+      <div style="max-width: 780px; margin: 0 auto 28px auto; text-align: center;">
+        <p class="pf-tag" style="margin-bottom: 10px;">RELAZIONE E PARTECIPAZIONE</p>
+        <h2 id="pf-foto-titolo" style="font-size: clamp(1.65rem, 3vw, 2.15rem); color: var(--marrone-scuro); margin-bottom: 12px; line-height: 1.28;">
+          La persona al centro di ogni scelta.
+        </h2>
+        <p style="font-size: 1.05rem; line-height: 1.70; color: var(--grigio-testo); margin: 0;">
+          Nelle radici storiche della cooperazione e nell'esperienza di COINSIEME, ogni risposta nasce dall'incontro, dal dialogo e dalla condivisione delle esperienze.
+        </p>
+      </div>
+
+      <figure class="foto-storica-panel">
+        <img src="assets/archivio-storico/storico-confronto-famiglie-ascolto.jpg" alt="Gruppo di persone e familiari riuniti attorno a un tavolo durante un momento di confronto e ascolto" width="1024" height="684" loading="lazy">
+        <figcaption class="foto-storica-caption">
+          <span class="foto-storica-desc">Confronto, partecipazione e ascolto condiviso nelle esperienze comunitarie e cooperative.</span>
+          <span class="foto-storica-credit">Archivio Capodarco / CO.IN.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       5. CHIUSURA — Raccontaci la tua situazione
+       ======================================================== -->
+  <section class="sezione-chiusura-raccontaci" aria-labelledby="pf-chiusura-titolo">
+    <div class="container">
+      <div class="cta-box-raccontaci">
+        <p class="pf-tag" style="margin-bottom: 10px;">IL PRIMO PASSO</p>
+        <h2 id="pf-chiusura-titolo">
+          Raccontaci la tua situazione
+        </h2>
+        <p>
+          Non occorre sapere già cosa chiedere. Raccontaci la tua situazione con parole semplici: ci confronteremo per capire insieme quali possibilità esistono e come possiamo esserti utili.
+        </p>
+        <a href="contatti.html" class="btn btn-primary btn-lg">
+          Contatta COINSIEME <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- ========== OVERLAY PIATTAFORMA ========== -->
-<div id="piattaforma-overlay" class="piattaforma-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titolo" aria-hidden="true" hidden>
-  <div class="piattaforma-modal">
-    <span class="modal-badge" aria-hidden="true">🔒 Ambiente separato</span>
-    <h2 id="modal-titolo">Stai per accedere allo spazio personale COINSIEME</h2>
-    <p>È un ambiente diverso da questo sito, pensato per ascoltarti e orientarti verso risorse, servizi e persone in modo personalizzato.</p>
-    <div class="modal-actions">
-      <button class="btn btn-secondary close-modal">Torna al sito</button>
-      <button class="btn btn-primary" onclick="alert('[PROTOTIPO] La piattaforma è in sviluppo separato.')">Continua →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ========== FOOTER ========== -->
+<!-- ========== FOOTER ISTITUZIONALE ========== -->
 <footer class="site-footer" role="contentinfo">
   <div class="container">
     <div class="footer-grid">
@@ -260,37 +461,37 @@
       <nav class="footer-col" aria-label="Chi siamo">
         <h4>Chi siamo</h4>
         <ul>
-          <li><a href="/contatti.html" aria-label="Storia e radici — in costruzione">Storia e radici</a></li>
-          <li><a href="/contatti.html" aria-label="Missione — in costruzione">Missione e visione</a></li>
-          <li><a href="/contatti.html" aria-label="Team — in costruzione">Il team</a></li>
+          <li><a href="chi-siamo.html">Storia e radici</a></li>
+          <li><a href="chi-siamo.html#governance">Governance</a></li>
+          <li><a href="chi-siamo.html#statuto">Statuto e documenti</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Cosa facciamo">
         <h4>Cosa facciamo</h4>
         <ul>
-          <li><a href="cosa-facciamo.html">I nostri servizi</a></li>
+          <li><a href="cosa-facciamo.html">Le nostre attività</a></li>
           <li><a href="domotica.html">Domotica assistiva</a></li>
           <li><a href="formazione.html">Formazione</a></li>
-          <li><a href="articoli.html">Articoli</a></li>
+          <li><a href="articoli.html">Conoscenza</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Contatti">
         <h4>Contatti</h4>
         <ul>
           <li><a href="contatti.html">Scrivici</a></li>
-          <li><a href="/contatti.html" aria-label="Trasparenza — in costruzione">Trasparenza</a></li>
+          <li><a href="trasparenza.html">Trasparenza</a></li>
         </ul>
       </nav>
     </div>
-        <div class="footer-sostienici">
+    <div class="footer-sostienici">
       <span>Puoi sostenere il nostro lavoro con il <strong style="color:rgba(252,246,240,0.88);">5×1000</strong>: C.F. 08429760583</span>
-      <span style="opacity:0.6; font-size:0.9rem;">Pagina Sostienici in allestimento</span>
+      <span style="opacity:0.6; font-size:0.9rem;">Fondazione COINSIEME ETS</span>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Fondazione COINSIEME ETS</span>
       <div style="display:flex; gap:16px; flex-wrap:wrap;">
-        <a href="/contatti.html" aria-label="Privacy policy — in costruzione">Privacy policy</a>
-        <a href="/contatti.html" aria-label="Accessibilità — in costruzione">Accessibilità</a>
+        <a href="trasparenza.html">Privacy & Trasparenza</a>
+        <a href="contatti.html">Accessibilità</a>
       </div>
     </div>
   </div>
@@ -299,5 +500,3 @@
 <script src="js/main.js"></script>
 </body>
 </html>
-
-
