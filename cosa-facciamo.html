@@ -387,14 +387,26 @@
       font-size: 0.76rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
+      letter-spacing: 0.08em;
       padding: 5px 12px;
       border-radius: 20px;
-      background: #ffffff;
-      color: var(--terracotta-deep);
-      border: 1px solid rgba(163, 77, 20, 0.35);
       align-self: flex-start;
       font-family: var(--font-heading);
+    }
+    .stage-badge-sviluppo {
+      background: #ffffff;
+      color: var(--terracotta-deep);
+      border: 1.5px solid var(--terracotta);
+    }
+    .stage-badge-valutazione {
+      background: #ffffff;
+      color: #245280;
+      border: 1.5px solid #245280;
+    }
+    .stage-badge-studio {
+      background: #ffffff;
+      color: #176554;
+      border: 1.5px solid #176554;
     }
     .stage-content {
       display: flex;
@@ -486,6 +498,42 @@
       color: #ffffff;
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(184, 82, 16, 0.25);
+    }
+
+    /* FOTOGRAFIE STORICHE D'ARCHIVIO */
+    .foto-storica-card {
+      margin: 0;
+      background: #ffffff;
+      border: 1px solid rgba(85, 51, 17, 0.12);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.04);
+    }
+    .foto-storica-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(85, 51, 17, 0.08);
+      display: block;
+    }
+    .foto-storica-caption {
+      padding: 8px 4px 2px 4px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--grigio-testo);
+    }
+    .foto-storica-desc {
+      display: block;
+      color: var(--marrone-scuro);
+      font-weight: 500;
+    }
+    .foto-storica-credit {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--terracotta-deep);
+      margin-top: 3px;
+      font-style: italic;
+      font-family: var(--font-heading);
     }
 
     /* RESPONSIVE */
@@ -747,17 +795,26 @@
 
         </div>
 
-        <!-- Colonna Destra: Pannello Documentale con Copertine Autentiche -->
+        <!-- Colonna Destra: Pannello Documentale con Copertine Autentiche e Fotografia Storica -->
         <aside class="archivio-doc-panel" aria-label="Testimonianze documentali autentiche">
           <div class="archivio-doc-header">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             Archivio storico & documentale
           </div>
+
+          <figure class="foto-storica-card" style="margin-bottom: 20px;">
+            <img src="assets/archivio-storico/storico-operatori-postazione-informatica.jpg" alt="Operatori al lavoro presso una postazione informatica" width="380" height="254" loading="lazy">
+            <figcaption class="foto-storica-caption">
+              <span class="foto-storica-desc">Operatori al lavoro presso una postazione informatica.</span>
+              <span class="foto-storica-credit">Archivio Capodarco / CO.IN.</span>
+            </figcaption>
+          </figure>
+
           <p class="archivio-doc-desc">
             Documenti, pubblicazioni e guide storiche che attestano le indagini pionieristiche sul campo condotte dalla rete nel corso degli anni:
           </p>
           
-          <div class="archivio-covers-grid">
+          <div class="archivio-covers-grid" style="margin-bottom: 22px;">
             <div class="archivio-cover-item">
               <img src="assets/copertine/1990_guida-roma-accessibilita.jpg" alt="Copertina Guida Roma per tutti 1990" loading="lazy" width="100" height="130">
               <span>Roma 1990</span>
@@ -803,10 +860,10 @@
         <!-- Roadmap Step 1: Piattaforma digitale -->
         <article class="roadmap-stage-card">
           <div class="stage-meta">
-            <span class="stage-number">Fase 01 · Piattaforma</span>
-            <span class="stage-badge">
+            <span class="stage-number">FASE 01 · PIATTAFORMA</span>
+            <span class="stage-badge stage-badge-sviluppo">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              In sviluppo
+              IN SVILUPPO
             </span>
           </div>
           <div class="stage-content">
@@ -824,10 +881,10 @@
         <!-- Roadmap Step 2: Orientamento e Bandi -->
         <article class="roadmap-stage-card">
           <div class="stage-meta">
-            <span class="stage-number">Fase 02 · Orientamento</span>
-            <span class="stage-badge">
+            <span class="stage-number">FASE 02 · ORIENTAMENTO</span>
+            <span class="stage-badge stage-badge-valutazione">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              In valutazione
+              IN VALUTAZIONE
             </span>
           </div>
           <div class="stage-content">
@@ -845,10 +902,10 @@
         <!-- Roadmap Step 3: Formazione Specialistica -->
         <article class="roadmap-stage-card">
           <div class="stage-meta">
-            <span class="stage-number">Fase 03 · Formazione</span>
-            <span class="stage-badge">
+            <span class="stage-number">FASE 03 · FORMAZIONE</span>
+            <span class="stage-badge stage-badge-studio">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              In studio
+              IN STUDIO
             </span>
           </div>
           <div class="stage-content">
