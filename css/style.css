@@ -410,9 +410,9 @@ section { padding: var(--section-v) 0; }
 .btn:active { transform: translateY(0); }
 
 .btn-primary {
-  background: var(--terracotta);
+  background: var(--terracotta-deep);
   color: var(--bianco);
-  border-color: var(--terracotta);
+  border-color: var(--terracotta-deep);
 }
 .btn-primary:hover {
   background: var(--terracotta-lite);
@@ -1119,7 +1119,8 @@ a[aria-disabled="true"] {
 .footer-brand .logo-sub  { color: rgba(255,255,255,0.45); margin-top: 2px; display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; }
 .footer-brand p { margin-top: 14px; font-size: 0.87rem; line-height: 1.6; color: rgba(252,246,240,0.55); }
 
-.footer-col h4 {
+.footer-col h4,
+.footer-col-title {
   font-size: 0.68rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
   color: var(--terracotta-lite);
@@ -1467,4 +1468,16 @@ img, svg, video, canvas {
     white-space: normal;
     box-sizing: border-box;
   }
+}
+
+
+.btn-terracotta {
+  background: var(--terracotta-deep);
+  color: var(--bianco);
+  border-color: var(--terracotta-deep);
+}
+.btn-terracotta:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--bianco);
 }
