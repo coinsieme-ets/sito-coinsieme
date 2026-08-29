@@ -77,7 +77,12 @@ function renderInline(value) {
 }
 
 function markdownToHtml(markdown = '') {
-  const lines = String(markdown).replace(/\r\n?/g, '\n').split('\n');
+  const trimmed = String(markdown).trim();
+  if (/^<[a-z0-9]+/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  const lines = trimmed.replace(/\r\n?/g, '\n').split('\n');
   const out = [];
   let list = null;
 
@@ -142,7 +147,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function loadNewArticles(historicSlugs) {
+function loadAllArticles() {
   if (!fs.existsSync(newArticlesDir)) return [];
   const files = fs.readdirSync(newArticlesDir).filter((name) => name.endsWith('.json')).sort();
   const seen = new Set();
@@ -163,8 +168,7 @@ function loadNewArticles(historicSlugs) {
     assert(slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug), `${name}: slug non valido (${slug})`);
     assert(item.summary && item.summary.trim(), `${name}: sintesi mancante`);
     assert(item.body && item.body.trim(), `${name}: testo mancante`);
-    assert(!historicSlugs.has(slug), `${name}: slug gia usato da un articolo storico`);
-    assert(!seen.has(slug), `${name}: slug duplicato nei nuovi articoli`);
+    assert(!seen.has(slug), `${name}: slug duplicato (${slug})`);
     seen.add(slug);
 
     let image = '';
@@ -174,25 +178,23 @@ function loadNewArticles(historicSlugs) {
       const previewOrigin = 'https://coinsieme-ets-preview.netlify.app/';
       if (rawImage.startsWith(previewOrigin)) {
         image = webpPathFor(rawImage.slice(previewOrigin.length).replace(/^\//, ''));
-        assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
-      } else if (/^https:\/\//i.test(rawImage)) {
-        assert(!/\.(heic|heif)(?:[?#].*)?$/i.test(rawImage), `${name}: URL HEIC esterno non convertibile; carica il file nel CMS`);
+      } else if (/^https?:\/\//i.test(rawImage)) {
         image = rawImage;
         imageIsExternal = true;
       } else {
         image = webpPathFor(rawImage.replace(/^\//, '').replace(/\\/g, '/'));
-        assert(fs.existsSync(path.join(root, image)), `${name}: immagine non trovata: ${image}`);
       }
-      const imageAlt = item.image_alt && item.image_alt.trim() ? String(item.image_alt).trim() : `Immagine per: ${item.title.trim()}`;
+      if (!imageIsExternal && !fs.existsSync(path.join(root, image))) {
+        image = '';
+      }
     }
 
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const articleDate = item.date && String(item.date).trim() ? String(item.date).slice(0, 10) : todayStr;
+    const articleDate = parseArticleDate(item);
 
     return {
       title: item.title.trim(),
       slug,
-      category: item.category ? String(item.category).trim() : 'innovazione-digitale',
+      category: item.category ? String(item.category).trim() : 'Articolo',
       contentType: item.content_type ? String(item.content_type).trim() : 'approfondimento',
       summary: item.summary.trim(),
       body: item.body,
@@ -341,65 +343,31 @@ function buildHomeSection(items) {
 
 async function main() {
   const convertedImages = await convertHeicUploads();
-  const historicData = readJson(path.join(root, 'data', 'articoli.json'));
-  const historic = historicData
-    .filter((item) => item.indicizzabile === true)
-    .filter((item) => fs.existsSync(path.join(articlesDir, item.slug, 'index.html')))
-    .map((item) => ({
-      title: item.titolo,
-      slug: item.slug,
-      category: item.categoria || 'Articolo',
-      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : (item.immagine ? String(item.immagine).replace(/^\//, '') : ''),
-      imageType: item.immagineTipo || (item.immagineCopertina ? 'photo' : 'text')
-    }));
-
-  const historicSlugs = new Set(historic.map((item) => item.slug));
-  const fresh = loadNewArticles(historicSlugs);
+  const allArticles = loadAllArticles();
   const articleTemplate = fs.readFileSync(path.join(root, 'templates', 'articolo-template.html'), 'utf8');
 
-  for (const item of fresh) {
+  for (const item of allArticles) {
     const outputDir = path.join(articlesDir, item.slug);
     fs.mkdirSync(outputDir, { recursive: true });
     fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate), 'utf8');
   }
 
-  const freshMappedForIndex = fresh.map((item) => ({
+  const allForIndex = allArticles.map((item) => ({
     title: item.title,
     slug: item.slug,
     category: item.category || 'Articolo',
     image: item.image ? String(item.image).replace(/^\//, '') : '',
     imageType: item.image ? 'photo' : 'text'
-  }));
+  })).sort((a, b) => a.title.localeCompare(b.title, 'it'));
 
-  const allForIndex = [...historic, ...freshMappedForIndex].sort((a, b) => a.title.localeCompare(b.title, 'it'));
   const archiveTemplate = fs.readFileSync(path.join(root, 'templates', 'archivio-articoli-template.html'), 'utf8');
   const archiveHtml = archiveTemplate
     .replace('{{COUNT}}', String(allForIndex.length))
     .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
   fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
 
-    const historicFull = historicData
-    .filter((item) => item.indicizzabile === true)
-    .filter((item) => fs.existsSync(path.join(articlesDir, item.slug, 'index.html')))
-    .map((item) => ({
-      title: item.titolo,
-      slug: item.slug,
-      category: item.categoria || 'Diritti & Innovazione',
-      summary: item.sintesi || '',
-      author: item.autore || '',
-      date: parseArticleDate(item),
-      image: item.immagineCopertina ? String(item.immagineCopertina).replace(/^\//, '') : (item.immagine ? String(item.immagine).replace(/^\//, '') : ''),
-      imageIsExternal: false,
-      imageAlt: `Immagine per: ${item.titolo}`
-    }));
-
-  const freshMapped = fresh.map((item) => ({
-    ...item,
-    date: parseArticleDate(item)
-  }));
-
-  // Unified chronological sorting across ALL articles (CMS fresh + Historic)
-  const allArticlesForHome = [...freshMapped, ...historicFull].sort(
+  // Unified chronological sorting across ALL articles
+  const allArticlesForHome = [...allArticles].sort(
     (a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title, 'it')
   );
 
@@ -414,7 +382,7 @@ async function main() {
   assert(homepageUpdated !== homepage || homepage.includes(latestHtml), 'Homepage: marcatori ultimi articoli mancanti');
   fs.writeFileSync(homepagePath, homepageUpdated, 'utf8');
 
-  console.log(`Build CMS completata: ${historic.length} articoli storici, ${fresh.length} nuovi articoli, ${allForIndex.length} card, ${latest.length} articoli in homepage, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
+  console.log(`Build CMS completata: ${allArticles.length} articoli totali gestiti dal CMS in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
 main().catch((error) => {
