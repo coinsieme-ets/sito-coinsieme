@@ -81,14 +81,18 @@ collections:
       - { label: "Link PDF Allegato", name: "pdf_file", widget: "file", required: false }
 
   - name: "articoli"
-    label: "Nuovi Articoli"
-    label_singular: "Nuovo Articolo"
+    label: "Articoli"
+    label_singular: "Articolo"
     folder: "content/articoli"
     extension: "json"
     format: "json"
     create: true
     slug: "{{title}}"
     summary: "{{title}}"
+    sortable_fields:
+      - "date"
+      - "title"
+      - "author"
     fields:
       - { label: "Titolo", name: "title", widget: "string", required: true }
       - label: "Rubrica Tematica"
