@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: coinsieme-ets/sito-coinsieme
   branch: main
+  base_url: https://coinsieme-cms-oauth.coinonlus.workers.dev
+  auth_endpoint: auth
 
 local_backend:
   url: "http://localhost:8081/api/v1"
