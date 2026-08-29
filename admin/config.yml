@@ -99,27 +99,28 @@ collections:
         name: "category"
         widget: "select"
         required: true
-        hint: "Seleziona la rubrica tematica dell'articolo"
+        default: "Articolo"
         options:
-          - { label: "🛠️ Domotica, autonomia e tecnologie assistive", value: "domotica-autonomia" }
-          - { label: "⚖️ Disabilità, diritti e welfare", value: "diritti-welfare" }
-          - { label: "💼 Lavoro, cooperazione e inclusione", value: "lavoro-cooperazione" }
-          - { label: "🎓 Formazione e competenze", value: "formazione-competenze" }
-          - { label: "💡 Innovazione sociale e digitale", value: "innovazione-digitale" }
-          - { label: "📜 Storie, esperienze e memoria sociale", value: "storie-memoria" }
-        default: "innovazione-digitale"
+          - { label: "Articolo generale", value: "Articolo" }
+          - { label: "Accessibilità & Digitale", value: "Accessibilità & Digitale" }
+          - { label: "Domotica & Innovazione", value: "Domotica & Innovazione" }
+          - { label: "Normativa & Diritti Europei", value: "Normativa & Diritti Europei" }
+          - { label: "Inclusione & Lavoro", value: "Inclusione & Lavoro" }
+          - { label: "Lavoro & Tecnologie", value: "Lavoro & Tecnologie" }
+          - { label: "Turismo & Accessibilità", value: "Turismo & Accessibilità" }
+          - { label: "Storia & Radici CO.IN.", value: "Storia & Radici CO.IN." }
+          - { label: "Memoria & Testimonianze", value: "Memoria & Testimonianze" }
       - label: "Tipo di Contenuto"
         name: "content_type"
         widget: "select"
         required: true
-        hint: "Seleziona il formato del contenuto"
+        default: "Approfondimento"
         options:
-          - { label: "📰 Notizia / Comunicato", value: "notizia" }
-          - { label: "📘 Approfondimento / Saggio", value: "approfondimento" }
-          - { label: "💡 Guida pratica / Scheda informativa", value: "guida" }
-          - { label: "📢 Bando / Opportunità", value: "bando" }
-          - { label: "🎙️ Intervista / Testimonianza", value: "intervista" }
-        default: "approfondimento"
+          - { label: "Approfondimento", value: "Approfondimento" }
+          - { label: "Novità / Comunicato", value: "Novità" }
+          - { label: "Guida pratica", value: "Guida pratica" }
+          - { label: "Bando / Opportunità", value: "Bando" }
+          - { label: "Intervista / Testimonianza", value: "Intervista" }
       - { label: "Sintesi", name: "summary", widget: "text", required: true }
       - { label: "Testo dell'articolo", name: "body", widget: "markdown", required: true }
       - { label: "Autore", name: "author", widget: "string", required: false }
