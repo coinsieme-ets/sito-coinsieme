@@ -367,6 +367,87 @@ function evidenziaNavAttivo() {
 }
 
 /* ============================================================
+   TRACKING EVENTI GA4 (DELEGATO & COMPATIBILE BASIC CONSENT MODE)
+   ============================================================ */
+
+function inviaEventoGA4(nomeEvento, parametri) {
+  if (typeof window.gtag !== 'function') return;
+
+  // Verifica stato consenso iubenda per finalità 4 (Misurazione / Statistica) se la CMP è presente
+  if (window._iub && window._iub.cs && window._iub.cs.api && typeof window._iub.cs.api.isConsentGiven === 'function') {
+    if (!window._iub.cs.api.isConsentGiven(4)) return;
+  }
+
+  window.gtag('event', nomeEvento, parametri);
+}
+
+function inizializzaTrackingEventi() {
+  document.addEventListener('click', (event) => {
+    const anchor = event.target.closest('a');
+    if (!anchor) return;
+
+    const href = anchor.getAttribute('href') || '';
+    if (!href) return;
+
+    const linkText = (anchor.innerText || anchor.textContent || '').trim().replace(/\s+/g, ' ');
+    const pageLocation = window.location.href;
+
+    // 1. WhatsApp
+    if (href.includes('wa.me') || href.includes('whatsapp.com')) {
+      inviaEventoGA4('contact_whatsapp', {
+        link_url: href,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+
+    // 2. Condivisione Articolo via Email (share)
+    if (href.startsWith('mailto:?') || href.startsWith('mailto: ?') || anchor.classList.contains('share-email')) {
+      const pathSegments = window.location.pathname.split('/').filter(Boolean).filter(s => s !== 'index.html');
+      const articleSlug = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : 'home';
+      inviaEventoGA4('share', {
+        method: 'email',
+        content_type: 'article',
+        item_id: articleSlug,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+
+    // 3. Contatto Email Diretto
+    if (href.startsWith('mailto:')) {
+      const emailRaw = href.replace(/^mailto:/i, '').split('?')[0].trim().toLowerCase();
+      let emailType = 'other';
+      if (emailRaw.includes('segreteria@coinsieme.it')) {
+        emailType = 'segreteria';
+      } else if (emailRaw.includes('coinonlus@pec.it')) {
+        emailType = 'pec';
+      }
+
+      inviaEventoGA4('contact_email', {
+        email_type: emailType,
+        link_url: href,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+
+    // 4. Click Acquisto Pubblicazione su Amazon
+    if (href.includes('amazon.it') || href.includes('amzn.eu') || href.includes('amazon.com')) {
+      inviaEventoGA4('publication_amazon_click', {
+        link_url: href,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+  });
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 
@@ -380,4 +461,5 @@ document.addEventListener('DOMContentLoaded', () => {
   evidenziaNavAttivo();
   inizializzaArticoliHome();
   inizializzaFiltri();
+  inizializzaTrackingEventi();
 });
