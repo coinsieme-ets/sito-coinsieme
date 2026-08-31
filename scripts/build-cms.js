@@ -223,10 +223,22 @@ function renderArticle(item, template) {
     ? `<figure style="margin:0 0 40px;"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" style="width:100%; height:auto; border-radius:var(--radius-lg);" loading="lazy"></figure>`
     : '';
 
+  const canonicalUrl = `https://www.coinsieme.it/articoli/${item.slug}/`;
+  const ogImage = item.image
+    ? (item.imageIsExternal ? item.image : `https://www.coinsieme.it/${item.image.replace(/^\/+/, '')}`)
+    : 'https://www.coinsieme.it/assets/hero_inclusion.jpg';
+  const encodedCanonicalUrl = encodeURIComponent(canonicalUrl);
+  const encodedTitle = encodeURIComponent(`Articolo COINSIEME: ${item.title}`);
+  const encodedBody = encodeURIComponent(`Ti condivido questo articolo di Fondazione COINSIEME ETS:\n"${item.title}"\n\n${canonicalUrl}`);
+
   let html = template
     .replace(/\{\{TITOLO\}\}/g, escapeHtml(item.title))
     .replace(/\{\{META_DESCRIPTION\}\}/g, escapeHtml(item.summary))
-    .replace(/\{\{CANONICAL_URL\}\}/g, `https://www.coinsieme.it/articoli/${item.slug}/`)
+    .replace(/\{\{CANONICAL_URL\}\}/g, canonicalUrl)
+    .replace(/\{\{OG_IMAGE\}\}/g, escapeHtml(ogImage))
+    .replace(/\{\{ENCODED_CANONICAL_URL\}\}/g, encodedCanonicalUrl)
+    .replace(/\{\{ENCODED_TITLE\}\}/g, encodedTitle)
+    .replace(/\{\{ENCODED_BODY\}\}/g, encodedBody)
     .replace(/\{\{AUTORE_HTML\}\}/g, authorHtml)
     .replace(/\{\{DATA_HTML\}\}/g, dateHtml)
     .replace(/\{\{TEMPO_LETTURA\}\}/g, String(readingMinutes))

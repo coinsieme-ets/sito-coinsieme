@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /scratch/
+
+Sitemap: https://www.coinsieme.it/sitemap.xml

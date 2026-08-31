@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagina non trovata — Fondazione COINSIEME ETS</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Risoluzione reindirizzamenti per URL storici SITE123 / coinonlus.it
+    (function() {
+      var path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      var redirects = {
+        '/chi-siamo': '/chi-siamo.html',
+        '/cosa-facciamo': '/cosa-facciamo.html',
+        '/domotica': '/domotica.html',
+        '/formazione': '/formazione.html',
+        '/persone-famiglie': '/persone-famiglie.html',
+        '/persone-e-famiglie': '/persone-famiglie.html',
+        '/trasparenza': '/trasparenza.html',
+        '/contatti': '/contatti.html',
+        '/pubblicazioni': '/pubblicazioni.html',
+        '/articoli': '/articoli.html',
+        '/blog': '/articoli.html',
+        '/news': '/articoli.html'
+      };
+      if (redirects[path]) {
+        window.location.replace(redirects[path]);
+      }
+    })();
+  </script>
+</head>
+<body style="min-height:100vh; display:flex; flex-direction:column;">
+<header class="site-header" role="banner">
+  <nav class="navbar container" aria-label="Navigazione principale">
+    <a href="/index.html" class="nav-logo" aria-label="COINSIEME Fondazione ETS — torna alla homepage">
+      <img src="/assets/logo-symbol.png" class="logo-img" alt="" aria-hidden="true" width="44" height="39">
+      <div class="logo-wordmark">
+        <span class="logo-text">COINSIEME</span>
+        <span class="logo-sub">Fondazione ETS</span>
+      </div>
+    </a>
+    <div class="nav-menu" id="nav-menu" role="navigation">
+      <a href="/index.html" class="nav-link">Home</a>
+      <a href="/chi-siamo.html" class="nav-link">Chi siamo</a>
+      <a href="/cosa-facciamo.html" class="nav-link">Cosa facciamo</a>
+      <a href="/domotica.html" class="nav-link">Domotica assistiva</a>
+      <a href="/formazione.html" class="nav-link">Formazione</a>
+      <a href="/persone-famiglie.html" class="nav-link">Persone e famiglie</a>
+      <a href="/pubblicazioni.html" class="nav-link">Pubblicazioni</a>
+      <a href="/articoli.html" class="nav-link">Conoscenza</a>
+      <a href="/trasparenza.html" class="nav-link">Trasparenza</a>
+      <a href="/contatti.html" class="nav-link">Contatti</a>
+    </div>
+    <a href="/contatti.html" class="btn btn-primary btn-nav">Contattaci</a>
+  </nav>
+</header>
+
+<main id="main-content" style="flex:1; display:flex; align-items:center; padding:80px 0;">
+  <div class="container text-center">
+    <span class="badge badge-terracotta" style="margin-bottom:16px;">Errore 404</span>
+    <h1 style="margin-bottom:16px;">Pagina non trovata</h1>
+    <p style="color:var(--grigio-testo); max-width:600px; margin:0 auto 32px; font-size:1.15rem;">
+      La pagina o la risorsa richiesta non è disponibile o è stata spostata nell'ambito del nuovo sito COINSIEME.
+    </p>
+    <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+      <a href="/index.html" class="btn btn-primary">Torna alla Homepage</a>
+      <a href="/articoli.html" class="btn btn-secondary">Consulta gli Articoli</a>
+      <a href="/contatti.html" class="btn btn-secondary">Scrivici</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-bottom" style="border:none; padding:24px 0 0;">
+      <span>© 2026 Fondazione COINSIEME ETS</span>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="https://www.iubenda.com/privacy-policy/40825462" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a href="https://www.iubenda.com/privacy-policy/40825462/cookie-policy" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
+        <a href="#" class="iubenda-cs-preferences-link">Preferenze cookie</a>
+        <a href="/trasparenza.html">Trasparenza</a>
+        <a href="/contatti.html">Accessibilità</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

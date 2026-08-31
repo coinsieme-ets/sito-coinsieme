@@ -383,6 +383,20 @@ function inviaEventoGA4(nomeEvento, parametri) {
 
 function inizializzaTrackingEventi() {
   document.addEventListener('click', (event) => {
+    // 0. Verifica click su pulsante Copia Link (button.share-copy o button contenente link)
+    const copyBtn = event.target.closest('button.share-copy, button[aria-label*="Copia"]');
+    if (copyBtn) {
+      const pathSegments = window.location.pathname.split('/').filter(Boolean).filter(s => s !== 'index.html');
+      const articleSlug = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : 'home';
+      inviaEventoGA4('share', {
+        method: 'copy_link',
+        content_type: 'article',
+        item_id: articleSlug,
+        page_location: window.location.href
+      });
+      return;
+    }
+
     const anchor = event.target.closest('a');
     if (!anchor) return;
 
@@ -402,7 +416,21 @@ function inizializzaTrackingEventi() {
       return;
     }
 
-    // 2. Condivisione Articolo via Email (share)
+    // 2. Condivisione Articolo via LinkedIn
+    if (href.includes('linkedin.com/sharing') || anchor.classList.contains('share-linkedin')) {
+      const pathSegments = window.location.pathname.split('/').filter(Boolean).filter(s => s !== 'index.html');
+      const articleSlug = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : 'home';
+      inviaEventoGA4('share', {
+        method: 'linkedin',
+        content_type: 'article',
+        item_id: articleSlug,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+
+    // 3. Condivisione Articolo via Email (share)
     if (href.startsWith('mailto:?') || href.startsWith('mailto: ?') || anchor.classList.contains('share-email')) {
       const pathSegments = window.location.pathname.split('/').filter(Boolean).filter(s => s !== 'index.html');
       const articleSlug = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : 'home';
@@ -416,7 +444,7 @@ function inizializzaTrackingEventi() {
       return;
     }
 
-    // 3. Contatto Email Diretto
+    // 4. Contatto Email Diretto (mailto istituzionale o PEC)
     if (href.startsWith('mailto:')) {
       const emailRaw = href.replace(/^mailto:/i, '').split('?')[0].trim().toLowerCase();
       let emailType = 'other';
@@ -435,7 +463,20 @@ function inizializzaTrackingEventi() {
       return;
     }
 
-    // 4. Click Acquisto Pubblicazione su Amazon
+    // 5. Download Documenti (PDF / report)
+    if (href.toLowerCase().endsWith('.pdf') || href.toLowerCase().includes('/uploads/') && href.toLowerCase().includes('.pdf')) {
+      const fileName = href.split('/').pop() || 'document.pdf';
+      inviaEventoGA4('file_download', {
+        file_name: fileName,
+        file_extension: 'pdf',
+        link_url: href,
+        link_text: linkText,
+        page_location: pageLocation
+      });
+      return;
+    }
+
+    // 6. Click Acquisto Pubblicazione su Amazon
     if (href.includes('amazon.it') || href.includes('amzn.eu') || href.includes('amazon.com')) {
       inviaEventoGA4('publication_amazon_click', {
         link_url: href,
@@ -443,6 +484,17 @@ function inizializzaTrackingEventi() {
         page_location: pageLocation
       });
       return;
+    }
+
+    // 7. Click su CTA Principali (pulsanti classe .btn)
+    if (anchor.classList.contains('btn') && !anchor.classList.contains('iubenda-cs-preferences-link')) {
+      if (!href.startsWith('#')) {
+        inviaEventoGA4('cta_click', {
+          cta_name: linkText,
+          cta_url: href,
+          page_location: pageLocation
+        });
+      }
     }
   });
 }
