@@ -203,7 +203,10 @@ function loadAllArticles() {
       image,
       imageIsExternal,
       imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : ''),
-      image_position: item.image_position ? String(item.image_position).trim() : (item.imagePosition ? String(item.imagePosition).trim() : '')
+      image_position: item.image_position ? String(item.image_position).trim() : (item.imagePosition ? String(item.imagePosition).trim() : ''),
+      social_title: item.social_title ? String(item.social_title).trim() : '',
+      social_description: item.social_description ? String(item.social_description).trim() : '',
+      home_summary: item.home_summary ? String(item.home_summary).trim() : ''
     };
   });
 }
@@ -224,6 +227,8 @@ function renderArticle(item, template) {
     : '';
 
   const canonicalUrl = `https://www.coinsieme.it/articoli/${item.slug}/`;
+  const ogTitle = item.social_title || `${item.title} — Fondazione COINSIEME ETS`;
+  const ogDescription = item.social_description || item.summary;
   const ogImage = item.image
     ? (item.imageIsExternal ? item.image : `https://www.coinsieme.it/${item.image.replace(/^\/+/, '')}`)
     : 'https://www.coinsieme.it/assets/hero_inclusion.jpg';
@@ -234,6 +239,8 @@ function renderArticle(item, template) {
   let html = template
     .replace(/\{\{TITOLO\}\}/g, escapeHtml(item.title))
     .replace(/\{\{META_DESCRIPTION\}\}/g, escapeHtml(item.summary))
+    .replace(/\{\{OG_TITLE\}\}/g, escapeHtml(ogTitle))
+    .replace(/\{\{OG_DESCRIPTION\}\}/g, escapeHtml(ogDescription))
     .replace(/\{\{CANONICAL_URL\}\}/g, canonicalUrl)
     .replace(/\{\{OG_IMAGE\}\}/g, escapeHtml(ogImage))
     .replace(/\{\{ENCODED_CANONICAL_URL\}\}/g, encodedCanonicalUrl)
@@ -306,13 +313,14 @@ function buildHomeSection(items) {
   const primaryAuthorHtml = primary.author ? `<span>di ${escapeHtml(primary.author)}</span>` : '';
   const primaryMetaSep = primaryDateHtml && primaryAuthorHtml ? '<span aria-hidden="true">·</span>' : '';
   const primaryCategory = escapeHtml(primary.category || primary.contentType || 'Conoscenza');
+  const primarySummary = primary.home_summary || primary.summary;
 
   const primaryHtml = `<article class="conoscenza-featured-card">
     ${primaryImageHtml}
     <div class="conoscenza-featured-body">
       <div style="margin-bottom:8px;"><span class="badge badge-terracotta" style="font-size:0.75rem;">${primaryCategory}</span></div>
       <h3 style="font-size:1.3rem; color:var(--marrone-scuro); font-weight:700; line-height:1.3; margin-bottom:8px;">${escapeHtml(primary.title)}</h3>
-      <p style="font-size:0.95rem; color:var(--grigio-testo); line-height:1.5; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(primary.summary)}</p>
+      <p style="font-size:0.95rem; color:var(--grigio-testo); line-height:1.5; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(primarySummary)}</p>
       <div class="article-card-meta" style="font-size:0.85rem; margin-bottom:16px;">${primaryDateHtml}${primaryMetaSep}${primaryAuthorHtml}</div>
       <div style="margin-top:auto;"><a href="/articoli/${escapeHtml(primary.slug)}/" class="btn btn-terracotta" style="display:inline-flex; width:fit-content; align-items:center; gap:6px; padding:8px 18px; font-weight:600; text-decoration:none; border-radius:6px; font-size:0.88rem;">Leggi l'articolo <span aria-hidden="true">→</span></a></div>
     </div>

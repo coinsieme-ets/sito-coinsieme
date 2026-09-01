@@ -13,13 +13,13 @@
   // Modificare questo oggetto per attivare/disattivare o cambiare la novità da promuovere.
   window.COINSIEME_NOVITA = {
     attiva: true,
-    id: 'novita-nuovo-sito-2026',
+    id: 'novita-il-presente-che-abitiamo-2026',
     tipo: 'Nuovo articolo', // 'Nuovo articolo' | 'Nuova pubblicazione'
     badgeClass: 'badge-terracotta',
-    titolo: 'Un nuovo sito per essere ancora più vicini alle persone',
-    testo: 'Scopri il lavoro fatto per rendere il sito COINSIEME più chiaro, accessibile e vicino ai bisogni di persone e famiglie.',
+    titolo: 'Il presente che abitiamo',
+    testo: 'La vita cambia insieme ai bisogni, alle relazioni e agli strumenti che utilizziamo. COINSIEME sceglie di stare dentro questo presente e provare a costruire nuove possibilità.',
     ctaTesto: "Leggi l'articolo →",
-    ctaUrl: '/articoli/un-nuovo-sito-per-essere-ancora-piu-vicini-alle-persone/'
+    ctaUrl: '/articoli/il-presente-che-abitiamo/'
   };
 
   // 2. LOGICA GRAFICA E INTERAZIONE
@@ -129,12 +129,44 @@
       }
       @media (max-width: 640px) {
         .novita-toast {
-          bottom: 16px;
+          bottom: max(16px, env(safe-area-inset-bottom, 16px));
           left: 16px;
           right: 16px;
           width: auto;
           max-width: none;
-          padding: 16px 18px;
+          padding: 13px 15px;
+          border-radius: 10px;
+          border-left-width: 4px;
+          box-shadow: 0 6px 20px rgba(85, 51, 17, 0.18), 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+        .novita-toast-header {
+          margin-bottom: 6px;
+        }
+        .novita-toast-header .badge {
+          font-size: 0.70rem !important;
+          padding: 2px 7px !important;
+          letter-spacing: 0.04em;
+        }
+        .novita-close-btn {
+          font-size: 1.25rem;
+          min-width: 32px;
+          min-height: 32px;
+          padding: 0;
+        }
+        .novita-titolo {
+          font-size: 0.96rem;
+          line-height: 1.26;
+          margin: 0 0 4px 0;
+        }
+        .novita-testo {
+          font-size: 0.84rem;
+          line-height: 1.38;
+          margin: 0 0 10px 0;
+        }
+        .novita-cta {
+          font-size: 0.82rem;
+          padding: 7px 14px;
+          gap: 4px;
         }
       }
     `;
