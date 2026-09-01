@@ -975,8 +975,40 @@ a[aria-disabled="true"] {
 }
 
 /* ============================================================
-   ARTICOLO SINGOLO
+   ARTICOLO SINGOLO (Template ed Hero Editoriale)
    ============================================================ */
+
+.article-hero {
+  padding-top: clamp(32px, 4.5vw, 48px);
+  padding-bottom: 0;
+}
+
+.article-title {
+  font-size: clamp(1.85rem, 3.5vw, 2.45rem);
+  color: var(--marrone-scuro);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: 0.94rem;
+  color: var(--grigio-testo);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.article-meta strong {
+  color: var(--marrone-scuro);
+}
+
+.article-hero + .section-sm {
+  padding-top: 0;
+}
 
 .article-body {
   max-width: 700px;
