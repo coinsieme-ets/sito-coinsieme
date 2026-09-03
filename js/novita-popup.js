@@ -13,13 +13,13 @@
   // Modificare questo oggetto per attivare/disattivare o cambiare la novità da promuovere.
   window.COINSIEME_NOVITA = {
     attiva: true,
-    id: 'novita-il-presente-che-abitiamo-2026',
+    id: 'novita-cambio-d-appalto-2026',
     tipo: 'Nuovo articolo', // 'Nuovo articolo' | 'Nuova pubblicazione'
     badgeClass: 'badge-terracotta',
-    titolo: 'Il presente che abitiamo',
-    testo: 'La vita cambia insieme ai bisogni, alle relazioni e agli strumenti che utilizziamo. COINSIEME sceglie di stare dentro questo presente e provare a costruire nuove possibilità.',
+    titolo: 'Cambio d’appalto: il “terzo mondo” del lavoro sociale',
+    testo: 'Servizi che devono continuare, imprese che cambiano, lavoratori costretti ogni volta a ricominciare: scopri la riflessione di COINSIEME.',
     ctaTesto: "Leggi l'articolo →",
-    ctaUrl: '/articoli/il-presente-che-abitiamo/'
+    ctaUrl: '/articoli/cambio-d-appalto-il-terzo-mondo-del-lavoro-sociale/'
   };
 
   // 2. LOGICA GRAFICA E INTERAZIONE
