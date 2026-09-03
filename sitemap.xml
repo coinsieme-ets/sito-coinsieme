@@ -3,62 +3,62 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.coinsieme.it/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- Pagine Istituzionali -->
   <url>
     <loc>https://www.coinsieme.it/chi-siamo.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/cosa-facciamo.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/domotica.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/formazione.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/persone-famiglie.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/pubblicazioni.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/articoli.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/trasparenza.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.coinsieme.it/contatti.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -75,7 +75,7 @@
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
-  <!-- Articoli (Totale: 81) -->
+  <!-- Articoli (Totale: 82) -->
   <url>
     <loc>https://www.coinsieme.it/articoli/15-milioni-di-euro-per-la-digitalizzazione-del-terzo-settore/</loc>
     <lastmod>2024-07-19</lastmod>
@@ -139,6 +139,12 @@
   <url>
     <loc>https://www.coinsieme.it/articoli/bonus-assunzione-disabili-per-gli-ets/</loc>
     <lastmod>2024-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.coinsieme.it/articoli/cambio-d-appalto-il-terzo-mondo-del-lavoro-sociale/</loc>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
