@@ -99,14 +99,14 @@
         <div>
           <p class="section-tag" style="color: var(--terracotta); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem;">Fondazione COINSIEME ETS</p>
           <h1 id="hero-titolo" style="color: var(--marrone-scuro); font-size: clamp(2.1rem, 3.5vw, 2.7rem); line-height: 1.25; font-weight: 700; margin-bottom: 22px;">
-            Persone, autonomia e innovazione sociale: costruiamo insieme nuove possibilità.
+            Quando qualcosa cambia, non devi orientarti da solo.
           </h1>
           <p style="font-size: 1.125rem; line-height: 1.65; color: var(--grigio-testo); margin-bottom: 32px; font-weight: 400; max-width: 580px;">
-            Accompagniamo persone, famiglie, organizzazioni e territori con progetti di domotica assistiva, formazione, inclusione lavorativa e innovazione sociale.
+            Se la vita quotidiana è diventata più difficile, lo Sportello ti aiuta a raccontare ciò che sta succedendo e a capire da dove partire.
           </p>
           <div>
             <a href="#orientamento" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; text-decoration: none; box-shadow: 0 4px 16px rgba(196, 94, 26, 0.22);">
-              Scopri cosa facciamo <span aria-hidden="true" style="font-size: 1.1rem; transition: transform 0.2s ease;">↓</span>
+              Inizia dall’ascolto <span aria-hidden="true" style="font-size: 1.1rem; transition: transform 0.2s ease;">↓</span>
             </a>
           </div>
         </div>
@@ -132,81 +132,70 @@
       }
     }
 
-    /* STILI LAYOUT ASIMMETRICO BLOCCO 2 */
-    .orientamento-asymmetric-layout {
+    /* STILI SEZIONE ORIENTAMENTO / SPORTELLO BLOCCO 2 */
+    .porte-sportello-grid {
       display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      gap: 28px;
-      margin-bottom: 48px;
-      align-items: stretch;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
     }
 
-    .card-persona-featured {
+    .porta-sportello-card {
       background: #ffffff;
       border: 1px solid var(--grigio-bordino);
-      border-top: 4px solid var(--terracotta);
-      border-radius: 14px;
-      padding: 28px 26px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(196, 94, 26, 0.06);
-    }
-
-    .grid-2x2-compact {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .compact-percorso-card {
-      background: #ffffff;
-      border: 1px solid var(--grigio-bordino);
+      border-top: 3px solid var(--terracotta);
       border-radius: 12px;
-      padding: 22px 20px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       text-decoration: none;
       color: var(--marrone-scuro);
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(85, 51, 17, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 2px 8px rgba(85, 51, 17, 0.03);
+      height: 100%;
     }
-    .compact-percorso-card:hover, .compact-percorso-card:focus-visible {
+    .porta-sportello-card:hover, .porta-sportello-card:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(196, 94, 26, 0.12);
       border-color: var(--terracotta);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(196, 94, 26, 0.10);
       outline: none;
     }
-    .compact-percorso-card:focus-visible {
+    .porta-sportello-card:focus-visible {
       outline: 3px solid var(--terracotta);
       outline-offset: 2px;
     }
-    .compact-icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
+
+    .porta-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
       background: var(--crema-chiara);
       color: var(--terracotta);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
     }
-    .compact-card-title {
-      font-size: 1.05rem;
+
+    .porta-card-title {
+      font-size: 1.10rem;
       font-weight: 700;
       color: var(--marrone-scuro);
-      margin-bottom: 6px;
-      line-height: 1.3;
+      margin-bottom: 8px;
+      line-height: 1.32;
+      font-family: var(--font-heading);
     }
-    .compact-card-desc {
-      font-size: 0.88rem;
+
+    .porta-card-desc {
+      font-size: 0.90rem;
       color: var(--grigio-testo);
-      line-height: 1.48;
+      line-height: 1.54;
       margin-bottom: 16px;
       flex-grow: 1;
     }
-    .compact-card-link {
+
+    .porta-card-link {
       font-size: 0.88rem;
       font-weight: 600;
       color: var(--terracotta);
@@ -216,14 +205,55 @@
       margin-top: auto;
     }
 
+    /* CARD SEPARATA: VUOI DARE UNA MANO? */
+    .vuoi-dare-una-mano-card {
+      background: #ffffff;
+      border: 1px solid var(--grigio-bordino);
+      border-left: 5px solid var(--terracotta);
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 36px;
+      box-shadow: 0 2px 10px rgba(85, 51, 17, 0.03);
+    }
+    .vuoi-dare-una-mano-body {
+      max-width: 680px;
+    }
+    .vuoi-dare-una-mano-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-family: var(--font-heading);
+    }
+    .vuoi-dare-una-mano-title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--marrone-scuro);
+      margin: 0 0 6px 0;
+      line-height: 1.3;
+      font-family: var(--font-heading);
+    }
+    .vuoi-dare-una-mano-text {
+      font-size: 0.94rem;
+      color: var(--grigio-testo);
+      line-height: 1.56;
+      margin: 0;
+    }
+
     .chi-siamo-banner {
       background: transparent;
       border: none;
       border-top: 1px solid var(--grigio-bordino);
       border-bottom: 1px solid var(--grigio-bordino);
       border-radius: 0;
-      padding: 32px 0 28px 0;
-      margin-top: 56px;
+      padding: 28px 0 24px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -231,21 +261,24 @@
       box-shadow: none;
     }
 
-    @media (max-width: 900px) {
-      .orientamento-asymmetric-layout {
-        grid-template-columns: 1fr !important;
-      }
-      .grid-2x2-compact {
+    @media (max-width: 990px) {
+      .porte-sportello-grid {
         grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+      }
+      .vuoi-dare-una-mano-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
       }
       .chi-siamo-banner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 24px;
+        padding: 24px 0;
       }
     }
-    @media (max-width: 560px) {
-      .grid-2x2-compact {
+    @media (max-width: 580px) {
+      .porte-sportello-grid {
         grid-template-columns: 1fr !important;
       }
     }
@@ -895,89 +928,89 @@
   </style>
 
   <!-- ========================================================
-       BLOCCO 2 — Orientamento Asimmetrico (Persona in evidenza + Griglia 2x2)
+       BLOCCO 2 — Sportello di Primo Ascolto: Cerchi un aiuto?
        ======================================================== -->
   <section id="orientamento" class="bg-crema-chiara" aria-labelledby="orientamento-titolo" style="padding: 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
       
       <!-- Intestazione di Sezione -->
-      <div style="max-width: 760px; margin-bottom: 40px;">
-        <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Orientamento</p>
+      <div style="max-width: 780px; margin-bottom: 36px;">
+        <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Sportello di Primo Ascolto</p>
         <h2 id="orientamento-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
-          Come possiamo esserti utili?
+          Cerchi un aiuto?
         </h2>
         <p style="font-size: 1.1rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
-          Parti da chi sei: ti aiutiamo a trovare più rapidamente progetti, servizi e opportunità che possono interessarti.
+          Scegli da dove vuoi iniziare. Non devi sapere già quale servizio ti servirà.
         </p>
       </div>
 
-      <!-- Layout Asimmetrico (Card Persona a SX + Griglia 2x2 a DX) -->
-      <div class="orientamento-asymmetric-layout" role="list">
+      <!-- LE QUATTRO PORTE DELLO SPORTELLO -->
+      <div class="porte-sportello-grid" role="list" aria-label="Quattro porte di primo ascolto e orientamento">
         
-        <!-- CARD PRINCIPALE PREDOMINANTE: Persona o familiare -->
-        <div class="card-persona-featured" role="listitem">
-          <div>
-            <span style="display: inline-block; font-size: 0.8rem; font-weight: 700; color: var(--terracotta); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Percorso Primario</span>
-            <div class="percorso-icon-box" style="width: 44px; height: 44px; background: var(--crema-chiara); color: var(--terracotta); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            </div>
-            <h3 style="font-size: 1.45rem; font-weight: 700; color: var(--marrone-scuro); margin-bottom: 12px; line-height: 1.25;">Persona o familiare</h3>
-            <p style="font-size: 1.02rem; color: var(--grigio-testo); line-height: 1.6; margin-bottom: 18px;">
-              “Cerchi maggiore autonomia, una soluzione per la casa, orientamento o supporto per la vita indipendente?”
-            </p>
+        <!-- Porta 1: Avere un aiuto nella vita di tutti i giorni -->
+        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+          <div class="porta-icon-box" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
           </div>
-          <div>
-            <a href="persone-famiglie.html" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-weight: 600; text-decoration: none; border-radius: 6px;">
-              Parti da qui <span aria-hidden="true">→</span>
-            </a>
+          <h3 class="porta-card-title">Avere un aiuto nella vita di tutti i giorni</h3>
+          <p class="porta-card-desc">
+            Supporto pratico per gestire le incombenze quotidiane, l'autonomia personale e i ritmi di ogni giorno.
+          </p>
+          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Porta 2: Organizzare cure, salute e assistenza -->
+        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+          <div class="porta-icon-box" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
+          <h3 class="porta-card-title">Organizzare cure, salute e assistenza</h3>
+          <p class="porta-card-desc">
+            Orientarsi tra continuità assistenziale, servizi territoriali a domicilio e coordinamento della cura.
+          </p>
+          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Porta 3: Migliorare la casa e renderla più adatta -->
+        <a href="domotica.html" class="porta-sportello-card" role="listitem">
+          <div class="porta-icon-box" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 class="porta-card-title">Migliorare la casa e renderla più adatta</h3>
+          <p class="porta-card-desc">
+            Piccoli adattamenti, eliminazione di ostacoli fisici e strumenti discreti per vivere in sicurezza e comfort.
+          </p>
+          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Porta 4: Ampliare le relazioni sociali -->
+        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+          <div class="porta-icon-box" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="porta-card-title">Ampliare le relazioni sociali</h3>
+          <p class="porta-card-desc">
+            Superare l'isolamento, ritrovare occasioni di incontro, partecipazione ad attività e nuove reti di vicinanza.
+          </p>
+          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+        </a>
+
+      </div>
+
+      <!-- CARD SEPARATA: VUOI DARE UNA MANO? -->
+      <div class="vuoi-dare-una-mano-card">
+        <div class="vuoi-dare-una-mano-body">
+          <span class="vuoi-dare-una-mano-badge">Disponibilità &amp; Competenze</span>
+          <h3 class="vuoi-dare-una-mano-title">Vuoi dare una mano?</h3>
+          <p class="vuoi-dare-una-mano-text">
+            Non tutte le persone arrivano allo Sportello per chiedere aiuto. Alcune arrivano per offrirlo. Se desideri mettere a disposizione tempo, competenze o esperienza, puoi segnalarlo allo Sportello.
+          </p>
         </div>
-
-        <!-- GRIGLIA 2x2 COMPATTA (4 Percorsi) -->
-        <div class="grid-2x2-compact">
-          
-          <!-- 2. Ente pubblico -->
-          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
-            <div class="compact-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9V10z"></path></svg>
-            </div>
-            <h3 class="compact-card-title">Ente pubblico</h3>
-            <p class="compact-card-desc">Co-progettazione sociale, pianificazione di servizi domiciliari ed interventi sul territorio.</p>
-            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
+        <div>
+          <a href="contatti.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; white-space: nowrap;">
+            Segnala la tua disponibilità <span aria-hidden="true">→</span>
           </a>
-
-          <!-- 3. Organizzazione del Terzo Settore -->
-          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
-            <div class="compact-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            </div>
-            <h3 class="compact-card-title">Terzo Settore</h3>
-            <p class="compact-card-desc">Sviluppo di reti d'impresa sociale, affiancamento metodologico e co-progettazione.</p>
-            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
-          </a>
-
-          <!-- 4. Impresa -->
-          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
-            <div class="compact-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-            </div>
-            <h3 class="compact-card-title">Impresa</h3>
-            <p class="compact-card-desc">Inclusione lavorativa L. 68/99, accessibilità dei luoghi di lavoro ed innovazione sociale.</p>
-            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
-          </a>
-
-          <!-- 5. Professionista o formatore -->
-          <a href="cosa-facciamo.html" class="compact-percorso-card" role="listitem">
-            <div class="compact-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-            </div>
-            <h3 class="compact-card-title">Professionista o formatore</h3>
-            <p class="compact-card-desc">Alta formazione e qualificazione per la figura del Manager di Domotica Assistiva.</p>
-            <span class="compact-card-link">Scopri il percorso <span aria-hidden="true">→</span></span>
-          </a>
-
         </div>
-
       </div>
 
       <!-- Passaggio Narrativo Editoriale: Chi siamo e le radici -->
@@ -1340,12 +1373,12 @@
         <!-- Colonna Sinistra (Intro + Azione su desktop) -->
         <div class="piattaforma-left">
           <div class="piattaforma-intro">
-            <p class="piattaforma-tag">PIATTAFORMA COINSIEME · UNO SPAZIO DEDICATO ALLA PERSONA</p>
+            <p class="piattaforma-tag">SPORTELLO DIGITALE · AMBIENTE IN EVOLUZIONE</p>
             <h2 id="piattaforma-titolo" class="piattaforma-title">
-              Dal racconto all’azione. Partiamo da ciò che serve a te.
+              Dal racconto all’orientamento. Partiamo da ciò che è cambiato.
             </h2>
             <p class="piattaforma-text">
-              Il sito racconta ciò che facciamo. La Piattaforma è lo spazio in cui puoi raccontarci la tua situazione e costruire con noi un primo percorso di orientamento.
+              La piattaforma è uno spazio digitale in evoluzione. Aiuta le persone a raccontare un cambiamento, riconoscere da dove partire e avvicinarsi a un primo passo possibile.
             </p>
           </div>
 
@@ -1354,7 +1387,7 @@
               Entra nella Piattaforma <span aria-hidden="true">→</span>
             </button>
             <p class="piattaforma-microtext">
-              Stai entrando in un ambiente interattivo distinto dal sito istituzionale.
+              Stai entrando in un ambiente interattivo di primo ascolto in evoluzione.
             </p>
           </div>
         </div>
