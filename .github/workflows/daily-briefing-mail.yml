@@ -1,0 +1,33 @@
+name: Invio Briefing Quotidiano Rassegna News (6:30 Italiane)
+
+on:
+  schedule:
+    - cron: '30 4,5 * * *' # 04:30 UTC (CEST / Estate) e 05:30 UTC (CET / Inverno) -> 06:30 Europe/Rome
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-briefing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Invia Briefing Mail se siamo nello slot 6:30 Europe/Rome
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
+          AIRTABLE_VIEW_URL: ${{ secrets.AIRTABLE_VIEW_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL }}
+          BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it' }}
+        run: node scripts/send-briefing-mail.js

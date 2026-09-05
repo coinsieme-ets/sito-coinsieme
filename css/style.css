@@ -1660,3 +1660,108 @@ img, svg, video, canvas {
   }
 }
 
+/* ============================================================
+   RICHIAMO HOME: In Evidenza Oggi (Top News Bar)
+   ============================================================ */
+.top-news-bar {
+  background: var(--crema);
+  border-bottom: 1px solid rgba(196, 94, 26, 0.22);
+  padding: 10px 0;
+  font-size: 0.88rem;
+  position: relative;
+  z-index: 40;
+}
+.top-news-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.top-news-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.top-news-badge {
+  background: var(--terracotta-pale);
+  color: var(--terracotta-deep);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.top-news-title {
+  margin: 0;
+  color: var(--marrone-scuro);
+  font-weight: 500;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.top-news-link {
+  color: var(--terracotta-deep);
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.top-news-link:hover,
+.top-news-link:focus-visible {
+  text-decoration: underline;
+  color: var(--terracotta);
+}
+.top-news-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--grigio-testo);
+  padding: 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.top-news-close:hover,
+.top-news-close:focus-visible {
+  color: var(--marrone-scuro);
+  background: rgba(85, 51, 17, 0.08);
+}
+
+@media (max-width: 860px) {
+  .top-news-container {
+    align-items: flex-start;
+  }
+  .top-news-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .top-news-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .top-news-link {
+    margin-left: 0;
+    margin-top: 2px;
+  }
+}
+
+

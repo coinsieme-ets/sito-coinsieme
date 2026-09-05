@@ -86,6 +86,38 @@
   </nav>
 </header>
 
+<!-- CMS_ULTIMA_NOTIZIA_START -->
+<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza">
+  <div class="container top-news-container">
+    <div class="top-news-content">
+      <span class="top-news-badge">IN EVIDENZA OGGI</span>
+      <p class="top-news-title">Dalla scuola al lavoro: un progetto accompagna studenti con disabilità verso la vita adulta</p>
+      <a href="https://www.afolmet.it/2026/09/04/metide-3-dalla-scuola-al-lavoro/" class="top-news-link" target="_blank" rel="noopener noreferrer">
+        Leggi l'aggiornamento <span aria-hidden="true">→</span>
+        <span class="sr-only">(apre in una nuova scheda)</span>
+      </a>
+    </div>
+    <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('afolmet-metide-3-scuola-lavoro-2026')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+</aside>
+<script>
+  (function() {
+    var newsId = 'afolmet-metide-3-scuola-lavoro-2026';
+    if (newsId && sessionStorage.getItem('coinsieme_dismiss_news_' + newsId) === 'true') {
+      var bar = document.getElementById('top-news-bar');
+      if (bar) bar.style.display = 'none';
+    }
+  })();
+  function dismissTopNews(newsId) {
+    var bar = document.getElementById('top-news-bar');
+    if (bar) bar.style.display = 'none';
+    if (newsId) sessionStorage.setItem('coinsieme_dismiss_news_' + newsId, 'true');
+  }
+</script>
+<!-- CMS_ULTIMA_NOTIZIA_END -->
+
 <main id="main-content">
 
   <!-- ========================================================

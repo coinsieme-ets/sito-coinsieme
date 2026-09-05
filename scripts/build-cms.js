@@ -471,6 +471,51 @@ ${cardsHtml}
   </section>`;
 }
 
+function buildTopNewsBar(items) {
+  const approved = (items || [])
+    .filter((item) => item.stato === 'approvata')
+    .sort((a, b) => (b.data_fonte || '').localeCompare(a.data_fonte || ''));
+
+  if (approved.length === 0) {
+    return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza" style="display: none;" aria-hidden="true"></aside>`;
+  }
+
+  const latest = approved[0];
+  const title = escapeHtml(latest.titolo_editoriale || latest.titolo_originale);
+  const url = escapeHtml(latest.url_fonte || '#');
+  const newsId = escapeHtml(latest.id || 'ultima-notizia');
+
+  return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza">
+  <div class="container top-news-container">
+    <div class="top-news-content">
+      <span class="top-news-badge">IN EVIDENZA OGGI</span>
+      <p class="top-news-title">${title}</p>
+      <a href="${url}" class="top-news-link" target="_blank" rel="noopener noreferrer">
+        Leggi l'aggiornamento <span aria-hidden="true">→</span>
+        <span class="sr-only">(apre in una nuova scheda)</span>
+      </a>
+    </div>
+    <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+</aside>
+<script>
+  (function() {
+    var newsId = '${newsId}';
+    if (newsId && sessionStorage.getItem('coinsieme_dismiss_news_' + newsId) === 'true') {
+      var bar = document.getElementById('top-news-bar');
+      if (bar) bar.style.display = 'none';
+    }
+  })();
+  function dismissTopNews(newsId) {
+    var bar = document.getElementById('top-news-bar');
+    if (bar) bar.style.display = 'none';
+    if (newsId) sessionStorage.setItem('coinsieme_dismiss_news_' + newsId, 'true');
+  }
+</script>`;
+}
+
 async function main() {
   const convertedImages = await convertHeicUploads();
   const allArticles = loadAllArticles();
@@ -515,12 +560,19 @@ async function main() {
   const rassegnaItems = loadRassegnaNews();
   const approvedRassegna = rassegnaItems.filter((i) => i.stato === 'approvata');
   const rassegnaSectionHtml = buildRassegnaSection(rassegnaItems);
+  const topNewsBarHtml = buildTopNewsBar(rassegnaItems);
 
-  const homepageUpdated = homepageWithArticles.replace(
+  const homepageWithRassegna = homepageWithArticles.replace(
     /(<!-- CMS_RASSEGNA_SECTION_START -->)[\s\S]*?(<!-- CMS_RASSEGNA_SECTION_END -->)/,
     `$1\n  ${rassegnaSectionHtml}\n  $2`
   );
-  assert(homepageUpdated !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
+  assert(homepageWithRassegna !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
+
+  const homepageUpdated = homepageWithRassegna.replace(
+    /(<!-- CMS_ULTIMA_NOTIZIA_START -->)[\s\S]*?(<!-- CMS_ULTIMA_NOTIZIA_END -->)/,
+    `$1\n${topNewsBarHtml}\n$2`
+  );
+  assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori ultima notizia mancanti');
 
   fs.writeFileSync(homepagePath, homepageUpdated, 'utf8');
 
