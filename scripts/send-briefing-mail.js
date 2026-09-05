@@ -219,7 +219,7 @@ async function main(options = {}) {
   const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
   const viewUrl = options.viewUrl || process.env.AIRTABLE_VIEW_URL || 'https://airtable.com';
   const resendApiKey = options.resendApiKey || process.env.RESEND_API_KEY;
-  const recipient = options.recipient || process.env.BRIEFING_RECIPIENT_EMAIL;
+  const recipient = options.recipient || process.env.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it';
   const sender = options.sender || process.env.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it';
 
   let candidateRecords = [];

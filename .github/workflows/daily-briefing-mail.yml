@@ -28,6 +28,6 @@ jobs:
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
           AIRTABLE_VIEW_URL: ${{ secrets.AIRTABLE_VIEW_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL }}
+          BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it' }}
           BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it' }}
         run: node scripts/send-briefing-mail.js
