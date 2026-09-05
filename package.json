@@ -2,7 +2,8 @@
   "name": "sito-coinsieme",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-cms.js"
+    "build": "node scripts/build-cms.js",
+    "sync-rassegna": "node scripts/sync-rassegna.js"
   },
   "dependencies": {
     "heic-convert": "2.1.0",

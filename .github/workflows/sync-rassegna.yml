@@ -1,0 +1,41 @@
+name: Sincronizzazione Rassegna News da Airtable
+
+on:
+  repository_dispatch:
+    types: [update-rassegna]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Installa dipendenze
+        run: npm ci || npm install
+
+      - name: Sincronizza notizie approvate da Airtable
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
+        run: node scripts/sync-rassegna.js
+
+      - name: Compila CMS e Homepage
+        run: node scripts/build-cms.js
+
+      - name: Commit e Pubblicazione se ci sono modifiche
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '[CMS] Sincronizzazione rassegna news approvate da Airtable'
+          file_pattern: 'content/rassegna/notizie-esterne.json index.html'
