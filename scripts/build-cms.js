@@ -40,9 +40,11 @@ function webpPathFor(imagePath) {
 async function convertHeicUploads() {
   if (!fs.existsSync(uploadsDir)) return 0;
   const files = fs.readdirSync(uploadsDir).filter((name) => /\.(heic|heif)$/i.test(name));
+  let converted = 0;
   for (const name of files) {
     const source = path.join(uploadsDir, name);
     const destination = path.join(uploadsDir, webpPathFor(name));
+    if (fs.existsSync(destination)) continue;
     const jpegBuffer = await heicConvert({
       buffer: fs.readFileSync(source),
       format: 'JPEG',
@@ -52,8 +54,9 @@ async function convertHeicUploads() {
       .rotate()
       .webp({ quality: 82, effort: 4 })
       .toFile(destination);
+    converted++;
   }
-  return files.length;
+  return converted;
 }
 
 function readJson(file) {
@@ -400,13 +403,20 @@ function loadRassegnaNews() {
   });
 }
 
-function buildRassegnaSection(items) {
-  const approved = items
-    .filter((item) => item.stato === 'approvata')
-    .sort((a, b) => (b.data_fonte || '').localeCompare(a.data_fonte || ''))
-    .slice(0, 3);
+function getSortedApprovedItems(items) {
+  return (items || [])
+    .map((item, idx) => ({ item, idx }))
+    .filter(({ item }) => item.stato === 'approvata')
+    .sort((a, b) => (b.item.data_fonte || '').localeCompare(a.item.data_fonte || '') || a.idx - b.idx)
+    .map(({ item }) => item);
+}
 
-  if (approved.length === 0) {
+function buildRassegnaSection(items) {
+  const approved = getSortedApprovedItems(items);
+  // Esclude la notizia #1 (mostrata in "In evidenza oggi") e mostra fino alle successive 3
+  const subsequent = approved.slice(1, 4);
+
+  if (subsequent.length === 0) {
     return `<section id="cosa-si-muove" class="rassegna-section" aria-labelledby="rassegna-titolo" style="display: none;" aria-hidden="true">
     <div class="container">
       <div class="rassegna-header">
@@ -424,7 +434,7 @@ function buildRassegnaSection(items) {
   </section>`;
   }
 
-  const cardsHtml = approved.map((item) => {
+  const cardsHtml = subsequent.map((item) => {
     const formattedDate = formatDateIt(item.data_fonte);
     const dateHtml = item.data_fonte
       ? `<time class="rassegna-card-date" datetime="${escapeHtml(item.data_fonte)}">${escapeHtml(formattedDate)}</time>`
@@ -472,9 +482,7 @@ ${cardsHtml}
 }
 
 function buildTopNewsBar(items) {
-  const approved = (items || [])
-    .filter((item) => item.stato === 'approvata')
-    .sort((a, b) => (b.data_fonte || '').localeCompare(a.data_fonte || ''));
+  const approved = getSortedApprovedItems(items);
 
   if (approved.length === 0) {
     return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza" style="display: none;" aria-hidden="true"></aside>`;
