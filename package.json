@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-cms.js",
-    "sync-rassegna": "node scripts/sync-rassegna.js"
+    "sync-rassegna": "node scripts/sync-rassegna.js",
+    "briefing-mail": "node scripts/send-briefing-mail.js",
+    "ingest-candidati": "node scripts/ingest-rassegna-candidates.js"
   },
   "dependencies": {
     "heic-convert": "2.1.0",

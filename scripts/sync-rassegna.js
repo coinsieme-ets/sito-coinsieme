@@ -62,8 +62,11 @@ function validateAndNormalizeRecord(fields, recordId = '') {
 
   const id = (fields.id || '').trim() || `${slugify(fonte)}-${slugify(titolo_editoriale).slice(0, 30)}-${data_fonte}`;
   const categoria = (fields.categoria || 'Welfare e autonomia').trim();
-  const titolo_originale = (fields.titolo_originale || titolo_editoriale).trim();
   const rilevanza_coinsieme = (fields.rilevanza_coinsieme || '').trim();
+  if (!rilevanza_coinsieme) {
+    console.warn(`[Sync Rassegna] Notizia "${titolo_editoriale}" scartata: rilevanza_coinsieme mancante.`);
+    return null;
+  }
 
   return {
     id,
