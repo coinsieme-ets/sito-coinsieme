@@ -29,6 +29,7 @@ const heicConvert = require('heic-convert');
 
 const root = path.join(__dirname, '..');
 const newArticlesDir = path.join(root, 'content', 'articoli');
+const rassegnaFile = path.join(root, 'content', 'rassegna', 'notizie-esterne.json');
 const articlesDir = path.join(root, 'articoli');
 const uploadsDir = path.join(root, 'assets', 'uploads');
 
@@ -361,6 +362,115 @@ function buildHomeSection(items) {
   </div>`;
 }
 
+const ALLOWED_RASSEGNA_STATI = new Set(['da_verificare', 'proposta', 'approvata', 'scartata', 'archiviata']);
+
+function formatDateIt(dateStr) {
+  if (!dateStr || !/^\d{4}-\d{2}-\d{2}/.test(String(dateStr).trim())) {
+    return dateStr || '';
+  }
+  const clean = String(dateStr).trim().slice(0, 10);
+  return new Date(`${clean}T12:00:00Z`).toLocaleDateString('it-IT', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC'
+  });
+}
+
+function loadRassegnaNews() {
+  if (!fs.existsSync(rassegnaFile)) return [];
+  const raw = readJson(rassegnaFile);
+  assert(Array.isArray(raw), 'content/rassegna/notizie-esterne.json deve contenere un array.');
+
+  return raw.map((item, idx) => {
+    const stato = (item.stato || 'da_verificare').trim();
+    assert(ALLOWED_RASSEGNA_STATI.has(stato), `Notizia rassegna #${idx + 1} (${item.id || item.titolo_editoriale || 'senza id'}): stato "${stato}" non valido. Valori ammessi: ${[...ALLOWED_RASSEGNA_STATI].join(', ')}`);
+    return {
+      id: item.id ? String(item.id).trim() : `notizia-${idx + 1}`,
+      categoria: item.categoria ? String(item.categoria).trim() : 'Welfare',
+      data_fonte: item.data_fonte ? String(item.data_fonte).trim() : '',
+      titolo_originale: item.titolo_originale ? String(item.titolo_originale).trim() : '',
+      titolo_editoriale: item.titolo_editoriale ? String(item.titolo_editoriale).trim() : (item.titolo_originale ? String(item.titolo_originale).trim() : ''),
+      fonte: item.fonte ? String(item.fonte).trim() : 'Fonte esterna',
+      url_fonte: item.url_fonte ? String(item.url_fonte).trim() : '#',
+      sintesi_editoriale: item.sintesi_editoriale ? String(item.sintesi_editoriale).trim() : '',
+      rilevanza_coinsieme: item.rilevanza_coinsieme ? String(item.rilevanza_coinsieme).trim() : '',
+      stato
+    };
+  });
+}
+
+function buildRassegnaSection(items) {
+  const approved = items
+    .filter((item) => item.stato === 'approvata')
+    .sort((a, b) => (b.data_fonte || '').localeCompare(a.data_fonte || ''))
+    .slice(0, 3);
+
+  if (approved.length === 0) {
+    return `<section id="cosa-si-muove" class="rassegna-section" aria-labelledby="rassegna-titolo" style="display: none;" aria-hidden="true">
+    <div class="container">
+      <div class="rassegna-header">
+        <div style="max-width: 780px;">
+          <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Osservatorio &amp; Contesto</p>
+          <h2 id="rassegna-titolo" class="rassegna-title">Cosa si muove intorno a noi</h2>
+          <p class="rassegna-subtitle">
+            Notizie e aggiornamenti selezionati su disabilità, Terzo Settore, cooperazione sociale e cambiamenti del welfare.
+          </p>
+        </div>
+      </div>
+      <div class="rassegna-grid" role="list" aria-label="Notizie selezionate dal Terzo Settore e dal welfare">
+      </div>
+    </div>
+  </section>`;
+  }
+
+  const cardsHtml = approved.map((item) => {
+    const formattedDate = formatDateIt(item.data_fonte);
+    const dateHtml = item.data_fonte
+      ? `<time class="rassegna-card-date" datetime="${escapeHtml(item.data_fonte)}">${escapeHtml(formattedDate)}</time>`
+      : '';
+    const title = escapeHtml(item.titolo_editoriale || item.titolo_originale);
+    const category = escapeHtml(item.categoria);
+    const summary = escapeHtml(item.sintesi_editoriale);
+    const source = escapeHtml(item.fonte);
+    const url = escapeHtml(item.url_fonte);
+
+    return `        <article class="rassegna-card" role="listitem">
+          <div class="rassegna-card-meta">
+            <span class="rassegna-card-category">${category}</span>
+            ${dateHtml}
+          </div>
+          <h3 class="rassegna-card-title">
+            <a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>
+          </h3>
+          <p class="rassegna-card-summary">${summary}</p>
+          <div class="rassegna-card-footer">
+            <span class="rassegna-card-source">Fonte: <strong>${source}</strong></span>
+            <a href="${url}" class="rassegna-card-link" target="_blank" rel="noopener noreferrer">
+              Leggi sulla fonte <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span class="sr-only">(apre in una nuova scheda)</span>
+            </a>
+          </div>
+        </article>`;
+  }).join('\n');
+
+  return `<section id="cosa-si-muove" class="rassegna-section bg-crema-chiara" aria-labelledby="rassegna-titolo">
+    <div class="container">
+      <div class="rassegna-header">
+        <div style="max-width: 780px;">
+          <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Osservatorio &amp; Contesto</p>
+          <h2 id="rassegna-titolo" class="rassegna-title">Cosa si muove intorno a noi</h2>
+          <p class="rassegna-subtitle">
+            Notizie e aggiornamenti selezionati su disabilità, Terzo Settore, cooperazione sociale e cambiamenti del welfare.
+          </p>
+        </div>
+      </div>
+      <div class="rassegna-grid" role="list" aria-label="Notizie selezionate dal Terzo Settore e dal welfare">
+${cardsHtml}
+      </div>
+    </div>
+  </section>`;
+}
+
 async function main() {
   const convertedImages = await convertHeicUploads();
   const allArticles = loadAllArticles();
@@ -395,17 +505,30 @@ async function main() {
   const latestHtml = buildHomeSection(latest);
   const homepagePath = path.join(root, 'index.html');
   const homepage = fs.readFileSync(homepagePath, 'utf8');
-  const homepageUpdated = homepage.replace(
+  const homepageWithArticles = homepage.replace(
     /(<!-- CMS_ULTIMI_ARTICOLI_START -->)[\s\S]*?(<!-- CMS_ULTIMI_ARTICOLI_END -->)/,
     `$1\n${latestHtml}\n        $2`
   );
-  assert(homepageUpdated !== homepage || homepage.includes(latestHtml), 'Homepage: marcatori ultimi articoli mancanti');
+  assert(homepageWithArticles !== homepage || homepage.includes(latestHtml), 'Homepage: marcatori ultimi articoli mancanti');
+
+  // Rassegna News processing
+  const rassegnaItems = loadRassegnaNews();
+  const approvedRassegna = rassegnaItems.filter((i) => i.stato === 'approvata');
+  const rassegnaSectionHtml = buildRassegnaSection(rassegnaItems);
+
+  const homepageUpdated = homepageWithArticles.replace(
+    /(<!-- CMS_RASSEGNA_SECTION_START -->)[\s\S]*?(<!-- CMS_RASSEGNA_SECTION_END -->)/,
+    `$1\n  ${rassegnaSectionHtml}\n  $2`
+  );
+  assert(homepageUpdated !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
+
   fs.writeFileSync(homepagePath, homepageUpdated, 'utf8');
 
-  console.log(`Build CMS completata: ${allArticles.length} articoli totali gestiti dal CMS in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${convertedImages} HEIC/HEIF convertiti in WebP.`);
+  console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
 main().catch((error) => {
   console.error(error.message);
   process.exit(1);
 });
+

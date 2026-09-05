@@ -1523,3 +1523,140 @@ img, svg, video, canvas {
   border-color: var(--terracotta);
   color: var(--bianco);
 }
+
+/* ============================================================
+   RASSEGNA NEWS / OSSERVATORIO (“Cosa si muove intorno a noi”)
+   ============================================================ */
+.rassegna-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--grigio-bordino);
+  background: var(--crema-chiara);
+}
+.rassegna-header {
+  margin-bottom: 36px;
+}
+.rassegna-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.3rem);
+  color: var(--marrone-scuro);
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.rassegna-subtitle {
+  font-size: 1.05rem;
+  color: var(--grigio-testo);
+  line-height: 1.6;
+  margin: 0;
+}
+.rassegna-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.rassegna-card {
+  background: var(--bianco);
+  border: 1px solid var(--grigio-bordino);
+  border-top: 3px solid var(--terracotta);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.rassegna-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.rassegna-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+}
+.rassegna-card-category {
+  font-weight: 700;
+  color: var(--terracotta-deep);
+  background: var(--terracotta-pale);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.rassegna-card-date {
+  color: var(--grigio-testo);
+}
+.rassegna-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--marrone-scuro);
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+.rassegna-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.rassegna-card-title a:hover,
+.rassegna-card-title a:focus-visible {
+  color: var(--terracotta);
+  text-decoration: underline;
+}
+.rassegna-card-summary {
+  font-size: 0.92rem;
+  color: var(--grigio-testo);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rassegna-card-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--grigio-bordino);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  gap: 12px;
+}
+.rassegna-card-source {
+  color: var(--grigio-testo);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rassegna-card-link {
+  color: var(--terracotta);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.rassegna-card-link:hover,
+.rassegna-card-link:focus-visible {
+  text-decoration: underline;
+  color: var(--terracotta-deep);
+}
+
+@media (max-width: 991px) {
+  .rassegna-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .rassegna-grid {
+    grid-template-columns: 1fr;
+  }
+  .rassegna-card {
+    padding: 20px;
+  }
+}
+
