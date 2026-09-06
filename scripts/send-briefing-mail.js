@@ -46,7 +46,7 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#039;');
 }
 
-function renderEmailHtml(records, viewUrl, dateStr) {
+function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
   const itemsHtml = records.map((rec, index) => {
     const f = rec.fields || rec;
     const cat = escapeHtml(f.categoria || 'Welfare');
@@ -79,6 +79,31 @@ function renderEmailHtml(records, viewUrl, dateStr) {
       </div>
     `;
   }).join('');
+
+  let segnalazioniHtml = '';
+  if (segnalazioni && segnalazioni.length > 0) {
+    const segItems = segnalazioni.map((s, idx) => {
+      const f = s.fields || s;
+      const url = escapeHtml(f.url_articolo || f.url || '#');
+      const nota = escapeHtml(f.nota || f.note || '');
+      const dataSeg = escapeHtml(f.data_segnalazione || '');
+      return `
+        <div style="background:#fff7ed; border-left:3px solid #ea580c; padding:10px 14px; margin-bottom:10px; border-radius:4px; font-size:13px;">
+          <div style="font-weight:700; color:#9a3412;">#${idx + 1} Segnalazione da valutare ${dataSeg ? `(${dataSeg})` : ''}</div>
+          <div style="margin:4px 0;"><a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#c45e1a; word-break:break-all; font-weight:600;">${url} ↗</a></div>
+          ${nota ? `<div style="color:#7c2d12; font-style:italic; font-size:12.5px;">Nota: ${nota}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    segnalazioniHtml = `
+      <div style="margin-top:24px; padding-top:16px; border-top:1px dashed #d6c7b7;">
+        <h3 style="font-size:15px; color:#3d2208; margin:0 0 10px 0;">📌 Segnalazioni manuali di Maurizio (${segnalazioni.length})</h3>
+        <p style="font-size:12.5px; color:#6b5d52; margin:0 0 12px 0;">Link segnalati da valutare per la trasformazione in scheda rassegna:</p>
+        ${segItems}
+      </div>
+    `;
+  }
 
   return `
 <!DOCTYPE html>
@@ -122,6 +147,8 @@ function renderEmailHtml(records, viewUrl, dateStr) {
                 </p>
               </div>
 
+              ${segnalazioniHtml}
+
             </td>
           </tr>
 
@@ -139,6 +166,26 @@ function renderEmailHtml(records, viewUrl, dateStr) {
 </body>
 </html>
   `.trim();
+}
+
+async function fetchSegnalazioniRecords(token, baseId, tableName = 'Segnalazioni Maurizio') {
+  try {
+    const params = new URLSearchParams();
+    params.set('filterByFormula', "OR({stato} = 'da_valutare', {stato} = '', {Stato} = 'da_valutare')");
+    params.set('pageSize', '50');
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.records) ? data.records : [];
+  } catch (e) {
+    return [];
+  }
 }
 
 async function fetchCandidateRecords(token, baseId, tableName) {
@@ -223,31 +270,34 @@ async function main(options = {}) {
   const sender = options.sender || process.env.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it';
 
   let candidateRecords = [];
+  let segnalazioniRecords = [];
 
   if (options.mockRecords) {
     candidateRecords = options.mockRecords.filter(r => {
       const s = (r.fields?.stato || r.stato || '').trim();
       return s === 'proposta' || s === 'da_verificare';
     });
+    segnalazioniRecords = options.mockSegnalazioni || [];
   } else {
     if (!token || !baseId) {
       throw new Error('AIRTABLE_PERSONAL_ACCESS_TOKEN e AIRTABLE_BASE_ID sono obbligatori.');
     }
     console.log(`[Briefing Mail] Recupero notizie candidate da Airtable (Base: ${baseId}, Tabella: ${tableName})...`);
     candidateRecords = await fetchCandidateRecords(token, baseId, tableName);
+    segnalazioniRecords = await fetchSegnalazioniRecords(token, baseId, 'Segnalazioni Maurizio');
   }
 
-  console.log(`[Briefing Mail] Notizie candidate trovate: ${candidateRecords.length}`);
+  console.log(`[Briefing Mail] Notizie candidate trovate: ${candidateRecords.length}, Segnalazioni trovate: ${segnalazioniRecords.length}`);
 
-  // 2. Controllo: nessuna notizia candidata -> non inviare
-  if (candidateRecords.length === 0) {
-    console.log('[Briefing Mail] Nessuna notizia in stato "proposta" o "da_verificare". Nessuna email inviata.');
+  // 2. Controllo: nessuna notizia candidata e nessuna segnalazione -> non inviare
+  if (candidateRecords.length === 0 && segnalazioniRecords.length === 0) {
+    console.log('[Briefing Mail] Nessuna notizia o segnalazione in attesa. Nessuna email inviata.');
     return { skipped: true, reason: 'no_candidate_records' };
   }
 
   const dateStr = getFormattedDateRome();
   const subject = `Briefing notizie COINSIEME - ${dateStr}`;
-  const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr);
+  const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr, segnalazioniRecords);
 
   if (options.mockSend) {
     console.log(`[Briefing Mail - MOCK SEND] Email generata con successo.`);

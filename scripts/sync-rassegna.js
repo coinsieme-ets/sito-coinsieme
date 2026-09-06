@@ -25,44 +25,45 @@ function slugify(text = '') {
 }
 
 function validateAndNormalizeRecord(fields, recordId = '') {
-  const stato = (fields.stato || '').trim();
+  const stato = (fields.stato || fields.Stato || '').trim();
   if (stato !== 'approvata') {
     return null; // Scarta categoricamente tutto ciò che non è approvata
   }
 
-  const url_fonte = (fields.url_fonte || '').trim();
+  const url_fonte = (fields.url_fonte || fields.Url_fonte || fields['URL Fonte'] || fields['url_fonte'] || fields.url || '').trim();
   if (!/^https?:\/\//i.test(url_fonte)) {
-    console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || recordId}" scartata: url_fonte non valido o mancante.`);
+    console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || fields.Titolo || recordId}" scartata: url_fonte non valido o mancante.`);
     return null;
   }
 
-  const data_fonte = (fields.data_fonte || '').trim().slice(0, 10);
+  const data_fonte = (fields.data_fonte || fields.Data_fonte || fields['Data Fonte'] || fields['data_fonte'] || fields.data || '').trim().slice(0, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(data_fonte)) {
     console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || recordId}" scartata: data_fonte mancante o non valida.`);
     return null;
   }
 
-  const fonte = (fields.fonte || '').trim();
+  const fonte = (fields.fonte || fields.Fonte || '').trim();
   if (!fonte) {
     console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || recordId}" scartata: fonte mancante.`);
     return null;
   }
 
-  const titolo_editoriale = (fields.titolo_editoriale || fields.titolo_originale || '').trim();
+  const titolo_editoriale = (fields.titolo_editoriale || fields['Titolo Editoriale'] || fields.titolo_originale || fields['Titolo Originale'] || fields.titolo || '').trim();
   if (!titolo_editoriale) {
     console.warn(`[Sync Rassegna] Notizia record "${recordId}" scartata: titolo mancante.`);
     return null;
   }
 
-  const sintesi_editoriale = (fields.sintesi_editoriale || '').trim();
+  const sintesi_editoriale = (fields.sintesi_editoriale || fields['Sintesi Editoriale'] || fields.sintesi || '').trim();
   if (!sintesi_editoriale) {
     console.warn(`[Sync Rassegna] Notizia "${titolo_editoriale}" scartata: sintesi_editoriale mancante.`);
     return null;
   }
 
-  const id = (fields.id || '').trim() || `${slugify(fonte)}-${slugify(titolo_editoriale).slice(0, 30)}-${data_fonte}`;
-  const categoria = (fields.categoria || 'Welfare e autonomia').trim();
-  const rilevanza_coinsieme = (fields.rilevanza_coinsieme || '').trim();
+  const id = (fields.id || fields.ID || '').trim() || `${slugify(fonte)}-${slugify(titolo_editoriale).slice(0, 30)}-${data_fonte}`;
+  const categoria = (fields.categoria || fields.Categoria || 'Welfare e autonomia').trim();
+  const titolo_originale = (fields.titolo_originale || fields['Titolo Originale'] || titolo_editoriale).trim();
+  const rilevanza_coinsieme = (fields.rilevanza_coinsieme || fields['Rilevanza COINSIEME'] || fields['Rilevanza per COINSIEME'] || fields.rilevanza || '').trim();
   if (!rilevanza_coinsieme) {
     console.warn(`[Sync Rassegna] Notizia "${titolo_editoriale}" scartata: rilevanza_coinsieme mancante.`);
     return null;
@@ -88,10 +89,7 @@ async function fetchFromAirtable(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    // Filtro lato server su stato = 'approvata'
-    params.set('filterByFormula', "AND({stato} = 'approvata', {url_fonte} != '', {data_fonte} != '')");
-    params.set('sort[0][field]', 'data_fonte');
-    params.set('sort[0][direction]', 'desc');
+    params.set('filterByFormula', "OR({stato} = 'approvata', {Stato} = 'approvata')");
     params.set('pageSize', '100');
     if (offset) params.set('offset', offset);
 
@@ -104,8 +102,24 @@ async function fetchFromAirtable(token, baseId, tableName) {
     });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Errore API Airtable (${res.status} ${res.statusText}): ${errorText}`);
+      const errText = await res.text();
+      console.warn(`[Sync Rassegna] Query con formula fallita (${res.status}): ${errText}. Tento lettura completa tabella...`);
+      const fallbackUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}${offset ? `?offset=${offset}` : ''}`;
+      const fallbackRes = await fetch(fallbackUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+      if (!fallbackRes.ok) {
+        throw new Error(`Errore API Airtable (${fallbackRes.status} ${fallbackRes.statusText})`);
+      }
+      const data = await fallbackRes.json();
+      if (Array.isArray(data.records)) {
+        allRecords = allRecords.concat(data.records);
+      }
+      offset = data.offset || null;
+      continue;
     }
 
     const data = await res.json();

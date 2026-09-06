@@ -1,15 +1,28 @@
 name: Sincronizzazione Rassegna News da Airtable
 
 on:
-  repository_dispatch:
-    types: [update-rassegna]
   workflow_dispatch:
+  repository_dispatch:
+    types:
+      - rassegna-news-approved
+      - update-rassegna
+      - airtable-sync
+  schedule:
+    # Polling di sicurezza automatico ogni 30 minuti (06:00 - 22:00 Europe/Rome -> 04:00 - 20:00 UTC)
+    - cron: '*/30 4-20 * * *'
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   sync-and-publish:
+    name: Sincronizza da Airtable e Pubblica
     runs-on: ubuntu-latest
 
     steps:
@@ -19,23 +32,58 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: 'npm'
 
       - name: Installa dipendenze
         run: npm ci || npm install
 
       - name: Sincronizza notizie approvate da Airtable
+        id: sync
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/sync-rassegna.js
 
-      - name: Compila CMS e Homepage
+      - name: Compilazione pagine articoli e indici (build-cms)
         run: node scripts/build-cms.js
 
-      - name: Commit e Pubblicazione se ci sono modifiche
+      - name: Verifica e validazione integrita (build-hybrid-index)
+        run: node scripts/build-hybrid-index.js
+
+      - name: Commit e Push se ci sono modifiche
+        id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: '[CMS] Sincronizzazione rassegna news approvate da Airtable'
-          file_pattern: 'content/rassegna/notizie-esterne.json index.html'
+          commit_message: '[CMS] Sincronizzazione automatica rassegna news approvate da Airtable'
+          file_pattern: 'content/rassegna/notizie-esterne.json index.html articoli.html'
+
+      # Deploy immediato su GitHub Pages se sono state rilevate modifiche o se avviato manualmente/webhook
+      - name: Preparazione directory di pubblicazione (_site)
+        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+        run: |
+          mkdir -p _site
+          cp *.html _site/ 2>/dev/null || true
+          cp CNAME _site/
+          for dir in admin articoli pubblicazioni assets css js documenti; do
+            if [ -d "$dir" ]; then
+              cp -R "$dir" _site/
+            fi
+          done
+          cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
+
+      - name: Configurazione GitHub Pages
+        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+        uses: actions/configure-pages@v5
+
+      - name: Caricamento artefatto Pages (_site)
+        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: Deploy su GitHub Pages
+        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+        id: deployment
+        uses: actions/deploy-pages@v4
