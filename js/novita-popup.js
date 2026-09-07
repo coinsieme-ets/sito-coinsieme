@@ -1,8 +1,8 @@
 /**
- * COINSIEME — Popup Editoriale per Novità (Articoli / Pubblicazioni)
+ * COINSIEME — Popup Editoriale Micro-Pillola per Novità
  *
- * Componente leggero, accessibile, non invasivo e riutilizzabile.
- * Mostra una card discreta in basso a destra solo se la novità è attiva
+ * Componente super compatto, leggero, non invasivo.
+ * Mostra una pillola sottile a riga singola in basso a destra solo se la novità è attiva
  * e non è ancora stata chiusa nella sessione corrente.
  */
 
@@ -10,15 +10,11 @@
   'use strict';
 
   // 1. CONFIGURAZIONE EDITORIALE DELLA NOVITÀ
-  // Modificare questo oggetto per attivare/disattivare o cambiare la novità da promuovere.
   window.COINSIEME_NOVITA = {
     attiva: true,
     id: 'novita-cambio-d-appalto-2026',
-    tipo: 'Nuovo articolo', // 'Nuovo articolo' | 'Nuova pubblicazione'
-    badgeClass: 'badge-terracotta',
-    titolo: 'Cambio d’appalto: il “terzo mondo” del lavoro sociale',
-    testo: 'Servizi che devono continuare, imprese che cambiano, lavoratori costretti ogni volta a ricominciare: scopri la riflessione di COINSIEME.',
-    ctaTesto: "Leggi l'articolo →",
+    tipo: 'Nuovo articolo',
+    titolo: 'Cambio d’appalto: il lavoro sociale',
     ctaUrl: '/articoli/cambio-d-appalto-il-terzo-mondo-del-lavoro-sociale/'
   };
 
@@ -30,32 +26,35 @@
     const storageKey = 'coinsieme_novita_dismissed_' + config.id;
     try {
       if (sessionStorage.getItem(storageKey) === 'true') {
-        return; // Già visualizzato e chiuso in questa sessione
+        return;
       }
-    } catch (e) {
-      // Fallback trasparente in caso di blocco sessionStorage
-    }
+    } catch (e) {}
 
-    // Iniezione stili dedicati
+    // Iniezione stili micro-pillola
     const styleEl = document.createElement('style');
     styleEl.textContent = `
       .novita-toast {
         position: fixed;
-        bottom: 24px;
-        right: 24px;
+        bottom: 20px;
+        right: 20px;
         z-index: 999;
-        width: calc(100% - 48px);
-        max-width: 380px;
-        background: #ffffff;
-        border: 1px solid rgba(85, 51, 17, 0.14);
-        border-left: 5px solid var(--terracotta-deep, #a34d14);
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(85, 51, 17, 0.16), 0 2px 8px rgba(0, 0, 0, 0.04);
-        padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(196, 94, 26, 0.25);
+        border-left: 4px solid var(--terracotta, #c45e1a);
+        border-radius: 100px;
+        box-shadow: 0 6px 20px rgba(85, 51, 17, 0.12), 0 1px 4px rgba(0, 0, 0, 0.04);
+        padding: 5px 10px 5px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         font-family: var(--font-body, system-ui, -apple-system, sans-serif);
+        font-size: 0.82rem;
+        max-width: min(380px, calc(100vw - 32px));
         opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.32s ease, transform 0.32s ease;
+        transform: translateY(16px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
       }
       .novita-toast.novita-visible {
         opacity: 1;
@@ -67,130 +66,78 @@
           transform: none !important;
         }
       }
-      .novita-toast-header {
-        display: flex;
+      .novita-badge-micro {
+        background: var(--crema, #f7ede2);
+        color: var(--terracotta-deep, #a34d14);
+        font-weight: 800;
+        font-size: 0.65rem;
+        padding: 2px 7px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .novita-link-micro {
+        color: var(--marrone-scuro, #3d2208);
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 8px;
+        gap: 4px;
+        font-size: 0.80rem;
+      }
+      .novita-link-micro:hover,
+      .novita-link-micro:focus-visible {
+        color: var(--terracotta, #c45e1a);
+        text-decoration: underline;
       }
       .novita-close-btn {
         background: transparent;
         border: none;
-        color: var(--grigio-testo, #685848);
-        font-size: 1.45rem;
+        color: var(--grigio-testo, #5a4a3a);
+        font-size: 1.15rem;
         line-height: 1;
-        padding: 2px 6px;
+        padding: 2px 5px;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
         transition: color 0.15s ease, background 0.15s ease;
       }
       .novita-close-btn:hover {
-        color: var(--marrone-scuro, #2b1808);
+        color: var(--marrone-scuro, #3d2208);
         background: rgba(85, 51, 17, 0.08);
-      }
-      .novita-close-btn:focus-visible {
-        outline: 3px solid var(--terracotta-deep, #a34d14);
-        outline-offset: 2px;
-      }
-      .novita-titolo {
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: var(--marrone-scuro, #2b1808);
-        margin: 0 0 6px 0;
-        line-height: 1.35;
-        font-family: var(--font-heading, inherit);
-      }
-      .novita-testo {
-        font-size: 0.90rem;
-        color: var(--grigio-testo, #554433);
-        line-height: 1.52;
-        margin: 0 0 14px 0;
-      }
-      .novita-cta {
-        display: inline-flex;
-        width: fit-content;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.86rem;
-        padding: 7px 16px;
-        font-weight: 600;
-        border-radius: 6px;
-        text-decoration: none;
-        background-color: var(--terracotta-deep, #a34d14);
-        color: #ffffff;
-      }
-      .novita-cta:hover {
-        background-color: var(--terracotta, #c45e1a);
-        color: #ffffff;
       }
       @media (max-width: 640px) {
         .novita-toast {
-          bottom: max(16px, env(safe-area-inset-bottom, 16px));
-          left: 16px;
-          right: 16px;
-          width: auto;
+          bottom: max(14px, env(safe-area-inset-bottom, 14px));
+          left: 14px;
+          right: 14px;
           max-width: none;
-          padding: 13px 15px;
-          border-radius: 10px;
-          border-left-width: 4px;
-          box-shadow: 0 6px 20px rgba(85, 51, 17, 0.18), 0 1px 4px rgba(0, 0, 0, 0.05);
-        }
-        .novita-toast-header {
-          margin-bottom: 6px;
-        }
-        .novita-toast-header .badge {
-          font-size: 0.70rem !important;
-          padding: 2px 7px !important;
-          letter-spacing: 0.04em;
-        }
-        .novita-close-btn {
-          font-size: 1.25rem;
-          min-width: 32px;
-          min-height: 32px;
-          padding: 0;
-        }
-        .novita-titolo {
-          font-size: 0.96rem;
-          line-height: 1.26;
-          margin: 0 0 4px 0;
-        }
-        .novita-testo {
-          font-size: 0.84rem;
-          line-height: 1.38;
-          margin: 0 0 10px 0;
-        }
-        .novita-cta {
-          font-size: 0.82rem;
-          padding: 7px 14px;
-          gap: 4px;
         }
       }
     `;
     document.head.appendChild(styleEl);
 
-    // Creazione del container HTML
+    // Creazione HTML micro-pillola
     const toast = document.createElement('aside');
     toast.className = 'novita-toast';
     toast.setAttribute('role', 'region');
-    toast.setAttribute('aria-label', 'Novità in evidenza');
-    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-label', 'Nuovo articolo in evidenza');
 
     toast.innerHTML = `
-      <div class="novita-toast-header">
-        <span class="badge ${config.badgeClass || 'badge-terracotta'}" style="font-size:0.75rem; padding:3px 10px;">
-          ${config.tipo || 'Novità'}
-        </span>
-        <button type="button" class="novita-close-btn" aria-label="Chiudi notifica novità" title="Chiudi notifica">&times;</button>
-      </div>
-      <h3 class="novita-titolo" id="novita-titolo">${config.titolo}</h3>
-      <p class="novita-testo">${config.testo}</p>
-      <a href="${config.ctaUrl}" class="btn btn-primary btn-sm novita-cta">
-        ${config.ctaTesto}
+      <span class="novita-badge-micro">${config.tipo || 'Nuovo'}</span>
+      <a href="${config.ctaUrl}" class="novita-link-micro" title="${config.titolo}">
+        <span>${config.titolo}</span>
+        <span aria-hidden="true">→</span>
       </a>
+      <button type="button" class="novita-close-btn" aria-label="Chiudi notifica novità" title="Chiudi notifica">&times;</button>
     `;
 
     document.body.appendChild(toast);
@@ -213,7 +160,7 @@
     }
 
     toast.querySelector('.novita-close-btn').addEventListener('click', dismissToast);
-    toast.querySelector('.novita-cta').addEventListener('click', () => {
+    toast.querySelector('.novita-link-micro').addEventListener('click', () => {
       try {
         sessionStorage.setItem(storageKey, 'true');
       } catch (e) {}
