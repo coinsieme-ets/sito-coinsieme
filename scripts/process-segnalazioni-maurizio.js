@@ -9,7 +9,7 @@
  * 1. Estrae automaticamente i metadati dal link (titolo, sintesi, fonte, data);
  * 2. Compila la scheda completa;
  * 3. Inserisce la notizia nella tabella "Notizie" direttamente con stato "approvata";
- * 4. Aggiorna lo stato della segnalazione in "pubblicata";
+ * 4. Aggiorna lo stato della segnalazione in "inserito";
  * 5. Avvia la pubblicazione sul sito senza richiedere ulteriori passaggi di approvazione.
  */
 
@@ -282,8 +282,8 @@ async function processSegnalazioniMaurizio(options = {}) {
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'pubblicata');
-      console.log(`    ✓ Notizia inserita in "${notizieTable}" come APPROVATA ed impostata come pubblicata in "${segnalazioniTable}".`);
+      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'inserito');
+      console.log(`    ✓ Notizia inserita in "${notizieTable}" come APPROVATA ed impostata come inserita in "${segnalazioniTable}".`);
       processedRecords.push(notiziaApprovata);
     } catch (err) {
       console.error(`    ✗ Errore salvataggio notizia per ${rawUrl}: ${err.message}`);

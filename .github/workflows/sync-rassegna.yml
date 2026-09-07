@@ -8,17 +8,12 @@ on:
       - update-rassegna
       - airtable-sync
   schedule:
-    # Polling di sicurezza automatico ogni 30 minuti (06:00 - 22:00 Europe/Rome -> 04:00 - 20:00 UTC)
-    - cron: '*/30 4-20 * * *'
+    # Polling di sicurezza ridotto: controlla eventuali approvazioni non intercettate dal webhook Airtable.
+    # Orari UTC: 05:05, 08:05, 11:05, 14:05, 17:05, 20:05.
+    - cron: '5 5,8,11,14,17,20 * * *'
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   sync-and-publish:
@@ -63,31 +58,5 @@ jobs:
           commit_message: '[CMS] Sincronizzazione automatica rassegna news approvate da Airtable'
           file_pattern: 'content/rassegna/notizie-esterne.json index.html articoli.html'
 
-      # Deploy immediato su GitHub Pages se sono state rilevate modifiche o se avviato manualmente/webhook
-      - name: Preparazione directory di pubblicazione (_site)
-        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
-        run: |
-          mkdir -p _site
-          cp *.html _site/ 2>/dev/null || true
-          cp CNAME _site/
-          for dir in admin articoli pubblicazioni assets css js documenti; do
-            if [ -d "$dir" ]; then
-              cp -R "$dir" _site/
-            fi
-          done
-          cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
-
-      - name: Configurazione GitHub Pages
-        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
-        uses: actions/configure-pages@v5
-
-      - name: Caricamento artefatto Pages (_site)
-        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '_site'
-
-      - name: Deploy su GitHub Pages
-        if: steps.auto-commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # Il deploy resta centralizzato nel workflow principale build-articoli.yml,
+      # che parte automaticamente quando questo job crea un commit su main.
