@@ -491,24 +491,13 @@ ${cardsHtml}
 }
 
 function buildTopNewsBar(items) {
-  const approved = getSortedApprovedItems(items);
   const todayDateIt = getTodayDateIt();
   const todayIso = new Date().toISOString().slice(0, 10);
 
-  if (approved.length === 0) {
-    return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza" style="display: none;" aria-hidden="true"></aside>`;
-  }
-
-  const latest = approved[0];
-  const title = escapeHtml(latest.titolo_editoriale || latest.titolo_originale);
-  const url = escapeHtml(latest.url_fonte || '#');
-  const newsId = escapeHtml(latest.id || 'ultima-notizia');
-
-  return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza e aggiornamento odierno">
-  <div class="container top-news-container">
-    <!-- Riga 1: Meta, Live Pulse, Data, Orologio, Badge & Close -->
-    <div class="top-news-meta-row">
-      <div class="top-news-meta-left">
+  return `<aside id="top-news-bar" class="top-news-bar" aria-label="Aggiornamento in tempo reale e data odierna">
+  <div class="container">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <div style="display:inline-flex; align-items:center; gap:10px; font-size:0.86rem;">
         <span class="top-news-live-tag">
           <span class="pulse-dot" aria-hidden="true"></span>
           <span>OGGI</span>
@@ -516,31 +505,17 @@ function buildTopNewsBar(items) {
         <span class="top-news-divider" aria-hidden="true">·</span>
         <time class="top-news-date" id="top-news-live-date" datetime="${todayIso}">${todayDateIt}</time>
         <span class="top-news-divider" aria-hidden="true">·</span>
-        <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">09:55</span>
-        <span class="top-news-divider" aria-hidden="true">·</span>
-        <span class="top-news-badge">IN EVIDENZA</span>
+        <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">10:20</span>
       </div>
-      <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')" title="Chiudi notifica">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <!-- Riga 2: Titolo completo Notizia e CTA -->
-    <div class="top-news-content-row">
-      <p class="top-news-title">${title}</p>
-      <a href="${url}" class="top-news-link" target="_blank" rel="noopener noreferrer">
-        Leggi l'aggiornamento <span aria-hidden="true">→</span>
-        <span class="sr-only">(apre in una nuova scheda)</span>
-      </a>
+      <div style="font-size:0.80rem; color:var(--grigio-testo); display:inline-flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--terracotta);" aria-hidden="true"></span>
+        <span>Aggiornato in tempo reale</span>
+      </div>
     </div>
   </div>
 </aside>
 <script>
   (function() {
-    var newsId = '${newsId}';
-    if (newsId && sessionStorage.getItem('coinsieme_dismiss_news_' + newsId) === 'true') {
-      var bar = document.getElementById('top-news-bar');
-      if (bar) bar.style.display = 'none';
-    }
     function updateTopClock() {
       var clockEl = document.getElementById('top-news-live-clock');
       var dateEl = document.getElementById('top-news-live-date');
@@ -562,11 +537,6 @@ function buildTopNewsBar(items) {
     updateTopClock();
     setInterval(updateTopClock, 30000);
   })();
-  function dismissTopNews(newsId) {
-    var bar = document.getElementById('top-news-bar');
-    if (bar) bar.style.display = 'none';
-    if (newsId) sessionStorage.setItem('coinsieme_dismiss_news_' + newsId, 'true');
-  }
 </script>`;
 }
 
@@ -577,90 +547,70 @@ function getTodayDateIt() {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function buildHeroFocus(items) {
-  const approved = getSortedApprovedItems(items);
-
-  let target = null;
-  if (approved.length > 0) {
-    const techItem = approved.find(i => {
-      const text = `${i.categoria || ''} ${i.titolo_editoriale || ''} ${i.sintesi_editoriale || ''}`.toLowerCase();
-      return /domotic|tecnolog|ausili|accessib|digit|sensor|software/i.test(text);
-    });
-    target = techItem || approved[0];
-  }
-
-  if (!target) {
-    return `<div class="hero-glass-pill" role="region" aria-label="Focus orientamento e servizi">
-      <div class="hero-glass-pill-body">
-        <span class="hero-glass-pill-icon" aria-hidden="true">💡</span>
-        <div class="hero-glass-pill-texts">
-          <span class="hero-glass-pill-tag">SPORTELLO COINSIEME</span>
-          <span class="hero-glass-pill-title">Percorsi personalizzati e supporto per la vita quotidiana</span>
-        </div>
-      </div>
-      <a href="#orientamento" class="hero-glass-pill-btn">
-        Dettagli <span aria-hidden="true">→</span>
-      </a>
-    </div>`;
-  }
-
-  const title = escapeHtml(target.titolo_editoriale || target.titolo_originale);
-  const url = escapeHtml(target.url_fonte || '#');
-  const catText = `${target.categoria || ''} ${target.titolo_editoriale || ''}`.toLowerCase();
-  
-  let icon = '💡';
-  let badgeLabel = 'FOCUS SERVIZI &amp; WELFARE';
-  if (/domotic/i.test(catText)) {
-    icon = '🏠';
-    badgeLabel = 'DOMOTICA SOCIALE';
-  } else if (/software|caa|digit|sintesi|inps/i.test(catText)) {
-    icon = '💻';
-    badgeLabel = 'SOFTWARE &amp; ACCESSIBILITÀ';
-  } else if (/mobil|sensor|ausil/i.test(catText)) {
-    icon = '🚶';
-    badgeLabel = 'MOBILITÀ &amp; SENSORI';
-  } else if (/lavoro|scuola|cooperaz/i.test(catText)) {
-    icon = '🤝';
-    badgeLabel = 'INCLUSIONE &amp; LAVORO';
-  }
-
-  return `<div class="hero-glass-pill" role="region" aria-label="Focus del giorno: ${badgeLabel}">
-      <div class="hero-glass-pill-body">
-        <span class="hero-glass-pill-icon" aria-hidden="true">${icon}</span>
-        <div class="hero-glass-pill-texts">
-          <span class="hero-glass-pill-tag">${badgeLabel}</span>
-          <span class="hero-glass-pill-title">${title}</span>
-        </div>
-      </div>
-      <a href="${url}" class="hero-glass-pill-btn" target="_blank" rel="noopener noreferrer">
-        Dettagli <span aria-hidden="true">→</span>
-        <span class="sr-only">(apre in una nuova scheda)</span>
-      </a>
-    </div>`;
+function buildHeroImage(items) {
+  return `<img src="assets/hero_inclusion.jpg?v=20260907e" alt="Gruppo di lavoro, accoglienza e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" class="hero-main-photo" loading="eager">`;
 }
 
-function buildHeroImage(items) {
+function buildDailyNewsCard(items) {
   const approved = getSortedApprovedItems(items);
-
-  let target = null;
-  if (approved.length > 0) {
-    const techItem = approved.find(i => {
-      const text = `${i.categoria || ''} ${i.titolo_editoriale || ''} ${i.sintesi_editoriale || ''}`.toLowerCase();
-      return /domotic|tecnolog|ausili|accessib|digit|sensor|software/i.test(text);
-    });
-    target = techItem || approved[0];
+  if (approved.length === 0) {
+    return `<section id="focus-news" class="news-highlight-section" style="display:none;" aria-hidden="true"></section>`;
   }
 
-  const catText = target ? `${target.categoria || ''} ${target.titolo_editoriale || ''}`.toLowerCase() : '';
-  let imgSrc = 'assets/hero_inclusion.jpg';
-  let imgAlt = "Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS";
+  const latest = approved[0];
+  const title = escapeHtml(latest.titolo_editoriale || latest.titolo_originale);
+  const summary = escapeHtml(latest.sintesi_editoriale || '');
+  const url = escapeHtml(latest.url_fonte || '#');
+  const source = escapeHtml(latest.fonte || 'Fonte ufficiale');
+  const formattedDate = formatDateIt(latest.data_fonte);
+  const catText = `${latest.categoria || ''} ${latest.titolo_editoriale || ''}`.toLowerCase();
 
+  let thumbSrc = 'assets/hero_domotica.jpg?v=20260907e';
+  let badgeLabel = 'Domotica Sociale';
   if (/domotic/i.test(catText)) {
-    imgSrc = 'assets/hero_domotica.jpg?v=20260907d';
-    imgAlt = "Domotica sociale e tecnologie assistive per l'autonomia abitativa — Fondazione COINSIEME ETS";
+    thumbSrc = 'assets/hero_domotica.jpg?v=20260907e';
+    badgeLabel = 'Domotica Sociale';
+  } else if (/software|caa|digit|sintesi|inps/i.test(catText)) {
+    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+    badgeLabel = 'Tecnologie & Diritti';
+  } else if (/lavoro|scuola|cooperaz/i.test(catText)) {
+    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+    badgeLabel = 'Inclusione & Lavoro';
   }
 
-  return `<img src="${imgSrc}" alt="${escapeHtml(imgAlt)}" width="1376" height="768" class="hero-main-photo" loading="eager">`;
+  return `<section id="focus-news" class="news-highlight-section" aria-label="Notizia in evidenza del giorno">
+  <div class="container">
+    <div class="news-highlight-card">
+      
+      <div class="news-thumb-wrap">
+        <img src="${thumbSrc}" class="news-thumb-img" alt="${title}" loading="lazy">
+        <span class="news-thumb-badge">${badgeLabel}</span>
+      </div>
+
+      <div class="news-content-body">
+        <div class="news-top-meta">
+          <span class="news-source-tag">In evidenza oggi</span>
+          <span aria-hidden="true">·</span>
+          <span>Fonte: <strong>${source}</strong></span>
+          ${formattedDate ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(latest.data_fonte)}">${escapeHtml(formattedDate)}</time>` : ''}
+        </div>
+        <h2 class="news-title-rich">
+          <a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>
+        </h2>
+        <p class="news-desc-rich">
+          ${summary}
+        </p>
+        <div class="news-cta-row">
+          <a href="${url}" target="_blank" rel="noopener noreferrer" class="news-cta-btn">
+            Leggi l'aggiornamento completo sulla fonte ufficiale <span aria-hidden="true">→</span>
+            <span class="sr-only">(apre in una nuova scheda)</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>`;
 }
 
 async function main() {
@@ -721,21 +671,21 @@ async function main() {
   );
   assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori ultima notizia mancanti');
 
-  const heroFocusHtml = buildHeroFocus(rassegnaItems);
   const heroImageHtml = buildHeroImage(rassegnaItems);
 
   let homepageWithHero = homepageUpdated;
-  if (homepageWithHero.includes('<!-- CMS_HERO_FOCUS_START -->')) {
-    homepageWithHero = homepageWithHero.replace(
-      /(<!-- CMS_HERO_FOCUS_START -->)[\s\S]*?(<!-- CMS_HERO_FOCUS_END -->)/,
-      `$1\n          ${heroFocusHtml}\n          $2`
-    );
-  }
-
   if (homepageWithHero.includes('<!-- CMS_HERO_IMAGE_START -->')) {
     homepageWithHero = homepageWithHero.replace(
       /(<!-- CMS_HERO_IMAGE_START -->)[\s\S]*?(<!-- CMS_HERO_IMAGE_END -->)/,
       `$1\n            ${heroImageHtml}\n            $2`
+    );
+  }
+
+  const dailyNewsCardHtml = buildDailyNewsCard(rassegnaItems);
+  if (homepageWithHero.includes('<!-- CMS_DAILY_NEWS_CARD_START -->')) {
+    homepageWithHero = homepageWithHero.replace(
+      /(<!-- CMS_DAILY_NEWS_CARD_START -->)[\s\S]*?(<!-- CMS_DAILY_NEWS_CARD_END -->)/,
+      `$1\n${dailyNewsCardHtml}\n$2`
     );
   }
 
