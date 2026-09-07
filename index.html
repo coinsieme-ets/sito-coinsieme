@@ -121,13 +121,31 @@
 <main id="main-content">
 
   <!-- ========================================================
-       BLOCCO 1 — Hero equilibrata 50/50 e luminosa
+       BLOCCO 1 — Hero Vivente con Live Pulse, Orologio e Focus Tecnologie
        ======================================================== -->
-  <section class="hero-bright bg-crema-chiara" aria-labelledby="hero-titolo" style="padding: 88px 0 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
+  <section class="hero-bright bg-crema-chiara" aria-labelledby="hero-titolo" style="padding: 44px 0 64px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
-      <div class="hero-grid-5050" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+      
+      <!-- Live Status & Timestamp Bar -->
+      <div class="hero-live-bar" role="status" aria-label="Stato aggiornamenti e servizi">
+        <div class="hero-live-indicator">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="hero-live-label">OSSERVATORIO COINSIEME</span>
+        </div>
+        <div class="hero-live-divider" aria-hidden="true">·</div>
+        <!-- CMS_HERO_DATE_START -->
+        <time class="hero-live-date" id="hero-live-date" datetime="2026-09-07">Lunedì 7 settembre 2026</time>
+        <!-- CMS_HERO_DATE_END -->
+        <div class="hero-live-divider" aria-hidden="true">·</div>
+        <span class="hero-live-clock" id="hero-live-clock" aria-label="Ora corrente">09:05</span>
+        <div class="hero-live-status">
+          <span class="hero-status-tag">Sportello &amp; Servizi Attivi</span>
+        </div>
+      </div>
+
+      <div class="hero-grid-5050" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start;">
         
-        <!-- Colonna Sinistra: Testi ed Unico CTA -->
+        <!-- Colonna Sinistra: Testi e Azioni -->
         <div>
           <p class="section-tag" style="color: var(--terracotta); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem;">Fondazione COINSIEME ETS</p>
           <h1 id="hero-titolo" style="color: var(--marrone-scuro); font-size: clamp(2.1rem, 3.5vw, 2.7rem); line-height: 1.25; font-weight: 700; margin-bottom: 22px;">
@@ -136,37 +154,85 @@
           <p style="font-size: 1.125rem; line-height: 1.65; color: var(--grigio-testo); margin-bottom: 32px; font-weight: 400; max-width: 580px;">
             Se la vita quotidiana è diventata più difficile, lo Sportello ti aiuta a raccontare ciò che sta succedendo e a capire da dove partire.
           </p>
-          <div>
+          <div class="hero-actions">
             <a href="#orientamento" class="btn btn-terracotta" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; text-decoration: none; box-shadow: 0 4px 16px rgba(196, 94, 26, 0.22);">
               Inizia dall’ascolto <span aria-hidden="true" style="font-size: 1.1rem; transition: transform 0.2s ease;">↓</span>
+            </a>
+            <a href="#cosa-si-muove" class="btn-hero-secondary">
+              Esplora l’osservatorio <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
 
-        <!-- Colonna Destra: Fotografia Reale Ampliata (Pari Dignità 50/50) -->
-        <div style="position: relative;">
-          <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 12px 36px rgba(85, 51, 17, 0.12); border: 1px solid rgba(85, 51, 17, 0.08); background: #ffffff;">
-            <img src="assets/hero_inclusion.jpg" alt="Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" style="width: 100%; height: 380px; display: block; object-fit: cover;" loading="eager">
+        <!-- Colonna Destra: Fotografia Reale con Cornice Brand & Card Focus Tecnologie -->
+        <div class="hero-visual-frame">
+          <div class="hero-media-wrapper">
+            <img src="assets/hero_inclusion.jpg" alt="Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" class="hero-main-photo" loading="eager">
+            <div class="hero-brand-mark" aria-hidden="true">
+              <img src="assets/logo-symbol.png" alt="" width="22" height="19">
+              <span>COINSIEME ETS</span>
+            </div>
           </div>
+
+          <!-- CMS_HERO_FOCUS_START -->
+          <div class="hero-tech-card" role="region" aria-label="Focus tecnologie e autonomia del giorno">
+      <div class="hero-tech-header">
+        <span class="hero-tech-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          FOCUS TECNOLOGIE &amp; AUTONOMIA
+        </span>
+        <span class="hero-tech-date">4 settembre 2026</span>
+      </div>
+      <h3 class="hero-tech-title">Domotica sociale: concessi nuovi contributi per strutture sociali e sociosanitarie</h3>
+      <p class="hero-tech-desc">La Regione Sardegna ha autorizzato oltre 1,16 milioni di euro di contributi per interventi di domotica destinati a strutture sociali e sociosanitarie.</p>
+      <a href="https://www.regione.sardegna.it/notizie/avviso-in-do-m-a-u-s-concessi-i-contributi-al-3-gruppo-di-beneficiari" class="hero-tech-link" target="_blank" rel="noopener noreferrer">
+        Consulta l'aggiornamento <span aria-hidden="true">→</span>
+        <span class="sr-only">(apre in una nuova scheda)</span>
+      </a>
+    </div>
+          <!-- CMS_HERO_FOCUS_END -->
         </div>
 
       </div>
     </div>
   </section>
+  <script>
+    (function() {
+      function updateHeroLiveClock() {
+        var clockEl = document.getElementById('hero-live-clock');
+        var dateEl = document.getElementById('hero-live-date');
+        if (!clockEl && !dateEl) return;
+        var now = new Date();
+        
+        if (clockEl) {
+          var hours = String(now.getHours()).padStart(2, '0');
+          var minutes = String(now.getMinutes()).padStart(2, '0');
+          clockEl.textContent = hours + ':' + minutes;
+        }
+        
+        if (dateEl) {
+          try {
+            var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            var formatted = now.toLocaleDateString('it-IT', options);
+            formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+            dateEl.textContent = formatted;
+          } catch(e) {}
+        }
+      }
+      updateHeroLiveClock();
+      setInterval(updateHeroLiveClock, 30000);
+    })();
+  </script>
   <style>
     @media (max-width: 900px) {
       .hero-grid-5050 {
         grid-template-columns: 1fr !important;
         gap: 32px !important;
       }
-      .hero-grid-5050 img {
-        height: 280px !important;
-      }
     }
 
     /* STILI SEZIONE ORIENTAMENTO / SPORTELLO BLOCCO 2 */
     .porte-sportello-grid {
-      display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       margin-bottom: 36px;

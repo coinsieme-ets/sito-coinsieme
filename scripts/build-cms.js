@@ -533,6 +533,67 @@ function buildTopNewsBar(items) {
 </script>`;
 }
 
+function getTodayDateIt() {
+  const now = new Date();
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Rome' };
+  const str = now.toLocaleDateString('it-IT', options);
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function buildHeroFocus(items) {
+  const approved = getSortedApprovedItems(items);
+
+  let target = null;
+  if (approved.length > 0) {
+    // Cerca preferibilmente un elemento a tema domotico/tecnologico/ausili
+    const techItem = approved.find(i => {
+      const text = `${i.categoria || ''} ${i.titolo_editoriale || ''} ${i.sintesi_editoriale || ''}`.toLowerCase();
+      return /domotic|tecnolog|ausili|accessib|digit|sensor|software/i.test(text);
+    });
+    target = techItem || approved[0];
+  }
+
+  if (!target) {
+    return `<div class="hero-tech-card" role="region" aria-label="Focus autonomia e servizi">
+      <div class="hero-tech-header">
+        <span class="hero-tech-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          FOCUS ORIENTAMENTO &amp; AUTONOMIA
+        </span>
+        <span class="hero-tech-date">Servizio attivo</span>
+      </div>
+      <h3 class="hero-tech-title">Sportello COINSIEME: percorsi personalizzati e supporto per la vita quotidiana</h3>
+      <p class="hero-tech-desc">Uno spazio dedicato per comprendere bisogni complessi, orientarsi tra servizi e scoprire ausili per l'autonomia.</p>
+      <a href="#orientamento" class="hero-tech-link">
+        Scopri come iniziare <span aria-hidden="true">→</span>
+      </a>
+    </div>`;
+  }
+
+  const formattedDate = formatDateIt(target.data_fonte);
+  const title = escapeHtml(target.titolo_editoriale || target.titolo_originale);
+  const summary = escapeHtml(target.sintesi_editoriale);
+  const url = escapeHtml(target.url_fonte || '#');
+  const isTech = /domotic|tecnolog|ausili|accessib|digit|sensor/i.test(`${target.categoria || ''} ${target.titolo_editoriale || ''}`);
+  const badgeLabel = isTech ? 'FOCUS TECNOLOGIE &amp; AUTONOMIA' : 'FOCUS SERVIZI &amp; AGGIORNAMENTI';
+
+  return `<div class="hero-tech-card" role="region" aria-label="Focus tecnologie e autonomia del giorno">
+      <div class="hero-tech-header">
+        <span class="hero-tech-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          ${badgeLabel}
+        </span>
+        <span class="hero-tech-date">${escapeHtml(formattedDate)}</span>
+      </div>
+      <h3 class="hero-tech-title">${title}</h3>
+      <p class="hero-tech-desc">${summary}</p>
+      <a href="${url}" class="hero-tech-link" target="_blank" rel="noopener noreferrer">
+        Consulta l'aggiornamento <span aria-hidden="true">→</span>
+        <span class="sr-only">(apre in una nuova scheda)</span>
+      </a>
+    </div>`;
+}
+
 async function main() {
   const convertedImages = await convertHeicUploads();
   const allArticles = loadAllArticles();
@@ -591,7 +652,26 @@ async function main() {
   );
   assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori ultima notizia mancanti');
 
-  fs.writeFileSync(homepagePath, homepageUpdated, 'utf8');
+  const heroFocusHtml = buildHeroFocus(rassegnaItems);
+  const todayDateIt = getTodayDateIt();
+  const todayIso = new Date().toISOString().slice(0, 10);
+
+  let homepageWithHero = homepageUpdated;
+  if (homepageWithHero.includes('<!-- CMS_HERO_FOCUS_START -->')) {
+    homepageWithHero = homepageWithHero.replace(
+      /(<!-- CMS_HERO_FOCUS_START -->)[\s\S]*?(<!-- CMS_HERO_FOCUS_END -->)/,
+      `$1\n          ${heroFocusHtml}\n          $2`
+    );
+  }
+
+  if (homepageWithHero.includes('<!-- CMS_HERO_DATE_START -->')) {
+    homepageWithHero = homepageWithHero.replace(
+      /(<!-- CMS_HERO_DATE_START -->)[\s\S]*?(<!-- CMS_HERO_DATE_END -->)/,
+      `$1\n        <time class="hero-live-date" id="hero-live-date" datetime="${todayIso}">${todayDateIt}</time>\n        $2`
+    );
+  }
+
+  fs.writeFileSync(homepagePath, homepageWithHero, 'utf8');
 
   console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
