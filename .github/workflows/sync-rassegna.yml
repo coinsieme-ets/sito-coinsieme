@@ -7,10 +7,6 @@ on:
       - rassegna-news-approved
       - update-rassegna
       - airtable-sync
-  schedule:
-    # Polling di sicurezza ridotto: controlla eventuali approvazioni non intercettate dal webhook Airtable.
-    # Orari UTC: 05:05, 08:05, 11:05, 14:05, 17:05, 20:05.
-    - cron: '5 5,8,11,14,17,20 * * *'
 
 permissions:
   contents: write
@@ -29,6 +25,9 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+
+      - name: Installazione dipendenze deterministica (npm ci)
+        run: npm ci
 
       - name: Elabora eventuali segnalazioni dirette di Maurizio (pubblicazione immediata)
         env:
