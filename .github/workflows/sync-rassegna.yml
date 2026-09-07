@@ -35,8 +35,12 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Installa dipendenze
-        run: npm ci || npm install
+      - name: Elabora eventuali segnalazioni dirette di Maurizio (pubblicazione immediata)
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
+        run: node scripts/process-segnalazioni-maurizio.js
 
       - name: Sincronizza notizie approvate da Airtable
         id: sync

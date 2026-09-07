@@ -5,7 +5,8 @@
     "build": "node scripts/build-cms.js",
     "sync-rassegna": "node scripts/sync-rassegna.js",
     "briefing-mail": "node scripts/send-briefing-mail.js",
-    "ingest-candidati": "node scripts/ingest-rassegna-candidates.js"
+    "ingest-candidati": "node scripts/ingest-rassegna-candidates.js",
+    "process-segnalazioni": "node scripts/process-segnalazioni-maurizio.js"
   },
   "dependencies": {
     "heic-convert": "2.1.0",
