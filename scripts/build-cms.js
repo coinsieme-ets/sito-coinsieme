@@ -634,6 +634,30 @@ function buildHeroFocus(items) {
     </div>`;
 }
 
+function buildHeroImage(items) {
+  const approved = getSortedApprovedItems(items);
+
+  let target = null;
+  if (approved.length > 0) {
+    const techItem = approved.find(i => {
+      const text = `${i.categoria || ''} ${i.titolo_editoriale || ''} ${i.sintesi_editoriale || ''}`.toLowerCase();
+      return /domotic|tecnolog|ausili|accessib|digit|sensor|software/i.test(text);
+    });
+    target = techItem || approved[0];
+  }
+
+  const catText = target ? `${target.categoria || ''} ${target.titolo_editoriale || ''}`.toLowerCase() : '';
+  let imgSrc = 'assets/hero_inclusion.jpg';
+  let imgAlt = "Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS";
+
+  if (/domotic/i.test(catText)) {
+    imgSrc = 'assets/hero_domotica.jpg';
+    imgAlt = "Domotica sociale e tecnologie assistive per l'autonomia abitativa — Fondazione COINSIEME ETS";
+  }
+
+  return `<img src="${imgSrc}" alt="${escapeHtml(imgAlt)}" width="1376" height="768" class="hero-main-photo" loading="eager">`;
+}
+
 async function main() {
   const convertedImages = await convertHeicUploads();
   const allArticles = loadAllArticles();
@@ -693,8 +717,7 @@ async function main() {
   assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori ultima notizia mancanti');
 
   const heroFocusHtml = buildHeroFocus(rassegnaItems);
-  const todayDateIt = getTodayDateIt();
-  const todayIso = new Date().toISOString().slice(0, 10);
+  const heroImageHtml = buildHeroImage(rassegnaItems);
 
   let homepageWithHero = homepageUpdated;
   if (homepageWithHero.includes('<!-- CMS_HERO_FOCUS_START -->')) {
@@ -704,10 +727,10 @@ async function main() {
     );
   }
 
-  if (homepageWithHero.includes('<!-- CMS_HERO_DATE_START -->')) {
+  if (homepageWithHero.includes('<!-- CMS_HERO_IMAGE_START -->')) {
     homepageWithHero = homepageWithHero.replace(
-      /(<!-- CMS_HERO_DATE_START -->)[\s\S]*?(<!-- CMS_HERO_DATE_END -->)/,
-      `$1\n        <time class="hero-live-date" id="hero-live-date" datetime="${todayIso}">${todayDateIt}</time>\n        $2`
+      /(<!-- CMS_HERO_IMAGE_START -->)[\s\S]*?(<!-- CMS_HERO_IMAGE_END -->)/,
+      `$1\n            ${heroImageHtml}\n            $2`
     );
   }
 
