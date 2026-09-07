@@ -2,9 +2,10 @@
  * Sincronizzazione Rassegna News da Airtable
  * COINSIEME ETS — Flusso Editoriale "Cosa si muove intorno a noi"
  *
- * Scarica solo ed esclusivamente le notizie con stato "approvata" da Airtable,
- * valida i 10 campi dello schema editoriale e aggiorna content/rassegna/notizie-esterne.json
- * solo se ci sono differenze effettive.
+ * Scarica tutte le notizie con stato "approvata" da Airtable,
+ * valida e normalizza i campi con tolleranza sui nomi colonna e formati data,
+ * ordina per data_fonte decrescente (e createdTime/id per pari data),
+ * e aggiorna content/rassegna/notizie-esterne.json solo se ci sono differenze.
  */
 
 const fs = require('fs');
@@ -24,50 +25,81 @@ function slugify(text = '') {
     .slice(0, 60);
 }
 
-function validateAndNormalizeRecord(fields, recordId = '') {
-  const stato = (fields.stato || fields.Stato || '').trim();
+function normalizeDate(rawDate) {
+  if (!rawDate) return '';
+  const str = String(rawDate).trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
+    return str.slice(0, 10);
+  }
+  const dmyMatch = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if (dmyMatch) {
+    const day = dmyMatch[1].padStart(2, '0');
+    const month = dmyMatch[2].padStart(2, '0');
+    const year = dmyMatch[3];
+    return `${year}-${month}-${day}`;
+  }
+  return '';
+}
+
+function extractDomainName(urlStr) {
+  try {
+    const parsed = new URL(urlStr);
+    const host = parsed.hostname.replace(/^www\./, '');
+    const parts = host.split('.');
+    if (parts.length >= 2) {
+      const name = parts[0];
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return host;
+  } catch (e) {
+    return 'Fonte esterna';
+  }
+}
+
+function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
+  const stato = (fields.stato || fields.Stato || fields.STATO || '').trim().toLowerCase();
   if (stato !== 'approvata') {
     return null; // Scarta categoricamente tutto ciò che non è approvata
   }
 
-  const url_fonte = (fields.url_fonte || fields.Url_fonte || fields['URL Fonte'] || fields['url_fonte'] || fields.url || '').trim();
+  const url_fonte = (fields.url_fonte || fields.Url_fonte || fields['URL Fonte'] || fields['Url Fonte'] || fields['url_fonte'] || fields.url || fields.Url || fields.link || fields.Link || '').trim();
   if (!/^https?:\/\//i.test(url_fonte)) {
     console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || fields.Titolo || recordId}" scartata: url_fonte non valido o mancante.`);
     return null;
   }
 
-  const data_fonte = (fields.data_fonte || fields.Data_fonte || fields['Data Fonte'] || fields['data_fonte'] || fields.data || '').trim().slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(data_fonte)) {
+  const rawDate = fields.data_fonte || fields.Data_fonte || fields['Data Fonte'] || fields['data_fonte'] || fields.data || fields.Data || fields['Data pubblicazione'] || fields['data_pubblicazione'] || (rawRecord && rawRecord.createdTime);
+  const data_fonte = normalizeDate(rawDate);
+  if (!data_fonte) {
     console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || recordId}" scartata: data_fonte mancante o non valida.`);
     return null;
   }
 
-  const fonte = (fields.fonte || fields.Fonte || '').trim();
-  if (!fonte) {
-    console.warn(`[Sync Rassegna] Notizia "${fields.titolo_editoriale || recordId}" scartata: fonte mancante.`);
-    return null;
+  let fonte = (fields.fonte || fields.Fonte || fields['Fonte'] || fields.source || fields.Source || '').trim();
+  if (!fonte && url_fonte) {
+    fonte = extractDomainName(url_fonte);
   }
 
-  const titolo_editoriale = (fields.titolo_editoriale || fields['Titolo Editoriale'] || fields.titolo_originale || fields['Titolo Originale'] || fields.titolo || '').trim();
+  const titolo_editoriale = (fields.titolo_editoriale || fields['Titolo Editoriale'] || fields.titolo_originale || fields['Titolo Originale'] || fields.titolo || fields.Titolo || fields.Title || fields.title || '').trim();
   if (!titolo_editoriale) {
     console.warn(`[Sync Rassegna] Notizia record "${recordId}" scartata: titolo mancante.`);
     return null;
   }
 
-  const sintesi_editoriale = (fields.sintesi_editoriale || fields['Sintesi Editoriale'] || fields.sintesi || '').trim();
+  let sintesi_editoriale = (fields.sintesi_editoriale || fields['Sintesi Editoriale'] || fields.sintesi || fields.Sintesi || fields.summary || fields.Summary || fields.descrizione || fields.Descrizione || '').trim();
   if (!sintesi_editoriale) {
-    console.warn(`[Sync Rassegna] Notizia "${titolo_editoriale}" scartata: sintesi_editoriale mancante.`);
-    return null;
+    sintesi_editoriale = titolo_editoriale;
   }
 
   const id = (fields.id || fields.ID || '').trim() || `${slugify(fonte)}-${slugify(titolo_editoriale).slice(0, 30)}-${data_fonte}`;
-  const categoria = (fields.categoria || fields.Categoria || 'Welfare e autonomia').trim();
+  const categoria = (fields.categoria || fields.Categoria || fields['Categoria'] || 'Welfare e autonomia').trim();
   const titolo_originale = (fields.titolo_originale || fields['Titolo Originale'] || titolo_editoriale).trim();
-  const rilevanza_coinsieme = (fields.rilevanza_coinsieme || fields['Rilevanza COINSIEME'] || fields['Rilevanza per COINSIEME'] || fields.rilevanza || '').trim();
+  let rilevanza_coinsieme = (fields.rilevanza_coinsieme || fields['Rilevanza COINSIEME'] || fields['Rilevanza per COINSIEME'] || fields['Rilevanza'] || fields.rilevanza || fields.note || fields.Note || '').trim();
   if (!rilevanza_coinsieme) {
-    console.warn(`[Sync Rassegna] Notizia "${titolo_editoriale}" scartata: rilevanza_coinsieme mancante.`);
-    return null;
+    rilevanza_coinsieme = "Rilevante per l'osservatorio e il contesto di COINSIEME.";
   }
+
+  const createdTime = (rawRecord && rawRecord.createdTime) ? String(rawRecord.createdTime) : '';
 
   return {
     id,
@@ -79,7 +111,8 @@ function validateAndNormalizeRecord(fields, recordId = '') {
     url_fonte,
     sintesi_editoriale,
     rilevanza_coinsieme,
-    stato: 'approvata'
+    stato: 'approvata',
+    createdTime
   };
 }
 
@@ -89,7 +122,7 @@ async function fetchFromAirtable(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    params.set('filterByFormula', "OR({stato} = 'approvata', {Stato} = 'approvata')");
+    params.set('filterByFormula', "OR(LOWER({stato}) = 'approvata', LOWER({Stato}) = 'approvata')");
     params.set('pageSize', '100');
     if (offset) params.set('offset', offset);
 
@@ -151,11 +184,22 @@ async function syncRassegna(options = {}) {
     rawRecords = await fetchFromAirtable(token, baseId, tableName);
   }
 
-  // Normalizza e valida
+  // Normalizza, valida e ordina rigorosamente per data decrescente e createdTime per parità
   const validApproved = rawRecords
-    .map((rec) => validateAndNormalizeRecord(rec.fields || rec, rec.id || ''))
+    .map((rec) => validateAndNormalizeRecord(rec.fields || rec, rec.id || '', rec))
     .filter(Boolean)
-    .sort((a, b) => b.data_fonte.localeCompare(a.data_fonte));
+    .sort((a, b) => {
+      const dateDiff = (b.data_fonte || '').localeCompare(a.data_fonte || '');
+      if (dateDiff !== 0) return dateDiff;
+      const timeDiff = (b.createdTime || '').localeCompare(a.createdTime || '');
+      if (timeDiff !== 0) return timeDiff;
+      return (a.id || '').localeCompare(b.id || '');
+    })
+    .map(item => {
+      // Clean createdTime helper before writing JSON
+      const { createdTime, ...cleanItem } = item;
+      return cleanItem;
+    });
 
   console.log(`[Sync Rassegna] Notizie approvate e verificate trovate: ${validApproved.length}`);
 

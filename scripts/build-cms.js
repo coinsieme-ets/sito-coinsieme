@@ -410,13 +410,17 @@ function getSortedApprovedItems(items) {
       if (item.stato !== 'approvata') return false;
       if (!item.data_fonte || !/^\d{4}-\d{2}-\d{2}$/.test(String(item.data_fonte).trim())) return false;
       if (!item.url_fonte || !/^https?:\/\//i.test(String(item.url_fonte).trim())) return false;
-      if (!item.titolo_editoriale || !String(item.titolo_editoriale).trim()) return false;
-      if (!item.fonte || !String(item.fonte).trim()) return false;
-      if (!item.sintesi_editoriale || !String(item.sintesi_editoriale).trim()) return false;
-      if (!item.rilevanza_coinsieme || !String(item.rilevanza_coinsieme).trim()) return false;
+      if (!item.titolo_editoriale && !item.titolo_originale) return false;
+      if (!item.fonte) return false;
       return true;
     })
-    .sort((a, b) => (b.item.data_fonte || '').localeCompare(a.item.data_fonte || '') || a.idx - b.idx)
+    .sort((a, b) => {
+      const dateDiff = (b.item.data_fonte || '').localeCompare(a.item.data_fonte || '');
+      if (dateDiff !== 0) return dateDiff;
+      const timeDiff = (b.item.createdTime || '').localeCompare(a.item.createdTime || '');
+      if (timeDiff !== 0) return timeDiff;
+      return a.idx - b.idx;
+    })
     .map(({ item }) => item);
 }
 
@@ -565,8 +569,8 @@ function buildDailyNewsCard(items) {
   const formattedDate = formatDateIt(latest.data_fonte);
   const catText = `${latest.categoria || ''} ${latest.titolo_editoriale || ''}`.toLowerCase();
 
-  let thumbSrc = 'assets/hero_domotica.jpg?v=20260907e';
-  let badgeLabel = 'Domotica Sociale';
+  let thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+  let badgeLabel = 'Welfare & Diritti';
   if (/domotic/i.test(catText)) {
     thumbSrc = 'assets/hero_domotica.jpg?v=20260907e';
     badgeLabel = 'Domotica Sociale';
@@ -576,6 +580,9 @@ function buildDailyNewsCard(items) {
   } else if (/lavoro|scuola|cooperaz/i.test(catText)) {
     thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
     badgeLabel = 'Inclusione & Lavoro';
+  } else if (/duchenne|ricerca|cura|malatt/i.test(catText)) {
+    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+    badgeLabel = 'Ricerca & Famiglie';
   }
 
   return `<section id="focus-news" class="news-highlight-section" aria-label="Notizia in evidenza del giorno">
