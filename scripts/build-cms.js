@@ -492,6 +492,8 @@ ${cardsHtml}
 
 function buildTopNewsBar(items) {
   const approved = getSortedApprovedItems(items);
+  const todayDateIt = getTodayDateIt();
+  const todayIso = new Date().toISOString().slice(0, 10);
 
   if (approved.length === 0) {
     return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza" style="display: none;" aria-hidden="true"></aside>`;
@@ -502,19 +504,29 @@ function buildTopNewsBar(items) {
   const url = escapeHtml(latest.url_fonte || '#');
   const newsId = escapeHtml(latest.id || 'ultima-notizia');
 
-  return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza">
+  return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza e aggiornamento odierno">
   <div class="container top-news-container">
-    <div class="top-news-content">
-      <span class="top-news-badge">IN EVIDENZA OGGI</span>
+    <div class="top-news-left">
+      <span class="top-news-live-tag">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>OGGI</span>
+      </span>
+      <span class="top-news-divider" aria-hidden="true">·</span>
+      <time class="top-news-date" id="top-news-live-date" datetime="${todayIso}">${todayDateIt}</time>
+      <span class="top-news-divider" aria-hidden="true">·</span>
+      <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">09:20</span>
+    </div>
+    <div class="top-news-right">
+      <span class="top-news-badge">IN EVIDENZA</span>
       <p class="top-news-title">${title}</p>
       <a href="${url}" class="top-news-link" target="_blank" rel="noopener noreferrer">
         Leggi l'aggiornamento <span aria-hidden="true">→</span>
         <span class="sr-only">(apre in una nuova scheda)</span>
       </a>
+      <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
   </div>
 </aside>
 <script>
@@ -524,6 +536,26 @@ function buildTopNewsBar(items) {
       var bar = document.getElementById('top-news-bar');
       if (bar) bar.style.display = 'none';
     }
+    function updateTopClock() {
+      var clockEl = document.getElementById('top-news-live-clock');
+      var dateEl = document.getElementById('top-news-live-date');
+      if (!clockEl && !dateEl) return;
+      var now = new Date();
+      if (clockEl) {
+        var h = String(now.getHours()).padStart(2, '0');
+        var m = String(now.getMinutes()).padStart(2, '0');
+        clockEl.textContent = h + ':' + m;
+      }
+      if (dateEl) {
+        try {
+          var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+          var dStr = now.toLocaleDateString('it-IT', options);
+          dateEl.textContent = dStr.charAt(0).toUpperCase() + dStr.slice(1);
+        } catch(e) {}
+      }
+    }
+    updateTopClock();
+    setInterval(updateTopClock, 30000);
   })();
   function dismissTopNews(newsId) {
     var bar = document.getElementById('top-news-bar');
@@ -545,7 +577,6 @@ function buildHeroFocus(items) {
 
   let target = null;
   if (approved.length > 0) {
-    // Cerca preferibilmente un elemento a tema domotico/tecnologico/ausili
     const techItem = approved.find(i => {
       const text = `${i.categoria || ''} ${i.titolo_editoriale || ''} ${i.sintesi_editoriale || ''}`.toLowerCase();
       return /domotic|tecnolog|ausili|accessib|digit|sensor|software/i.test(text);
@@ -554,41 +585,50 @@ function buildHeroFocus(items) {
   }
 
   if (!target) {
-    return `<div class="hero-tech-card" role="region" aria-label="Focus autonomia e servizi">
-      <div class="hero-tech-header">
-        <span class="hero-tech-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          FOCUS ORIENTAMENTO &amp; AUTONOMIA
-        </span>
-        <span class="hero-tech-date">Servizio attivo</span>
+    return `<div class="hero-glass-pill" role="region" aria-label="Focus orientamento e servizi">
+      <div class="hero-glass-pill-body">
+        <span class="hero-glass-pill-icon" aria-hidden="true">💡</span>
+        <div class="hero-glass-pill-texts">
+          <span class="hero-glass-pill-tag">SPORTELLO COINSIEME</span>
+          <span class="hero-glass-pill-title">Percorsi personalizzati e supporto per la vita quotidiana</span>
+        </div>
       </div>
-      <h3 class="hero-tech-title">Sportello COINSIEME: percorsi personalizzati e supporto per la vita quotidiana</h3>
-      <p class="hero-tech-desc">Uno spazio dedicato per comprendere bisogni complessi, orientarsi tra servizi e scoprire ausili per l'autonomia.</p>
-      <a href="#orientamento" class="hero-tech-link">
-        Scopri come iniziare <span aria-hidden="true">→</span>
+      <a href="#orientamento" class="hero-glass-pill-btn">
+        Dettagli <span aria-hidden="true">→</span>
       </a>
     </div>`;
   }
 
-  const formattedDate = formatDateIt(target.data_fonte);
   const title = escapeHtml(target.titolo_editoriale || target.titolo_originale);
-  const summary = escapeHtml(target.sintesi_editoriale);
   const url = escapeHtml(target.url_fonte || '#');
-  const isTech = /domotic|tecnolog|ausili|accessib|digit|sensor/i.test(`${target.categoria || ''} ${target.titolo_editoriale || ''}`);
-  const badgeLabel = isTech ? 'FOCUS TECNOLOGIE &amp; AUTONOMIA' : 'FOCUS SERVIZI &amp; AGGIORNAMENTI';
+  const catText = `${target.categoria || ''} ${target.titolo_editoriale || ''}`.toLowerCase();
+  
+  let icon = '💡';
+  let badgeLabel = 'FOCUS SERVIZI &amp; WELFARE';
+  if (/domotic/i.test(catText)) {
+    icon = '🏠';
+    badgeLabel = 'DOMOTICA SOCIALE';
+  } else if (/software|caa|digit|sintesi|inps/i.test(catText)) {
+    icon = '💻';
+    badgeLabel = 'SOFTWARE &amp; ACCESSIBILITÀ';
+  } else if (/mobil|sensor|ausil/i.test(catText)) {
+    icon = '🚶';
+    badgeLabel = 'MOBILITÀ &amp; SENSORI';
+  } else if (/lavoro|scuola|cooperaz/i.test(catText)) {
+    icon = '🤝';
+    badgeLabel = 'INCLUSIONE &amp; LAVORO';
+  }
 
-  return `<div class="hero-tech-card" role="region" aria-label="Focus tecnologie e autonomia del giorno">
-      <div class="hero-tech-header">
-        <span class="hero-tech-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          ${badgeLabel}
-        </span>
-        <span class="hero-tech-date">${escapeHtml(formattedDate)}</span>
+  return `<div class="hero-glass-pill" role="region" aria-label="Focus del giorno: ${badgeLabel}">
+      <div class="hero-glass-pill-body">
+        <span class="hero-glass-pill-icon" aria-hidden="true">${icon}</span>
+        <div class="hero-glass-pill-texts">
+          <span class="hero-glass-pill-tag">${badgeLabel}</span>
+          <span class="hero-glass-pill-title">${title}</span>
+        </div>
       </div>
-      <h3 class="hero-tech-title">${title}</h3>
-      <p class="hero-tech-desc">${summary}</p>
-      <a href="${url}" class="hero-tech-link" target="_blank" rel="noopener noreferrer">
-        Consulta l'aggiornamento <span aria-hidden="true">→</span>
+      <a href="${url}" class="hero-glass-pill-btn" target="_blank" rel="noopener noreferrer">
+        Dettagli <span aria-hidden="true">→</span>
         <span class="sr-only">(apre in una nuova scheda)</span>
       </a>
     </div>`;

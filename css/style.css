@@ -1737,69 +1737,47 @@ img, svg, video, canvas {
   transition: background 0.15s ease, color 0.15s ease;
 }
 .top-news-close:hover,
-.top-news-close:focus-visible {
-  color: var(--marrone-scuro);
-  background: rgba(85, 51, 17, 0.08);
-}
-
-@media (max-width: 860px) {
-  .top-news-container {
-    align-items: flex-start;
-  }
-  .top-news-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  .top-news-title {
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .top-news-link {
-    margin-left: 0;
-    margin-top: 2px;
-  }
-}
-
 /* ============================================================
-   HERO VIVENTE — LIVE PULSE, OROLOGIO & FOCUS TECNOLOGIE
+   TOP NEWS & LIVE HEADER UNIFICATO (DATA, OROLOGIO & NOTIZIA)
    ============================================================ */
 
-.hero-live-bar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--grigio-bordino);
-  border-radius: var(--radius-pill);
-  padding: 8px 18px;
-  margin-bottom: 28px;
-  font-size: 0.84rem;
-  color: var(--grigio-testo);
-  box-shadow: 0 2px 10px rgba(85, 51, 17, 0.04);
-  width: fit-content;
-  max-width: 100%;
+.top-news-bar {
+  background: #fdf4ed;
+  border-bottom: 1px solid #fbd0b8;
+  padding: 8px 0;
+  position: relative;
+  z-index: 90;
+  font-size: 0.85rem;
 }
 
-.hero-live-indicator {
+.top-news-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.top-news-left {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-weight: 700;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.top-news-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
   color: var(--marrone-scuro);
-  letter-spacing: 0.04em;
-  font-size: 0.76rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .pulse-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: #2e7d32;
   box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
@@ -1814,39 +1792,128 @@ img, svg, video, canvas {
   }
 }
 
-.hero-live-divider {
-  color: rgba(85, 51, 17, 0.3);
-  font-weight: bold;
-}
-
-.hero-live-date {
+.top-news-date {
   font-weight: 600;
   color: var(--marrone-scuro);
+  font-size: 0.82rem;
 }
 
-.hero-live-clock {
+.top-news-clock {
   font-family: var(--font-heading);
   font-weight: 700;
   color: var(--terracotta-deep);
-  background: var(--crema-chiara);
-  padding: 2px 8px;
+  background: #ffffff;
+  padding: 1px 7px;
   border-radius: 4px;
-  border: 1px solid rgba(196, 94, 26, 0.2);
-  letter-spacing: 0.03em;
-  font-size: 0.84rem;
-}
-
-.hero-live-status {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 4px;
-}
-
-.hero-status-tag {
-  color: #2a6b4a;
-  font-weight: 600;
+  border: 1px solid #fbd0b8;
   font-size: 0.80rem;
 }
+
+.top-news-divider {
+  color: rgba(85, 51, 17, 0.25);
+  font-weight: bold;
+}
+
+.top-news-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  flex-grow: 1;
+  padding-left: 14px;
+  border-left: 1px solid rgba(196, 94, 26, 0.25);
+}
+
+.top-news-badge {
+  background: var(--terracotta);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.top-news-title {
+  margin: 0;
+  color: var(--marrone-scuro);
+  font-weight: 500;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-news-link {
+  color: var(--terracotta-deep);
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.top-news-link:hover,
+.top-news-link:focus-visible {
+  text-decoration: underline;
+  color: var(--terracotta);
+}
+
+.top-news-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--grigio-testo);
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 28px;
+  min-height: 28px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.top-news-close:hover,
+.top-news-close:focus-visible {
+  color: var(--marrone-scuro);
+  background: rgba(85, 51, 17, 0.08);
+}
+
+@media (max-width: 960px) {
+  .top-news-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .top-news-right {
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-news-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   HERO VIVENTE — FOTO BRANDIZZATA & PILLOLA GLASS SOTTILE
+   ============================================================ */
 
 .hero-actions {
   display: flex;
@@ -1883,137 +1950,155 @@ img, svg, video, canvas {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .hero-media-wrapper {
   position: relative;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 12px 36px rgba(85, 51, 17, 0.12);
-  border: 1px solid rgba(85, 51, 17, 0.08);
-  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(85, 51, 17, 0.14);
+  border: 1px solid rgba(85, 51, 17, 0.1);
+  background: #1b262c;
 }
 
 .hero-main-photo {
   width: 100%;
-  height: 300px;
+  height: 360px;
   display: block;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.hero-media-wrapper:hover .hero-main-photo {
+  transform: scale(1.02);
+}
+
+.hero-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(27, 38, 44, 0.85) 0%, rgba(27, 38, 44, 0.2) 50%, rgba(27, 38, 44, 0.05) 100%);
+  pointer-events: none;
 }
 
 .hero-brand-mark {
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(6px);
-  padding: 5px 10px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 5px 11px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(85, 51, 17, 0.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  font-size: 0.72rem;
-  font-weight: 700;
+  gap: 7px;
+  border: 1px solid rgba(85, 51, 17, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 0.74rem;
+  font-weight: 800;
   color: var(--marrone-scuro);
   letter-spacing: 0.04em;
+  z-index: 20;
 }
 
-.hero-tech-card {
-  background: #ffffff;
-  border: 1px solid var(--grigio-bordino);
-  border-left: 4px solid var(--terracotta);
-  border-radius: 10px;
-  padding: 16px 20px;
-  box-shadow: 0 4px 18px rgba(85, 51, 17, 0.06);
-  position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.hero-tech-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(196, 94, 26, 0.12);
-}
-
-.hero-tech-header {
+/* PILLOLA GLASS SOTTILE SULLA FOTO */
+.hero-glass-pill {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+  background: rgba(20, 20, 20, 0.68);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.hero-tech-badge {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: var(--terracotta);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  display: inline-flex;
+.hero-glass-pill:hover {
+  background: rgba(20, 20, 20, 0.82);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.hero-glass-pill-body {
+  display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
+  overflow: hidden;
+  color: #ffffff;
 }
 
-.hero-tech-date {
-  font-size: 0.75rem;
-  color: var(--grigio-testo);
-  font-weight: 500;
+.hero-glass-pill-icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
-.hero-tech-title {
-  font-family: var(--font-heading);
-  font-size: 1.02rem;
-  font-weight: 700;
-  color: var(--marrone-scuro);
-  margin-bottom: 6px;
-  line-height: 1.35;
-}
-
-.hero-tech-desc {
-  font-size: 0.88rem;
-  color: var(--grigio-testo);
-  line-height: 1.5;
-  margin-bottom: 10px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.hero-glass-pill-texts {
   overflow: hidden;
 }
 
-.hero-tech-link {
+.hero-glass-pill-tag {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #fed7aa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.hero-glass-pill-title {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.hero-glass-pill-btn {
+  background: var(--terracotta);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 13px;
+  border-radius: 6px;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.84rem;
-  font-weight: 700;
-  color: var(--terracotta);
-  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(196, 94, 26, 0.4);
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.hero-tech-link:hover,
-.hero-tech-link:focus-visible {
-  text-decoration: underline;
-  color: var(--terracotta-deep);
+.hero-glass-pill-btn:hover,
+.hero-glass-pill-btn:focus-visible {
+  background: var(--terracotta-lite);
+  transform: translateY(-1px);
+  color: #ffffff;
 }
 
 @media (max-width: 900px) {
-  .hero-live-bar {
-    width: 100%;
-    justify-content: space-between;
-    padding: 8px 12px;
-    font-size: 0.78rem;
-    margin-bottom: 22px;
-  }
-  .hero-live-status {
-    width: 100%;
-    margin-top: 4px;
-    padding-top: 4px;
-    border-top: 1px dashed rgba(85, 51, 17, 0.1);
-  }
   .hero-main-photo {
-    height: 240px !important;
+    height: 280px !important;
+  }
+  .hero-glass-pill {
+    padding: 8px 12px;
+  }
+  .hero-glass-pill-title {
+    font-size: 0.78rem;
   }
 }
 
