@@ -7,6 +7,7 @@
     "titolo_editoriale": "«Coltiviamo il futuro»: la campagna per la ricerca e il sostegno alle famiglie con Duchenne",
     "fonte": "Vita.it",
     "url_fonte": "https://www.vita.it/coltiviamo-il-futuro-duchenne-noi-forti-come-un-rosmarino/",
+    "immagine_news": "assets/rassegna/vita-duchenne-coltiviamo-futuro.jpg",
     "sintesi_editoriale": "Dal 5 al 13 settembre 2026 l’associazione Parent Project promuove la campagna di sensibilizzazione e raccolta fondi per sostenere la ricerca e abbattere le barriere che limitano l'autonomia delle famiglie.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché riguarda la centralità dei bisogni della famiglia, l'abbattimento delle barriere quotidiane e la costruzione di percorsi di autonomia.",
     "stato": "approvata"
@@ -19,6 +20,7 @@
     "titolo_editoriale": "Vulnerabilità di fronte alla malattia: il valore dell’orientamento e della vicinanza informata",
     "fonte": "Vita.it",
     "url_fonte": "https://www.vita.it/vulnerabilita-di-fronte-alla-malattia/",
+    "immagine_news": "assets/rassegna/vita-vulnerabilita-cura.jpg",
     "sintesi_editoriale": "Una riflessione sulla fragilità e sul disorientamento delle persone e delle famiglie davanti alla diagnosi, dove il primo ascolto qualificato e il supporto culturale aiutano a compiere scelte consapevoli.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché richiama la missione dello Sportello di Primo Ascolto: orientare tempestivamente le persone affinché non affrontino da sole i cambiamenti critici della vita.",
     "stato": "approvata"
@@ -31,6 +33,7 @@
     "titolo_editoriale": "Domotica sociale: concessi nuovi contributi per strutture sociali e sociosanitarie",
     "fonte": "Regione Autonoma della Sardegna",
     "url_fonte": "https://www.regione.sardegna.it/notizie/avviso-in-do-m-a-u-s-concessi-i-contributi-al-3-gruppo-di-beneficiari",
+    "immagine_news": "assets/rassegna/categoria-domotica-tecnologia.jpg",
     "sintesi_editoriale": "La Regione Sardegna ha autorizzato oltre 1,16 milioni di euro di contributi per interventi di domotica destinati a strutture sociali e sociosanitarie.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché collega domotica, strutture sociali e sostegno concreto all'autonomia negli ambienti di vita e cura.",
     "stato": "approvata"
@@ -43,6 +46,7 @@
     "titolo_editoriale": "Dalla scuola al lavoro: un progetto accompagna studenti con disabilità verso la vita adulta",
     "fonte": "AFOL Metropolitana",
     "url_fonte": "https://www.afolmet.it/2026/09/04/metide-3-dalla-scuola-al-lavoro/",
+    "immagine_news": "assets/rassegna/afolmet-metide-scuola-lavoro.png",
     "sintesi_editoriale": "Il progetto METIDE 3 accompagna studenti con disabilità nel passaggio dalla scuola al lavoro, con percorsi orientativi e attività di inclusione.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché riguarda il passaggio alla vita adulta, l'inclusione lavorativa e l'accompagnamento delle persone con disabilità.",
     "stato": "approvata"
@@ -55,6 +59,7 @@
     "titolo_editoriale": "Progetto di vita: disponibili i servizi telematici per le istanze",
     "fonte": "Unione Italiana dei Ciechi e degli Ipovedenti ETS-APS",
     "url_fonte": "https://uiciechi.it/Documentazione/Circolari/TestoCirc.asp?id=6946",
+    "immagine_news": "assets/rassegna/categoria-riforma-diritti.jpg",
     "sintesi_editoriale": "UICI segnala il rilascio dei servizi telematici INPS per la presentazione e consultazione delle istanze sul progetto di vita personalizzato.",
     "rilevanza_coinsieme": "Possibile duplicato editoriale: verificare se aggiorna una notizia già pubblicata sulla riforma disabilità. Rilevante perché riguarda progetto di vita, accesso ai servizi e accompagnamento personalizzato.",
     "stato": "approvata"
@@ -67,6 +72,7 @@
     "titolo_editoriale": "Roma XV: un percorso verso il lavoro nella cooperazione sociale",
     "fonte": "Informagiovani Roma",
     "url_fonte": "https://www.informagiovaniroma.it/inclusione-lavorativa-percorso-di-accompagnamento/",
+    "immagine_news": "assets/rassegna/informagiovani-inclusione-lavoro.png",
     "sintesi_editoriale": "Un percorso di accompagnamento all'inclusione lavorativa mette in relazione persone, orientamento e opportunità nel territorio romano.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché collega cooperazione sociale, inserimento lavorativo e orientamento concreto nel territorio.",
     "stato": "approvata"
@@ -79,6 +85,7 @@
     "titolo_editoriale": "Disabilità e famiglie: FISH chiede un cambio di passo nei sostegni territoriali",
     "fonte": "Forum Terzo Settore",
     "url_fonte": "https://www.forumterzosettore.it/2026/09/01/fish-la-tragedia-di-pietralata-impone-un-cambio-di-passo-nessuna-persona-con-disabilita-e-nessuna-famiglia-devono-essere-lasciate-sole/",
+    "immagine_news": "assets/rassegna/categoria-welfare-cura.jpg",
     "sintesi_editoriale": "FISH richiama la necessità di rafforzare i sostegni territoriali alle persone con disabilità e alle famiglie, dopo una vicenda drammatica avvenuta a Roma.",
     "rilevanza_coinsieme": "Da valutare con attenzione editoriale per il tono delicato della notizia. Rilevante per COINSIEME perché richiama il tema dell'ascolto precoce, dei sostegni familiari e della presa in carico territoriale.",
     "stato": "approvata"
@@ -91,6 +98,7 @@
     "titolo_editoriale": "Riforma disabilità: sperimentazione e formazione al centro del cambiamento",
     "fonte": "Ministero per le Disabilità",
     "url_fonte": "https://www.disabilita.governo.it/it/notizie/ministro-locatelli-sperimentazione-e-formazione-riforma-disabilita-fondamentali-per-il-cambiamento/",
+    "immagine_news": "assets/rassegna/categoria-riforma-diritti.jpg",
     "sintesi_editoriale": "La riforma della disabilità entra nella fase di sperimentazione e formazione, con attenzione ai percorsi personalizzati e al progetto di vita.",
     "rilevanza_coinsieme": "Rilevante per COINSIEME perché riguarda il progetto di vita, l'orientamento delle persone e la costruzione di risposte personalizzate.",
     "stato": "approvata"

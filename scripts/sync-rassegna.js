@@ -4,6 +4,7 @@
  *
  * Scarica tutte le notizie con stato "approvata" da Airtable,
  * valida e normalizza i campi con tolleranza sui nomi colonna e formati data,
+ * supporta il campo immagine_news / image_url / thumbnail / attachments,
  * ordina per data_fonte decrescente (e createdTime/id per pari data),
  * e aggiorna content/rassegna/notizie-esterne.json solo se ci sono differenze.
  */
@@ -56,6 +57,16 @@ function extractDomainName(urlStr) {
   }
 }
 
+function extractImageUrl(fieldValue) {
+  if (!fieldValue) return '';
+  if (typeof fieldValue === 'string') return fieldValue.trim();
+  if (Array.isArray(fieldValue) && fieldValue.length > 0) {
+    if (fieldValue[0] && fieldValue[0].url) return fieldValue[0].url.trim();
+    if (typeof fieldValue[0] === 'string') return fieldValue[0].trim();
+  }
+  return '';
+}
+
 function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
   const stato = (fields.stato || fields.Stato || fields.STATO || '').trim().toLowerCase();
   if (stato !== 'approvata') {
@@ -99,9 +110,12 @@ function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
     rilevanza_coinsieme = "Rilevante per l'osservatorio e il contesto di COINSIEME.";
   }
 
+  const rawImg = fields.immagine_news || fields['Immagine News'] || fields.image_url || fields['Image URL'] || fields.thumbnail || fields.Thumbnail || fields.immagine || fields.Immagine || fields.image || fields.Image;
+  const immagine_news = extractImageUrl(rawImg);
+
   const createdTime = (rawRecord && rawRecord.createdTime) ? String(rawRecord.createdTime) : '';
 
-  return {
+  const resObj = {
     id,
     categoria,
     data_fonte,
@@ -114,6 +128,12 @@ function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
     stato: 'approvata',
     createdTime
   };
+
+  if (immagine_news) {
+    resObj.immagine_news = immagine_news;
+  }
+
+  return resObj;
 }
 
 async function fetchFromAirtable(token, baseId, tableName) {

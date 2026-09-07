@@ -398,6 +398,7 @@ function loadRassegnaNews() {
       url_fonte: item.url_fonte ? String(item.url_fonte).trim() : '#',
       sintesi_editoriale: item.sintesi_editoriale ? String(item.sintesi_editoriale).trim() : '',
       rilevanza_coinsieme: item.rilevanza_coinsieme ? String(item.rilevanza_coinsieme).trim() : '',
+      immagine_news: item.immagine_news ? String(item.immagine_news).trim() : (item.image_url ? String(item.image_url).trim() : (item.thumbnail ? String(item.thumbnail).trim() : '')),
       stato
     };
   });
@@ -555,6 +556,30 @@ function buildHeroImage(items) {
   return `<img src="assets/hero_inclusion.jpg?v=20260907e" alt="Gruppo di lavoro, accoglienza e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" class="hero-main-photo" loading="eager">`;
 }
 
+function resolveNewsImage(item) {
+  // Priorità 1: Immagine specifica fornita per la notizia (URL o percorso locale)
+  const customImg = (item.immagine_news || item.image_url || item.thumbnail || item.immagine || '').trim();
+  if (customImg) {
+    return customImg;
+  }
+
+  // Priorità 2 & 3: Immagine tematica di categoria (MAI usare hero_inclusion.jpg della home)
+  const catText = `${item.categoria || ''} ${item.titolo_editoriale || ''} ${item.titolo_originale || ''}`.toLowerCase();
+  if (/domotic/i.test(catText)) {
+    return 'assets/rassegna/categoria-domotica-tecnologia.jpg';
+  } else if (/software|caa|digit|sintesi|inps|riforma|servizi telematici/i.test(catText)) {
+    return 'assets/rassegna/categoria-riforma-diritti.jpg';
+  } else if (/lavoro|scuola|cooperaz|metide|giovani/i.test(catText)) {
+    return 'assets/rassegna/categoria-lavoro-inclusione.jpg';
+  } else if (/duchenne|ricerca|malatt|parent project/i.test(catText)) {
+    return 'assets/rassegna/categoria-ricerca-famiglie.jpg';
+  } else if (/welfare|cura|famigli|ascolto|fish|sostegn/i.test(catText)) {
+    return 'assets/rassegna/categoria-welfare-cura.jpg';
+  }
+
+  return 'assets/rassegna/categoria-default.jpg';
+}
+
 function buildDailyNewsCard(items) {
   const approved = getSortedApprovedItems(items);
   if (approved.length === 0) {
@@ -569,19 +594,16 @@ function buildDailyNewsCard(items) {
   const formattedDate = formatDateIt(latest.data_fonte);
   const catText = `${latest.categoria || ''} ${latest.titolo_editoriale || ''}`.toLowerCase();
 
-  let thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+  const thumbSrc = escapeHtml(resolveNewsImage(latest));
+
   let badgeLabel = 'Welfare & Diritti';
   if (/domotic/i.test(catText)) {
-    thumbSrc = 'assets/hero_domotica.jpg?v=20260907e';
     badgeLabel = 'Domotica Sociale';
-  } else if (/software|caa|digit|sintesi|inps/i.test(catText)) {
-    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+  } else if (/software|caa|digit|sintesi|inps|riforma/i.test(catText)) {
     badgeLabel = 'Tecnologie & Diritti';
-  } else if (/lavoro|scuola|cooperaz/i.test(catText)) {
-    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
+  } else if (/lavoro|scuola|cooperaz|metide/i.test(catText)) {
     badgeLabel = 'Inclusione & Lavoro';
   } else if (/duchenne|ricerca|cura|malatt/i.test(catText)) {
-    thumbSrc = 'assets/hero_inclusion.jpg?v=20260907e';
     badgeLabel = 'Ricerca & Famiglie';
   }
 
