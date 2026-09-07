@@ -225,14 +225,15 @@ async function fetchCandidateRecords(token, baseId, tableName) {
 }
 
 async function sendViaResend(apiKey, sender, recipient, subject, html) {
-  const res = await fetch('https://api.resend.com/emails', {
+  let fromAddress = sender || 'briefing@coinsieme.it';
+  let res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      from: sender,
+      from: fromAddress,
       to: [recipient],
       subject: subject,
       html: html
@@ -241,7 +242,27 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
 
   if (!res.ok) {
     const errorBody = await res.text();
-    throw new Error(`Invio email fallito tramite Resend (${res.status} ${res.statusText}): ${errorBody}`);
+    if (fromAddress !== 'onboarding@resend.dev' && (errorBody.includes('domain') || errorBody.includes('validation') || res.status === 403 || res.status === 422)) {
+      console.warn(`[Briefing Mail] Mittente "${fromAddress}" richiede verifica dominio su Resend. Tentativo di fallback con "onboarding@resend.dev"...`);
+      res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'onboarding@resend.dev',
+          to: [recipient],
+          subject: subject,
+          html: html
+        })
+      });
+    }
+
+    if (!res.ok) {
+      const finalErr = await res.text();
+      throw new Error(`Invio email fallito tramite Resend (${res.status} ${res.statusText}): ${finalErr}`);
+    }
   }
 
   const result = await res.json();

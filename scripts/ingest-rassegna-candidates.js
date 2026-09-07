@@ -365,6 +365,46 @@ async function ingestCandidates(options = {}) {
   return { ingested: createdRecords.length, skipped: exactDuplicatesCount, potentialDuplicates: potentialDuplicatesCount, total: rawCandidates.length };
 }
 
+async function fetchSegnalazioniDaValutare(token, baseId, tableName = 'Segnalazioni Maurizio') {
+  try {
+    const params = new URLSearchParams();
+    params.set('filterByFormula', "OR({stato} = 'da_valutare', {stato} = '', {Stato} = 'da_valutare')");
+    params.set('pageSize', '50');
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.records) ? data.records : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+async function updateSegnalazioneStato(token, baseId, tableName, recordId, newStato) {
+  try {
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
+    await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          stato: newStato
+        }
+      })
+    });
+  } catch (e) {
+    // silent
+  }
+}
+
 if (require.main === module) {
   ingestCandidates().catch((err) => {
     console.error('[Ingest Candidati] ERRORE:', err.message);
@@ -379,5 +419,7 @@ module.exports = {
   calculateSimilarity,
   extractSignificantTokens,
   checkEditorialSimilarity,
+  fetchSegnalazioniDaValutare,
+  updateSegnalazioneStato,
   DUPLICATE_NOTE_PREFIX
 };
