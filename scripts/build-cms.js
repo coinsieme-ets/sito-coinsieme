@@ -506,26 +506,31 @@ function buildTopNewsBar(items) {
 
   return `<aside id="top-news-bar" class="top-news-bar" aria-label="Notizia in evidenza e aggiornamento odierno">
   <div class="container top-news-container">
-    <div class="top-news-left">
-      <span class="top-news-live-tag">
-        <span class="pulse-dot" aria-hidden="true"></span>
-        <span>OGGI</span>
-      </span>
-      <span class="top-news-divider" aria-hidden="true">·</span>
-      <time class="top-news-date" id="top-news-live-date" datetime="${todayIso}">${todayDateIt}</time>
-      <span class="top-news-divider" aria-hidden="true">·</span>
-      <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">09:20</span>
+    <!-- Riga 1: Meta, Live Pulse, Data, Orologio, Badge & Close -->
+    <div class="top-news-meta-row">
+      <div class="top-news-meta-left">
+        <span class="top-news-live-tag">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>OGGI</span>
+        </span>
+        <span class="top-news-divider" aria-hidden="true">·</span>
+        <time class="top-news-date" id="top-news-live-date" datetime="${todayIso}">${todayDateIt}</time>
+        <span class="top-news-divider" aria-hidden="true">·</span>
+        <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">09:55</span>
+        <span class="top-news-divider" aria-hidden="true">·</span>
+        <span class="top-news-badge">IN EVIDENZA</span>
+      </div>
+      <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')" title="Chiudi notifica">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <div class="top-news-right">
-      <span class="top-news-badge">IN EVIDENZA</span>
+    <!-- Riga 2: Titolo completo Notizia e CTA -->
+    <div class="top-news-content-row">
       <p class="top-news-title">${title}</p>
       <a href="${url}" class="top-news-link" target="_blank" rel="noopener noreferrer">
         Leggi l'aggiornamento <span aria-hidden="true">→</span>
         <span class="sr-only">(apre in una nuova scheda)</span>
       </a>
-      <button type="button" class="top-news-close" aria-label="Chiudi notizia in evidenza" onclick="dismissTopNews('${newsId}')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
     </div>
   </div>
 </aside>
@@ -651,7 +656,7 @@ function buildHeroImage(items) {
   let imgAlt = "Gruppo di lavoro e cooperazione sociale Fondazione COINSIEME ETS";
 
   if (/domotic/i.test(catText)) {
-    imgSrc = 'assets/hero_domotica.jpg';
+    imgSrc = 'assets/hero_domotica.jpg?v=20260907d';
     imgAlt = "Domotica sociale e tecnologie assistive per l'autonomia abitativa — Fondazione COINSIEME ETS";
   }
 
