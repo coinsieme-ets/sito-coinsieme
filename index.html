@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://www.coinsieme.it/assets/hero_inclusion.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=20260907f">
+  <link rel="stylesheet" href="css/style.css?v=20260907g">
   <!-- iubenda Cookie Solution -->
   <script type="text/javascript">
   var _iub = _iub || [];
@@ -218,18 +218,6 @@
       .hero-grid-5050 {
         grid-template-columns: 1fr !important;
         gap: 32px !important;
-      }
-    }
-
-  .dimensioni-aperte-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 32px !important;
-      }
-    }
-    @media (max-width: 580px) {
-      .dimensioni-aperte-grid {
-        grid-template-columns: 1fr !important;
-        gap: 28px !important;
       }
     }
   
@@ -917,75 +905,98 @@
   </section>
 
   <!-- ========================================================
-       BLOCCO 3 — Metodo e approccio: 4 dimensioni integrate (Aree aperte)
+       BLOCCO 3 — Metodo e approccio: 4 dimensioni integrate
        ======================================================== -->
-  <section id="metodo" class="bg-crema-chiara" aria-labelledby="lavoriamo-titolo" style="padding: 88px 0; border-bottom: 1px solid var(--grigio-bordino);">
+  <section id="metodo" class="bg-crema-chiara" aria-labelledby="lavoriamo-titolo" style="padding: 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
 
       <!-- Intestazione di Sezione -->
-      <div style="max-width: 760px; margin-bottom: 48px;">
+      <div style="max-width: 760px; margin-bottom: 36px;">
         <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Metodo e approccio</p>
         <h2 id="lavoriamo-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
           Come lavoriamo: quattro dimensioni integrate
         </h2>
-        <p style="font-size: 1.125rem; color: var(--grigio-testo); line-height: 1.65; margin: 0;">
+        <p style="font-size: 1.08rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
           Partiamo dai bisogni reali delle persone e integriamo azione concreta, formazione, conoscenza e collaborazione per costruire risposte più efficaci e sostenibili.
         </p>
       </div>
 
-      <!-- 4 Aree Editoriali Aperte (Senza Cornice Esterna né Numeri) -->
-      <div class="dimensioni-aperte-grid" role="list">
-        
-        <!-- Fare -->
-        <div class="dimensione-aperta-item dim-accent-fare" role="listitem">
-          <div class="dim-accent-line dim-accent-line-fare" aria-hidden="true"></div>
-          <div class="dim-header-box">
-            <div class="dim-icon-open dim-icon-fare" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <!-- Layout a Due Colonne: Immagine a sinistra, 4 Dimensioni a destra (Alternanza rispetto al Blocco 2) -->
+      <div class="metodo-main-grid">
+
+        <!-- Colonna Sinistra: Immagine Collage 4 Dimensioni nel territorio -->
+        <div class="metodo-image-col">
+          <div class="metodo-image-wrap">
+            <img src="assets/images/come-lavoriamo-dimensioni-integrate.png" 
+                 alt="Un collage mostra azioni di aiuto concreto, progettazione, formazione e condivisione in rete." 
+                 class="metodo-main-photo" 
+                 width="960" 
+                 height="540" 
+                 loading="lazy">
+            <div class="metodo-image-caption">
+              <span class="metodo-caption-tag">Metodo Integrato</span>
+              <p class="metodo-caption-text">Azione sul territorio, studio dei bisogni, percorsi formativi e reti comunitarie.</p>
             </div>
-            <h3 class="dim-open-title">Fare</h3>
           </div>
-          <p class="dim-open-text">Interventi concreti, domotica assistiva, autonomia e progetti sul territorio.</p>
-          <a href="domotica.html" class="dim-open-cta">Scopri i servizi <span aria-hidden="true">→</span></a>
         </div>
 
-        <!-- Formare -->
-        <div class="dimensione-aperta-item dim-accent-formare" role="listitem">
-          <div class="dim-accent-line dim-accent-line-formare" aria-hidden="true"></div>
-          <div class="dim-header-box">
-            <div class="dim-icon-open dim-icon-formare" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <!-- Colonna Destra: 4 Aree Editoriali Integrate (Griglia 2x2) -->
+        <div class="metodo-content-col">
+          <div class="dimensioni-aperte-grid" role="list">
+            
+            <!-- Fare -->
+            <div class="dimensione-aperta-item dim-accent-fare" role="listitem">
+              <div class="dim-accent-line dim-accent-line-fare" aria-hidden="true"></div>
+              <div class="dim-header-box">
+                <div class="dim-icon-open dim-icon-fare" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3 class="dim-open-title">Fare</h3>
+              </div>
+              <p class="dim-open-text">Interventi concreti, domotica assistiva, autonomia e progetti sul territorio.</p>
+              <a href="domotica.html" class="dim-open-cta">Scopri i servizi <span aria-hidden="true">→</span></a>
             </div>
-            <h3 class="dim-open-title">Formare</h3>
-          </div>
-          <p class="dim-open-text">Percorsi formativi, nuove competenze e qualificazione professionale.</p>
-          <a href="cosa-facciamo.html" class="dim-open-cta">Scopri la formazione <span aria-hidden="true">→</span></a>
-        </div>
 
-        <!-- Pensare -->
-        <div class="dimensione-aperta-item dim-accent-pensare" role="listitem">
-          <div class="dim-accent-line dim-accent-line-pensare" aria-hidden="true"></div>
-          <div class="dim-header-box">
-            <div class="dim-icon-open dim-icon-pensare" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <!-- Formare -->
+            <div class="dimensione-aperta-item dim-accent-formare" role="listitem">
+              <div class="dim-accent-line dim-accent-line-formare" aria-hidden="true"></div>
+              <div class="dim-header-box">
+                <div class="dim-icon-open dim-icon-formare" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <h3 class="dim-open-title">Formare</h3>
+              </div>
+              <p class="dim-open-text">Percorsi formativi, nuove competenze e qualificazione professionale.</p>
+              <a href="cosa-facciamo.html" class="dim-open-cta">Scopri la formazione <span aria-hidden="true">→</span></a>
             </div>
-            <h3 class="dim-open-title">Pensare</h3>
-          </div>
-          <p class="dim-open-text">Articoli, ricerca, pubblicazioni, diritti e diffusione della conoscenza.</p>
-          <a href="articoli.html" class="dim-open-cta">Esplora la conoscenza <span aria-hidden="true">→</span></a>
-        </div>
 
-        <!-- Condividere -->
-        <div class="dimensione-aperta-item dim-accent-condividere" role="listitem">
-          <div class="dim-accent-line dim-accent-line-condividere" aria-hidden="true"></div>
-          <div class="dim-header-box">
-            <div class="dim-icon-open dim-icon-condividere" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <!-- Pensare -->
+            <div class="dimensione-aperta-item dim-accent-pensare" role="listitem">
+              <div class="dim-accent-line dim-accent-line-pensare" aria-hidden="true"></div>
+              <div class="dim-header-box">
+                <div class="dim-icon-open dim-icon-pensare" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                </div>
+                <h3 class="dim-open-title">Pensare</h3>
+              </div>
+              <p class="dim-open-text">Articoli, ricerca, pubblicazioni, diritti e diffusione della conoscenza.</p>
+              <a href="articoli.html" class="dim-open-cta">Esplora la conoscenza <span aria-hidden="true">→</span></a>
             </div>
-            <h3 class="dim-open-title">Condividere</h3>
+
+            <!-- Condividere -->
+            <div class="dimensione-aperta-item dim-accent-condividere" role="listitem">
+              <div class="dim-accent-line dim-accent-line-condividere" aria-hidden="true"></div>
+              <div class="dim-header-box">
+                <div class="dim-icon-open dim-icon-condividere" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </div>
+                <h3 class="dim-open-title">Condividere</h3>
+              </div>
+              <p class="dim-open-text">Reti, co-progettazione, collaborazioni e sviluppo dell’impresa sociale.</p>
+              <a href="cosa-facciamo.html" class="dim-open-cta">Scopri le collaborazioni <span aria-hidden="true">→</span></a>
+            </div>
+
           </div>
-          <p class="dim-open-text">Reti, co-progettazione, collaborazioni e sviluppo dell’impresa sociale.</p>
-          <a href="cosa-facciamo.html" class="dim-open-cta">Scopri le collaborazioni <span aria-hidden="true">→</span></a>
         </div>
 
       </div>

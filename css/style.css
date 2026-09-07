@@ -2435,3 +2435,203 @@ img, svg, video, canvas {
 
 
 
+
+/* ============================================================
+   METODO E APPROCCIO: 4 DIMENSIONI INTEGRATE (BLOCCO 3)
+   ============================================================ */
+.metodo-main-grid {
+  display: grid;
+  grid-template-columns: 0.88fr 1.12fr;
+  gap: 36px;
+  align-items: stretch;
+}
+
+.metodo-image-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.metodo-image-wrap {
+  position: relative;
+  height: 100%;
+  min-height: 420px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(85, 51, 17, 0.08);
+  border: 1px solid rgba(85, 51, 17, 0.10);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.metodo-main-photo {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.metodo-image-caption {
+  padding: 14px 18px;
+  background: #ffffff;
+  border-top: 1px solid var(--grigio-bordino);
+}
+
+.metodo-caption-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  font-family: var(--font-heading);
+}
+
+.metodo-caption-text {
+  font-size: 0.86rem;
+  color: var(--grigio-testo);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.metodo-content-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dimensioni-aperte-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 18px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.dimensione-aperta-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid var(--grigio-bordino);
+  border-radius: 12px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 8px rgba(85, 51, 17, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.dimensione-aperta-item:hover,
+.dimensione-aperta-item:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(85, 51, 17, 0.08);
+  border-color: rgba(196, 94, 26, 0.35);
+}
+
+.dim-accent-line {
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+.dim-accent-line-fare { background: #c45e1a; }
+.dim-accent-line-formare { background: #2c5282; }
+.dim-accent-line-pensare { background: #1b6b5c; }
+.dim-accent-line-condividere { background: #553311; }
+
+.dim-header-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.dim-icon-open {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dim-icon-fare { background: rgba(196, 94, 26, 0.1); color: #c45e1a; }
+.dim-icon-formare { background: rgba(44, 82, 130, 0.1); color: #2c5282; }
+.dim-icon-pensare { background: rgba(27, 107, 92, 0.1); color: #1b6b5c; }
+.dim-icon-condividere { background: rgba(85, 51, 17, 0.1); color: #553311; }
+
+.dim-open-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--marrone-scuro);
+  margin: 0;
+  line-height: 1.25;
+  font-family: var(--font-heading);
+}
+
+.dim-open-text {
+  font-size: 0.88rem;
+  color: var(--grigio-testo);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.dim-open-cta {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  transition: color 0.15s ease, gap 0.15s ease;
+}
+.dim-open-cta:hover,
+.dim-open-cta:focus-visible {
+  color: var(--terracotta-lite);
+  gap: 7px;
+  text-decoration: underline;
+}
+
+@media (max-width: 990px) {
+  .metodo-main-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .metodo-image-wrap {
+    min-height: auto;
+    max-height: 380px;
+    aspect-ratio: 16 / 9;
+  }
+  .metodo-main-photo {
+    height: 100%;
+    max-height: 320px;
+    flex-grow: 1;
+  }
+  .dimensioni-aperte-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .dimensioni-aperte-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .metodo-image-wrap {
+    max-height: 280px;
+    aspect-ratio: 16 / 9;
+  }
+  .metodo-main-photo {
+    height: 180px;
+  }
+  .metodo-image-caption {
+    padding: 10px 14px;
+  }
+}
