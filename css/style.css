@@ -2441,7 +2441,7 @@ img, svg, video, canvas {
    ============================================================ */
 .metodo-main-grid {
   display: grid;
-  grid-template-columns: 0.88fr 1.12fr;
+  grid-template-columns: 0.90fr 1.10fr;
   gap: 36px;
   align-items: stretch;
 }
@@ -2455,7 +2455,7 @@ img, svg, video, canvas {
 .metodo-image-wrap {
   position: relative;
   height: 100%;
-  min-height: 420px;
+  min-height: 440px;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(85, 51, 17, 0.08);
@@ -2478,6 +2478,7 @@ img, svg, video, canvas {
   padding: 14px 18px;
   background: #ffffff;
   border-top: 1px solid var(--grigio-bordino);
+  flex-shrink: 0;
 }
 
 .metodo-caption-tag {
@@ -2502,12 +2503,17 @@ img, svg, video, canvas {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  justify-content: space-between;
+}
+
+.metodo-header-box {
+  margin-bottom: 20px;
 }
 
 .dimensioni-aperte-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px 18px;
+  gap: 16px;
   flex-grow: 1;
   min-width: 0;
 }
@@ -2520,7 +2526,7 @@ img, svg, video, canvas {
   background: #ffffff;
   border: 1px solid var(--grigio-bordino);
   border-radius: 12px;
-  padding: 20px 18px;
+  padding: 18px 16px;
   box-shadow: 0 2px 8px rgba(85, 51, 17, 0.03);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   box-sizing: border-box;
@@ -2565,7 +2571,7 @@ img, svg, video, canvas {
 .dim-icon-condividere { background: rgba(85, 51, 17, 0.1); color: #553311; }
 
 .dim-open-title {
-  font-size: 1.15rem;
+  font-size: 1.10rem;
   font-weight: 700;
   color: var(--marrone-scuro);
   margin: 0;
@@ -2599,10 +2605,21 @@ img, svg, video, canvas {
   text-decoration: underline;
 }
 
-@media (max-width: 990px) {
+@media (max-width: 860px) {
   .metodo-main-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .metodo-content-col {
+    display: contents;
+  }
+  .metodo-header-box {
+    order: 1;
+    margin-bottom: 0;
+  }
+  .metodo-image-col {
+    order: 2;
   }
   .metodo-image-wrap {
     min-height: auto;
@@ -2611,10 +2628,11 @@ img, svg, video, canvas {
   }
   .metodo-main-photo {
     height: 100%;
-    max-height: 320px;
+    max-height: 300px;
     flex-grow: 1;
   }
   .dimensioni-aperte-grid {
+    order: 3;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 16px !important;
   }
