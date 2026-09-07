@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://www.coinsieme.it/assets/hero_inclusion.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=20260907e">
+  <link rel="stylesheet" href="css/style.css?v=20260907f">
   <!-- iubenda Cookie Solution -->
   <script type="text/javascript">
   var _iub = _iub || [];
@@ -221,234 +221,7 @@
       }
     }
 
-    /* STILI SEZIONE ORIENTAMENTO / SPORTELLO BLOCCO 2 */
-    .porte-sportello-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 36px;
-    }
-
-    .porta-sportello-card {
-      background: #ffffff;
-      border: 1px solid var(--grigio-bordino);
-      border-top: 3px solid var(--terracotta);
-      border-radius: 12px;
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: var(--marrone-scuro);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      box-shadow: 0 2px 8px rgba(85, 51, 17, 0.03);
-      height: 100%;
-    }
-    .porta-sportello-card:hover, .porta-sportello-card:focus-visible {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(196, 94, 26, 0.12);
-      border-color: var(--terracotta);
-      outline: none;
-    }
-    .porta-sportello-card:focus-visible {
-      outline: 3px solid var(--terracotta);
-      outline-offset: 2px;
-    }
-
-    .porta-icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      background: var(--crema-chiara);
-      color: var(--terracotta);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      flex-shrink: 0;
-    }
-
-    .porta-card-title {
-      font-size: 1.10rem;
-      font-weight: 700;
-      color: var(--marrone-scuro);
-      margin-bottom: 8px;
-      line-height: 1.32;
-      font-family: var(--font-heading);
-    }
-
-    .porta-card-desc {
-      font-size: 0.90rem;
-      color: var(--grigio-testo);
-      line-height: 1.54;
-      margin-bottom: 16px;
-      flex-grow: 1;
-    }
-
-    .porta-card-link {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--terracotta);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: auto;
-    }
-
-    /* CARD SEPARATA: VUOI DARE UNA MANO? */
-    .vuoi-dare-una-mano-card {
-      background: #ffffff;
-      border: 1px solid var(--grigio-bordino);
-      border-left: 5px solid var(--terracotta);
-      border-radius: 12px;
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 36px;
-      box-shadow: 0 2px 10px rgba(85, 51, 17, 0.03);
-    }
-    .vuoi-dare-una-mano-body {
-      max-width: 680px;
-    }
-    .vuoi-dare-una-mano-badge {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--terracotta);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
-      font-family: var(--font-heading);
-    }
-    .vuoi-dare-una-mano-title {
-      font-size: 1.22rem;
-      font-weight: 700;
-      color: var(--marrone-scuro);
-      margin: 0 0 6px 0;
-      line-height: 1.3;
-      font-family: var(--font-heading);
-    }
-    .vuoi-dare-una-mano-text {
-      font-size: 0.94rem;
-      color: var(--grigio-testo);
-      line-height: 1.56;
-      margin: 0;
-    }
-
-    .chi-siamo-banner {
-      background: transparent;
-      border: none;
-      border-top: 1px solid var(--grigio-bordino);
-      border-bottom: 1px solid var(--grigio-bordino);
-      border-radius: 0;
-      padding: 28px 0 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px;
-      box-shadow: none;
-    }
-
-    @media (max-width: 990px) {
-      .porte-sportello-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
-      }
-      .vuoi-dare-una-mano-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-      }
-      .chi-siamo-banner {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 24px 0;
-      }
-    }
-    @media (max-width: 580px) {
-      .porte-sportello-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-  
-    /* STILI AREE EDITORIALI APERTE BLOCCO 3 */
-    .dimensioni-aperte-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 36px;
-    }
-
-    .dimensione-aperta-item {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .dim-accent-line {
-      width: 40px;
-      height: 3px;
-      border-radius: 2px;
-      margin-bottom: 18px;
-    }
-    .dim-accent-line-fare { background: #c45e1a; }
-    .dim-accent-line-formare { background: #2c5282; }
-    .dim-accent-line-pensare { background: #1b6b5c; }
-    .dim-accent-line-condividere { background: #553311; }
-
-    .dim-header-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .dim-icon-open {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .dim-icon-fare { background: rgba(196, 94, 26, 0.1); color: #c45e1a; }
-    .dim-icon-formare { background: rgba(44, 82, 130, 0.1); color: #2c5282; }
-    .dim-icon-pensare { background: rgba(27, 107, 92, 0.1); color: #1b6b5c; }
-    .dim-icon-condividere { background: rgba(85, 51, 17, 0.1); color: #553311; }
-
-    .dim-open-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--marrone-scuro);
-      margin: 0;
-      line-height: 1.25;
-    }
-
-    .dim-open-text {
-      font-size: 1rem;
-      color: var(--grigio-testo);
-      line-height: 1.6;
-      margin-bottom: 22px;
-      flex-grow: 1;
-    }
-
-    .dim-open-cta {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: var(--terracotta);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: auto;
-      transition: color 0.2s ease;
-    }
-    .dim-open-cta:hover, .dim-open-cta:focus-visible {
-      color: var(--terracotta-lite);
-      text-decoration: underline;
-    }
-
-    @media (max-width: 900px) {
-      .dimensioni-aperte-grid {
+  .dimensioni-aperte-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 32px !important;
       }
@@ -1021,67 +794,90 @@
   <section id="orientamento" class="bg-crema-chiara" aria-labelledby="orientamento-titolo" style="padding: 80px 0; border-bottom: 1px solid var(--grigio-bordino);">
     <div class="container">
       
-      <!-- Intestazione di Sezione -->
-      <div style="max-width: 780px; margin-bottom: 36px;">
-        <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Sportello di Primo Ascolto</p>
-        <h2 id="orientamento-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
-          Cerchi un aiuto?
-        </h2>
-        <p style="font-size: 1.1rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
-          Scegli da dove vuoi iniziare. Non devi sapere già quale servizio ti servirà.
-        </p>
-      </div>
-
-      <!-- LE QUATTRO PORTE DELLO SPORTELLO -->
-      <div class="porte-sportello-grid" role="list" aria-label="Quattro porte di primo ascolto e orientamento">
+      <!-- Layout a Due Colonne: Testi/Porte a sinistra, Immagine approvata a destra -->
+      <div class="sportello-main-grid">
         
-        <!-- Porta 1: Avere un aiuto nella vita di tutti i giorni -->
-        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
-          <div class="porta-icon-box" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <!-- Colonna Sinistra: Intestazione e 4 Porte di orientamento -->
+        <div class="sportello-content-col">
+          <div class="sportello-header-box">
+            <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Sportello di Primo Ascolto</p>
+            <h2 id="orientamento-titolo" style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); color: var(--marrone-scuro); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
+              Cerchi un aiuto?
+            </h2>
+            <p style="font-size: 1.08rem; color: var(--grigio-testo); line-height: 1.6; margin: 0;">
+              Scegli da dove vuoi iniziare. Non devi sapere già quale servizio ti servirà.
+            </p>
           </div>
-          <h3 class="porta-card-title">Avere un aiuto nella vita di tutti i giorni</h3>
-          <p class="porta-card-desc">
-            Supporto pratico per gestire le incombenze quotidiane, l'autonomia personale e i ritmi di ogni giorno.
-          </p>
-          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
-        </a>
 
-        <!-- Porta 2: Organizzare cure, salute e assistenza -->
-        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
-          <div class="porta-icon-box" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <h3 class="porta-card-title">Organizzare cure, salute e assistenza</h3>
-          <p class="porta-card-desc">
-            Orientarsi tra continuità assistenziale, servizi territoriali a domicilio e coordinamento della cura.
-          </p>
-          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
-        </a>
+          <!-- LE QUATTRO PORTE DELLO SPORTELLO (Griglia 2x2 elegante) -->
+          <div class="porte-sportello-grid" role="list" aria-label="Quattro porte di primo ascolto e orientamento">
+            
+            <!-- Porta 1: Avere un aiuto nella vita di tutti i giorni -->
+            <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+              <div class="porta-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </div>
+              <h3 class="porta-card-title">Avere un aiuto nella vita di tutti i giorni</h3>
+              <p class="porta-card-desc">
+                Supporto pratico per gestire le incombenze quotidiane, l'autonomia personale e i ritmi di ogni giorno.
+              </p>
+              <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+            </a>
 
-        <!-- Porta 3: Migliorare la casa e renderla più adatta -->
-        <a href="domotica.html" class="porta-sportello-card" role="listitem">
-          <div class="porta-icon-box" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <h3 class="porta-card-title">Migliorare la casa e renderla più adatta</h3>
-          <p class="porta-card-desc">
-            Piccoli adattamenti, eliminazione di ostacoli fisici e strumenti discreti per vivere in sicurezza e comfort.
-          </p>
-          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
-        </a>
+            <!-- Porta 2: Organizzare cure, salute e assistenza -->
+            <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+              <div class="porta-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <h3 class="porta-card-title">Organizzare cure, salute e assistenza</h3>
+              <p class="porta-card-desc">
+                Orientarsi tra continuità assistenziale, servizi territoriali a domicilio e coordinamento della cura.
+              </p>
+              <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+            </a>
 
-        <!-- Porta 4: Ampliare le relazioni sociali -->
-        <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
-          <div class="porta-icon-box" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <!-- Porta 3: Migliorare la casa e renderla più adatta -->
+            <a href="domotica.html" class="porta-sportello-card" role="listitem">
+              <div class="porta-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <h3 class="porta-card-title">Migliorare la casa e renderla più adatta</h3>
+              <p class="porta-card-desc">
+                Piccoli adattamenti, eliminazione di ostacoli fisici e strumenti discreti per vivere in sicurezza e comfort.
+              </p>
+              <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+            </a>
+
+            <!-- Porta 4: Ampliare le relazioni sociali -->
+            <a href="persone-famiglie.html" class="porta-sportello-card" role="listitem">
+              <div class="porta-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3 class="porta-card-title">Ampliare le relazioni sociali</h3>
+              <p class="porta-card-desc">
+                Superare l'isolamento, ritrovare occasioni di incontro, partecipazione ad attività e nuove reti di vicinanza.
+              </p>
+              <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
+            </a>
+
           </div>
-          <h3 class="porta-card-title">Ampliare le relazioni sociali</h3>
-          <p class="porta-card-desc">
-            Superare l'isolamento, ritrovare occasioni di incontro, partecipazione ad attività e nuove reti di vicinanza.
-          </p>
-          <span class="porta-card-link">Esplora il percorso <span aria-hidden="true">→</span></span>
-        </a>
+        </div>
+
+        <!-- Colonna Destra: Immagine Umana d'Ascolto e Orientamento -->
+        <div class="sportello-image-col">
+          <div class="sportello-image-wrap">
+            <img src="assets/images/orientamento-cerchi-aiuto.png" 
+                 alt="Un’operatrice ascolta due persone anziane e le aiuta a orientarsi tra diverse possibilità di aiuto." 
+                 class="sportello-main-photo" 
+                 width="724" 
+                 height="543" 
+                 loading="lazy">
+            <div class="sportello-image-caption">
+              <span class="sportello-caption-tag">Ascolto &amp; Orientamento</span>
+              <p class="sportello-caption-text">Un punto di riferimento per orientarsi tra bisogni, risposte territoriali e percorsi di autonomia.</p>
+            </div>
+          </div>
+        </div>
 
       </div>
 
@@ -1119,123 +915,6 @@
 
     </div>
   </section>
-
-  <style>
-    /* STILI DEDICATI BLOCCO 2 ORIENTAMENTO */
-    .percorsi-grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 48px;
-    }
-    .percorsi-grid-container > :nth-child(4) {
-      grid-column: 1 / 2;
-    }
-    .percorsi-grid-container > :nth-child(5) {
-      grid-column: 2 / 3;
-    }
-    /* Centra la seconda riga con 2 schede bilanciate su desktop largo */
-    @media (min-width: 901px) {
-      .percorsi-grid-container {
-        grid-template-columns: repeat(6, 1fr);
-      }
-      .percorsi-grid-container > :nth-child(1) { grid-column: 1 / span 2; }
-      .percorsi-grid-container > :nth-child(2) { grid-column: 3 / span 2; }
-      .percorsi-grid-container > :nth-child(3) { grid-column: 5 / span 2; }
-      .percorsi-grid-container > :nth-child(4) { grid-column: 2 / span 2; }
-      .percorsi-grid-container > :nth-child(5) { grid-column: 4 / span 2; }
-    }
-
-    .percorso-card {
-      background: #ffffff;
-      border: 1px solid var(--grigio-bordino);
-      border-radius: 12px;
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: var(--marrone-scuro);
-      transition: all 0.25s ease;
-      box-shadow: 0 2px 8px rgba(85, 51, 17, 0.04);
-      height: 100%;
-    }
-    .percorso-card:hover, .percorso-card:focus-visible {
-      border-color: var(--terracotta);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(196, 94, 26, 0.12);
-      outline: none;
-    }
-    .percorso-card:focus-visible {
-      outline: 3px solid var(--terracotta);
-      outline-offset: 2px;
-    }
-    .percorso-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: var(--crema-chiara);
-      color: var(--terracotta);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
-    .percorso-card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--marrone-scuro);
-      margin-bottom: 10px;
-      line-height: 1.3;
-    }
-    .percorso-card-desc {
-      font-size: 0.95rem;
-      color: var(--grigio-testo);
-      line-height: 1.55;
-      margin-bottom: 20px;
-      flex-grow: 1;
-    }
-    .percorso-card-link {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--terracotta);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: auto;
-    }
-
-    .chi-siamo-banner {
-      background: #ffffff;
-      border: 1px solid var(--grigio-bordino);
-      border-radius: 12px;
-      padding: 32px 36px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px;
-      box-shadow: 0 4px 16px rgba(85, 51, 17, 0.03);
-    }
-
-    @media (max-width: 900px) {
-      .percorsi-grid-container {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
-      }
-      .percorsi-grid-container > * {
-        grid-column: auto !important;
-      }
-      .chi-siamo-banner {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 24px;
-      }
-    }
-    @media (max-width: 600px) {
-      .percorsi-grid-container {
-        grid-template-columns: 1fr !important;
-      }
-    }
-  </style>
 
   <!-- ========================================================
        BLOCCO 3 — Metodo e approccio: 4 dimensioni integrate (Aree aperte)

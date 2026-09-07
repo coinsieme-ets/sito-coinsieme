@@ -2174,5 +2174,264 @@ img, svg, video, canvas {
   }
 }
 
+/* ============================================================
+   SPORTELLO DI PRIMO ASCOLTO & ORIENTAMENTO (CERCHI UN AIUTO)
+   ============================================================ */
+.sportello-main-grid {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: 32px;
+  align-items: stretch;
+  margin-bottom: 36px;
+}
+
+.sportello-content-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sportello-header-box {
+  margin-bottom: 24px;
+}
+
+.porte-sportello-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.porta-sportello-card {
+  background: #ffffff;
+  border: 1px solid var(--grigio-bordino);
+  border-top: 3px solid var(--terracotta);
+  border-radius: 12px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--marrone-scuro);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(85, 51, 17, 0.03);
+  height: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.porta-sportello-card:hover,
+.porta-sportello-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(196, 94, 26, 0.12);
+  border-color: var(--terracotta);
+  outline: none;
+}
+
+.porta-sportello-card:focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+.porta-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--crema-chiara);
+  color: var(--terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.porta-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--marrone-scuro);
+  margin-bottom: 8px;
+  line-height: 1.32;
+  font-family: var(--font-heading);
+}
+
+.porta-card-desc {
+  font-size: 0.88rem;
+  color: var(--grigio-testo);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.porta-card-link {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.sportello-image-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sportello-image-wrap {
+  position: relative;
+  height: 100%;
+  min-height: 400px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(85, 51, 17, 0.08);
+  border: 1px solid rgba(85, 51, 17, 0.10);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sportello-main-photo {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.sportello-image-caption {
+  padding: 14px 18px;
+  background: #ffffff;
+  border-top: 1px solid var(--grigio-bordino);
+}
+
+.sportello-caption-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+  font-family: var(--font-heading);
+}
+
+.sportello-caption-text {
+  font-size: 0.86rem;
+  color: var(--grigio-testo);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* CARD SEPARATA: VUOI DARE UNA MANO? */
+.vuoi-dare-una-mano-card {
+  background: #ffffff;
+  border: 1px solid var(--grigio-bordino);
+  border-left: 5px solid var(--terracotta);
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+  box-shadow: 0 2px 10px rgba(85, 51, 17, 0.03);
+  box-sizing: border-box;
+}
+
+.vuoi-dare-una-mano-body {
+  max-width: 680px;
+}
+
+.vuoi-dare-una-mano-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  font-family: var(--font-heading);
+}
+
+.vuoi-dare-una-mano-title {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--marrone-scuro);
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+  font-family: var(--font-heading);
+}
+
+.vuoi-dare-una-mano-text {
+  font-size: 0.94rem;
+  color: var(--grigio-testo);
+  line-height: 1.56;
+  margin: 0;
+}
+
+.chi-siamo-banner {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--grigio-bordino);
+  border-bottom: 1px solid var(--grigio-bordino);
+  border-radius: 0;
+  padding: 28px 0 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  box-shadow: none;
+}
+
+@media (max-width: 990px) {
+  .sportello-main-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .sportello-image-col {
+    order: -1;
+  }
+  .sportello-image-wrap {
+    min-height: auto;
+    max-height: 360px;
+  }
+  .sportello-main-photo {
+    height: 260px;
+    flex-grow: 0;
+  }
+  .porte-sportello-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .vuoi-dare-una-mano-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .chi-siamo-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .porte-sportello-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .sportello-image-wrap {
+    max-height: 320px;
+  }
+  .sportello-main-photo {
+    height: 200px;
+  }
+  .sportello-image-caption {
+    padding: 10px 14px;
+  }
+}
+
 
 
