@@ -166,6 +166,14 @@ async function main() {
   console.log(`Token configurato: ${token ? 'SÌ (lunghezza: ' + token.length + ', prefisso: ' + token.slice(0, 4) + '...)' : 'NO'}`);
   console.log('====================================================\n');
 
+  let metaTables = null;
+  let finalFields = null;
+  let observedFieldNames = [];
+  let patchResult = null;
+  let metaApiAccess = false;
+  let metaApiStatus = 0;
+  let metaApiError = null;
+
   if (!token) {
     console.error('✗ Token AIRTABLE_PERSONAL_ACCESS_TOKEN non disponibile nell\'ambiente.');
     return;
@@ -174,13 +182,13 @@ async function main() {
   // 1. TENTATIVO METADATA API
   console.log('1. Interrogazione schema base via Metadata API (GET /meta/bases/...) ...');
   const metaRes = await getBaseSchema(token, baseId);
-
-  let schemaCreatedViaMetaApi = false;
+  metaApiStatus = metaRes.status;
 
   if (metaRes.ok && metaRes.data && metaRes.data.tables) {
-    console.log(`   ✓ Metadata API accessibile con successo! Trovate ${metaRes.data.tables.length} tabelle.`);
-    const tables = metaRes.data.tables;
-    const notizieTable = tables.find(t => t.name.toLowerCase() === tableName.toLowerCase() || t.id === tableName);
+    metaApiAccess = true;
+    metaTables = metaRes.data.tables;
+    console.log(`   ✓ Metadata API accessibile con successo! Trovate ${metaTables.length} tabelle.`);
+    const notizieTable = metaTables.find(t => t.name.toLowerCase() === tableName.toLowerCase() || t.id === tableName);
 
     if (notizieTable) {
       console.log(`   Tabella individuata: "${notizieTable.name}" (ID: ${notizieTable.id})`);
@@ -201,7 +209,6 @@ async function main() {
           const createRes = await createField(token, baseId, notizieTable.id, reqField);
           if (createRes.ok) {
             console.log(`     ✓ Creato "${reqField.name}" (ID: ${createRes.data.id})`);
-            schemaCreatedViaMetaApi = true;
           } else {
             console.warn(`     ✗ Errore creazione (${createRes.status}): ${createRes.text}`);
             if (reqField.type === 'multipleAttachments') {
@@ -209,7 +216,6 @@ async function main() {
               const fallbackRes = await createField(token, baseId, notizieTable.id, { name: reqField.name, type: 'url' });
               if (fallbackRes.ok) {
                 console.log(`     ✓ Creato "${reqField.name}" come URL (ID: ${fallbackRes.data.id})`);
-                schemaCreatedViaMetaApi = true;
               } else {
                 console.warn(`     ✗ Fallback URL fallito: ${fallbackRes.text}`);
               }
@@ -248,17 +254,23 @@ async function main() {
 
       // Rilettura schema
       const finalSchema = await getBaseSchema(token, baseId);
-      const finalNotizie = (finalSchema.data.tables || []).find(t => t.id === notizieTable.id);
-      console.log(`\n====================================================`);
-      console.log(`SCHEMA FINALE ACCERTATO VIA METADATA API ("${finalNotizie.name}"):`);
-      console.log(`====================================================`);
-      for (const f of finalNotizie.fields) {
-        const opts = f.options && f.options.choices ? `\n       Scelte: [${f.options.choices.map(c => c.name).join(', ')}]` : '';
-        console.log(`  • ${f.name} (${f.type})${opts}`);
+      if (finalSchema.ok && finalSchema.data && finalSchema.data.tables) {
+        const finalNotizie = finalSchema.data.tables.find(t => t.id === notizieTable.id);
+        if (finalNotizie) {
+          finalFields = finalNotizie.fields;
+          console.log(`\n====================================================`);
+          console.log(`SCHEMA FINALE ACCERTATO VIA METADATA API ("${finalNotizie.name}"):`);
+          console.log(`====================================================`);
+          for (const f of finalNotizie.fields) {
+            const opts = f.options && f.options.choices ? `\n       Scelte: [${f.options.choices.map(c => c.name).join(', ')}]` : '';
+            console.log(`  • ${f.name} (${f.type})${opts}`);
+          }
+          console.log(`====================================================\n`);
+        }
       }
-      console.log(`====================================================\n`);
     }
   } else {
+    metaApiError = metaRes.text;
     console.log(`   ℹ Metadata API non abilitata per questo token (${metaRes.status}): ${metaRes.text}`);
     console.log(`   -> Nota: i Personal Access Token Airtable necessitano dei permessi 'schema.bases:read' e 'schema.bases:write' per gestire lo schema via API.`);
   }
@@ -269,71 +281,77 @@ async function main() {
 
   if (!recordsRes.ok) {
     console.error(`✗ Errore lettura tabella "${tableName}" (${recordsRes.status}): ${recordsRes.text}`);
-    return;
-  }
+  } else {
+    const records = (recordsRes.data && recordsRes.data.records) || [];
+    console.log(`   ✓ Letti ${records.length} record dalla tabella "${tableName}".`);
 
-  const records = (recordsRes.data && recordsRes.data.records) || [];
-  console.log(`   ✓ Letti ${records.length} record dalla tabella "${tableName}".`);
-
-  const observedFieldNames = new Set();
-  for (const r of records) {
-    for (const key of Object.keys(r.fields || {})) {
-      observedFieldNames.add(key);
-    }
-  }
-
-  console.log(`   Campi attualmente popolati nei record esistenti: [${[...observedFieldNames].join(', ')}]`);
-
-  // 3. AGGIORNAMENTO RECORD DI TEST
-  if (records.length > 0) {
-    const testRec = records[0];
-    console.log(`\n5. Test scrittura campi editoriali sul record ID="${testRec.id}" (Titolo: "${testRec.fields.titolo_editoriale || testRec.fields.titolo_originale || testRec.id}")...`);
-    
-    const patchPayload = {
-      stato: 'pubblica',
-      priorita: 'alta',
-      posizione_sito: 'home_principale',
-      ordine_editoriale: 1
-    };
-
-    console.log('   Invio PATCH con payload:', patchPayload);
-    const patchRes = await patchRecord(token, baseId, tableName, testRec.id, patchPayload);
-
-    if (patchRes.ok) {
-      console.log('   ✅ PATCH RIUSCITA! Airtable ha accettato i campi editoriali:');
-      console.log('      - stato:', patchRes.data.fields.stato);
-      console.log('      - priorita:', patchRes.data.fields.priorita);
-      console.log('      - posizione_sito:', patchRes.data.fields.posizione_sito);
-      console.log('      - ordine_editoriale:', patchRes.data.fields.ordine_editoriale);
-    } else {
-      console.error(`   ✗ Esito PATCH (${patchRes.status}): ${patchRes.text}`);
-      if (patchRes.text.includes('UNKNOWN_FIELD_NAME') || patchRes.text.includes('INVALID_VALUE_FOR_COLUMN')) {
-        console.log('\n   [ATTENZIONE]: Alcuni campi non esistono ancora come colonne nella tabella Airtable.');
-        console.log('   Dettaglio risposta Airtable:', patchRes.text);
+    const obsSet = new Set();
+    for (const r of records) {
+      for (const key of Object.keys(r.fields || {})) {
+        obsSet.add(key);
       }
     }
+    observedFieldNames = [...obsSet];
+    console.log(`   Campi attualmente popolati nei record esistenti: [${observedFieldNames.join(', ')}]`);
 
-    const report = {
-      timestamp: new Date().toISOString(),
-      baseId,
-      tableName,
-      metaApiAccess: metaRes.ok,
-      metaApiStatus: metaRes.status,
-      metaApiError: metaRes.ok ? null : metaRes.text,
-      schemaFields: finalNotizie ? finalNotizie.fields : null,
-      observedRecordFields: [...observedFieldNames],
-      patchTestResult: {
+    // 3. AGGIORNAMENTO RECORD DI TEST
+    if (records.length > 0) {
+      const testRec = records[0];
+      console.log(`\n5. Test scrittura campi editoriali sul record ID="${testRec.id}" (Titolo: "${testRec.fields.titolo_editoriale || testRec.fields.titolo_originale || testRec.id}")...`);
+      
+      const patchPayload = {
+        stato: 'pubblica',
+        priorita: 'alta',
+        posizione_sito: 'home_principale',
+        ordine_editoriale: 1
+      };
+
+      console.log('   Invio PATCH con payload:', patchPayload);
+      const patchRes = await patchRecord(token, baseId, tableName, testRec.id, patchPayload);
+
+      patchResult = {
         ok: patchRes.ok,
         status: patchRes.status,
         fields: patchRes.ok ? patchRes.data.fields : null,
         error: patchRes.ok ? null : patchRes.text
-      }
-    };
+      };
 
-    const reportPath = path.join(root, 'content', 'rassegna', 'airtable-schema-report.json');
-    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
-    console.log(`\n✓ Report diagnostico salvato in ${reportPath}`);
+      if (patchRes.ok) {
+        console.log('   ✅ PATCH RIUSCITA! Airtable ha accettato i campi editoriali:');
+        console.log('      - stato:', patchRes.data.fields.stato);
+        console.log('      - priorita:', patchRes.data.fields.priorita);
+        console.log('      - posizione_sito:', patchRes.data.fields.posizione_sito);
+        console.log('      - ordine_editoriale:', patchRes.data.fields.ordine_editoriale);
+      } else {
+        console.error(`   ✗ Esito PATCH (${patchRes.status}): ${patchRes.text}`);
+        if (patchRes.text && (patchRes.text.includes('UNKNOWN_FIELD_NAME') || patchRes.text.includes('INVALID_VALUE_FOR_COLUMN'))) {
+          console.log('\n   [ATTENZIONE]: Alcuni campi non esistono ancora come colonne nella tabella Airtable.');
+          console.log('   Dettaglio risposta Airtable:', patchRes.text);
+        }
+      }
+    }
   }
+
+  // 4. SALVATAGGIO REPORT UNCONDIZIONALE
+  const report = {
+    timestamp: new Date().toISOString(),
+    baseId,
+    tableName,
+    metaApiAccess,
+    metaApiStatus,
+    metaApiError,
+    schemaFields: finalFields,
+    observedRecordFields: observedFieldNames,
+    patchTestResult: patchResult
+  };
+
+  const reportDir = path.join(root, 'content', 'rassegna');
+  if (!fs.existsSync(reportDir)) {
+    fs.mkdirSync(reportDir, { recursive: true });
+  }
+  const reportPath = path.join(reportDir, 'airtable-schema-report.json');
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+  console.log(`\n✓ Report diagnostico salvato con successo in ${reportPath}`);
 }
 
 if (require.main === module) {
