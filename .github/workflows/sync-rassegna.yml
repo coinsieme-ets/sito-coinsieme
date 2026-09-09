@@ -7,6 +7,9 @@ on:
       - rassegna-news-approved
       - update-rassegna
       - airtable-sync
+  schedule:
+    # Polling e scansione automatica ogni ora (dalle 06:15 alle 22:15 Europe/Rome -> 04:15 - 20:15 UTC)
+    - cron: '15 4-20 * * *'
 
 permissions:
   contents: write
@@ -28,6 +31,13 @@ jobs:
 
       - name: Installazione dipendenze deterministica (npm ci)
         run: npm ci
+
+      - name: Raccogli e proponi nuove notizie candidate da feed autorevoli
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
+        run: node scripts/fetch-rassegna-rss.js
 
       - name: Elabora eventuali segnalazioni dirette di Maurizio (pubblicazione immediata)
         env:
@@ -55,7 +65,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '[CMS] Sincronizzazione automatica rassegna news approvate da Airtable'
-          file_pattern: 'content/rassegna/notizie-esterne.json index.html articoli.html'
+          file_pattern: 'content/rassegna/notizie-esterne.json content/rassegna/candidati-in-attesa.json index.html articoli.html'
 
       # Il deploy resta centralizzato nel workflow principale build-articoli.yml,
       # che parte automaticamente quando questo job crea un commit su main.

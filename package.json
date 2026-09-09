@@ -6,6 +6,7 @@
     "sync-rassegna": "node scripts/sync-rassegna.js",
     "briefing-mail": "node scripts/send-briefing-mail.js",
     "ingest-candidati": "node scripts/ingest-rassegna-candidates.js",
+    "fetch-rss": "node scripts/fetch-rassegna-rss.js",
     "process-segnalazioni": "node scripts/process-segnalazioni-maurizio.js"
   },
   "dependencies": {
