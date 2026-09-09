@@ -71,11 +71,17 @@ jobs:
         run: node scripts/build-hybrid-index.js
 
       - name: Commit e Push se ci sono modifiche
-        id: auto-commit
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: '[CMS] Sincronizzazione automatica rassegna news approvate da Airtable'
-          file_pattern: 'content/rassegna/notizie-esterne.json content/rassegna/candidati-in-attesa.json content/rassegna/airtable-schema-report.json index.html articoli.html'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/rassegna/notizie-esterne.json content/rassegna/candidati-in-attesa.json content/rassegna/airtable-schema-report.json index.html articoli.html 2>/dev/null || true
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "[CMS] Sincronizzazione automatica rassegna news approvate da Airtable"
+            git push origin main
+          else
+            console_msg="Nessuna modifica da salvare"
+            echo "$console_msg"
+          fi
 
       # Il deploy resta centralizzato nel workflow principale build-articoli.yml,
       # che parte automaticamente quando questo job crea un commit su main.
