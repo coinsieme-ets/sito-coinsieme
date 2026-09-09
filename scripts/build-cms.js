@@ -436,8 +436,8 @@ function getSortedApprovedItems(items) {
   return (items || [])
     .map((item, idx) => ({ item, idx }))
     .filter(({ item }) => {
-      // Solo record pubblicabili
-      if (item.stato !== 'pubblicata' && item.stato !== 'pubblica' && item.stato !== 'approvata') return false;
+      // Solo record pubblicabili ('pubblicata' o 'pubblica'; 'approvata' non va online fino ad autorizzazione esplicita)
+      if (item.stato !== 'pubblicata' && item.stato !== 'pubblica') return false;
       // Programmazione futura: non mostrare prima della data_pubblicazione
       if (item.data_pubblicazione && item.data_pubblicazione > todayIso) return false;
       // Campi minimi

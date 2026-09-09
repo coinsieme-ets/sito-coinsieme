@@ -21,7 +21,7 @@ const root = path.join(__dirname, '..');
 const rassegnaDir = path.join(root, 'content', 'rassegna');
 const rassegnaFile = path.join(rassegnaDir, 'notizie-esterne.json');
 
-const ALLOWED_PUBLISH_STATI = new Set(['pubblica', 'pubblicata', 'approvata']);
+const ALLOWED_PUBLISH_STATI = new Set(['pubblica', 'pubblicata']);
 
 function slugify(text = '') {
   return String(text)
@@ -101,7 +101,7 @@ function normalizePriority(val) {
 function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
   const rawStato = (fields.stato || fields.Stato || fields.STATO || '').trim().toLowerCase();
   if (!ALLOWED_PUBLISH_STATI.has(rawStato)) {
-    return null; // Solo pubblica, pubblicata e approvata vanno online
+    return null; // Solo 'pubblica' e 'pubblicata' vanno online. 'approvata' è validata ma attende autorizzazione.
   }
 
   const url_fonte = (fields.url_fonte || fields.Url_fonte || fields['URL Fonte'] || fields['Url Fonte'] || fields['url_fonte'] || fields.url || fields.Url || fields.link || fields.Link || '').trim();
@@ -253,7 +253,7 @@ async function fetchFromAirtable(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    params.set('filterByFormula', "OR(LOWER({stato}) = 'pubblica', LOWER({stato}) = 'pubblicata', LOWER({stato}) = 'approvata', LOWER({Stato}) = 'pubblica', LOWER({Stato}) = 'pubblicata', LOWER({Stato}) = 'approvata')");
+    params.set('filterByFormula', "OR(LOWER({stato}) = 'pubblica', LOWER({stato}) = 'pubblicata', LOWER({Stato}) = 'pubblica', LOWER({Stato}) = 'pubblicata')");
     params.set('pageSize', '100');
     if (offset) params.set('offset', offset);
 
