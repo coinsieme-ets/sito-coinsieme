@@ -365,7 +365,7 @@ function buildHomeSection(items) {
   </div>`;
 }
 
-const ALLOWED_RASSEGNA_STATI = new Set(['da_verificare', 'proposta', 'approvata', 'scartata', 'archiviata']);
+const ALLOWED_RASSEGNA_STATI = new Set(['segnalata', 'da_valutare', 'approvata', 'pubblica', 'pubblicata', 'scartata', 'archiviata']);
 
 function formatDateIt(dateStr) {
   if (!dateStr || !/^\d{4}-\d{2}-\d{2}/.test(String(dateStr).trim())) {
@@ -386,49 +386,120 @@ function loadRassegnaNews() {
   assert(Array.isArray(raw), 'content/rassegna/notizie-esterne.json deve contenere un array.');
 
   return raw.map((item, idx) => {
-    const stato = (item.stato || 'da_verificare').trim();
+    const stato = (item.stato || 'da_valutare').trim().toLowerCase();
     assert(ALLOWED_RASSEGNA_STATI.has(stato), `Notizia rassegna #${idx + 1} (${item.id || item.titolo_editoriale || 'senza id'}): stato "${stato}" non valido. Valori ammessi: ${[...ALLOWED_RASSEGNA_STATI].join(', ')}`);
+
+    const data_fonte = item.data_fonte ? String(item.data_fonte).trim() : '';
+    const data_pubblicazione = item.data_pubblicazione ? String(item.data_pubblicazione).trim() : data_fonte;
+    const priorita = (item.priorita || 'media').trim().toLowerCase();
+    const posizione_sito = (item.posizione_sito || 'home_normale').trim().toLowerCase();
+    const ordine_editoriale = typeof item.ordine_editoriale === 'number' ? item.ordine_editoriale : (parseInt(item.ordine_editoriale, 10) || 999);
+    const mantieni_in_evidenza_fino_al = item.mantieni_in_evidenza_fino_al ? String(item.mantieni_in_evidenza_fino_al).trim() : '';
+    const immagine_in_evidenza = (item.immagine_in_evidenza || item.immagine_news || item.image_url || item.thumbnail || '').trim();
+
     return {
       id: item.id ? String(item.id).trim() : `notizia-${idx + 1}`,
       categoria: item.categoria ? String(item.categoria).trim() : 'Welfare',
-      data_fonte: item.data_fonte ? String(item.data_fonte).trim() : '',
+      data_fonte,
+      data_pubblicazione,
       titolo_originale: item.titolo_originale ? String(item.titolo_originale).trim() : '',
       titolo_editoriale: item.titolo_editoriale ? String(item.titolo_editoriale).trim() : (item.titolo_originale ? String(item.titolo_originale).trim() : ''),
       fonte: item.fonte ? String(item.fonte).trim() : 'Fonte esterna',
       url_fonte: item.url_fonte ? String(item.url_fonte).trim() : '#',
       sintesi_editoriale: item.sintesi_editoriale ? String(item.sintesi_editoriale).trim() : '',
       rilevanza_coinsieme: item.rilevanza_coinsieme ? String(item.rilevanza_coinsieme).trim() : '',
-      immagine_news: item.immagine_news ? String(item.immagine_news).trim() : (item.image_url ? String(item.image_url).trim() : (item.thumbnail ? String(item.thumbnail).trim() : '')),
-      stato
+      immagine_in_evidenza,
+      immagine_news: immagine_in_evidenza,
+      stato,
+      priorita,
+      posizione_sito,
+      ordine_editoriale,
+      mantieni_in_evidenza_fino_al
     };
   });
 }
 
 function getSortedApprovedItems(items) {
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const posWeight = {
+    'home_principale': 1,
+    'home_evidenza': 2,
+    'home_normale': 3,
+    'solo_rassegna': 4
+  };
+  const prioWeight = {
+    'alta': 1,
+    'media': 2,
+    'bassa': 3
+  };
+
   return (items || [])
     .map((item, idx) => ({ item, idx }))
     .filter(({ item }) => {
-      if (item.stato !== 'approvata') return false;
-      if (!item.data_fonte || !/^\d{4}-\d{2}-\d{2}$/.test(String(item.data_fonte).trim())) return false;
+      // Solo record pubblicabili
+      if (item.stato !== 'pubblicata' && item.stato !== 'pubblica' && item.stato !== 'approvata') return false;
+      // Programmazione futura: non mostrare prima della data_pubblicazione
+      if (item.data_pubblicazione && item.data_pubblicazione > todayIso) return false;
+      // Campi minimi
       if (!item.url_fonte || !/^https?:\/\//i.test(String(item.url_fonte).trim())) return false;
       if (!item.titolo_editoriale && !item.titolo_originale) return false;
       if (!item.fonte) return false;
       return true;
     })
     .sort((a, b) => {
-      const dateDiff = (b.item.data_fonte || '').localeCompare(a.item.data_fonte || '');
+      const itemA = a.item;
+      const itemB = b.item;
+
+      // 1. Posizione sito
+      const posA = posWeight[itemA.posizione_sito] || 3;
+      const posB = posWeight[itemB.posizione_sito] || 3;
+      if (posA !== posB) return posA - posB;
+
+      // 2. Pin attivo (mantieni_in_evidenza_fino_al >= today per posizioni home)
+      const aPinned = (itemA.mantieni_in_evidenza_fino_al && itemA.mantieni_in_evidenza_fino_al >= todayIso && (itemA.posizione_sito === 'home_principale' || itemA.posizione_sito === 'home_evidenza')) ? 0 : 1;
+      const bPinned = (itemB.mantieni_in_evidenza_fino_al && itemB.mantieni_in_evidenza_fino_al >= todayIso && (itemB.posizione_sito === 'home_principale' || itemB.posizione_sito === 'home_evidenza')) ? 0 : 1;
+      if (aPinned !== bPinned) return aPinned - bPinned;
+
+      // 3. Ordine editoriale manuale
+      const ordA = typeof itemA.ordine_editoriale === 'number' ? itemA.ordine_editoriale : 999;
+      const ordB = typeof itemB.ordine_editoriale === 'number' ? itemB.ordine_editoriale : 999;
+      if (ordA !== ordB) return ordA - ordB;
+
+      // 4. Priorità editoriale
+      const pA = prioWeight[itemA.priorita] || 2;
+      const pB = prioWeight[itemB.priorita] || 2;
+      if (pA !== pB) return pA - pB;
+
+      // 5. Data pubblicazione o data fonte decrescente
+      const dateA = itemA.data_pubblicazione || itemA.data_fonte || '';
+      const dateB = itemB.data_pubblicazione || itemB.data_fonte || '';
+      const dateDiff = dateB.localeCompare(dateA);
       if (dateDiff !== 0) return dateDiff;
-      const timeDiff = (b.item.createdTime || '').localeCompare(a.item.createdTime || '');
-      if (timeDiff !== 0) return timeDiff;
+
       return a.idx - b.idx;
     })
     .map(({ item }) => item);
 }
 
+function getHomeHeroItem(items) {
+  const approved = getSortedApprovedItems(items);
+  // Filtra solo le notizie ammissibili in Homepage (esclude categoricamente 'solo_rassegna')
+  const homeEligible = approved.filter(i => i.posizione_sito !== 'solo_rassegna');
+  if (homeEligible.length === 0) return null;
+
+  // Cerca la prima 'home_principale', altrimenti prende la prima notizia per gerarchia
+  const principale = homeEligible.find(i => i.posizione_sito === 'home_principale');
+  return principale || homeEligible[0];
+}
+
 function buildRassegnaSection(items) {
   const approved = getSortedApprovedItems(items);
-  // Esclude la notizia #1 (mostrata in "In evidenza oggi") e mostra fino alle successive 3
-  const subsequent = approved.slice(1, 4);
+  const heroItem = getHomeHeroItem(items);
+
+  // Esclude l'articolo mostrato in evidenza e tutti i record 'solo_rassegna' (che non vanno in home)
+  const subsequent = approved
+    .filter(i => (!heroItem || i.id !== heroItem.id) && i.posizione_sito !== 'solo_rassegna')
+    .slice(0, 3);
 
   if (subsequent.length === 0) {
     return `<section id="cosa-si-muove" class="rassegna-section" aria-labelledby="rassegna-titolo" style="display: none;" aria-hidden="true">
@@ -449,9 +520,9 @@ function buildRassegnaSection(items) {
   }
 
   const cardsHtml = subsequent.map((item) => {
-    const formattedDate = formatDateIt(item.data_fonte);
-    const dateHtml = item.data_fonte
-      ? `<time class="rassegna-card-date" datetime="${escapeHtml(item.data_fonte)}">${escapeHtml(formattedDate)}</time>`
+    const formattedDate = formatDateIt(item.data_pubblicazione || item.data_fonte);
+    const dateHtml = (item.data_pubblicazione || item.data_fonte)
+      ? `<time class="rassegna-card-date" datetime="${escapeHtml(item.data_pubblicazione || item.data_fonte)}">${escapeHtml(formattedDate)}</time>`
       : '';
     const title = escapeHtml(item.titolo_editoriale || item.titolo_originale);
     const category = escapeHtml(item.categoria);
@@ -558,7 +629,7 @@ function buildHeroImage(items) {
 
 function resolveNewsImage(item) {
   // Priorità 1: Immagine specifica fornita per la notizia (URL o percorso locale)
-  const customImg = (item.immagine_news || item.image_url || item.thumbnail || item.immagine || '').trim();
+  const customImg = (item.immagine_in_evidenza || item.immagine_news || item.image_url || item.thumbnail || '').trim();
   if (customImg) {
     return customImg;
   }
@@ -581,17 +652,16 @@ function resolveNewsImage(item) {
 }
 
 function buildDailyNewsCard(items) {
-  const approved = getSortedApprovedItems(items);
-  if (approved.length === 0) {
+  const latest = getHomeHeroItem(items);
+  if (!latest) {
     return `<section id="focus-news" class="news-highlight-section" style="display:none;" aria-hidden="true"></section>`;
   }
 
-  const latest = approved[0];
   const title = escapeHtml(latest.titolo_editoriale || latest.titolo_originale);
   const summary = escapeHtml(latest.sintesi_editoriale || '');
   const url = escapeHtml(latest.url_fonte || '#');
   const source = escapeHtml(latest.fonte || 'Fonte ufficiale');
-  const formattedDate = formatDateIt(latest.data_fonte);
+  const formattedDate = formatDateIt(latest.data_pubblicazione || latest.data_fonte);
   const catText = `${latest.categoria || ''} ${latest.titolo_editoriale || ''}`.toLowerCase();
 
   const thumbSrc = escapeHtml(resolveNewsImage(latest));
@@ -607,6 +677,11 @@ function buildDailyNewsCard(items) {
     badgeLabel = 'Ricerca & Famiglie';
   }
 
+  let tagLabel = 'In evidenza oggi';
+  if (latest.posizione_sito === 'home_principale') {
+    tagLabel = 'Primo Piano';
+  }
+
   return `<section id="focus-news" class="news-highlight-section" aria-label="Notizia in evidenza del giorno">
   <div class="container">
     <div class="news-highlight-card">
@@ -618,10 +693,10 @@ function buildDailyNewsCard(items) {
 
       <div class="news-content-body">
         <div class="news-top-meta">
-          <span class="news-source-tag">In evidenza oggi</span>
+          <span class="news-source-tag">${tagLabel}</span>
           <span aria-hidden="true">·</span>
           <span>Fonte: <strong>${source}</strong></span>
-          ${formattedDate ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(latest.data_fonte)}">${escapeHtml(formattedDate)}</time>` : ''}
+          ${formattedDate ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(latest.data_pubblicazione || latest.data_fonte)}">${escapeHtml(formattedDate)}</time>` : ''}
         </div>
         <h2 class="news-title-rich">
           <a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>
@@ -684,7 +759,7 @@ async function main() {
 
   // Rassegna News processing
   const rassegnaItems = loadRassegnaNews();
-  const approvedRassegna = rassegnaItems.filter((i) => i.stato === 'approvata');
+  const approvedRassegna = getSortedApprovedItems(rassegnaItems);
   const rassegnaSectionHtml = buildRassegnaSection(rassegnaItems);
   const topNewsBarHtml = buildTopNewsBar(rassegnaItems);
 
@@ -727,4 +802,3 @@ main().catch((error) => {
   console.error(error.message);
   process.exit(1);
 });
-

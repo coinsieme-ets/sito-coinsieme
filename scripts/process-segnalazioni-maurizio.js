@@ -118,11 +118,29 @@ async function fetchMetadataFromUrl(url) {
       dateStr = new Date().toISOString().slice(0, 10);
     }
 
+    // 5. Immagine (og:image o twitter:image)
+    let image = '';
+    const ogImg = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+                  html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i) ||
+                  html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i) ||
+                  html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
+    if (ogImg) {
+      image = cleanHtmlText(ogImg[1]);
+      if (image && !/^https?:\/\//i.test(image)) {
+        try {
+          image = new URL(image, url).href;
+        } catch (e) {
+          image = '';
+        }
+      }
+    }
+
     return {
       title,
       summary,
       source,
-      date: dateStr
+      date: dateStr,
+      image
     };
   } catch (err) {
     console.warn(`[Segnalazioni] Errore lettura metadati per ${url}: ${err.message}`);
@@ -265,13 +283,19 @@ async function processSegnalazioniMaurizio(options = {}) {
       id,
       categoria,
       data_fonte: dataFonte,
+      data_pubblicazione: dataFonte,
       titolo_originale: titoloOriginale,
       titolo_editoriale: titoloEditoriale,
       fonte,
       url_fonte: rawUrl,
       sintesi_editoriale: sintesi,
       rilevanza_coinsieme: rilevanza,
-      stato: 'approvata' // DEROGA ESPLICITA: Pubblicazione diretta perché inserita da Maurizio
+      immagine_in_evidenza: meta.image || '',
+      stato: 'pubblica', // DEROGA ESPLICITA: Pubblicazione diretta perché inserita da Maurizio (il sync la trasformerà in 'pubblicata')
+      priorita: 'alta',
+      posizione_sito: 'home_evidenza',
+      ordine_editoriale: 10,
+      mantieni_in_evidenza_fino_al: ''
     };
 
     if (options.mock) {
