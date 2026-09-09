@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-09-09T09:59:42.560Z",
+  "baseId": "appPqa952bdRrQJNI",
+  "tableName": "Notizie",
+  "metaApiAccess": false,
+  "metaApiStatus": 403,
+  "metaApiError": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}",
+  "schemaFields": null,
+  "observedRecordFields": [
+    "categoria",
+    "rilevanza_coinsieme",
+    "fonte",
+    "stato",
+    "titolo_originale",
+    "sintesi_editoriale",
+    "id",
+    "titolo_editoriale",
+    "url_fonte",
+    "data_fonte"
+  ],
+  "patchTestResult": {
+    "ok": false,
+    "status": 403,
+    "fields": null,
+    "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+  }
+}
