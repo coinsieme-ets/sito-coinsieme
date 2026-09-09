@@ -1,5 +1,15 @@
 [
   {
+    "titolo_originale": "Perché è un problema se gli studenti italiani non sanno usare l'IA",
+    "titolo_editoriale": "Perché è un problema se gli studenti italiani non sanno usare l'IA",
+    "fonte": "Vita.it",
+    "url_fonte": "https://www.vita.it/perche-e-un-problema-se-gli-studenti-italiani-non-sanno-usare-lia/",
+    "data_fonte": "2026-09-09",
+    "categoria": "Lavoro e inclusione",
+    "sintesi_editoriale": "Fra i giovani italiani tra 16 e 19 anni solo uno su due utilizza l’intelligenza artificiale generativa, contro il 66,4% della media europea. E solo quattro edifici scolastici statali su 10 hanno un’aula di informatica. Il report di Con i... L'articolo Perché è un problema se gli studenti italiani...",
+    "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Vita.it per il tema \"Lavoro e inclusione\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie."
+  },
+  {
     "titolo_originale": "Scuole malandate e aule roventi. Una su due costruita prima del 1976. Solo una su 13 è climatizzata",
     "titolo_editoriale": "Scuole malandate e aule roventi. Una su due costruita prima del 1976. Solo una su 13 è climatizzata",
     "fonte": "Vita.it",
@@ -40,14 +50,15 @@
     "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Vita.it per il tema \"Cooperazione sociale\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie."
   },
   {
-    "titolo_originale": "Roma, la casa che non c'è: la cooperazione si candida a costruire un nuovo patto",
-    "titolo_editoriale": "Roma, la casa che non c'è: la cooperazione si candida a costruire un nuovo patto",
-    "fonte": "Vita.it",
-    "url_fonte": "https://www.vita.it/roma-la-casa-che-non-ce-la-cooperazione-si-candida-a-costruire-un-nuovo-patto/",
-    "data_fonte": "2026-09-08",
-    "categoria": "Cooperazione sociale",
-    "sintesi_editoriale": "Legacoop Lazio chiama a raccolta istituzioni ed esperti per interrogarsi e confrontarsi su un tema complesso e cruciale, tornato alla ribalta recentemente con il caso Spin Time. Il mercato immobiliare romano cresce, ma la domanda di alloggi accessibili resta in... L'articolo Roma, la casa che non...",
-    "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Vita.it per il tema \"Cooperazione sociale\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie."
+    "titolo_originale": "IID &#8211; Il Giorno del Dono 2026 ha il suo centro: Liguria Capitale Italiana del Dono 2026",
+    "titolo_editoriale": "IID &#8211; Il Giorno del Dono 2026 ha il suo centro: Liguria Capitale Italiana del Dono 2026",
+    "fonte": "Forum Terzo Settore",
+    "url_fonte": "https://www.forumterzosettore.it/2026/09/09/iid-il-giorno-del-dono-2026-ha-il-suo-centro-liguria-capitale-italiana-del-dono-2026/",
+    "data_fonte": "2026-09-09",
+    "categoria": "Welfare e autonomia",
+    "sintesi_editoriale": "Al via l'edizione 2026 del più grande evento nazionale dedicato al dono in Italia: eventi in Liguria e non solo per il mese del dono, ottobre 2026. Studenti pronti a raccontare la propria idea di dono, enti non profit, Comuni, imprese virtuose e cittadini ancora una volta insieme per la più grand...",
+    "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Forum Terzo Settore per il tema \"Welfare e autonomia\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie.",
+    "immagine_news": "https://www.forumterzosettore.it/files/2026/09/IID-Liguria-giornoDONO.png"
   },
   {
     "titolo_originale": "Giornata mondiale per la prevenzione del suicidio",
@@ -145,16 +156,5 @@
     "sintesi_editoriale": "Secondo il Rapporto si stima che 20 milioni di bambini e adolescenti di età compresa tra i 12 e i 17 anni in 21 paesi siano stati vittime di almeno una forma di sfruttamento e abuso sessuale facilitato dalla tecnologia nel corso di un solo anno. Il Rapporto unisce le testimonianze dei bambini con...",
     "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Forum Terzo Settore per il tema \"Domotica & Tecnologia\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie.",
     "immagine_news": "https://www.forumterzosettore.it/files/2026/09/UNI698637.jpg"
-  },
-  {
-    "titolo_originale": "Anziani, Uneba insiste: Cara politica, se non ascolti noi, ascolta almeno l’Istat!",
-    "titolo_editoriale": "Anziani, Uneba insiste: Cara politica, se non ascolti noi, ascolta almeno l’Istat!",
-    "fonte": "Forum Terzo Settore",
-    "url_fonte": "https://www.forumterzosettore.it/2026/09/02/23683/",
-    "data_fonte": "2026-09-02",
-    "categoria": "Welfare e cura",
-    "sintesi_editoriale": "Come certificato dall'Istat, da qui al 2050 aumenteranno molto grandi anziani over 75, anziani fragili e anziani soli. Il presidente di Uneba evidenzia come le previsioni Istat confermano la necessità di interventi per dare agli anziani i servizi cui avranno diritto e bisogno: più posti in RSA, p...",
-    "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Forum Terzo Settore per il tema \"Welfare e cura\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie.",
-    "immagine_news": "https://www.forumterzosettore.it/files/2025/02/FP-Anziani-close-up-senior-couple-holding-hands-scaled.jpg"
   }
 ]
