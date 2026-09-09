@@ -310,6 +310,27 @@ async function main() {
         console.log('   Dettaglio risposta Airtable:', patchRes.text);
       }
     }
+
+    const report = {
+      timestamp: new Date().toISOString(),
+      baseId,
+      tableName,
+      metaApiAccess: metaRes.ok,
+      metaApiStatus: metaRes.status,
+      metaApiError: metaRes.ok ? null : metaRes.text,
+      schemaFields: finalNotizie ? finalNotizie.fields : null,
+      observedRecordFields: [...observedFieldNames],
+      patchTestResult: {
+        ok: patchRes.ok,
+        status: patchRes.status,
+        fields: patchRes.ok ? patchRes.data.fields : null,
+        error: patchRes.ok ? null : patchRes.text
+      }
+    };
+
+    const reportPath = path.join(root, 'content', 'rassegna', 'airtable-schema-report.json');
+    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+    console.log(`\n✓ Report diagnostico salvato in ${reportPath}`);
   }
 }
 

@@ -75,7 +75,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '[CMS] Sincronizzazione automatica rassegna news approvate da Airtable'
-          file_pattern: 'content/rassegna/notizie-esterne.json content/rassegna/candidati-in-attesa.json index.html articoli.html'
+          file_pattern: 'content/rassegna/notizie-esterne.json content/rassegna/candidati-in-attesa.json content/rassegna/airtable-schema-report.json index.html articoli.html'
 
       # Il deploy resta centralizzato nel workflow principale build-articoli.yml,
       # che parte automaticamente quando questo job crea un commit su main.

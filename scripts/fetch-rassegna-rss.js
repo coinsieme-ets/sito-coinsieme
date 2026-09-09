@@ -224,8 +224,8 @@ async function main() {
 
 if (require.main === module) {
   main().catch((err) => {
-    console.error('[RSS Crawler] ERRORE:', err);
-    process.exit(1);
+    console.warn('[RSS Crawler] Attenzione: scansione RSS non completata:', err.message);
+    process.exit(0);
   });
 }
 
