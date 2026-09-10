@@ -1,70 +1,73 @@
 {
-  "timestamp": "2026-09-10T19:15:00.000Z",
+  "timestamp": "2026-09-10T19:17:23.758Z",
   "totalSegnalazioni": 5,
-  "totalNotizie": 1,
+  "totalNotizie": 13,
   "segnalazioni": [
     {
-      "recordId": "rec_seg_1",
-      "url": "https://www.redattoresociale.it/notiziario/articolo/inclusione-autonomia-2026",
-      "cleanUrl": "https://www.redattoresociale.it/notiziario/articolo/inclusione-autonomia-2026",
-      "nota": "Nuovo bando autonomia e vita indipendente",
-      "statoAttuale": "da_valutare",
+      "recordId": "rec4qZsXdfj5wd8Ts",
+      "url": "https://www.quotidianopiu.it/dettaglio/16380201/ets-runts-5-per-mille-ed-erogazioni-liberali-lincognita-delle-coperture",
+      "cleanUrl": "https://www.quotidianopiu.it/dettaglio/16380201/ets-runts-5-per-mille-ed-erogazioni-liberali-lincognita-delle-coperture",
+      "nota": "ETS: RUNTS, 5 per mille ed erogazioni liberali, l'incognita delle coperture",
+      "statoAttuale": "presa_in_carico",
+      "dataSegnalazione": "2026-09-07",
+      "existsInNotizie": false,
+      "notiziaMatch": null,
+      "decision": "da_trasferire",
+      "transferResult": "error",
+      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+    },
+    {
+      "recordId": "recI0olBCFDo09LCt",
+      "url": "",
+      "cleanUrl": "",
+      "nota": "",
+      "statoAttuale": "(vuoto)",
+      "dataSegnalazione": "",
+      "existsInNotizie": false,
+      "notiziaMatch": null,
+      "decision": "url_non_valido_scartata"
+    },
+    {
+      "recordId": "recYqvAnpvV3nvk9C",
+      "url": "https://fanpa.ge/9W14Q",
+      "cleanUrl": "https://fanpa.ge/9W14Q",
+      "nota": "Cos’è Il servizio civile per gli over 65 e chi potrebbe farlo",
+      "statoAttuale": "inserito",
       "dataSegnalazione": "2026-09-08",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_trasferire",
-      "transferResult": "mock_transferred"
+      "note": "Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)",
+      "transferResult": "error",
+      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
     },
     {
-      "recordId": "rec_seg_2",
-      "url": "https://www.superando.it/2026/09/09/caregiver-e-sostegni-famiglie/",
-      "cleanUrl": "https://www.superando.it/2026/09/09/caregiver-e-sostegni-famiglie/",
-      "nota": "Focus sui caregiver familiari",
-      "statoAttuale": "presa_in_carico",
-      "dataSegnalazione": "2026-09-09",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "da_trasferire",
-      "transferResult": "mock_transferred"
-    },
-    {
-      "recordId": "rec_seg_3",
-      "url": "https://www.scartato.it/non-pertinente",
-      "cleanUrl": "https://www.scartato.it/non-pertinente",
-      "nota": "Articolo non coerente con COINSIEME",
-      "statoAttuale": "scartata",
-      "dataSegnalazione": "2026-09-07",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "scartata_esclusa"
-    },
-    {
-      "recordId": "rec_seg_4_orphan",
-      "url": "https://www.disabili.com/tecnologie-assistive-domotica-2026",
-      "cleanUrl": "https://www.disabili.com/tecnologie-assistive-domotica-2026",
-      "nota": "Articolo rimasto orfano con stato inserito ma assente in Notizie",
+      "recordId": "recgDFWwnojeDVOym",
+      "url": "https://www.businessonline.it/news/riparte-la-trattativa-per-il-rinnovo-del-ccnl-cooperative-sociali-le-richieste-dei-sindacati-e-incontri-programmati_n87120.html",
+      "cleanUrl": "https://www.businessonline.it/news/riparte-la-trattativa-per-il-rinnovo-del-ccnl-cooperative-sociali-le-richieste-dei-sindacati-e-incontri-programmati_n87120.html",
+      "nota": "Rinnovo del CCNL delle cooperative sociali: ripartono le trattative tra le parti sociali",
       "statoAttuale": "inserito",
-      "dataSegnalazione": "2026-09-06",
+      "dataSegnalazione": "2026-09-10",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_trasferire",
       "note": "Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)",
-      "transferResult": "mock_transferred"
+      "transferResult": "error",
+      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
     },
     {
-      "recordId": "rec_seg_5_already_done",
-      "url": "https://www.domoticasociale.it/it/news-ed-eventi/al-centro-domos-la-postazione-informatica-accessibile-048.html",
-      "cleanUrl": "https://www.domoticasociale.it/it/news-ed-eventi/al-centro-domos-la-postazione-informatica-accessibile-048.html",
-      "nota": "Già inserita e presente in Notizie",
+      "recordId": "rechy2PgToVMZaOvG",
+      "url": "La notizia https://www.ilmessaggero.it/economia/schede/legge_104_permessi_doppi_giorni_mese_novita_ultime_notizie-9750597.html",
+      "cleanUrl": "https://www.ilmessaggero.it/economia/schede/legge_104_permessi_doppi_giorni_mese_novita_ultime_notizie-9750597.html",
+      "nota": "Legge 104, i permessi possono raddoppiare: fino a 6 giorni al mese",
       "statoAttuale": "inserito",
-      "dataSegnalazione": "2026-09-03",
-      "existsInNotizie": true,
-      "notiziaMatch": {
-        "id": "domotica-sociale-domos-postazione-informatica-accessibile-2026-09-03",
-        "stato": "pubblicata",
-        "titolo": "Tecnologie accessibili: al centro Domos una postazione informatica per sperimentare gli ausili"
-      },
-      "decision": "gia_presente_in_notizie"
+      "dataSegnalazione": "2026-09-08",
+      "existsInNotizie": false,
+      "notiziaMatch": null,
+      "decision": "da_trasferire",
+      "note": "Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)",
+      "transferResult": "error",
+      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
     }
   ]
 }
