@@ -1,0 +1,15 @@
+[
+  {
+    "timestamp": "2026-09-10T10:30:31.151Z",
+    "timestampRome": "10/09/2026, 12:30:31",
+    "dateStr": "10 settembre 2026",
+    "dateIso": "2026-09-10",
+    "recipient": "segreteria@coinsieme.it",
+    "sender": "onboarding@resend.dev",
+    "subject": "Briefing notizie COINSIEME - 10 settembre 2026",
+    "resendMessageId": "af48459d-e5df-4eef-9958-4d7cad33325b",
+    "httpStatus": 200,
+    "candidateCount": 8,
+    "status": "sent"
+  }
+]

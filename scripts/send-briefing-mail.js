@@ -1,13 +1,20 @@
 /**
  * Invio Mail Briefing Quotidiano Rassegna News alle 6:30 (Europe/Rome)
- * Fondazione COINSIEME ETS
+ * Fondazione COINSIEME ETS — "Cosa si muove intorno a noi"
  *
- * Legge da Airtable solo i record con stato "proposta" o "da_verificare".
- * Non genera notizie nuove e non invia email se non ci sono record candidati.
+ * Flusso:
+ * 1. Legge da Airtable i record candidati ("da_valutare", "segnalata");
+ * 2. Applica il controllo ANTI-DUPLICATO (stessa data, stesso destinatario, stesso oggetto);
+ * 3. Se il briefing odierno è già stato inviato con successo, l'invio viene SALTATO;
+ * 4. Solo se nuovo (o forzato esplicitamente via --force-duplicate), invia tramite Resend;
+ * 5. Registra data, ora, destinatario, mittente, Resend Message ID e stato HTTP in briefing-dispatch-log.json.
  */
 
 const fs = require('fs');
 const path = require('path');
+
+const root = path.resolve(__dirname, '..');
+const dispatchLogPath = path.join(root, 'content', 'rassegna', 'briefing-dispatch-log.json');
 
 function getFormattedDateRome(date = new Date()) {
   return new Intl.DateTimeFormat('it-IT', {
@@ -15,6 +22,15 @@ function getFormattedDateRome(date = new Date()) {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
+  }).format(date);
+}
+
+function getIsoDateRome(date = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Rome',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
   }).format(date);
 }
 
@@ -34,7 +50,6 @@ function getRomeTimeParts(date = new Date()) {
 
 function isRomeTimeWindow(date = new Date()) {
   const { hours, minutes } = getRomeTimeParts(date);
-  // Nella finestra del mattino 06:15 - 06:59 Europe/Rome (copre sia CEST che CET ed eventuali code GitHub Actions)
   return hours === 6 && minutes >= 15;
 }
 
@@ -45,6 +60,42 @@ function escapeHtml(value = '') {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+function loadDispatchLog(customPath = dispatchLogPath) {
+  try {
+    if (fs.existsSync(customPath)) {
+      const raw = fs.readFileSync(customPath, 'utf8').replace(/^\uFEFF/, '');
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn('[Briefing Log] Attenzione nella lettura del log dispatch:', e.message);
+  }
+  return [];
+}
+
+function saveDispatchLog(entries, customPath = dispatchLogPath) {
+  try {
+    const dir = path.dirname(customPath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(customPath, JSON.stringify(entries, null, 2) + '\n', 'utf8');
+  } catch (e) {
+    console.warn('[Briefing Log] Impossibile salvare il log dispatch:', e.message);
+  }
+}
+
+function findExistingSuccessfulDispatch(entries, dateIso, dateStr, recipient, subject) {
+  const normRecipient = String(recipient).trim().toLowerCase();
+  const normSubject = String(subject).trim().toLowerCase();
+
+  return entries.find(e =>
+    e.status === 'sent' &&
+    Boolean(e.resendMessageId) &&
+    (e.dateIso === dateIso || e.dateStr === dateStr) &&
+    String(e.recipient).trim().toLowerCase() === normRecipient &&
+    String(e.subject).trim().toLowerCase() === normSubject
+  );
 }
 
 function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
@@ -195,7 +246,6 @@ async function fetchCandidateRecords(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    // Filtro su record candidati: da_valutare, segnalata (e retrocompatibilità proposta, da_verificare)
     params.set('filterByFormula', "OR(LOWER({stato}) = 'da_valutare', LOWER({stato}) = 'segnalata', LOWER({stato}) = 'proposta', LOWER({stato}) = 'da_verificare', LOWER({Stato}) = 'da_valutare', LOWER({Stato}) = 'segnalata')");
     params.set('sort[0][field]', 'data_fonte');
     params.set('sort[0][direction]', 'desc');
@@ -226,8 +276,8 @@ async function fetchCandidateRecords(token, baseId, tableName) {
 }
 
 async function sendViaResend(apiKey, sender, recipient, subject, html) {
-  let fromAddress = sender || 'briefing@coinsieme.it';
-  const toList = (Array.isArray(recipient) ? recipient : String(recipient).split(',')).map(s => s.trim()).filter(Boolean);
+  let fromAddress = sender || 'onboarding@resend.dev';
+  const toList = [String(recipient).trim()];
   const replyTo = 'segreteria@coinsieme.it';
 
   let res = await fetch('https://api.resend.com/emails', {
@@ -245,10 +295,12 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
     })
   });
 
+  let responseBody = '';
   if (!res.ok) {
-    const errorBody = await res.text();
-    if (fromAddress !== 'onboarding@resend.dev' && (errorBody.includes('domain') || errorBody.includes('validation') || res.status === 403 || res.status === 422)) {
-      console.warn(`[Briefing Mail] Mittente "${fromAddress}" richiede verifica dominio su Resend. Tentativo di fallback con "onboarding@resend.dev"...`);
+    responseBody = await res.text();
+    if (fromAddress !== 'onboarding@resend.dev' && (responseBody.includes('domain') || responseBody.includes('validation') || res.status === 403 || res.status === 422)) {
+      console.warn(`[Briefing Mail] Mittente "${fromAddress}" richiede verifica dominio su Resend. Fallback su "onboarding@resend.dev"...`);
+      fromAddress = 'onboarding@resend.dev';
       res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -272,18 +324,23 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
   }
 
   const result = await res.json();
-  return result;
+  return {
+    id: result.id,
+    httpStatus: res.status,
+    senderUsed: fromAddress
+  };
 }
 
 async function main(options = {}) {
   const isScheduled = process.env.GITHUB_EVENT_NAME === 'schedule';
   const forceRun = options.force || process.argv.includes('--force') || process.env.FORCE_BRIEFING === 'true' || !isScheduled;
+  const forceDuplicate = options.forceDuplicate || process.argv.includes('--force-duplicate') || process.env.FORCE_RESEND_DUPLICATE === 'true';
 
   // 1. Controllo Timezone Europe/Rome
   if (!forceRun) {
     if (!isRomeTimeWindow()) {
       const { hours, minutes } = getRomeTimeParts();
-      console.log(`[Briefing Mail] Ora italiana corrente: ${hours}:${String(minutes).padStart(2, '0')}. Esecuzione non pertinente per questo slot orario. Terminato con successo.`);
+      console.log(`[Briefing Mail] Ora italiana corrente: ${hours}:${String(minutes).padStart(2, '0')}. Esecuzione non pertinente per questo slot orario. Terminato.`);
       return { skipped: true, reason: 'outside_time_window' };
     }
   }
@@ -293,8 +350,12 @@ async function main(options = {}) {
   const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
   const viewUrl = options.viewUrl || process.env.AIRTABLE_VIEW_URL || 'https://airtable.com';
   const resendApiKey = options.resendApiKey || process.env.RESEND_API_KEY;
-  const recipient = options.recipient || process.env.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it';
-  const sender = options.sender || process.env.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it';
+
+  // Unico destinatario rigoroso: segreteria@coinsieme.it
+  const recipient = (options.recipient || process.env.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it').trim();
+  const sender = (options.sender || process.env.BRIEFING_SENDER_EMAIL || 'onboarding@resend.dev').trim();
+
+  const customLogPath = options.dispatchLogPath || dispatchLogPath;
 
   let candidateRecords = [];
   let segnalazioniRecords = [];
@@ -316,40 +377,139 @@ async function main(options = {}) {
 
   console.log(`[Briefing Mail] Notizie candidate trovate: ${candidateRecords.length}, Segnalazioni trovate: ${segnalazioniRecords.length}`);
 
-  // 2. Controllo: nessuna notizia candidata e nessuna segnalazione -> non inviare
+  // 2. Controllo: nessuna notizia candidata e nessuna segnalazione -> skip
   if (candidateRecords.length === 0 && segnalazioniRecords.length === 0) {
     console.log('[Briefing Mail] Nessuna notizia o segnalazione in attesa. Nessuna email inviata.');
     return { skipped: true, reason: 'no_candidate_records' };
   }
 
-  const dateStr = getFormattedDateRome();
+  const dateStr = options.customDateStr || getFormattedDateRome();
+  const dateIso = options.customDateIso || getIsoDateRome();
   const subject = `Briefing notizie COINSIEME - ${dateStr}`;
+
+  // 3. CONTROLLO ANTI-DUPLICATO
+  const dispatchLog = loadDispatchLog(customLogPath);
+  const existingDispatch = findExistingSuccessfulDispatch(dispatchLog, dateIso, dateStr, recipient, subject);
+
+  if (existingDispatch && !forceDuplicate) {
+    console.log('\n======================================================================');
+    console.log(' BRIEFING GIÀ INVIATO OGGI — INVIO SALTATO (ANTI-DUPLICATO ATTIVO)');
+    console.log('======================================================================');
+    console.log(`  - Data briefing: ${dateStr} (${dateIso})`);
+    console.log(`  - Destinatario unico: ${recipient}`);
+    console.log(`  - Oggetto: ${subject}`);
+    console.log(`  - Resend Message ID precedente: ${existingDispatch.resendMessageId}`);
+    console.log(`  - Inviato precedentemente il: ${existingDispatch.timestampRome || existingDispatch.timestamp}`);
+    console.log('  - Esito: NESSUNA NUOVA MAIL RICHIESTA A RESEND (Invio protetto da duplicazione).');
+    console.log('======================================================================\n');
+
+    return {
+      sent: false,
+      skipped: true,
+      reason: 'already_sent_today',
+      existing: existingDispatch
+    };
+  }
+
+  if (existingDispatch && forceDuplicate) {
+    console.log(`[Briefing Anti-Duplicato] AVVISO: Invio duplicato forzato esplicitamente per la data ${dateStr}.`);
+  }
+
   const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr, segnalazioniRecords);
 
   if (options.mockSend) {
-    console.log(`[Briefing Mail - MOCK SEND] Email generata con successo.`);
-    console.log(`  - Destinatario: ${recipient || 'mock@example.com'}`);
+    console.log('\n======================================================================');
+    console.log(' BRIEFING GENERATO CON SUCCESSO (MODALITÀ MOCK)');
+    console.log('======================================================================');
+    console.log(`  - Destinatario unico: ${recipient}`);
     console.log(`  - Oggetto: ${subject}`);
     console.log(`  - Notizie incluse: ${candidateRecords.length}`);
+    console.log('======================================================================\n');
     return { sent: true, mock: true, subject, count: candidateRecords.length, html: htmlContent };
   }
 
-  if (!resendApiKey || !recipient) {
-    throw new Error('RESEND_API_KEY e BRIEFING_RECIPIENT_EMAIL sono obbligatori per l\'invio reale della mail.');
+  if (!resendApiKey) {
+    throw new Error('RESEND_API_KEY è obbligatorio per l\'invio reale della mail.');
   }
 
-  console.log(`[Briefing Mail] Invio email a ${recipient} tramite Resend...`);
-  const resendResult = await sendViaResend(resendApiKey, sender, recipient, subject, htmlContent);
-  console.log(`[Briefing Mail] Email inviata con successo! ID Resend: ${resendResult.id}`);
+  console.log(`[Briefing Mail] Invio in corso di una NUOVA mail a ${recipient} tramite Resend...`);
+  const now = new Date();
+  const timestampIso = now.toISOString();
+  const timestampRome = now.toLocaleString('it-IT', { timeZone: 'Europe/Rome' });
 
-  return { sent: true, id: resendResult.id, count: candidateRecords.length };
+  try {
+    const resendResult = await sendViaResend(resendApiKey, sender, recipient, subject, htmlContent);
+
+    // Registra nel log di dispatch
+    const logEntry = {
+      timestamp: timestampIso,
+      timestampRome: timestampRome,
+      dateStr: dateStr,
+      dateIso: dateIso,
+      recipient: recipient,
+      sender: resendResult.senderUsed,
+      subject: subject,
+      resendMessageId: resendResult.id,
+      httpStatus: resendResult.httpStatus,
+      candidateCount: candidateRecords.length,
+      status: 'sent'
+    };
+
+    dispatchLog.push(logEntry);
+    saveDispatchLog(dispatchLog, customLogPath);
+
+    console.log('\n======================================================================');
+    console.log(' NUOVA EMAIL DI BRIEFING INVIATA CON SUCCESSO TRAMITE RESEND');
+    console.log('======================================================================');
+    console.log(`  - Tipo: Mail NUOVA realmente richiesta all'API Resend`);
+    console.log(`  - Destinatario unico: ${recipient}`);
+    console.log(`  - Mittente effettivo: ${resendResult.senderUsed}`);
+    console.log(`  - Oggetto: ${subject}`);
+    console.log(`  - Resend Message ID: ${resendResult.id}`);
+    console.log(`  - Risposta HTTP Resend: ${resendResult.httpStatus} OK`);
+    console.log(`  - Notizie candidate incluse: ${candidateRecords.length}`);
+    console.log(`  - Data/Ora invio (Italia): ${timestampRome}`);
+    console.log('======================================================================\n');
+
+    return {
+      sent: true,
+      newlySent: true,
+      id: resendResult.id,
+      recipient: recipient,
+      count: candidateRecords.length
+    };
+  } catch (err) {
+    const errorEntry = {
+      timestamp: timestampIso,
+      timestampRome: timestampRome,
+      dateStr: dateStr,
+      dateIso: dateIso,
+      recipient: recipient,
+      sender: sender,
+      subject: subject,
+      status: 'error',
+      errorMessage: err.message
+    };
+    dispatchLog.push(errorEntry);
+    saveDispatchLog(dispatchLog, customLogPath);
+    throw err;
+  }
 }
 
 if (require.main === module) {
   main().catch(err => {
-    console.error('[Briefing Mail] ERRORE:', err.message);
+    console.error('\n[Briefing Mail] ERRORE DI SPEDIZIONE:', err.message);
     process.exit(1);
   });
 }
 
-module.exports = { main, renderEmailHtml, isRomeTimeWindow, getFormattedDateRome };
+module.exports = {
+  main,
+  renderEmailHtml,
+  isRomeTimeWindow,
+  getFormattedDateRome,
+  getIsoDateRome,
+  loadDispatchLog,
+  saveDispatchLog,
+  findExistingSuccessfulDispatch
+};

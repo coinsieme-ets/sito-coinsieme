@@ -31,24 +31,24 @@ jobs:
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/fetch-rassegna-rss.js
 
-      - name: Invia Briefing Mail e Verifica Deliverability Resend
+      - name: Invia Briefing Mail alle 6:30 Europe/Rome (con Anti-Duplicato)
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
           AIRTABLE_VIEW_URL: ${{ secrets.AIRTABLE_VIEW_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it' }}
-          BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it' }}
+          BRIEFING_RECIPIENT_EMAIL: 'segreteria@coinsieme.it'
+          BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'onboarding@resend.dev' }}
           FORCE_BRIEFING: 'true'
-        run: node scripts/diagnose-resend-and-send.js
+        run: node scripts/send-briefing-mail.js
 
-      - name: Salva Report Deliverability nel Repository
+      - name: Persisti Log Dispatch Briefing nel Repository
         if: always()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main || true
-          git add content/rassegna/resend-audit-report.json content/rassegna/candidati-in-attesa.json || true
-          git commit -m "docs(audit): aggiorna report deliverability resend [skip ci]" || echo "Nessuna modifica da committare"
+          git add content/rassegna/briefing-dispatch-log.json content/rassegna/candidati-in-attesa.json || true
+          git commit -m "docs(briefing): aggiorna registro invii rassegna [skip ci]" || echo "Nessuna modifica da committare"
           git push origin main
