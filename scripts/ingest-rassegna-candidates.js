@@ -367,10 +367,7 @@ async function ingestCandidates(options = {}) {
 
 async function fetchSegnalazioniDaValutare(token, baseId, tableName = 'Segnalazioni Maurizio') {
   try {
-    const params = new URLSearchParams();
-    params.set('filterByFormula', "OR({stato} = 'da_valutare', {stato} = '', {Stato} = 'da_valutare')");
-    params.set('pageSize', '50');
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?pageSize=100`;
     const res = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -379,7 +376,11 @@ async function fetchSegnalazioniDaValutare(token, baseId, tableName = 'Segnalazi
     });
     if (!res.ok) return [];
     const data = await res.json();
-    return Array.isArray(data.records) ? data.records : [];
+    const records = Array.isArray(data.records) ? data.records : [];
+    return records.filter(seg => {
+      const s = String(seg.fields?.stato || seg.fields?.Stato || '').trim().toLowerCase();
+      return s !== 'scartata' && s !== 'scartato' && s !== 'trasferita_in_notizie' && s !== 'trasferito';
+    });
   } catch (e) {
     return [];
   }

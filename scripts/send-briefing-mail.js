@@ -220,12 +220,25 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
   `.trim();
 }
 
+function normalizeUrl(rawUrl = '') {
+  if (!rawUrl) return '';
+  const cleanStr = String(rawUrl).trim();
+  try {
+    const parsed = new URL(cleanStr);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'ref', 'source', 'fbclid', 'gclid'].forEach(p => {
+      parsed.searchParams.delete(p);
+    });
+    let normalized = parsed.origin.toLowerCase() + parsed.pathname.replace(/\/+$/, '').toLowerCase();
+    if (parsed.search) normalized += parsed.search.toLowerCase();
+    return normalized;
+  } catch (e) {
+    return cleanStr.toLowerCase().replace(/\/+$/, '');
+  }
+}
+
 async function fetchSegnalazioniRecords(token, baseId, tableName = 'Segnalazioni Maurizio') {
   try {
-    const params = new URLSearchParams();
-    params.set('filterByFormula', "OR({stato} = 'da_valutare', {stato} = '', {Stato} = 'da_valutare')");
-    params.set('pageSize', '50');
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?pageSize=100`;
     const res = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -234,7 +247,41 @@ async function fetchSegnalazioniRecords(token, baseId, tableName = 'Segnalazioni
     });
     if (!res.ok) return [];
     const data = await res.json();
-    return Array.isArray(data.records) ? data.records : [];
+    const allSegnalazioni = Array.isArray(data.records) ? data.records : [];
+
+    // Recupera le notizie esistenti per verificare se 'inserito' è reale
+    let existingNotizieUrls = new Set();
+    try {
+      const notizieRes = await fetch(`https://api.airtable.com/v0/${baseId}/Notizie?fields[]=url_fonte&pageSize=100`, {
+        headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+      });
+      if (notizieRes.ok) {
+        const notData = await notizieRes.json();
+        if (Array.isArray(notData.records)) {
+          notData.records.forEach(r => {
+            const u = normalizeUrl(r.fields?.url_fonte);
+            if (u) existingNotizieUrls.add(u);
+          });
+        }
+      }
+    } catch (e) {}
+
+    return allSegnalazioni.filter(seg => {
+      const s = String(seg.fields?.stato || seg.fields?.Stato || '').trim().toLowerCase();
+      // Scartata o trasferita_in_notizie -> escludi
+      if (s === 'scartata' || s === 'scartato' || s === 'trasferita_in_notizie' || s === 'trasferito') {
+        return false;
+      }
+      // Se marcata 'inserito' o 'inserita', escludi SOLO SE esiste realmente in Notizie
+      if (s === 'inserito' || s === 'inserita') {
+        const segUrl = normalizeUrl(seg.fields?.url_articolo || seg.fields?.url || '');
+        if (segUrl && existingNotizieUrls.has(segUrl)) {
+          return false;
+        }
+      }
+      // Tutte le altre (nuove, da_valutare, presa_in_carico, vuote, o inserito orfano) -> INCLUDI NEL BRIEFING!
+      return true;
+    });
   } catch (e) {
     return [];
   }

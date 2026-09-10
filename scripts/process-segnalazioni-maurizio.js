@@ -1,22 +1,22 @@
 /**
- * Elaborazione Automatica e Pubblicazione Diretta Segnalazioni di Maurizio
+ * Elaborazione Automatica e Trasferimento Segnalazioni di Maurizio in Notizie
  * Fondazione COINSIEME ETS — Rassegna News "Cosa si muove intorno a noi"
  *
- * DEROGA EDITORIALE:
- * Quando Maurizio inserisce direttamente un link nella tabella "Segnalazioni Maurizio",
- * si tratta di una sua scelta editoriale diretta.
- * Il sistema:
- * 1. Estrae automaticamente i metadati dal link (titolo, sintesi, fonte, data);
- * 2. Compila la scheda completa;
- * 3. Inserisce la notizia nella tabella "Notizie" direttamente con stato "approvata";
- * 4. Aggiorna lo stato della segnalazione in "inserito";
- * 5. Avvia la pubblicazione sul sito senza richiedere ulteriori passaggi di approvazione.
+ * Logica e Regole di Governance:
+ * 1. Le segnalazioni nuove o in attesa ("da_valutare", "presa_in_carico", o vuote) vengono elaborate e trasferite in "Notizie".
+ * 2. Se una segnalazione ha stato "inserito", lo script verifica se la notizia esiste REALMENTE in "Notizie":
+ *    - Se esiste già: aggiorna lo stato della segnalazione in "trasferita_in_notizie" per coerenza.
+ *    - Se NON esiste in "Notizie": non la considera conclusa e procede al trasferimento effettivo.
+ * 3. Dopo il trasferimento avvenuto con successo in "Notizie", la segnalazione viene marcata come "trasferita_in_notizie".
+ * 4. Le segnalazioni marcate come "scartata" vengono escluse e non vengono trasferite.
+ * 5. Viene mantenuto il collegamento tra la segnalazione e la notizia creata (tramite ID segnalazione in rilevanza_coinsieme).
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
+const auditReportPath = path.join(root, 'content', 'rassegna', 'segnalazioni-audit-report.json');
 
 function slugify(text = '') {
   return String(text)
@@ -26,6 +26,22 @@ function slugify(text = '') {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 60);
+}
+
+function normalizeUrl(rawUrl = '') {
+  if (!rawUrl) return '';
+  const cleanStr = String(rawUrl).trim();
+  try {
+    const parsed = new URL(cleanStr);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'ref', 'source', 'fbclid', 'gclid'].forEach(p => {
+      parsed.searchParams.delete(p);
+    });
+    let normalized = parsed.origin.toLowerCase() + parsed.pathname.replace(/\/+$/, '').toLowerCase();
+    if (parsed.search) normalized += parsed.search.toLowerCase();
+    return normalized;
+  } catch (e) {
+    return cleanStr.toLowerCase().replace(/\/+$/, '');
+  }
 }
 
 function cleanHtmlText(html = '') {
@@ -39,6 +55,7 @@ function cleanHtmlText(html = '') {
     .replace(/&lsquo;/g, "'")
     .replace(/&ldquo;/g, '"')
     .replace(/&rdquo;/g, '"')
+    .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -108,7 +125,6 @@ async function fetchMetadataFromUrl(url) {
       dateStr = ogTime[1].slice(0, 10);
     }
     if (!dateStr) {
-      // Cerca data nell'URL (es. /2026/09/04/)
       const urlDate = url.match(/\b(202[4-9])\/(\d{2})\/(\d{2})\b/) || url.match(/\b(202[4-9])-(\d{2})-(\d{2})\b/);
       if (urlDate) {
         dateStr = `${urlDate[1]}-${urlDate[2]}-${urlDate[3]}`;
@@ -155,15 +171,65 @@ function fallbackMetadata(url) {
     title: `Aggiornamento da ${domain}`,
     summary: `Segnalazione diretta di approfondimento su ${domain}.`,
     source: domain,
-    date: today
+    date: today,
+    image: ''
   };
 }
 
-async function fetchSegnalazioniDaPubblicare(token, baseId, tableName = 'Segnalazioni Maurizio') {
-  try {
+async function fetchAllNotizieUrls(token, baseId, tableName = 'Notizie') {
+  const records = [];
+  let offset = null;
+
+  do {
     const params = new URLSearchParams();
-    params.set('filterByFormula', "OR({stato} = 'da_valutare', {stato} = '', {Stato} = 'da_valutare', {stato} = 'da_pubblicare')");
-    params.set('pageSize', '50');
+    params.set('fields[]', 'url_fonte');
+    params.set('fields[]', 'id');
+    params.set('fields[]', 'titolo_editoriale');
+    params.set('fields[]', 'stato');
+    params.set('pageSize', '100');
+    if (offset) params.set('offset', offset);
+
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.warn(`[Segnalazioni] Impossibile leggere record Notizie (${res.status}): ${errText}`);
+      break;
+    }
+
+    const data = await res.json();
+    if (Array.isArray(data.records)) {
+      data.records.forEach(r => {
+        records.push({
+          airtableId: r.id,
+          id: r.fields?.id || '',
+          url_fonte: r.fields?.url_fonte || '',
+          normalizedUrl: normalizeUrl(r.fields?.url_fonte || ''),
+          titolo_editoriale: r.fields?.titolo_editoriale || '',
+          stato: r.fields?.stato || ''
+        });
+      });
+    }
+    offset = data.offset || null;
+  } while (offset);
+
+  return records;
+}
+
+async function fetchAllSegnalazioni(token, baseId, tableName = 'Segnalazioni Maurizio') {
+  const records = [];
+  let offset = null;
+
+  do {
+    const params = new URLSearchParams();
+    params.set('pageSize', '100');
+    if (offset) params.set('offset', offset);
 
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
     const res = await fetch(url, {
@@ -176,20 +242,23 @@ async function fetchSegnalazioniDaPubblicare(token, baseId, tableName = 'Segnala
     if (!res.ok) {
       const errText = await res.text();
       console.warn(`[Segnalazioni] Tabella "${tableName}" non raggiungibile (${res.status}): ${errText}`);
-      return [];
+      break;
     }
 
     const data = await res.json();
-    return Array.isArray(data.records) ? data.records : [];
-  } catch (e) {
-    return [];
-  }
+    if (Array.isArray(data.records)) {
+      records.push(...data.records);
+    }
+    offset = data.offset || null;
+  } while (offset);
+
+  return records;
 }
 
 async function updateSegnalazioneStato(token, baseId, tableName, recordId, newStato) {
   try {
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
-    await fetch(url, {
+    const res = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -201,8 +270,14 @@ async function updateSegnalazioneStato(token, baseId, tableName, recordId, newSt
         }
       })
     });
+    if (!res.ok) {
+      const err = await res.text();
+      console.warn(`[Segnalazioni] Errore aggiornamento stato segnalazione ${recordId} in "${newStato}": ${err}`);
+    } else {
+      console.log(`    ✓ Segnalazione ${recordId} aggiornata con stato: "${newStato}"`);
+    }
   } catch (e) {
-    // silent
+    console.warn(`[Segnalazioni] Eccezione aggiornamento stato segnalazione ${recordId}: ${e.message}`);
   }
 }
 
@@ -221,7 +296,7 @@ async function insertIntoNotizie(token, baseId, tableName, recordFields) {
 
   if (!res.ok) {
     const errText = await res.text();
-    throw new Error(`Errore inserimento notizia approvata in Airtable (${res.status}): ${errText}`);
+    throw new Error(`Errore inserimento notizia in Airtable (${res.status}): ${errText}`);
   }
 
   const data = await res.json();
@@ -234,48 +309,131 @@ async function processSegnalazioniMaurizio(options = {}) {
   const segnalazioniTable = options.segnalazioniTable || 'Segnalazioni Maurizio';
   const notizieTable = options.notizieTable || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
 
-  console.log('[Segnalazioni Maurizio] Controllo nuove segnalazioni da pubblicare direttamente...');
+  console.log('======================================================================');
+  console.log(' ELABORAZIONE SEGNALAZIONI MAURIZIO & TRASFERIMENTO IN NOTIZIE');
+  console.log('======================================================================\n');
 
   let rawSegnalazioni = [];
+  let existingNotizie = [];
+
   if (options.mockSegnalazioni) {
     rawSegnalazioni = options.mockSegnalazioni;
+    existingNotizie = options.mockNotizie || [];
   } else {
     if (!token || !baseId) {
       console.log('[Segnalazioni Maurizio] Token o Base ID mancanti. Operazione terminata.');
-      return { processed: 0 };
+      return { processed: 0, skipped: 0, total: 0 };
     }
-    rawSegnalazioni = await fetchSegnalazioniDaPubblicare(token, baseId, segnalazioniTable);
+    existingNotizie = await fetchAllNotizieUrls(token, baseId, notizieTable);
+    rawSegnalazioni = await fetchAllSegnalazioni(token, baseId, segnalazioniTable);
   }
 
-  if (rawSegnalazioni.length === 0) {
-    console.log('[Segnalazioni Maurizio] Nessuna nuova segnalazione in attesa.');
-    return { processed: 0 };
-  }
+  console.log(`[Segnalazioni Maurizio] Totale segnalazioni lette da Airtable: ${rawSegnalazioni.length}`);
+  console.log(`[Segnalazioni Maurizio] Totale notizie esistenti in "${notizieTable}": ${existingNotizie.length}\n`);
 
-  console.log(`[Segnalazioni Maurizio] Trovate ${rawSegnalazioni.length} segnalazioni da elaborare per pubblicazione diretta.`);
+  const existingNotizieUrlMap = new Map();
+  existingNotizie.forEach(n => {
+    if (n.normalizedUrl) existingNotizieUrlMap.set(n.normalizedUrl, n);
+  });
 
-  const processedRecords = [];
+  const auditLog = {
+    timestamp: new Date().toISOString(),
+    totalSegnalazioni: rawSegnalazioni.length,
+    totalNotizie: existingNotizie.length,
+    segnalazioni: []
+  };
+
+  const toTransfer = [];
+  const alreadyTransferred = [];
+  const discarded = [];
 
   for (const seg of rawSegnalazioni) {
     const f = seg.fields || seg;
     const rawUrl = (f.url_articolo || f.url || '').trim();
-    if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
-      console.warn(`  - Segnalazione record ${seg.id || ''} ignorata: URL non valido (${rawUrl})`);
+    const normUrl = normalizeUrl(rawUrl);
+    const rawStato = String(f.stato || f.Stato || '').trim().toLowerCase();
+    const nota = (f.nota || f.note || '').trim();
+    const dataSeg = (f.data_segnalazione || f.data || '').trim();
+
+    const existsInNotizie = normUrl ? existingNotizieUrlMap.get(normUrl) : null;
+
+    const auditItem = {
+      recordId: seg.id,
+      url: rawUrl,
+      nota: nota,
+      statoAttuale: rawStato || '(vuoto)',
+      dataSegnalazione: dataSeg,
+      existsInNotizie: Boolean(existsInNotizie),
+      notiziaMatch: existsInNotizie ? { id: existsInNotizie.id, stato: existsInNotizie.stato, titolo: existsInNotizie.titolo_editoriale } : null
+    };
+
+    // Caso 1: Scartata
+    if (rawStato === 'scartata' || rawStato === 'scartato') {
+      auditItem.decision = 'scartata_esclusa';
+      discarded.push(auditItem);
+      auditLog.segnalazioni.push(auditItem);
+      console.log(`  - [SCARTATA] Record ${seg.id} (${rawUrl}) esclusa.`);
       continue;
     }
 
+    // Caso 2: Esiste già realmente in Notizie
+    if (existsInNotizie) {
+      auditItem.decision = 'gia_presente_in_notizie';
+      if (rawStato !== 'trasferita_in_notizie' && !options.mock && token) {
+        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Aggiornamento a 'trasferita_in_notizie'...`);
+        await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'trasferita_in_notizie');
+      }
+      alreadyTransferred.push(auditItem);
+      auditLog.segnalazioni.push(auditItem);
+      continue;
+    }
+
+    // Caso 3: URL non valido
+    if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
+      auditItem.decision = 'url_non_valido_scartata';
+      console.warn(`  - [URL NON VALIDO] Record ${seg.id} ignorato: "${rawUrl}"`);
+      auditLog.segnalazioni.push(auditItem);
+      continue;
+    }
+
+    // Caso 4: Da trasferire (inclusi casi in cui stato era 'inserito' ma non esisteva in Notizie!)
+    auditItem.decision = 'da_trasferire';
+    if (rawStato === 'inserito' || rawStato === 'inserita') {
+      auditItem.note = 'Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)';
+      console.log(`  - [RECUPERO ORFANO] Record ${seg.id} aveva stato 'inserito' ma non era presente in Notizie. Procedo al trasferimento.`);
+    } else {
+      console.log(`  - [NUOVA SEGNALAZIONE DA TRASFERIRE] Record ${seg.id} (${rawUrl})`);
+    }
+
+    toTransfer.push({ seg, auditItem });
+    auditLog.segnalazioni.push(auditItem);
+  }
+
+  console.log(`\n[Segnalazioni Maurizio] Riepilogo analisi:`);
+  console.log(`  - Già presenti in Notizie: ${alreadyTransferred.length}`);
+  console.log(`  - Scartate: ${discarded.length}`);
+  console.log(`  - Da trasferire ora in Notizie: ${toTransfer.length}\n`);
+
+  const newlyCreatedRecords = [];
+
+  for (const item of toTransfer) {
+    const seg = item.seg;
+    const f = seg.fields || seg;
+    const rawUrl = (f.url_articolo || f.url || '').trim();
     const nota = (f.nota || f.note || '').trim();
     const categoria = (f.categoria || 'Welfare e autonomia').trim();
 
     console.log(`  - Elaborazione link di Maurizio: ${rawUrl} ...`);
     const meta = await fetchMetadataFromUrl(rawUrl);
 
-    const dataFonte = meta.date;
+    const dataFonte = meta.date || new Date().toISOString().slice(0, 10);
     const titoloEditoriale = meta.title;
     const titoloOriginale = meta.title;
     const fonte = meta.source;
     const sintesi = meta.summary;
-    const rilevanza = nota ? `Segnalato da Maurizio: ${nota}` : `Segnalazione diretta di Maurizio per la rassegna COINSIEME.`;
+    const rilevanza = nota 
+      ? `Segnalazione diretta di Maurizio (Ref ID: ${seg.id}): ${nota}` 
+      : `Segnalazione diretta di Maurizio (Ref ID: ${seg.id}) per la rassegna COINSIEME.`;
 
     const id = `${slugify(fonte)}-${slugify(titoloEditoriale).slice(0, 30)}-${dataFonte}`;
 
@@ -291,7 +449,7 @@ async function processSegnalazioniMaurizio(options = {}) {
       sintesi_editoriale: sintesi,
       rilevanza_coinsieme: rilevanza,
       immagine_in_evidenza: meta.image || '',
-      stato: 'pubblica', // DEROGA ESPLICITA: Pubblicazione diretta perché inserita da Maurizio (il sync la trasformerà in 'pubblicata')
+      stato: 'pubblica', // Deroga editoriale esplicita di Maurizio: va in pubblicazione diretta
       priorita: 'alta',
       posizione_sito: 'home_evidenza',
       ordine_editoriale: 10,
@@ -299,23 +457,44 @@ async function processSegnalazioniMaurizio(options = {}) {
     };
 
     if (options.mock) {
-      console.log(`    [MOCK] Notizia creata come APPROVATA: "${titoloEditoriale}" (${fonte})`);
-      processedRecords.push(notiziaApprovata);
+      console.log(`    [MOCK] Notizia creata: "${titoloEditoriale}" (${fonte})`);
+      newlyCreatedRecords.push(notiziaApprovata);
+      item.auditItem.transferResult = 'mock_transferred';
       continue;
     }
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'inserito');
-      console.log(`    ✓ Notizia inserita in "${notizieTable}" come APPROVATA ed impostata come inserita in "${segnalazioniTable}".`);
-      processedRecords.push(notiziaApprovata);
+      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'trasferita_in_notizie');
+      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e segnalazione marcata come "trasferita_in_notizie".`);
+      newlyCreatedRecords.push(notiziaApprovata);
+      item.auditItem.transferResult = 'success';
+      item.auditItem.createdNotiziaId = id;
     } catch (err) {
       console.error(`    ✗ Errore salvataggio notizia per ${rawUrl}: ${err.message}`);
+      item.auditItem.transferResult = 'error';
+      item.auditItem.error = err.message;
     }
   }
 
-  console.log(`[Segnalazioni Maurizio] Completata elaborazione: ${processedRecords.length} notizie pubblicate direttamente.`);
-  return { processed: processedRecords.length, records: processedRecords };
+  // Salva audit report
+  try {
+    const dir = path.dirname(auditReportPath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(auditReportPath, JSON.stringify(auditLog, null, 2) + '\n', 'utf8');
+    console.log(`\n[Segnalazioni Maurizio] Report audit salvato in: ${auditReportPath}`);
+  } catch (e) {
+    console.warn('[Segnalazioni Maurizio] Impossibile salvare audit report:', e.message);
+  }
+
+  console.log(`\n[Segnalazioni Maurizio] Operazione completata: ${newlyCreatedRecords.length} nuove notizie trasferite in Notizie.\n`);
+  return {
+    processed: newlyCreatedRecords.length,
+    alreadyTransferred: alreadyTransferred.length,
+    discarded: discarded.length,
+    records: newlyCreatedRecords,
+    auditLog
+  };
 }
 
 if (require.main === module) {
@@ -328,5 +507,8 @@ if (require.main === module) {
 module.exports = {
   processSegnalazioniMaurizio,
   fetchMetadataFromUrl,
-  extractDomainName
+  extractDomainName,
+  normalizeUrl,
+  fetchAllSegnalazioni,
+  fetchAllNotizieUrls
 };
