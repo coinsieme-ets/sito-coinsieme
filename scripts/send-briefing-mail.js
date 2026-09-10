@@ -227,6 +227,9 @@ async function fetchCandidateRecords(token, baseId, tableName) {
 
 async function sendViaResend(apiKey, sender, recipient, subject, html) {
   let fromAddress = sender || 'briefing@coinsieme.it';
+  const toList = (Array.isArray(recipient) ? recipient : String(recipient).split(',')).map(s => s.trim()).filter(Boolean);
+  const replyTo = 'segreteria@coinsieme.it';
+
   let res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -235,7 +238,8 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
     },
     body: JSON.stringify({
       from: fromAddress,
-      to: [recipient],
+      to: toList,
+      reply_to: replyTo,
       subject: subject,
       html: html
     })
@@ -253,7 +257,8 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
         },
         body: JSON.stringify({
           from: 'onboarding@resend.dev',
-          to: [recipient],
+          to: toList,
+          reply_to: replyTo,
           subject: subject,
           html: html
         })
