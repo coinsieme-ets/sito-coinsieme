@@ -48,6 +48,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
           git add content/rassegna/resend-audit-report.json content/rassegna/candidati-in-attesa.json || true
           git commit -m "docs(audit): aggiorna report deliverability resend [skip ci]" || echo "Nessuna modifica da committare"
-          git push || echo "Push non necessario o fallito"
+          git push origin main
