@@ -34,7 +34,8 @@ function getRomeTimeParts(date = new Date()) {
 
 function isRomeTimeWindow(date = new Date()) {
   const { hours, minutes } = getRomeTimeParts(date);
-  return hours === 6 && minutes >= 20 && minutes <= 40;
+  // Nella finestra del mattino 06:15 - 06:59 Europe/Rome (copre sia CEST che CET ed eventuali code GitHub Actions)
+  return hours === 6 && minutes >= 15;
 }
 
 function escapeHtml(value = '') {
@@ -56,11 +57,11 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
     const url = escapeHtml(f.url_fonte || '#');
     const sintesi = escapeHtml(f.sintesi_editoriale || '');
     const rilevanza = escapeHtml(f.rilevanza_coinsieme || '');
-    const stato = (f.stato || 'proposta').trim();
+    const stato = (f.stato || 'da_valutare').trim().toLowerCase();
 
-    let statoBadge = '<span style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700; background:#fef3c7; color:#92400e;">DA VERIFICARE</span>';
-    if (stato === 'proposta') {
-      statoBadge = '<span style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700; background:#e0f2fe; color:#0369a1;">PROPOSTA</span>';
+    let statoBadge = '<span style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700; background:#fef3c7; color:#92400e;">SEGNALATA</span>';
+    if (stato === 'da_valutare' || stato === 'proposta') {
+      statoBadge = '<span style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700; background:#e0f2fe; color:#0369a1;">DA VALUTARE</span>';
     }
 
     return `
@@ -194,8 +195,8 @@ async function fetchCandidateRecords(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    // Filtro su record 'proposta' o 'da_verificare'
-    params.set('filterByFormula', "OR({stato} = 'proposta', {stato} = 'da_verificare')");
+    // Filtro su record candidati: da_valutare, segnalata (e retrocompatibilità proposta, da_verificare)
+    params.set('filterByFormula', "OR(LOWER({stato}) = 'da_valutare', LOWER({stato}) = 'segnalata', LOWER({stato}) = 'proposta', LOWER({stato}) = 'da_verificare', LOWER({Stato}) = 'da_valutare', LOWER({Stato}) = 'segnalata')");
     params.set('sort[0][field]', 'data_fonte');
     params.set('sort[0][direction]', 'desc');
     params.set('pageSize', '100');
@@ -271,7 +272,7 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
 
 async function main(options = {}) {
   const isScheduled = process.env.GITHUB_EVENT_NAME === 'schedule';
-  const forceRun = options.force || process.argv.includes('--force') || !isScheduled;
+  const forceRun = options.force || process.argv.includes('--force') || process.env.FORCE_BRIEFING === 'true' || !isScheduled;
 
   // 1. Controllo Timezone Europe/Rome
   if (!forceRun) {
@@ -295,8 +296,8 @@ async function main(options = {}) {
 
   if (options.mockRecords) {
     candidateRecords = options.mockRecords.filter(r => {
-      const s = (r.fields?.stato || r.stato || '').trim();
-      return s === 'proposta' || s === 'da_verificare';
+      const s = (r.fields?.stato || r.stato || '').trim().toLowerCase();
+      return s === 'da_valutare' || s === 'segnalata' || s === 'proposta' || s === 'da_verificare';
     });
     segnalazioniRecords = options.mockSegnalazioni || [];
   } else {

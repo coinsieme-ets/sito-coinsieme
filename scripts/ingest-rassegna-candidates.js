@@ -154,11 +154,11 @@ function validateAndEnrichCandidate(item, existingRecords = []) {
   }
 
   // REGOLA: Nessun candidato entra mai come "approvata".
-  // Se mancano campi o c'è un possibile duplicato -> "da_verificare".
-  // Se completo, verificato e non duplicato -> "proposta".
-  let stato = 'proposta';
+  // Se mancano campi o c'è un possibile duplicato -> "segnalata".
+  // Se completo, verificato e non duplicato -> "da_valutare".
+  let stato = 'da_valutare';
   if (issues.length > 0 || isPotentialDuplicate) {
-    stato = 'da_verificare';
+    stato = 'segnalata';
   }
 
   return {
@@ -332,11 +332,11 @@ async function ingestCandidates(options = {}) {
 
     if (isPotentialDuplicate) {
       potentialDuplicatesCount++;
-      console.log(`  - [POSSIBILE DUPLICATO EDITORIALE -> DA VERIFICARE] "${record.titolo_editoriale}" (Simile a: "${similarityMatch.matchedTitle}")`);
+      console.log(`  - [POSSIBILE DUPLICATO EDITORIALE -> SEGNALATA] "${record.titolo_editoriale}" (Simile a: "${similarityMatch.matchedTitle}")`);
     } else if (!isValid) {
-      console.log(`  - [CAMPI INCOMPLETI -> DA VERIFICARE (${issues.join(', ')})] "${record.titolo_editoriale || 'Senza titolo'}"`);
+      console.log(`  - [CAMPI INCOMPLETI -> SEGNALATA (${issues.join(', ')})] "${record.titolo_editoriale || 'Senza titolo'}"`);
     } else {
-      console.log(`  - [PRONTO COME PROPOSTA] "${record.titolo_editoriale}" (${record.fonte})`);
+      console.log(`  - [PRONTO COME DA_VALUTARE] "${record.titolo_editoriale}" (${record.fonte})`);
     }
 
     toInsert.push(record);
@@ -345,7 +345,7 @@ async function ingestCandidates(options = {}) {
     existingRecords.push(record); // aggiorna la lista locale per confronti sequenziali
   }
 
-  console.log(`[Ingest Candidati] Riepilogo: ${toInsert.length} nuovi record pronti (${exactDuplicatesCount} duplicati certi esclusi, ${potentialDuplicatesCount} possibili duplicati editoriali contrassegnati come 'da_verificare').`);
+  console.log(`[Ingest Candidati] Riepilogo: ${toInsert.length} nuovi record pronti (${exactDuplicatesCount} duplicati certi esclusi, ${potentialDuplicatesCount} possibili duplicati editoriali contrassegnati come 'segnalata').`);
 
   if (toInsert.length === 0) {
     console.log('[Ingest Candidati] Nessun nuovo record da caricare su Airtable.');
