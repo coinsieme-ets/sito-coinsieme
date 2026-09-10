@@ -264,6 +264,17 @@ async function fetchAllSegnalazioni(token, baseId, tableName = 'Segnalazioni Mau
   return records;
 }
 
+function mapToCategory(title = '', desc = '', sourceCategory = '') {
+  const t = `${title} ${desc} ${sourceCategory}`.toLowerCase();
+  if (/domotic|tecnolog|software|digitale/i.test(t)) return 'Domotica & Tecnologia';
+  if (/lavoro|scuola|occupaz|formazione|capacit/i.test(t)) return 'Lavoro e inclusione';
+  if (/ricerca|duchenne|malatt|genet/i.test(t)) return 'Disabilità & Ricerca';
+  if (/cooperaz|coop/i.test(t)) return 'Cooperazione sociale';
+  if (/legge|decreto|riforma|inps|normativa|governo|istituzion/i.test(t)) return 'Riforma disabilita';
+  if (/caregiver|cura|anzian|famigli|abitare|casa|vulnerab/i.test(t)) return 'Welfare e cura';
+  return 'Welfare e Terzo Settore';
+}
+
 async function updateSegnalazioneStato(token, baseId, tableName, recordId, newStato) {
   try {
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
@@ -276,7 +287,8 @@ async function updateSegnalazioneStato(token, baseId, tableName, recordId, newSt
       body: JSON.stringify({
         fields: {
           stato: newStato
-        }
+        },
+        typecast: true
       })
     });
     if (!res.ok) {
@@ -294,7 +306,7 @@ function buildCleanNotiziePayload(record) {
   // Solo i campi supportati e valorizzati per evitare errori di schema Airtable
   const fields = {
     id: record.id,
-    categoria: record.categoria || 'Welfare e autonomia',
+    categoria: record.categoria || 'Welfare e Terzo Settore',
     data_fonte: record.data_fonte,
     titolo_originale: record.titolo_originale || record.titolo_editoriale,
     titolo_editoriale: record.titolo_editoriale,
@@ -323,7 +335,8 @@ async function insertIntoNotizie(token, baseId, tableName, recordFields) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      records: [{ fields: cleanPayload }]
+      records: [{ fields: cleanPayload }],
+      typecast: true
     })
   });
 
@@ -338,7 +351,7 @@ async function insertIntoNotizie(token, baseId, tableName, recordFields) {
 
 async function processSegnalazioniMaurizio(options = {}) {
   const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID;
+  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
   const segnalazioniTable = options.segnalazioniTable || 'Segnalazioni Maurizio';
   const notizieTable = options.notizieTable || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
 
@@ -456,10 +469,11 @@ async function processSegnalazioniMaurizio(options = {}) {
     const cleanUrl = item.cleanUrl;
     const f = seg.fields || seg;
     const nota = (f.nota || f.note || '').trim();
-    const categoria = (f.categoria || 'Welfare e autonomia').trim();
 
     console.log(`  - Elaborazione link di Maurizio: ${cleanUrl} ...`);
     const meta = await fetchMetadataFromUrl(cleanUrl);
+    const rawCategoria = (f.categoria || '').trim();
+    const categoria = rawCategoria ? mapToCategory(meta.title, meta.summary, rawCategoria) : mapToCategory(meta.title, meta.summary, '');
 
     const dataFonte = meta.date || new Date().toISOString().slice(0, 10);
     const titoloEditoriale = meta.title;

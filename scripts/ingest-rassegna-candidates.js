@@ -237,7 +237,8 @@ async function createAirtableRecords(token, baseId, tableName, records) {
   for (let i = 0; i < records.length; i += BATCH_SIZE) {
     const chunk = records.slice(i, i + BATCH_SIZE);
     const body = {
-      records: chunk.map((fields) => ({ fields }))
+      records: chunk.map((fields) => ({ fields })),
+      typecast: true
     };
 
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
@@ -266,7 +267,7 @@ async function createAirtableRecords(token, baseId, tableName, records) {
 
 async function ingestCandidates(options = {}) {
   const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID;
+  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
   const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
   const filePath = options.filePath || defaultCandidatesFile;
   const dryRun = options.dryRun || process.argv.includes('--dry-run');
@@ -398,7 +399,8 @@ async function updateSegnalazioneStato(token, baseId, tableName, recordId, newSt
       body: JSON.stringify({
         fields: {
           stato: newStato
-        }
+        },
+        typecast: true
       })
     });
   } catch (e) {

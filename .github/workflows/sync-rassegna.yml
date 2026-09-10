@@ -45,14 +45,14 @@ jobs:
       - name: Raccogli e proponi nuove notizie candidate da feed autorevoli
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/fetch-rassegna-rss.js
 
       - name: Elabora eventuali segnalazioni dirette di Maurizio (pubblicazione immediata)
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/process-segnalazioni-maurizio.js
 
@@ -60,7 +60,7 @@ jobs:
         id: sync
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/sync-rassegna.js
 

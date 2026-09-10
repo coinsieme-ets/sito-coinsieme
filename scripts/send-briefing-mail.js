@@ -393,7 +393,7 @@ async function main(options = {}) {
   }
 
   const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID;
+  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
   const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
   const viewUrl = options.viewUrl || process.env.AIRTABLE_VIEW_URL || 'https://airtable.com';
   const resendApiKey = options.resendApiKey || process.env.RESEND_API_KEY;

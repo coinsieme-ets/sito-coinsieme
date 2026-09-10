@@ -311,7 +311,8 @@ async function markRecordsAsPublishedOnAirtable(token, baseId, tableName, record
         fields: {
           stato: 'pubblicata'
         }
-      }))
+      })),
+      typecast: true
     };
 
     try {
@@ -338,7 +339,7 @@ async function markRecordsAsPublishedOnAirtable(token, baseId, tableName, record
 
 async function syncRassegna(options = {}) {
   const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID;
+  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
   const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
 
   let rawRecords = [];
