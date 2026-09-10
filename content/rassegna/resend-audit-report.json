@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-09-10T10:30:31.151Z",
+  "env": {
+    "recipient": "segreteria@coinsieme.it",
+    "sender": "onboarding@resend.dev",
+    "hasApiKey": true,
+    "apiKeyPrefix": "re_TRsF..."
+  },
+  "dns": {
+    "domain": "coinsieme.it",
+    "mx": [
+      {
+        "exchange": "mail.register.it",
+        "priority": 10
+      }
+    ],
+    "txt": [
+      "google-site-verification=kyIHZ5ZN8fuABvoiLk75CbIwHXZa6puZoAeGwl3nEQU",
+      "v=spf1 include:spf.webapps.net ~all"
+    ],
+    "spf": [
+      "v=spf1 include:spf.webapps.net ~all"
+    ],
+    "dmarc": [
+      "v=DMARC1; p=quarantine; rua=mailto:segreteria@coinsieme.it"
+    ],
+    "dkim_resend_error": "queryTxt ENOTFOUND resend._domainkey.coinsieme.it"
+  },
+  "resend_domains": {
+    "status": 401,
+    "error": "{\"statusCode\":401,\"message\":\"This API key is restricted to only send emails\",\"name\":\"restricted_api_key\"}"
+  },
+  "recent_emails": {
+    "status": 401,
+    "error": "{\"statusCode\":401,\"message\":\"This API key is restricted to only send emails\",\"name\":\"restricted_api_key\"}"
+  },
+  "send_response": {
+    "id": "af48459d-e5df-4eef-9958-4d7cad33325b"
+  },
+  "sent_email_id": "af48459d-e5df-4eef-9958-4d7cad33325b",
+  "final_delivery_status": {
+    "error": "{\"statusCode\":401,\"message\":\"This API key is restricted to only send emails\",\"name\":\"restricted_api_key\"}",
+    "status": 401
+  }
+}
