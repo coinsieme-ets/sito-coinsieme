@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   send-briefing:
@@ -31,7 +31,7 @@ jobs:
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
         run: node scripts/fetch-rassegna-rss.js
 
-      - name: Invia Briefing Mail alle 6:30 Europe/Rome
+      - name: Invia Briefing Mail e Verifica Deliverability Resend
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
@@ -41,4 +41,13 @@ jobs:
           BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it' }}
           BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it' }}
           FORCE_BRIEFING: 'true'
-        run: node scripts/send-briefing-mail.js
+        run: node scripts/diagnose-resend-and-send.js
+
+      - name: Salva Report Deliverability nel Repository
+        if: always()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/rassegna/resend-audit-report.json content/rassegna/candidati-in-attesa.json || true
+          git commit -m "docs(audit): aggiorna report deliverability resend [skip ci]" || echo "Nessuna modifica da committare"
+          git push || echo "Push non necessario o fallito"
