@@ -1,6 +1,9 @@
 name: Invio Briefing Quotidiano Rassegna News (6:30 Italiane)
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '30 4,5 * * *' # 04:30 UTC (CEST / Estate) e 05:30 UTC (CET / Inverno) -> 06:30 Europe/Rome
   workflow_dispatch:
@@ -37,4 +40,5 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           BRIEFING_RECIPIENT_EMAIL: ${{ secrets.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it' }}
           BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'briefing@coinsieme.it' }}
+          FORCE_BRIEFING: 'true'
         run: node scripts/send-briefing-mail.js
