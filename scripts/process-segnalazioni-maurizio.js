@@ -9,7 +9,8 @@
  *    - Se NON esiste in "Notizie": non la considera conclusa e procede al trasferimento effettivo.
  * 3. Dopo il trasferimento avvenuto con successo in "Notizie", la segnalazione viene marcata come "trasferita_in_notizie".
  * 4. Le segnalazioni marcate come "scartata" vengono escluse e non vengono trasferite.
- * 5. Viene mantenuto il collegamento tra la segnalazione e la notizia creata (tramite ID segnalazione in rilevanza_coinsieme).
+ * 5. Supporta l'estrazione automatica di URL anche se preceduti da testo (es. "La notizia https://...").
+ * 6. Mantiene il collegamento tra la segnalazione e la notizia creata (tramite Ref ID segnalazione in rilevanza_coinsieme).
  */
 
 const fs = require('fs');
@@ -28,11 +29,19 @@ function slugify(text = '') {
     .slice(0, 60);
 }
 
+function extractCleanUrl(rawStr = '') {
+  if (!rawStr) return '';
+  const str = String(rawStr).trim();
+  const match = str.match(/https?:\/\/[^\s"'>]+/i);
+  if (match) return match[0];
+  return '';
+}
+
 function normalizeUrl(rawUrl = '') {
-  if (!rawUrl) return '';
-  const cleanStr = String(rawUrl).trim();
+  const clean = extractCleanUrl(rawUrl);
+  if (!clean) return '';
   try {
-    const parsed = new URL(cleanStr);
+    const parsed = new URL(clean);
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'ref', 'source', 'fbclid', 'gclid'].forEach(p => {
       parsed.searchParams.delete(p);
     });
@@ -40,7 +49,7 @@ function normalizeUrl(rawUrl = '') {
     if (parsed.search) normalized += parsed.search.toLowerCase();
     return normalized;
   } catch (e) {
-    return cleanStr.toLowerCase().replace(/\/+$/, '');
+    return clean.toLowerCase().replace(/\/+$/, '');
   }
 }
 
@@ -281,8 +290,32 @@ async function updateSegnalazioneStato(token, baseId, tableName, recordId, newSt
   }
 }
 
+function buildCleanNotiziePayload(record) {
+  // Solo i campi supportati e valorizzati per evitare errori di schema Airtable
+  const fields = {
+    id: record.id,
+    categoria: record.categoria || 'Welfare e autonomia',
+    data_fonte: record.data_fonte,
+    titolo_originale: record.titolo_originale || record.titolo_editoriale,
+    titolo_editoriale: record.titolo_editoriale,
+    fonte: record.fonte,
+    url_fonte: record.url_fonte,
+    sintesi_editoriale: record.sintesi_editoriale,
+    rilevanza_coinsieme: record.rilevanza_coinsieme,
+    stato: record.stato || 'pubblica'
+  };
+
+  if (record.priorita) fields.priorita = record.priorita;
+  if (record.posizione_sito) fields.posizione_sito = record.posizione_sito;
+  if (typeof record.ordine_editoriale === 'number') fields.ordine_editoriale = record.ordine_editoriale;
+
+  return fields;
+}
+
 async function insertIntoNotizie(token, baseId, tableName, recordFields) {
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
+  const cleanPayload = buildCleanNotiziePayload(recordFields);
+
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -290,7 +323,7 @@ async function insertIntoNotizie(token, baseId, tableName, recordFields) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      records: [{ fields: recordFields }]
+      records: [{ fields: cleanPayload }]
     })
   });
 
@@ -350,7 +383,8 @@ async function processSegnalazioniMaurizio(options = {}) {
   for (const seg of rawSegnalazioni) {
     const f = seg.fields || seg;
     const rawUrl = (f.url_articolo || f.url || '').trim();
-    const normUrl = normalizeUrl(rawUrl);
+    const cleanUrl = extractCleanUrl(rawUrl);
+    const normUrl = normalizeUrl(cleanUrl);
     const rawStato = String(f.stato || f.Stato || '').trim().toLowerCase();
     const nota = (f.nota || f.note || '').trim();
     const dataSeg = (f.data_segnalazione || f.data || '').trim();
@@ -360,6 +394,7 @@ async function processSegnalazioniMaurizio(options = {}) {
     const auditItem = {
       recordId: seg.id,
       url: rawUrl,
+      cleanUrl: cleanUrl,
       nota: nota,
       statoAttuale: rawStato || '(vuoto)',
       dataSegnalazione: dataSeg,
@@ -389,7 +424,7 @@ async function processSegnalazioniMaurizio(options = {}) {
     }
 
     // Caso 3: URL non valido
-    if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
+    if (!cleanUrl || !/^https?:\/\//i.test(cleanUrl)) {
       auditItem.decision = 'url_non_valido_scartata';
       console.warn(`  - [URL NON VALIDO] Record ${seg.id} ignorato: "${rawUrl}"`);
       auditLog.segnalazioni.push(auditItem);
@@ -402,10 +437,10 @@ async function processSegnalazioniMaurizio(options = {}) {
       auditItem.note = 'Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)';
       console.log(`  - [RECUPERO ORFANO] Record ${seg.id} aveva stato 'inserito' ma non era presente in Notizie. Procedo al trasferimento.`);
     } else {
-      console.log(`  - [NUOVA SEGNALAZIONE DA TRASFERIRE] Record ${seg.id} (${rawUrl})`);
+      console.log(`  - [NUOVA SEGNALAZIONE DA TRASFERIRE] Record ${seg.id} (${cleanUrl})`);
     }
 
-    toTransfer.push({ seg, auditItem });
+    toTransfer.push({ seg, cleanUrl, auditItem });
     auditLog.segnalazioni.push(auditItem);
   }
 
@@ -418,13 +453,13 @@ async function processSegnalazioniMaurizio(options = {}) {
 
   for (const item of toTransfer) {
     const seg = item.seg;
+    const cleanUrl = item.cleanUrl;
     const f = seg.fields || seg;
-    const rawUrl = (f.url_articolo || f.url || '').trim();
     const nota = (f.nota || f.note || '').trim();
     const categoria = (f.categoria || 'Welfare e autonomia').trim();
 
-    console.log(`  - Elaborazione link di Maurizio: ${rawUrl} ...`);
-    const meta = await fetchMetadataFromUrl(rawUrl);
+    console.log(`  - Elaborazione link di Maurizio: ${cleanUrl} ...`);
+    const meta = await fetchMetadataFromUrl(cleanUrl);
 
     const dataFonte = meta.date || new Date().toISOString().slice(0, 10);
     const titoloEditoriale = meta.title;
@@ -445,15 +480,13 @@ async function processSegnalazioniMaurizio(options = {}) {
       titolo_originale: titoloOriginale,
       titolo_editoriale: titoloEditoriale,
       fonte,
-      url_fonte: rawUrl,
+      url_fonte: cleanUrl,
       sintesi_editoriale: sintesi,
       rilevanza_coinsieme: rilevanza,
-      immagine_in_evidenza: meta.image || '',
       stato: 'pubblica', // Deroga editoriale esplicita di Maurizio: va in pubblicazione diretta
       priorita: 'alta',
       posizione_sito: 'home_evidenza',
-      ordine_editoriale: 10,
-      mantieni_in_evidenza_fino_al: ''
+      ordine_editoriale: 10
     };
 
     if (options.mock) {
@@ -471,7 +504,7 @@ async function processSegnalazioniMaurizio(options = {}) {
       item.auditItem.transferResult = 'success';
       item.auditItem.createdNotiziaId = id;
     } catch (err) {
-      console.error(`    ✗ Errore salvataggio notizia per ${rawUrl}: ${err.message}`);
+      console.error(`    ✗ Errore salvataggio notizia per ${cleanUrl}: ${err.message}`);
       item.auditItem.transferResult = 'error';
       item.auditItem.error = err.message;
     }
@@ -508,6 +541,7 @@ module.exports = {
   processSegnalazioniMaurizio,
   fetchMetadataFromUrl,
   extractDomainName,
+  extractCleanUrl,
   normalizeUrl,
   fetchAllSegnalazioni,
   fetchAllNotizieUrls
