@@ -91,8 +91,19 @@ let mergedForIndex = newDecapArticles;
 let hrefSet = new Set();
 let invalidHrefs = [];
 
+function getArticleSlug(art) {
+    if (art.slug && art.slug.trim()) return art.slug.trim();
+    const source = art.title || art.titolo || (art._filename ? art._filename.replace('.json', '') : '');
+    return String(source)
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 for (let art of mergedForIndex) {
-    let slug = art.slug ? art.slug.trim() : (art._filename ? art._filename.replace('.json', '') : (art.title ? art.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') : (art.href ? art.href.replace(/^\/articoli\//, '').replace(/\/index\.html$/, '') : '')));
+    let slug = getArticleSlug(art);
     let relPath = `articoli/${slug}/index.html`;
     let absPath = path.join(rootDir, relPath);
 
@@ -113,7 +124,7 @@ if (hrefSet.size !== expectedTotalCards) {
     console.error(`❌ ERRORE: Href unici attesi ${expectedTotalCards}, trovati: ${hrefSet.size}`);
     process.exit(1);
 }
-console.log(`✅ ${hrefSet.size} href unici e fisicamente raggiungibili su disco (tutti gli 81 articoli verificati).`);
+console.log(`✅ ${hrefSet.size} href unici e fisicamente raggiungibili su disco (tutti gli 83 articoli verificati).`);
 
 // Render Preview HTML
 let previewPath = path.join(scratchDir, 'anteprima-ibrida-articoli.html');
@@ -134,7 +145,7 @@ let previewHtml = `<!DOCTYPE html>
 `;
 
 for (let art of mergedForIndex) {
-    let slug = art.slug ? art.slug.trim() : (art._filename ? art._filename.replace('.json', '') : '');
+    let slug = getArticleSlug(art);
     let title = art.titolo || art.title || slug;
     let category = art.categoria || art.category || 'Conoscenza';
     let dateStr = art.data || art.date || '';
