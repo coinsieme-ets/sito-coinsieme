@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-11T10:26:56.590Z",
+  "timestamp": "2026-09-11T11:25:33.871Z",
   "baseId": "appPqa952bdRrQJNI",
   "tableName": "Notizie",
   "metaApiAccess": true,
@@ -253,14 +253,14 @@
     "fonte",
     "stato",
     "titolo_originale",
+    "posizione_sito",
     "sintesi_editoriale",
     "id",
-    "titolo_editoriale",
-    "url_fonte",
-    "data_fonte",
-    "posizione_sito",
     "ordine_editoriale",
-    "priorita"
+    "titolo_editoriale",
+    "priorita",
+    "url_fonte",
+    "data_fonte"
   ],
   "patchTestResult": {
     "ok": true,
