@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-11T07:46:07.845Z",
+  "timestamp": "2026-09-11T08:28:10.433Z",
   "totalSegnalazioni": 5,
-  "totalNotizie": 43,
+  "totalNotizie": 62,
   "segnalazioni": [
     {
       "recordId": "rec4qZsXdfj5wd8Ts",
@@ -10,12 +10,14 @@
       "nota": "ETS: RUNTS, 5 per mille ed erogazioni liberali, l'incognita delle coperture",
       "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-07",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "da_pubblicare",
-      "transferResult": "success",
-      "createdNotiziaId": "quotidianopiu-aggiornamento-da-quotidianopiu-2026-09-11",
-      "urlPubblicato": "https://www.coinsieme.it/#quotidianopiu-aggiornamento-da-quotidianopiu-2026-09-11"
+      "existsInNotizie": true,
+      "notiziaMatch": {
+        "id": "quotidianopiu-aggiornamento-da-quotidianopiu-2026-09-11",
+        "stato": "pubblicata",
+        "titolo": "Aggiornamento da Quotidianopiu"
+      },
+      "decision": "gia_presente_in_notizie",
+      "statoVerificato": "da_pubblicare"
     },
     {
       "recordId": "recI0olBCFDo09LCt",
@@ -35,12 +37,14 @@
       "nota": "Cos’è Il servizio civile per gli over 65 e chi potrebbe farlo",
       "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-08",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "da_pubblicare",
-      "transferResult": "success",
-      "createdNotiziaId": "fanpa-aggiornamento-da-fanpa-2026-09-11",
-      "urlPubblicato": "https://www.coinsieme.it/#fanpa-aggiornamento-da-fanpa-2026-09-11"
+      "existsInNotizie": true,
+      "notiziaMatch": {
+        "id": "fanpa-aggiornamento-da-fanpa-2026-09-11",
+        "stato": "pubblicata",
+        "titolo": "Aggiornamento da Fanpa"
+      },
+      "decision": "gia_presente_in_notizie",
+      "statoVerificato": "da_pubblicare"
     },
     {
       "recordId": "recgDFWwnojeDVOym",
@@ -49,12 +53,14 @@
       "nota": "Rinnovo del CCNL delle cooperative sociali: ripartono le trattative tra le parti sociali",
       "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-10",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "da_pubblicare",
-      "transferResult": "success",
-      "createdNotiziaId": "businessonline-it-riparte-la-trattativa-per-il-r-2026-09-11",
-      "urlPubblicato": "https://www.coinsieme.it/#businessonline-it-riparte-la-trattativa-per-il-r-2026-09-11"
+      "existsInNotizie": true,
+      "notiziaMatch": {
+        "id": "businessonline-it-riparte-la-trattativa-per-il-r-2026-09-11",
+        "stato": "pubblicata",
+        "titolo": "Riparte la trattativa per il rinnovo Contratto Cooperative Sociali: richieste sindacati, nodi aperti e incontri"
+      },
+      "decision": "gia_presente_in_notizie",
+      "statoVerificato": "da_pubblicare"
     },
     {
       "recordId": "rechy2PgToVMZaOvG",
@@ -63,12 +69,14 @@
       "nota": "Legge 104, i permessi possono raddoppiare: fino a 6 giorni al mese",
       "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-08",
-      "existsInNotizie": false,
-      "notiziaMatch": null,
-      "decision": "da_pubblicare",
-      "transferResult": "success",
-      "createdNotiziaId": "ilmessaggero-legge-104-quando-i-permessi-po-2026-09-08",
-      "urlPubblicato": "https://www.coinsieme.it/#ilmessaggero-legge-104-quando-i-permessi-po-2026-09-08"
+      "existsInNotizie": true,
+      "notiziaMatch": {
+        "id": "ilmessaggero-legge-104-quando-i-permessi-po-2026-09-08",
+        "stato": "pubblicata",
+        "titolo": "Legge 104, quando i permessi possono raddoppiare: fino a 6 giorni al mese e le novit&agrave;"
+      },
+      "decision": "gia_presente_in_notizie",
+      "statoVerificato": "da_pubblicare"
     }
   ]
 }

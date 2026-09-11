@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-11T07:46:02.534Z",
+  "timestamp": "2026-09-11T08:28:05.097Z",
   "baseId": "appPqa952bdRrQJNI",
   "tableName": "Notizie",
   "metaApiAccess": true,
@@ -194,6 +194,16 @@
             "id": "selmOeohsHOTJzv6q",
             "name": "Terzo Settore",
             "color": "orangeLight2"
+          },
+          {
+            "id": "sellkIRJWoBxaAMIv",
+            "name": "Welfare e cura",
+            "color": "blueLight2"
+          },
+          {
+            "id": "selGyqUZe7sL5vLLh",
+            "name": "Welfare e Terzo Settore",
+            "color": "blueLight2"
           }
         ]
       },
