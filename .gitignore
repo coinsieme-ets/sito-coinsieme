@@ -22,3 +22,7 @@ build-preview/
 Thumbs.db
 .vscode/
 .idea/
+
+# Pagine rassegna rigenerate dal dataset editoriale durante ogni build
+/rassegna/
+/rassegna.html

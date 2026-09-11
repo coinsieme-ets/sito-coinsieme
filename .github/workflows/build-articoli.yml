@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -49,7 +49,7 @@ jobs:
           cp CNAME _site/
 
           # 3. Copia cartelle pubbliche del sito
-          for dir in admin articoli pubblicazioni assets css js documenti; do
+          for dir in admin articoli pubblicazioni assets css js documenti rassegna; do
             if [ -d "$dir" ]; then
               cp -R "$dir" _site/
             fi

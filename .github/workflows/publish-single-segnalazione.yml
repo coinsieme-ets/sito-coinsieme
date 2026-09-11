@@ -1,5 +1,4 @@
 name: Pubblica singola segnalazione verificata
-
 on:
   workflow_dispatch:
     inputs:
@@ -7,95 +6,13 @@ on:
         description: ID della sola segnalazione da pubblicare
         required: true
         type: string
-env:
-  SEGNALAZIONE_RECORD_ID: ${{ inputs.record_id }}
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Compilazione Sito e Articoli
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout del repository
-        uses: actions/checkout@v4
-
-      - name: Configurazione Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Installazione dipendenze deterministica (npm ci)
-        run: npm ci
-
-      - name: Prepara solo la segnalazione richiesta e conserva le notizie gia online
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-        run: node scripts/publish-single-segnalazione.js prepare
-
-      - name: Compilazione pagine articoli e indici (build-cms)
-        run: node scripts/build-cms.js
-
-      - name: Verifica e validazione integrita (build-hybrid-index)
-        run: node scripts/build-hybrid-index.js
-
-      - name: Aggiungi collegamento pubblico alla sola notizia richiesta
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-        run: node scripts/publish-single-segnalazione.js anchor
-
-      - name: Preparazione directory di pubblicazione (_site)
-        run: |
-          mkdir -p _site
-
-          # 1. Copia file HTML della root
-          cp *.html _site/ 2>/dev/null || true
-
-          # 2. Copia CNAME (dominio personalizzato www.coinsieme.it)
-          cp CNAME _site/
-
-          # 3. Copia cartelle pubbliche del sito
-          for dir in admin articoli pubblicazioni assets css js documenti; do
-            if [ -d "$dir" ]; then
-              cp -R "$dir" _site/
-            fi
-          done
-
-          # 4. Copia eventuali file di servizio se presenti (robots, sitemap, favicon)
-          cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
-
-      - name: Configurazione GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Caricamento artefatto Pages (_site)
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '_site'
-
-  deploy:
-    name: Distribuzione su GitHub Pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy su GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Conferma Airtable soltanto dopo presenza visibile sul sito
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-        run: node scripts/publish-single-segnalazione.js confirm
+  publish:
+    uses: ./.github/workflows/sync-rassegna.yml
+    with:
+      record_id: ${{ inputs.record_id }}
+    secrets: inherit

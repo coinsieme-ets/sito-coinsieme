@@ -275,23 +275,6 @@ function mapToCategory(title = '', desc = '', sourceCategory = '') {
   return 'Welfare e Terzo Settore';
 }
 
-async function updateSegnalazionePublished(token, baseId, tableName, recordId, extraFields = {}) {
-  const {fetchPublicPages, verifyPublication, correctionFields} = require('./verify-publication');
-  // Notizie is the editorial queue, not evidence that deployment has completed.
-  // A network failure throws before PATCH and leaves the record unchanged.
-  const evidence = verifyPublication(await fetchPublicPages(), extraFields);
-  const fields = correctionFields({}, evidence);
-  // Preserve an existing publication date; never substitute the source or submission date.
-  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
-  const res = await fetch(url, {
-    method: 'PATCH',
-    headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
-    body: JSON.stringify({fields})
-  });
-  if (!res.ok) throw new Error(`Aggiornamento segnalazione ${recordId}: HTTP ${res.status}`);
-  console.log(`    Segnalazione ${recordId}: ${fields.stato} (verifica sito pubblico).`);
-  return fields.stato;
-}
 function buildCleanNotiziePayload(record) {
   // Solo i campi supportati e valorizzati per evitare errori di schema Airtable
   const fields = {
@@ -340,6 +323,7 @@ async function insertIntoNotizie(token, baseId, tableName, recordFields) {
 }
 
 async function processSegnalazioniMaurizio(options = {}) {
+  options = {...options, deferPublicationConfirmation: true};
   const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
   const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
   const segnalazioniTable = options.segnalazioniTable || 'Segnalazioni Maurizio';
@@ -364,6 +348,7 @@ async function processSegnalazioniMaurizio(options = {}) {
     rawSegnalazioni = await fetchAllSegnalazioni(token, baseId, segnalazioniTable);
   }
 
+  rawSegnalazioni = rawSegnalazioni.filter(r => (r.fields || r).stato === 'da_pubblicare');
   if (options.recordId) {
     rawSegnalazioni = rawSegnalazioni.filter(r => r.id === options.recordId);
     if (rawSegnalazioni.length !== 1) throw new Error('Segnalazione richiesta non trovata');
@@ -371,9 +356,10 @@ async function processSegnalazioniMaurizio(options = {}) {
   console.log(`[Segnalazioni Maurizio] Totale segnalazioni lette da Airtable: ${rawSegnalazioni.length}`);
   console.log(`[Segnalazioni Maurizio] Totale notizie esistenti in "${notizieTable}": ${existingNotizie.length}\n`);
 
+  const canonicalSource = require('./verify-publication').sourceUrl;
   const existingNotizieUrlMap = new Map();
   existingNotizie.forEach(n => {
-    if (n.normalizedUrl) existingNotizieUrlMap.set(n.normalizedUrl, n);
+    if (n.url_fonte) existingNotizieUrlMap.set(normalizeUrl(canonicalSource(n.url_fonte)), n);
   });
 
   const auditLog = {
@@ -391,7 +377,7 @@ async function processSegnalazioniMaurizio(options = {}) {
     const f = seg.fields || seg;
     const rawUrl = (f.url_articolo || f.url || '').trim();
     const cleanUrl = extractCleanUrl(rawUrl);
-    const normUrl = normalizeUrl(cleanUrl);
+    const normUrl = normalizeUrl(canonicalSource(cleanUrl));
     const rawStato = String(f.stato || f.Stato || '').trim().toLowerCase();
     const nota = (f.nota || f.note || '').trim();
     const dataSeg = (f.data_segnalazione || f.data || '').trim();
@@ -420,14 +406,6 @@ async function processSegnalazioniMaurizio(options = {}) {
     // Caso 2: Esiste già realmente in Notizie
     if (existsInNotizie) {
       auditItem.decision = 'gia_presente_in_notizie';
-      if (!options.mock && token && !options.deferPublicationConfirmation) {
-        const pubUrl = `https://www.coinsieme.it/#${existsInNotizie.id || ''}`;
-        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Verifica della presenza sul sito...`);
-        auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
-          data_pubblicazione: dataSeg || new Date().toISOString().slice(0, 10),
-          url_pubblicato: pubUrl, url_fonte: existsInNotizie.url_fonte, titolo_editoriale: existsInNotizie.titolo_editoriale
-        });
-      }
       alreadyTransferred.push(auditItem);
       auditLog.segnalazioni.push(auditItem);
       continue;
@@ -502,11 +480,7 @@ async function processSegnalazioniMaurizio(options = {}) {
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      if (!options.deferPublicationConfirmation) item.auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
-        data_pubblicazione: dataFonte,
-        url_pubblicato: urlPubblicato, url_fonte: cleanUrl, titolo_editoriale: titoloEditoriale
-      });
-      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e stato segnalazione verificato sul sito pubblico.`);
+      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) in attesa di deploy e verifica pubblica; stato segnalazione invariato.`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'success';
       item.auditItem.createdNotiziaId = id;

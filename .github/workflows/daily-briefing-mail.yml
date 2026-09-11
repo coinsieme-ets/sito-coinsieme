@@ -24,13 +24,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Raccogli e proponi nuove notizie candidate da feed autorevoli
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-        run: node scripts/fetch-rassegna-rss.js
-
       - name: Invia Briefing Mail alle 6:30 Europe/Rome (con Anti-Duplicato)
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}

@@ -794,6 +794,7 @@ async function main() {
   }
 
   fs.writeFileSync(homepagePath, homepageWithHero, 'utf8');
+  require('./build-segnalazioni-pages').build(root);
 
   console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }

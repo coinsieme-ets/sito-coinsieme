@@ -8,7 +8,7 @@ function decode(s = '') {
 function sourceUrl(s = '') {
   const match = decode(s).match(/https?:\/\/[^\s<>"]+/i);
   if (!match) return '';
-  try { const u = new URL(match[0]); u.hash = ''; return u.href; } catch { return ''; }
+  try { const u = new URL(match[0]); u.hash = ''; return require('./source-url-aliases.json')[u.href] || u.href; } catch { return ''; }
 }
 function title(s = '') { return decode(String(s).replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim(); }
 function visibleHtml(html) {

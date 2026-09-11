@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   audit-and-migrate:
-    name: Verifica sito e correzione Segnalazioni Maurizio
+    name: Audit in sola lettura Segnalazioni Maurizio
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
           node-version: 20
       - name: Test verifica pubblicazione
         run: node --test scripts/verify-publication.test.js
-      - name: Verifica e correzione Airtable senza pubblicazione
+      - name: Leggi schema e record senza modificarli
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
           AIRTABLE_BASE_ID: appPqa952bdRrQJNI

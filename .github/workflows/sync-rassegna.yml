@@ -1,87 +1,105 @@
 name: Sincronizzazione Rassegna News da Airtable
-
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      record_id:
+        description: Facoltativo; vuoto elabora tutti i da_pubblicare
+        required: false
+        default: ''
+        type: string
+  workflow_call:
+    inputs:
+      record_id:
+        required: false
+        default: ''
+        type: string
   repository_dispatch:
-    types:
-      - rassegna-news-approved
-      - update-rassegna
-      - airtable-sync
+    types: [rassegna-news-approved, update-rassegna, airtable-sync]
   schedule:
-    # Polling e scansione automatica ogni ora (dalle 06:15 alle 22:15 Europe/Rome -> 04:15 - 20:15 UTC)
-    - cron: '15 4-20 * * *'
-
+    - cron: '*/15 * * * *'
 permissions:
   contents: write
-
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
 jobs:
-  sync-and-publish:
-    name: Sincronizza da Airtable e Pubblica
+  publish:
+    name: Pubblica, verifica online e conferma Segnalazioni Maurizio
     runs-on: ubuntu-latest
-
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SEGNALAZIONE_RECORD_ID: ${{ inputs.record_id || '' }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-
-      - name: Installazione dipendenze deterministica (npm ci)
-        run: npm ci
-
-      - name: Gestione e verifica schema Airtable
+          cache: npm
+      - run: npm ci
+      - name: Test regole di pubblicazione e isolamento RSS
+        run: node --test scripts/verify-publication.test.js scripts/publish-segnalazioni.test.js
+      - name: Prepara esclusivamente le segnalazioni da_pubblicare
+        id: prepare
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-        run: node scripts/manage-airtable-schema.js
-
-      - name: Raccogli e proponi nuove notizie candidate da feed autorevoli
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-        run: node scripts/fetch-rassegna-rss.js
-
-      - name: Elabora eventuali segnalazioni dirette di Maurizio (pubblicazione immediata)
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-        run: node scripts/process-segnalazioni-maurizio.js
-
-      - name: Sincronizza notizie approvate da Airtable
-        id: sync
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-        run: node scripts/sync-rassegna.js
-
-      - name: Compilazione pagine articoli e indici (build-cms)
-        run: node scripts/build-cms.js
-
-      - name: Verifica e validazione integrita (build-hybrid-index)
-        run: node scripts/build-hybrid-index.js
-
-      - name: Commit e Push se ci sono modifiche
+        run: node scripts/publish-segnalazioni.js prepare
+      - name: Compila sito e pagine permanenti della rassegna
+        if: steps.prepare.outputs.count != '0'
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/rassegna/ index.html articoli.html
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "[CMS] Sincronizzazione automatica rassegna news approvate da Airtable"
-            git pull --rebase origin main || true
-            git push origin HEAD:main
-          else
-            echo "Nessuna modifica da salvare"
-          fi
-
-      # Il deploy resta centralizzato nel workflow principale build-articoli.yml,
-      # che parte automaticamente quando questo job crea un commit su main.
+          node scripts/build-cms.js
+          node scripts/build-hybrid-index.js
+      - name: Verifica tutte le schede prima del deploy
+        if: steps.prepare.outputs.count != '0'
+        run: node scripts/check-publication-build.js
+      - name: Prepara artefatto pubblico
+        if: steps.prepare.outputs.count != '0'
+        run: |
+          mkdir -p _site
+          cp *.html CNAME _site/
+          for dir in admin articoli pubblicazioni assets css js documenti rassegna; do
+            if [ -d "$dir" ]; then cp -R "$dir" _site/; fi
+          done
+          cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
+      - uses: actions/configure-pages@v5
+        if: steps.prepare.outputs.count != '0'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.prepare.outputs.count != '0'
+        with:
+          path: _site
+      - name: Pubblica su GitHub Pages
+        id: deployment
+        if: steps.prepare.outputs.count != '0'
+        uses: actions/deploy-pages@v4
+      - name: Verifica sito pubblico e conferma solo i record ancora da_pubblicare
+        id: confirm
+        if: steps.prepare.outputs.count != '0'
+        continue-on-error: true
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+        run: node scripts/publish-segnalazioni.js confirm
+      - name: Conserva esclusivamente il dataset editoriale pubblicato
+        if: steps.deployment.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/rassegna/notizie-esterne.json
+          git diff --cached --quiet || git commit -m "content: conserva rassegna distribuita sul sito [skip ci]"
+          # Build outputs and private audit files are not committed.
+          git -c rebase.autoStash=true pull --rebase origin main
+          git push origin HEAD:main
+      - name: Conserva esiti di verifica negli artifact del run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publication-verification
+          path: |
+            scratch/publication-manifest.json
+            scratch/publication-result.json
+          if-no-files-found: ignore
+      - name: Segnala eventuali record rimasti in attesa
+        if: steps.confirm.outcome == 'failure'
+        run: exit 1

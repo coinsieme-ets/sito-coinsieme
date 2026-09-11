@@ -1,0 +1,24 @@
+name: Raccolta RSS in valutazione
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: rss-candidates
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Raccogli candidati senza pubblicazione
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          AIRTABLE_BASE_ID: appPqa952bdRrQJNI
+          AIRTABLE_TABLE_NAME: Notizie
+        run: node scripts/fetch-rassegna-rss.js
