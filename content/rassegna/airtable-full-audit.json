@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-11T07:24:09.501Z",
+  "timestamp": "2026-09-11T07:46:00.666Z",
   "baseId": "appPqa952bdRrQJNI",
   "tokenConfigured": true,
   "permissions": {
@@ -9,22 +9,318 @@
       "error": null
     },
     "data.records:write": {
-      "granted": false,
-      "status": 403,
-      "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "granted": true,
+      "status": 200,
+      "error": null
     },
     "schema.bases:read": {
-      "granted": false,
-      "status": 403,
-      "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "granted": true,
+      "status": 200,
+      "error": null
     },
     "schema.bases:write": {
       "granted": false,
       "status": null,
-      "error": null
+      "error": "{\"error\":{\"type\":\"INVALID_REQUEST_UNKNOWN\",\"message\":\"Changing a field's type or number precision is not currently supported.\"}}"
     }
   },
-  "tables": {},
-  "migrationResults": [],
+  "tables": {
+    "Table 1": {
+      "id": "tblPR3iVYDdp4h7HW",
+      "fields": [
+        {
+          "name": "Name",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "Notes",
+          "type": "multilineText",
+          "choices": null
+        },
+        {
+          "name": "Assignee",
+          "type": "singleCollaborator",
+          "choices": null
+        },
+        {
+          "name": "Status",
+          "type": "singleSelect",
+          "choices": [
+            "Todo",
+            "In progress",
+            "Done"
+          ]
+        },
+        {
+          "name": "Attachments",
+          "type": "multipleAttachments",
+          "choices": null
+        },
+        {
+          "name": "Attachment Summary",
+          "type": "aiText",
+          "choices": null
+        }
+      ],
+      "views": [
+        {
+          "id": "viwcgT0PEVvoPLSBt",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    "Notizie": {
+      "id": "tblonsfQ2mnaelCAn",
+      "fields": [
+        {
+          "name": "id",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "titolo_editoriale",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "stato",
+          "type": "singleSelect",
+          "choices": [
+            "da_verificare",
+            "proposta",
+            "approvata",
+            "scartata",
+            "archiviata",
+            "segnalata",
+            "da_valutare",
+            "pubblica",
+            "pubblicata"
+          ]
+        },
+        {
+          "name": "priorita",
+          "type": "singleSelect",
+          "choices": [
+            "alta",
+            "media",
+            "bassa"
+          ]
+        },
+        {
+          "name": "posizione_sito",
+          "type": "singleSelect",
+          "choices": [
+            "home_evidenza",
+            "home_normale",
+            "home_principale",
+            "solo_rassegna"
+          ]
+        },
+        {
+          "name": "ordine_editoriale",
+          "type": "number",
+          "choices": null
+        },
+        {
+          "name": "mantieni_in_evidenza_fino_al",
+          "type": "date",
+          "choices": null
+        },
+        {
+          "name": "immagine_in_evidenza",
+          "type": "multipleAttachments",
+          "choices": null
+        },
+        {
+          "name": "data_pubblicazione",
+          "type": "date",
+          "choices": null
+        },
+        {
+          "name": "categoria",
+          "type": "singleSelect",
+          "choices": [
+            "Lavoro e inclusione",
+            "Cooperazione sociale",
+            "Riforma disabilita",
+            "Welfare e autonomia",
+            "Domotica & Tecnologia",
+            "Terzo Settore"
+          ]
+        },
+        {
+          "name": "data_fonte",
+          "type": "date",
+          "choices": null
+        },
+        {
+          "name": "titolo_originale",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "fonte",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "url_fonte",
+          "type": "url",
+          "choices": null
+        },
+        {
+          "name": "sintesi_editoriale",
+          "type": "multilineText",
+          "choices": null
+        },
+        {
+          "name": "rilevanza_coinsieme",
+          "type": "multilineText",
+          "choices": null
+        }
+      ],
+      "views": [
+        {
+          "id": "viwYJoAZAspFgEIMP",
+          "name": "Archivio Completo",
+          "type": "grid"
+        },
+        {
+          "id": "viwtdeor3RBEJB7nV",
+          "name": "Approvate Online",
+          "type": "grid"
+        },
+        {
+          "id": "viwjnHqloQGpk1jUw",
+          "name": "Briefing Oggi",
+          "type": "grid"
+        },
+        {
+          "id": "viwLqbpF8y7LWKQuT",
+          "name": "Regia Editoriale",
+          "type": "grid"
+        }
+      ]
+    },
+    "Segnalazioni Maurizio": {
+      "id": "tblStce99L9z4YXAf",
+      "fields": [
+        {
+          "name": "url_articolo",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "nota",
+          "type": "multilineText",
+          "choices": null
+        },
+        {
+          "name": "data_segnalazione",
+          "type": "date",
+          "choices": null
+        },
+        {
+          "name": "stato",
+          "type": "singleSelect",
+          "choices": [
+            "da_valutare",
+            "presa_in_carico",
+            "inserito",
+            "scartato"
+          ]
+        }
+      ],
+      "views": [
+        {
+          "id": "viwAoLR92qGiDsvgz",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    "Table 4": {
+      "id": "tbluS404VUHUOIJlx",
+      "fields": [
+        {
+          "name": "Name",
+          "type": "singleLineText",
+          "choices": null
+        },
+        {
+          "name": "Notes",
+          "type": "multilineText",
+          "choices": null
+        },
+        {
+          "name": "Assignee",
+          "type": "singleCollaborator",
+          "choices": null
+        },
+        {
+          "name": "Status",
+          "type": "singleSelect",
+          "choices": [
+            "Todo",
+            "In progress",
+            "Done"
+          ]
+        },
+        {
+          "name": "Attachments",
+          "type": "multipleAttachments",
+          "choices": null
+        },
+        {
+          "name": "Attachment Summary",
+          "type": "aiText",
+          "choices": null
+        }
+      ],
+      "views": [
+        {
+          "id": "viwiJ7rT4W5EkE2Xf",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    }
+  },
+  "migrationResults": [
+    {
+      "recordId": "rec4qZsXdfj5wd8Ts",
+      "titolo": "ETS: RUNTS, 5 per mille ed erogazioni liberali, l'incognita delle coperture",
+      "oldStato": "presa_in_carico",
+      "newStato": "da_pubblicare",
+      "extraFields": {},
+      "success": true
+    },
+    {
+      "recordId": "recYqvAnpvV3nvk9C",
+      "titolo": "Cos’è Il servizio civile per gli over 65 e chi potrebbe farlo",
+      "oldStato": "inserito",
+      "newStato": "da_pubblicare",
+      "extraFields": {},
+      "success": true
+    },
+    {
+      "recordId": "recgDFWwnojeDVOym",
+      "titolo": "Rinnovo del CCNL delle cooperative sociali: ripartono le trattative tra le parti sociali ",
+      "oldStato": "inserito",
+      "newStato": "da_pubblicare",
+      "extraFields": {},
+      "success": true
+    },
+    {
+      "recordId": "rechy2PgToVMZaOvG",
+      "titolo": "Legge 104, i permessi possono raddoppiare: fino a 6 giorni al mese",
+      "oldStato": "inserito",
+      "newStato": "da_pubblicare",
+      "extraFields": {},
+      "success": true
+    }
+  ],
   "errors": []
 }
