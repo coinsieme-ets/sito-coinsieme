@@ -98,10 +98,10 @@ function findExistingSuccessfulDispatch(entries, dateIso, dateStr, recipient, su
   );
 }
 
-function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
+function renderEmailHtml(records, viewUrl, dateStr) {
   const itemsHtml = records.map((rec, index) => {
     const f = rec.fields || rec;
-    const cat = escapeHtml(f.categoria || 'Welfare');
+    const cat = escapeHtml(f.categoria || 'Welfare e Terzo Settore');
     const dataFonte = escapeHtml(f.data_fonte || '');
     const titolo = escapeHtml(f.titolo_editoriale || f.titolo_originale || `Notizia #${index + 1}`);
     const fonte = escapeHtml(f.fonte || 'Fonte esterna');
@@ -132,31 +132,6 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
     `;
   }).join('');
 
-  let segnalazioniHtml = '';
-  if (segnalazioni && segnalazioni.length > 0) {
-    const segItems = segnalazioni.map((s, idx) => {
-      const f = s.fields || s;
-      const url = escapeHtml(f.url_articolo || f.url || '#');
-      const nota = escapeHtml(f.nota || f.note || '');
-      const dataSeg = escapeHtml(f.data_segnalazione || '');
-      return `
-        <div style="background:#fff7ed; border-left:3px solid #ea580c; padding:10px 14px; margin-bottom:10px; border-radius:4px; font-size:13px;">
-          <div style="font-weight:700; color:#9a3412;">#${idx + 1} Segnalazione da valutare ${dataSeg ? `(${dataSeg})` : ''}</div>
-          <div style="margin:4px 0;"><a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#c45e1a; word-break:break-all; font-weight:600;">${url} ↗</a></div>
-          ${nota ? `<div style="color:#7c2d12; font-style:italic; font-size:12.5px;">Nota: ${nota}</div>` : ''}
-        </div>
-      `;
-    }).join('');
-
-    segnalazioniHtml = `
-      <div style="margin-top:24px; padding-top:16px; border-top:1px dashed #d6c7b7;">
-        <h3 style="font-size:15px; color:#3d2208; margin:0 0 10px 0;">📌 Segnalazioni manuali di Maurizio (${segnalazioni.length})</h3>
-        <p style="font-size:12.5px; color:#6b5d52; margin:0 0 12px 0;">Link segnalati da valutare per la trasformazione in scheda rassegna:</p>
-        ${segItems}
-      </div>
-    `;
-  }
-
   return `
 <!DOCTYPE html>
 <html lang="it">
@@ -184,7 +159,7 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
           <tr>
             <td style="padding:24px;">
               <p style="margin:0 0 16px 0; font-size:14px; line-height:1.5; color:#5a4a3a;">
-                Buongiorno Maurizio, sono presenti <strong>${records.length} notizie candidate</strong> pronte per la tua revisione.
+                Buongiorno Maurizio, sono presenti <strong>${records.length} notizie candidate</strong> individuate automaticamente e pronte per la tua decisione editoriale.
               </p>
 
               ${itemsHtml}
@@ -198,8 +173,6 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
                   L'approvazione formale avviene da Airtable. Il sito pubblicherà solo i contenuti approvati.
                 </p>
               </div>
-
-              ${segnalazioniHtml}
 
             </td>
           </tr>
@@ -218,73 +191,6 @@ function renderEmailHtml(records, viewUrl, dateStr, segnalazioni = []) {
 </body>
 </html>
   `.trim();
-}
-
-function normalizeUrl(rawUrl = '') {
-  if (!rawUrl) return '';
-  const cleanStr = String(rawUrl).trim();
-  try {
-    const parsed = new URL(cleanStr);
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'ref', 'source', 'fbclid', 'gclid'].forEach(p => {
-      parsed.searchParams.delete(p);
-    });
-    let normalized = parsed.origin.toLowerCase() + parsed.pathname.replace(/\/+$/, '').toLowerCase();
-    if (parsed.search) normalized += parsed.search.toLowerCase();
-    return normalized;
-  } catch (e) {
-    return cleanStr.toLowerCase().replace(/\/+$/, '');
-  }
-}
-
-async function fetchSegnalazioniRecords(token, baseId, tableName = 'Segnalazioni Maurizio') {
-  try {
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?pageSize=100`;
-    const res = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      }
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    const allSegnalazioni = Array.isArray(data.records) ? data.records : [];
-
-    // Recupera le notizie esistenti per verificare se 'inserito' è reale
-    let existingNotizieUrls = new Set();
-    try {
-      const notizieRes = await fetch(`https://api.airtable.com/v0/${baseId}/Notizie?fields[]=url_fonte&pageSize=100`, {
-        headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
-      });
-      if (notizieRes.ok) {
-        const notData = await notizieRes.json();
-        if (Array.isArray(notData.records)) {
-          notData.records.forEach(r => {
-            const u = normalizeUrl(r.fields?.url_fonte);
-            if (u) existingNotizieUrls.add(u);
-          });
-        }
-      }
-    } catch (e) {}
-
-    return allSegnalazioni.filter(seg => {
-      const s = String(seg.fields?.stato || seg.fields?.Stato || '').trim().toLowerCase();
-      // Scartata o trasferita_in_notizie -> escludi
-      if (s === 'scartata' || s === 'scartato' || s === 'trasferita_in_notizie' || s === 'trasferito') {
-        return false;
-      }
-      // Se marcata 'inserito' o 'inserita', escludi SOLO SE esiste realmente in Notizie
-      if (s === 'inserito' || s === 'inserita') {
-        const segUrl = normalizeUrl(seg.fields?.url_articolo || seg.fields?.url || '');
-        if (segUrl && existingNotizieUrls.has(segUrl)) {
-          return false;
-        }
-      }
-      // Tutte le altre (nuove, da_valutare, presa_in_carico, vuote, o inserito orfano) -> INCLUDI NEL BRIEFING!
-      return true;
-    });
-  } catch (e) {
-    return [];
-  }
 }
 
 async function fetchCandidateRecords(token, baseId, tableName) {
@@ -405,28 +311,25 @@ async function main(options = {}) {
   const customLogPath = options.dispatchLogPath || dispatchLogPath;
 
   let candidateRecords = [];
-  let segnalazioniRecords = [];
 
   if (options.mockRecords) {
     candidateRecords = options.mockRecords.filter(r => {
       const s = (r.fields?.stato || r.stato || '').trim().toLowerCase();
       return s === 'da_valutare' || s === 'segnalata' || s === 'proposta' || s === 'da_verificare';
     });
-    segnalazioniRecords = options.mockSegnalazioni || [];
   } else {
     if (!token || !baseId) {
       throw new Error('AIRTABLE_PERSONAL_ACCESS_TOKEN e AIRTABLE_BASE_ID sono obbligatori.');
     }
     console.log(`[Briefing Mail] Recupero notizie candidate da Airtable (Base: ${baseId}, Tabella: ${tableName})...`);
     candidateRecords = await fetchCandidateRecords(token, baseId, tableName);
-    segnalazioniRecords = await fetchSegnalazioniRecords(token, baseId, 'Segnalazioni Maurizio');
   }
 
-  console.log(`[Briefing Mail] Notizie candidate trovate: ${candidateRecords.length}, Segnalazioni trovate: ${segnalazioniRecords.length}`);
+  console.log(`[Briefing Mail] Notizie candidate automatiche trovate: ${candidateRecords.length}`);
 
-  // 2. Controllo: nessuna notizia candidata e nessuna segnalazione -> skip
-  if (candidateRecords.length === 0 && segnalazioniRecords.length === 0) {
-    console.log('[Briefing Mail] Nessuna notizia o segnalazione in attesa. Nessuna email inviata.');
+  // 2. Controllo: nessuna notizia candidata -> skip
+  if (candidateRecords.length === 0) {
+    console.log('[Briefing Mail] Nessuna notizia candidata automatica in attesa. Nessuna email inviata.');
     return { skipped: true, reason: 'no_candidate_records' };
   }
 
@@ -462,7 +365,7 @@ async function main(options = {}) {
     console.log(`[Briefing Anti-Duplicato] AVVISO: Invio duplicato forzato esplicitamente per la data ${dateStr}.`);
   }
 
-  const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr, segnalazioniRecords);
+  const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr);
 
   if (options.mockSend) {
     console.log('\n======================================================================');

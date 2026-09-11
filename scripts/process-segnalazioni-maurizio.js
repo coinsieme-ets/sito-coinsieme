@@ -415,28 +415,7 @@ async function processSegnalazioniMaurizio(options = {}) {
       notiziaMatch: existsInNotizie ? { id: existsInNotizie.id, stato: existsInNotizie.stato, titolo: existsInNotizie.titolo_editoriale } : null
     };
 
-    // Caso 1: Scartata
-    if (rawStato === 'scartata' || rawStato === 'scartato') {
-      auditItem.decision = 'scartata_esclusa';
-      discarded.push(auditItem);
-      auditLog.segnalazioni.push(auditItem);
-      console.log(`  - [SCARTATA] Record ${seg.id} (${rawUrl}) esclusa.`);
-      continue;
-    }
-
-    // Caso 2: Esiste già realmente in Notizie
-    if (existsInNotizie) {
-      auditItem.decision = 'gia_presente_in_notizie';
-      if (rawStato !== 'trasferita_in_notizie' && !options.mock && token) {
-        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Aggiornamento a 'trasferita_in_notizie'...`);
-        await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'trasferita_in_notizie');
-      }
-      alreadyTransferred.push(auditItem);
-      auditLog.segnalazioni.push(auditItem);
-      continue;
-    }
-
-    // Caso 3: URL non valido
+    // Caso 1: URL non valido o record vuoto
     if (!cleanUrl || !/^https?:\/\//i.test(cleanUrl)) {
       auditItem.decision = 'url_non_valido_scartata';
       console.warn(`  - [URL NON VALIDO] Record ${seg.id} ignorato: "${rawUrl}"`);
@@ -444,13 +423,25 @@ async function processSegnalazioniMaurizio(options = {}) {
       continue;
     }
 
-    // Caso 4: Da trasferire (inclusi casi in cui stato era 'inserito' ma non esisteva in Notizie!)
-    auditItem.decision = 'da_trasferire';
-    if (rawStato === 'inserito' || rawStato === 'inserita') {
-      auditItem.note = 'Stato precedente inserito ma non presente in Notizie (falso positivo recuperato)';
-      console.log(`  - [RECUPERO ORFANO] Record ${seg.id} aveva stato 'inserito' ma non era presente in Notizie. Procedo al trasferimento.`);
+    // Caso 2: Esiste già realmente in Notizie
+    if (existsInNotizie) {
+      auditItem.decision = 'gia_pubblicato';
+      if (rawStato !== 'pubblicato' && !options.mock && token) {
+        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Aggiornamento a 'pubblicato'...`);
+        await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'pubblicato');
+      }
+      alreadyTransferred.push(auditItem);
+      auditLog.segnalazioni.push(auditItem);
+      continue;
+    }
+
+    // Caso 3: Da pubblicare (qualsiasi stato preesistente o nuovo)
+    auditItem.decision = 'da_pubblicare';
+    if (rawStato === 'pubblicato' || rawStato === 'inserito' || rawStato === 'trasferita_in_notizie') {
+      auditItem.note = `Stato precedente "${rawStato}" ma assente in Notizie (falso positivo recuperato per la pubblicazione)`;
+      console.log(`  - [RECUPERO ORFANO DA PUBBLICARE] Record ${seg.id} (stato '${rawStato}') non era presente in Notizie. Procedo alla pubblicazione.`);
     } else {
-      console.log(`  - [NUOVA SEGNALAZIONE DA TRASFERIRE] Record ${seg.id} (${cleanUrl})`);
+      console.log(`  - [NUOVA SEGNALAZIONE DA PUBBLICARE] Record ${seg.id} (${cleanUrl})`);
     }
 
     toTransfer.push({ seg, cleanUrl, auditItem });
@@ -458,9 +449,8 @@ async function processSegnalazioniMaurizio(options = {}) {
   }
 
   console.log(`\n[Segnalazioni Maurizio] Riepilogo analisi:`);
-  console.log(`  - Già presenti in Notizie: ${alreadyTransferred.length}`);
-  console.log(`  - Scartate: ${discarded.length}`);
-  console.log(`  - Da trasferire ora in Notizie: ${toTransfer.length}\n`);
+  console.log(`  - Già pubblicate su Notizie: ${alreadyTransferred.length}`);
+  console.log(`  - Da pubblicare ora su Notizie: ${toTransfer.length}\n`);
 
   const newlyCreatedRecords = [];
 
@@ -512,8 +502,8 @@ async function processSegnalazioniMaurizio(options = {}) {
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'trasferita_in_notizie');
-      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e segnalazione marcata come "trasferita_in_notizie".`);
+      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'pubblicato');
+      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e segnalazione aggiornata a "pubblicato".`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'success';
       item.auditItem.createdNotiziaId = id;
