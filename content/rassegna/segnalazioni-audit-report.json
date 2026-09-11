@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-11T08:28:10.433Z",
-  "totalSegnalazioni": 5,
-  "totalNotizie": 62,
+  "timestamp": "2026-09-11T09:26:43.549Z",
+  "totalSegnalazioni": 6,
+  "totalNotizie": 78,
   "segnalazioni": [
     {
       "recordId": "rec4qZsXdfj5wd8Ts",
@@ -45,6 +45,22 @@
       },
       "decision": "gia_presente_in_notizie",
       "statoVerificato": "da_pubblicare"
+    },
+    {
+      "recordId": "reccglq1wXoiioMBT",
+      "url": "https://www.fondazioneconilsud.it/2026/09/10/sport-e-inclusione-al-via-15-nuovi-progetti-nel-sud-italia/",
+      "cleanUrl": "https://www.fondazioneconilsud.it/2026/09/10/sport-e-inclusione-al-via-15-nuovi-progetti-nel-sud-italia/",
+      "nota": "Sport e inclusione: al via 15 nuovi progetti nel Sud Italia",
+      "statoAttuale": "pubblicato",
+      "dataSegnalazione": "2026-09-11",
+      "existsInNotizie": true,
+      "notiziaMatch": {
+        "id": "fondazione-con-il-sud-sport-e-inclusione-al-via-15-n-2026-09-10",
+        "stato": "pubblica",
+        "titolo": "Sport e inclusione: al via 15 nuovi progetti nel Sud Italia - Fondazione con il Sud"
+      },
+      "decision": "gia_presente_in_notizie",
+      "statoVerificato": "pubblicato"
     },
     {
       "recordId": "recgDFWwnojeDVOym",

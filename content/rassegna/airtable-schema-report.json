@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-11T08:28:05.097Z",
+  "timestamp": "2026-09-11T09:26:35.456Z",
   "baseId": "appPqa952bdRrQJNI",
   "tableName": "Notizie",
   "metaApiAccess": true,
@@ -253,32 +253,32 @@
     "fonte",
     "stato",
     "titolo_originale",
-    "posizione_sito",
     "sintesi_editoriale",
     "id",
-    "ordine_editoriale",
     "titolo_editoriale",
-    "priorita",
     "url_fonte",
-    "data_fonte"
+    "data_fonte",
+    "posizione_sito",
+    "ordine_editoriale",
+    "priorita"
   ],
   "patchTestResult": {
     "ok": true,
     "status": 200,
     "fields": {
-      "categoria": "Domotica & Tecnologia",
-      "rilevanza_coinsieme": "Rilevante per COINSIEME perché mostra una modalità concreta di avvicinamento alle tecnologie assistive attraverso prova, apprendimento e consulenza.",
-      "fonte": "Domotica Sociale",
+      "categoria": "Welfare e autonomia",
+      "rilevanza_coinsieme": "Notizia selezionata dall'osservatorio COINSIEME da Forum Terzo Settore per il tema \"Welfare e autonomia\". Rilevante per l'orientamento, i servizi territoriali e la costruzione di reti comunitarie.",
+      "fonte": "Forum Terzo Settore",
       "stato": "pubblica",
-      "titolo_originale": "Al centro Domos la postazione informatica accessibile",
+      "titolo_originale": "Sicurezza nelle scuole. Presentato il nostro XXIV Rapporto di Cittadinanzattiva",
       "posizione_sito": "home_principale",
-      "sintesi_editoriale": "Al centro Domos è disponibile una postazione informatica accessibile con tastiera ad alto contrasto, joystick, sensori di comando e software dedicati.",
-      "id": "domotica-sociale-domos-postazione-informatica-accessibile-2026-09-03",
+      "sintesi_editoriale": "Sono 68 i crolli avvenuti nelle scuole da settembre 2025 ad agosto 2026 – in linea con quelli registrati nell’anno precedente - in particolare per la caduta di calcinacci ed intonaco e per i distacchi di pannelli e controsoffitti. Aumentano gli infortuni agli studenti dichiarati all’Inail, saliti...",
+      "id": "forum-terzo-settore-sicurezza-nelle-scuole-present-2026-09-10",
       "ordine_editoriale": 1,
-      "titolo_editoriale": "Tecnologie accessibili: al centro Domos una postazione informatica per sperimentare gli ausili",
+      "titolo_editoriale": "Sicurezza nelle scuole. Presentato il nostro XXIV Rapporto di Cittadinanzattiva",
       "priorita": "alta",
-      "url_fonte": "https://www.domoticasociale.it/it/news-ed-eventi/al-centro-domos-la-postazione-informatica-accessibile-048.html",
-      "data_fonte": "2026-09-03"
+      "url_fonte": "https://www.forumterzosettore.it/2026/09/10/sicurezza-nelle-scuole-presentato-il-nostro-xxiv-rapporto-di-cittadinanzattiva/",
+      "data_fonte": "2026-09-10"
     },
     "error": null
   }
