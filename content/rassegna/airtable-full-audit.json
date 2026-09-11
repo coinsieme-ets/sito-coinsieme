@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-09-11T07:20:59.879Z",
+  "baseId": "appPqa952bdRrQJNI",
+  "tokenConfigured": true,
+  "permissions": {
+    "data.records:read": {
+      "granted": true,
+      "status": 200,
+      "error": null
+    },
+    "data.records:write": {
+      "granted": false,
+      "status": 403,
+      "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+    },
+    "schema.bases:read": {
+      "granted": false,
+      "status": 403,
+      "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+    },
+    "schema.bases:write": {
+      "granted": false,
+      "status": null,
+      "error": null
+    }
+  },
+  "tables": {},
+  "migrationResults": [],
+  "errors": []
+}
