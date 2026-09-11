@@ -1,20 +1,21 @@
 {
-  "timestamp": "2026-09-11T07:26:59.173Z",
+  "timestamp": "2026-09-11T07:46:07.845Z",
   "totalSegnalazioni": 5,
-  "totalNotizie": 13,
+  "totalNotizie": 43,
   "segnalazioni": [
     {
       "recordId": "rec4qZsXdfj5wd8Ts",
       "url": "https://www.quotidianopiu.it/dettaglio/16380201/ets-runts-5-per-mille-ed-erogazioni-liberali-lincognita-delle-coperture",
       "cleanUrl": "https://www.quotidianopiu.it/dettaglio/16380201/ets-runts-5-per-mille-ed-erogazioni-liberali-lincognita-delle-coperture",
       "nota": "ETS: RUNTS, 5 per mille ed erogazioni liberali, l'incognita delle coperture",
-      "statoAttuale": "presa_in_carico",
+      "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-07",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_pubblicare",
-      "transferResult": "error",
-      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "transferResult": "success",
+      "createdNotiziaId": "quotidianopiu-aggiornamento-da-quotidianopiu-2026-09-11",
+      "urlPubblicato": "https://www.coinsieme.it/#quotidianopiu-aggiornamento-da-quotidianopiu-2026-09-11"
     },
     {
       "recordId": "recI0olBCFDo09LCt",
@@ -32,42 +33,42 @@
       "url": "https://fanpa.ge/9W14Q",
       "cleanUrl": "https://fanpa.ge/9W14Q",
       "nota": "Cos’è Il servizio civile per gli over 65 e chi potrebbe farlo",
-      "statoAttuale": "inserito",
+      "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-08",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_pubblicare",
-      "note": "Stato precedente \"inserito\" ma assente in Notizie (falso positivo recuperato per la pubblicazione)",
-      "transferResult": "error",
-      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "transferResult": "success",
+      "createdNotiziaId": "fanpa-aggiornamento-da-fanpa-2026-09-11",
+      "urlPubblicato": "https://www.coinsieme.it/#fanpa-aggiornamento-da-fanpa-2026-09-11"
     },
     {
       "recordId": "recgDFWwnojeDVOym",
       "url": "https://www.businessonline.it/news/riparte-la-trattativa-per-il-rinnovo-del-ccnl-cooperative-sociali-le-richieste-dei-sindacati-e-incontri-programmati_n87120.html",
       "cleanUrl": "https://www.businessonline.it/news/riparte-la-trattativa-per-il-rinnovo-del-ccnl-cooperative-sociali-le-richieste-dei-sindacati-e-incontri-programmati_n87120.html",
       "nota": "Rinnovo del CCNL delle cooperative sociali: ripartono le trattative tra le parti sociali",
-      "statoAttuale": "inserito",
+      "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-10",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_pubblicare",
-      "note": "Stato precedente \"inserito\" ma assente in Notizie (falso positivo recuperato per la pubblicazione)",
-      "transferResult": "error",
-      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "transferResult": "success",
+      "createdNotiziaId": "businessonline-it-riparte-la-trattativa-per-il-r-2026-09-11",
+      "urlPubblicato": "https://www.coinsieme.it/#businessonline-it-riparte-la-trattativa-per-il-r-2026-09-11"
     },
     {
       "recordId": "rechy2PgToVMZaOvG",
       "url": "La notizia https://www.ilmessaggero.it/economia/schede/legge_104_permessi_doppi_giorni_mese_novita_ultime_notizie-9750597.html",
       "cleanUrl": "https://www.ilmessaggero.it/economia/schede/legge_104_permessi_doppi_giorni_mese_novita_ultime_notizie-9750597.html",
       "nota": "Legge 104, i permessi possono raddoppiare: fino a 6 giorni al mese",
-      "statoAttuale": "inserito",
+      "statoAttuale": "da_pubblicare",
       "dataSegnalazione": "2026-09-08",
       "existsInNotizie": false,
       "notiziaMatch": null,
       "decision": "da_pubblicare",
-      "note": "Stato precedente \"inserito\" ma assente in Notizie (falso positivo recuperato per la pubblicazione)",
-      "transferResult": "error",
-      "error": "Errore inserimento notizia in Airtable (403): {\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+      "transferResult": "success",
+      "createdNotiziaId": "ilmessaggero-legge-104-quando-i-permessi-po-2026-09-08",
+      "urlPubblicato": "https://www.coinsieme.it/#ilmessaggero-legge-104-quando-i-permessi-po-2026-09-08"
     }
   ]
 }

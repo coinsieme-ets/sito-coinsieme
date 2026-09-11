@@ -1,11 +1,242 @@
 {
-  "timestamp": "2026-09-11T07:26:51.069Z",
+  "timestamp": "2026-09-11T07:46:02.534Z",
   "baseId": "appPqa952bdRrQJNI",
   "tableName": "Notizie",
-  "metaApiAccess": false,
-  "metaApiStatus": 403,
-  "metaApiError": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}",
-  "schemaFields": null,
+  "metaApiAccess": true,
+  "metaApiStatus": 200,
+  "metaApiError": null,
+  "schemaFields": [
+    {
+      "type": "singleLineText",
+      "id": "fldQrBbOhNGj4KxH9",
+      "name": "id"
+    },
+    {
+      "type": "singleLineText",
+      "id": "fldZDnvhbNgV0GCzz",
+      "name": "titolo_editoriale"
+    },
+    {
+      "type": "singleSelect",
+      "options": {
+        "choices": [
+          {
+            "id": "sel0VuNFX6Tu3esD5",
+            "name": "da_verificare",
+            "color": "blueLight2"
+          },
+          {
+            "id": "seltmBSvsowXcR1Mk",
+            "name": "proposta",
+            "color": "cyanLight2"
+          },
+          {
+            "id": "selbQ9UVpTIT6hplQ",
+            "name": "approvata",
+            "color": "tealLight2"
+          },
+          {
+            "id": "seliuGSnwJhnOi4Fe",
+            "name": "scartata",
+            "color": "greenLight2"
+          },
+          {
+            "id": "selKhrcHKzpmSdPUH",
+            "name": "archiviata",
+            "color": "yellowLight2"
+          },
+          {
+            "id": "selfl1vBVNzRGyaeN",
+            "name": "segnalata",
+            "color": "orangeLight2"
+          },
+          {
+            "id": "seloIy7yDvebGill2",
+            "name": "da_valutare",
+            "color": "redLight2"
+          },
+          {
+            "id": "selCFIGLUWeBQzOrW",
+            "name": "pubblica",
+            "color": "purpleLight2"
+          },
+          {
+            "id": "seljm0NJpHb3Wdikr",
+            "name": "pubblicata",
+            "color": "grayLight2"
+          }
+        ]
+      },
+      "id": "fldCxjAcvSyOZ9JNa",
+      "name": "stato"
+    },
+    {
+      "type": "singleSelect",
+      "options": {
+        "choices": [
+          {
+            "id": "sel0egInEvMw0j0SG",
+            "name": "alta",
+            "color": "blueLight2"
+          },
+          {
+            "id": "selTVHFVHdvzDcTH2",
+            "name": "media",
+            "color": "cyanLight2"
+          },
+          {
+            "id": "selRTPgAA9UhK0V8i",
+            "name": "bassa",
+            "color": "tealLight2"
+          }
+        ]
+      },
+      "id": "fldaedmWaq77rabuq",
+      "name": "priorita"
+    },
+    {
+      "type": "singleSelect",
+      "options": {
+        "choices": [
+          {
+            "id": "seljN8F53AUfovakA",
+            "name": "home_evidenza",
+            "color": "blueLight2"
+          },
+          {
+            "id": "seleBnyNgDfs4ykK0",
+            "name": "home_normale",
+            "color": "cyanLight2"
+          },
+          {
+            "id": "selflhPfBr44Bb7GT",
+            "name": "home_principale",
+            "color": "yellowLight2"
+          },
+          {
+            "id": "sel33SQt6lRVh8jkZ",
+            "name": "solo_rassegna",
+            "color": "greenLight2"
+          }
+        ]
+      },
+      "id": "fldGyJGXVgbusi07S",
+      "name": "posizione_sito"
+    },
+    {
+      "type": "number",
+      "options": {
+        "precision": 0
+      },
+      "id": "fldTXzIJrs2HTffEH",
+      "name": "ordine_editoriale"
+    },
+    {
+      "type": "date",
+      "options": {
+        "dateFormat": {
+          "name": "local",
+          "format": "l"
+        }
+      },
+      "id": "fldHkJk5Gz5DmfDah",
+      "name": "mantieni_in_evidenza_fino_al"
+    },
+    {
+      "type": "multipleAttachments",
+      "options": {
+        "isReversed": false
+      },
+      "id": "fldWj82ZgZZKW2IrF",
+      "name": "immagine_in_evidenza"
+    },
+    {
+      "type": "date",
+      "options": {
+        "dateFormat": {
+          "name": "local",
+          "format": "l"
+        }
+      },
+      "id": "fldaH0EGejG8kjS07",
+      "name": "data_pubblicazione"
+    },
+    {
+      "type": "singleSelect",
+      "options": {
+        "choices": [
+          {
+            "id": "selu7YT4DKklwj1Jx",
+            "name": "Lavoro e inclusione",
+            "color": "blueLight2"
+          },
+          {
+            "id": "selwbLOVPg87r03Uf",
+            "name": "Cooperazione sociale",
+            "color": "cyanLight2"
+          },
+          {
+            "id": "selaiiYXW0BZUL0hT",
+            "name": "Riforma disabilita",
+            "color": "tealLight2"
+          },
+          {
+            "id": "selvi9wPh0yA5eeUr",
+            "name": "Welfare e autonomia",
+            "color": "greenLight2"
+          },
+          {
+            "id": "selz842gvAfxmCTcI",
+            "name": "Domotica & Tecnologia",
+            "color": "yellowLight2"
+          },
+          {
+            "id": "selmOeohsHOTJzv6q",
+            "name": "Terzo Settore",
+            "color": "orangeLight2"
+          }
+        ]
+      },
+      "id": "fld03CqlWY9Y7DqXa",
+      "name": "categoria"
+    },
+    {
+      "type": "date",
+      "options": {
+        "dateFormat": {
+          "name": "iso",
+          "format": "YYYY-MM-DD"
+        }
+      },
+      "id": "fldtVC99TNwWZosFm",
+      "name": "data_fonte"
+    },
+    {
+      "type": "singleLineText",
+      "id": "fldDs9b0HGLH2QizO",
+      "name": "titolo_originale"
+    },
+    {
+      "type": "singleLineText",
+      "id": "fld9frEicUyTY10Q4",
+      "name": "fonte"
+    },
+    {
+      "type": "url",
+      "id": "fldbds2Kd81AGXnRl",
+      "name": "url_fonte"
+    },
+    {
+      "type": "multilineText",
+      "id": "fldOwCtUNaZvekr3P",
+      "name": "sintesi_editoriale"
+    },
+    {
+      "type": "multilineText",
+      "id": "fld6PleXUSkuOcHsF",
+      "name": "rilevanza_coinsieme"
+    }
+  ],
   "observedRecordFields": [
     "categoria",
     "rilevanza_coinsieme",
@@ -22,9 +253,23 @@
     "data_fonte"
   ],
   "patchTestResult": {
-    "ok": false,
-    "status": 403,
-    "fields": null,
-    "error": "{\"error\":{\"type\":\"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND\",\"message\":\"Invalid permissions, or the requested model was not found. Check that both your user and your token have the required permissions, and that the model names and/or ids are correct.\"}}"
+    "ok": true,
+    "status": 200,
+    "fields": {
+      "categoria": "Domotica & Tecnologia",
+      "rilevanza_coinsieme": "Rilevante per COINSIEME perché mostra una modalità concreta di avvicinamento alle tecnologie assistive attraverso prova, apprendimento e consulenza.",
+      "fonte": "Domotica Sociale",
+      "stato": "pubblica",
+      "titolo_originale": "Al centro Domos la postazione informatica accessibile",
+      "posizione_sito": "home_principale",
+      "sintesi_editoriale": "Al centro Domos è disponibile una postazione informatica accessibile con tastiera ad alto contrasto, joystick, sensori di comando e software dedicati.",
+      "id": "domotica-sociale-domos-postazione-informatica-accessibile-2026-09-03",
+      "ordine_editoriale": 1,
+      "titolo_editoriale": "Tecnologie accessibili: al centro Domos una postazione informatica per sperimentare gli ausili",
+      "priorita": "alta",
+      "url_fonte": "https://www.domoticasociale.it/it/news-ed-eventi/al-centro-domos-la-postazione-informatica-accessibile-048.html",
+      "data_fonte": "2026-09-03"
+    },
+    "error": null
   }
 }
