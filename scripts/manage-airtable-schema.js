@@ -348,7 +348,6 @@ async function main() {
           console.log(`====================================================\n`);
         }
       }
-    }
   } else {
     metaApiError = metaRes.text;
     console.log(`   ℹ Metadata API non abilitata per questo token (${metaRes.status}): ${metaRes.text}`);
