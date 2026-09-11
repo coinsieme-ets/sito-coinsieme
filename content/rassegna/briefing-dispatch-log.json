@@ -11,5 +11,18 @@
     "httpStatus": 200,
     "candidateCount": 8,
     "status": "sent"
+  },
+  {
+    "timestamp": "2026-09-11T04:40:03.844Z",
+    "timestampRome": "11/09/2026, 06:40:03",
+    "dateStr": "11 settembre 2026",
+    "dateIso": "2026-09-11",
+    "recipient": "segreteria@coinsieme.it",
+    "sender": "onboarding@resend.dev",
+    "subject": "Briefing notizie COINSIEME - 11 settembre 2026",
+    "resendMessageId": "6307743e-9532-4138-a780-3faec5c13046",
+    "httpStatus": 200,
+    "candidateCount": 0,
+    "status": "sent"
   }
 ]
