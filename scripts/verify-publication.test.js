@@ -39,3 +39,22 @@ test('Notizie lookup requests source, id, title and state together', async () =>
     assert.equal(records[0].url_fonte,'https://example.org/a');
   } finally { global.fetch = original; }
 });
+test('single-record mode excludes other submissions and defers every state write', async () => {
+  const {processSegnalazioniMaurizio, normalizeUrl} = require('./process-segnalazioni-maurizio');
+  const fs = require('node:fs');
+  const originalWrite = fs.writeFileSync, originalFetch = global.fetch;
+  try {
+    fs.writeFileSync = () => {};
+    global.fetch = async () => {throw new Error('Unexpected network/write before deployment');};
+    const source='https://example.org/selected';
+    const result=await processSegnalazioniMaurizio({
+      token:'test',recordId:'recSelected',deferPublicationConfirmation:true,
+      mockSegnalazioni:[{id:'recOther',fields:{url_articolo:'https://example.org/other',stato:'da_pubblicare'}},
+        {id:'recSelected',fields:{url_articolo:source,stato:'da_pubblicare'}}],
+      mockNotizie:[{id:'newsSelected',normalizedUrl:normalizeUrl(source),url_fonte:source,titolo_editoriale:'Selected',stato:'pubblica'}]
+    });
+    assert.equal(result.auditLog.segnalazioni.length,1);
+    assert.equal(result.auditLog.segnalazioni[0].recordId,'recSelected');
+    assert.equal(result.auditLog.segnalazioni[0].statoVerificato,undefined);
+  } finally {fs.writeFileSync=originalWrite;global.fetch=originalFetch;}
+});

@@ -364,6 +364,10 @@ async function processSegnalazioniMaurizio(options = {}) {
     rawSegnalazioni = await fetchAllSegnalazioni(token, baseId, segnalazioniTable);
   }
 
+  if (options.recordId) {
+    rawSegnalazioni = rawSegnalazioni.filter(r => r.id === options.recordId);
+    if (rawSegnalazioni.length !== 1) throw new Error('Segnalazione richiesta non trovata');
+  }
   console.log(`[Segnalazioni Maurizio] Totale segnalazioni lette da Airtable: ${rawSegnalazioni.length}`);
   console.log(`[Segnalazioni Maurizio] Totale notizie esistenti in "${notizieTable}": ${existingNotizie.length}\n`);
 
@@ -416,7 +420,7 @@ async function processSegnalazioniMaurizio(options = {}) {
     // Caso 2: Esiste già realmente in Notizie
     if (existsInNotizie) {
       auditItem.decision = 'gia_presente_in_notizie';
-      if (!options.mock && token) {
+      if (!options.mock && token && !options.deferPublicationConfirmation) {
         const pubUrl = `https://www.coinsieme.it/#${existsInNotizie.id || ''}`;
         console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Verifica della presenza sul sito...`);
         auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
@@ -498,7 +502,7 @@ async function processSegnalazioniMaurizio(options = {}) {
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      item.auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
+      if (!options.deferPublicationConfirmation) item.auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
         data_pubblicazione: dataFonte,
         url_pubblicato: urlPubblicato, url_fonte: cleanUrl, titolo_editoriale: titoloEditoriale
       });
