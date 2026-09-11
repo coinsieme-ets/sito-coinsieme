@@ -275,7 +275,13 @@ function mapToCategory(title = '', desc = '', sourceCategory = '') {
   return 'Welfare e Terzo Settore';
 }
 
-async function updateSegnalazioneStato(token, baseId, tableName, recordId, newStato) {
+async function updateSegnalazionePublished(token, baseId, tableName, recordId, extraFields = {}) {
+  const fields = {
+    stato: 'pubblicato'
+  };
+  if (extraFields.data_pubblicazione) fields.data_pubblicazione = extraFields.data_pubblicazione;
+  if (extraFields.url_pubblicato) fields.url_pubblicato = extraFields.url_pubblicato;
+
   try {
     const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
     const res = await fetch(url, {
@@ -285,20 +291,18 @@ async function updateSegnalazioneStato(token, baseId, tableName, recordId, newSt
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        fields: {
-          stato: newStato
-        },
+        fields,
         typecast: true
       })
     });
     if (!res.ok) {
       const err = await res.text();
-      console.warn(`[Segnalazioni] Errore aggiornamento stato segnalazione ${recordId} in "${newStato}": ${err}`);
+      console.warn(`[Segnalazioni] Errore aggiornamento segnalazione ${recordId} in "pubblicato": ${err}`);
     } else {
-      console.log(`    ✓ Segnalazione ${recordId} aggiornata con stato: "${newStato}"`);
+      console.log(`    ✓ Segnalazione ${recordId} aggiornata con stato="pubblicato", data_pubblicazione="${fields.data_pubblicazione || ''}", url_pubblicato="${fields.url_pubblicato || ''}"`);
     }
   } catch (e) {
-    console.warn(`[Segnalazioni] Eccezione aggiornamento stato segnalazione ${recordId}: ${e.message}`);
+    console.warn(`[Segnalazioni] Eccezione aggiornamento segnalazione ${recordId}: ${e.message}`);
   }
 }
 
@@ -427,8 +431,12 @@ async function processSegnalazioniMaurizio(options = {}) {
     if (existsInNotizie) {
       auditItem.decision = 'gia_pubblicato';
       if (rawStato !== 'pubblicato' && !options.mock && token) {
+        const pubUrl = `https://www.coinsieme.it/#${existsInNotizie.id || ''}`;
         console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Aggiornamento a 'pubblicato'...`);
-        await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'pubblicato');
+        await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
+          data_pubblicazione: dataSeg || new Date().toISOString().slice(0, 10),
+          url_pubblicato: pubUrl
+        });
       }
       alreadyTransferred.push(auditItem);
       auditLog.segnalazioni.push(auditItem);
@@ -475,6 +483,7 @@ async function processSegnalazioniMaurizio(options = {}) {
       : `Segnalazione diretta di Maurizio (Ref ID: ${seg.id}) per la rassegna COINSIEME.`;
 
     const id = `${slugify(fonte)}-${slugify(titoloEditoriale).slice(0, 30)}-${dataFonte}`;
+    const urlPubblicato = `https://www.coinsieme.it/#${id}`;
 
     const notiziaApprovata = {
       id,
@@ -497,16 +506,21 @@ async function processSegnalazioniMaurizio(options = {}) {
       console.log(`    [MOCK] Notizia creata: "${titoloEditoriale}" (${fonte})`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'mock_transferred';
+      item.auditItem.urlPubblicato = urlPubblicato;
       continue;
     }
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      await updateSegnalazioneStato(token, baseId, segnalazioniTable, seg.id, 'pubblicato');
+      await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
+        data_pubblicazione: dataFonte,
+        url_pubblicato: urlPubblicato
+      });
       console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e segnalazione aggiornata a "pubblicato".`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'success';
       item.auditItem.createdNotiziaId = id;
+      item.auditItem.urlPubblicato = urlPubblicato;
     } catch (err) {
       console.error(`    ✗ Errore salvataggio notizia per ${cleanUrl}: ${err.message}`);
       item.auditItem.transferResult = 'error';

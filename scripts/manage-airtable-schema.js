@@ -69,6 +69,30 @@ const REQUIRED_STATO_CHOICES = [
   'scartata'
 ];
 
+const REQUIRED_SEGNALAZIONI_FIELDS = [
+  {
+    name: 'stato',
+    type: 'singleSelect',
+    options: {
+      choices: [
+        { name: 'da_pubblicare' },
+        { name: 'pubblicato' }
+      ]
+    }
+  },
+  {
+    name: 'url_pubblicato',
+    type: 'url'
+  },
+  {
+    name: 'data_pubblicazione',
+    type: 'date',
+    options: {
+      dateFormat: { name: 'iso' }
+    }
+  }
+];
+
 async function getBaseSchema(token, baseId) {
   const url = `https://api.airtable.com/v0/meta/bases/${baseId}/tables`;
   const res = await fetch(url, {
@@ -189,6 +213,7 @@ async function main() {
     metaTables = metaRes.data.tables;
     console.log(`   ✓ Metadata API accessibile con successo! Trovate ${metaTables.length} tabelle.`);
     const notizieTable = metaTables.find(t => t.name.toLowerCase() === tableName.toLowerCase() || t.id === tableName);
+    const segnalazioniTable = metaTables.find(t => t.name.toLowerCase() === 'segnalazioni maurizio' || t.name.toLowerCase() === 'segnalazioni');
 
     if (notizieTable) {
       console.log(`   Tabella individuata: "${notizieTable.name}" (ID: ${notizieTable.id})`);
@@ -201,7 +226,7 @@ async function main() {
         console.log(`     - ${f.name} (${f.type})${opts}`);
       }
 
-      console.log('\n2. Creazione / Aggiornamento campi editoriali via Metadata API...');
+      console.log('\n2. Creazione / Aggiornamento campi editoriali Notizie via Metadata API...');
       for (const reqField of REQUIRED_FIELDS) {
         const existing = existingFieldNames.get(reqField.name.toLowerCase());
         if (!existing) {
@@ -226,7 +251,7 @@ async function main() {
         }
       }
 
-      // Aggiornamento scelte campo stato
+      // Aggiornamento scelte campo stato Notizie
       const statoField = existingFieldNames.get('stato');
       if (statoField && statoField.type === 'singleSelect') {
         const choiceMap = new Map();
@@ -239,18 +264,73 @@ async function main() {
           }
         }
         const updatedChoices = Array.from(choiceMap.values());
-        console.log(`\n3. Aggiornamento scelte "stato" in: [${updatedChoices.map(c => c.name).join(', ')}]...`);
+        console.log(`\n3. Aggiornamento scelte "stato" Notizie in: [${updatedChoices.map(c => c.name).join(', ')}]...`);
         const updateStatoRes = await updateField(token, baseId, notizieTable.id, statoField.id, {
           name: statoField.name,
           type: 'singleSelect',
           options: { choices: updatedChoices }
         });
         if (updateStatoRes.ok) {
-          console.log('   ✓ Opzioni campo "stato" aggiornate con successo.');
+          console.log('   ✓ Opzioni campo "stato" Notizie aggiornate con successo.');
         } else {
           console.warn(`   ✗ Aggiornamento scelte stato (${updateStatoRes.status}): ${updateStatoRes.text}`);
         }
       }
+    }
+
+    if (segnalazioniTable) {
+      console.log(`\n   Tabella Segnalazioni individuata: "${segnalazioniTable.name}" (ID: ${segnalazioniTable.id})`);
+      const existingFields = segnalazioniTable.fields || [];
+      const existingFieldNames = new Map(existingFields.map(f => [f.name.toLowerCase(), f]));
+
+      console.log(`   Campi attuali Segnalazioni (${existingFields.length}):`);
+      for (const f of existingFields) {
+        const opts = f.options && f.options.choices ? ` [choices: ${f.options.choices.map(c => c.name).join(', ')}]` : '';
+        console.log(`     - ${f.name} (${f.type})${opts}`);
+      }
+
+      console.log('\n2b. Creazione / Aggiornamento campi Segnalazioni Maurizio via Metadata API...');
+      for (const reqField of REQUIRED_SEGNALAZIONI_FIELDS) {
+        const existing = existingFieldNames.get(reqField.name.toLowerCase());
+        if (!existing) {
+          console.log(`   + Creazione campo Segnalazioni: "${reqField.name}" (${reqField.type})...`);
+          const createRes = await createField(token, baseId, segnalazioniTable.id, reqField);
+          if (createRes.ok) {
+            console.log(`     ✓ Creato "${reqField.name}" (ID: ${createRes.data.id})`);
+          } else {
+            console.warn(`     ✗ Errore creazione Segnalazioni (${createRes.status}): ${createRes.text}`);
+          }
+        } else {
+          console.log(`   = Campo Segnalazioni "${reqField.name}" già presente.`);
+        }
+      }
+
+      // Aggiornamento scelte campo stato Segnalazioni Maurizio
+      const statoSegField = existingFieldNames.get('stato');
+      if (statoSegField && statoSegField.type === 'singleSelect') {
+        const choiceMap = new Map();
+        for (const c of (statoSegField.options && statoSegField.options.choices || [])) {
+          choiceMap.set(c.name.toLowerCase(), c);
+        }
+        for (const reqChoice of [{ name: 'da_pubblicare' }, { name: 'pubblicato' }]) {
+          if (!choiceMap.has(reqChoice.name.toLowerCase())) {
+            choiceMap.set(reqChoice.name.toLowerCase(), reqChoice);
+          }
+        }
+        const updatedChoices = Array.from(choiceMap.values());
+        console.log(`\n3b. Aggiornamento scelte "stato" Segnalazioni in: [${updatedChoices.map(c => c.name).join(', ')}]...`);
+        const updateStatoRes = await updateField(token, baseId, segnalazioniTable.id, statoSegField.id, {
+          name: statoSegField.name,
+          type: 'singleSelect',
+          options: { choices: updatedChoices }
+        });
+        if (updateStatoRes.ok) {
+          console.log('   ✓ Opzioni campo "stato" Segnalazioni aggiornate con successo.');
+        } else {
+          console.warn(`   ✗ Aggiornamento scelte stato Segnalazioni (${updateStatoRes.status}): ${updateStatoRes.text}`);
+        }
+      }
+    }
 
       // Rilettura schema
       const finalSchema = await getBaseSchema(token, baseId);
