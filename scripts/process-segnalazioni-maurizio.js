@@ -191,10 +191,10 @@ async function fetchAllNotizieUrls(token, baseId, tableName = 'Notizie') {
 
   do {
     const params = new URLSearchParams();
-    params.set('fields[]', 'url_fonte');
-    params.set('fields[]', 'id');
-    params.set('fields[]', 'titolo_editoriale');
-    params.set('fields[]', 'stato');
+    params.append('fields[]', 'url_fonte');
+    params.append('fields[]', 'id');
+    params.append('fields[]', 'titolo_editoriale');
+    params.append('fields[]', 'stato');
     params.set('pageSize', '100');
     if (offset) params.set('offset', offset);
 
@@ -276,36 +276,22 @@ function mapToCategory(title = '', desc = '', sourceCategory = '') {
 }
 
 async function updateSegnalazionePublished(token, baseId, tableName, recordId, extraFields = {}) {
-  const fields = {
-    stato: 'pubblicato'
-  };
-  if (extraFields.data_pubblicazione) fields.data_pubblicazione = extraFields.data_pubblicazione;
-  if (extraFields.url_pubblicato) fields.url_pubblicato = extraFields.url_pubblicato;
-
-  try {
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
-    const res = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields,
-        typecast: true
-      })
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      console.warn(`[Segnalazioni] Errore aggiornamento segnalazione ${recordId} in "pubblicato": ${err}`);
-    } else {
-      console.log(`    ✓ Segnalazione ${recordId} aggiornata con stato="pubblicato", data_pubblicazione="${fields.data_pubblicazione || ''}", url_pubblicato="${fields.url_pubblicato || ''}"`);
-    }
-  } catch (e) {
-    console.warn(`[Segnalazioni] Eccezione aggiornamento segnalazione ${recordId}: ${e.message}`);
-  }
+  const {fetchPublicPages, verifyPublication, correctionFields} = require('./verify-publication');
+  // Notizie is the editorial queue, not evidence that deployment has completed.
+  // A network failure throws before PATCH and leaves the record unchanged.
+  const evidence = verifyPublication(await fetchPublicPages(), extraFields);
+  const fields = correctionFields({}, evidence);
+  // Preserve an existing publication date; never substitute the source or submission date.
+  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}/${recordId}`;
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
+    body: JSON.stringify({fields})
+  });
+  if (!res.ok) throw new Error(`Aggiornamento segnalazione ${recordId}: HTTP ${res.status}`);
+  console.log(`    Segnalazione ${recordId}: ${fields.stato} (verifica sito pubblico).`);
+  return fields.stato;
 }
-
 function buildCleanNotiziePayload(record) {
   // Solo i campi supportati e valorizzati per evitare errori di schema Airtable
   const fields = {
@@ -429,13 +415,13 @@ async function processSegnalazioniMaurizio(options = {}) {
 
     // Caso 2: Esiste già realmente in Notizie
     if (existsInNotizie) {
-      auditItem.decision = 'gia_pubblicato';
-      if (rawStato !== 'pubblicato' && !options.mock && token) {
+      auditItem.decision = 'gia_presente_in_notizie';
+      if (!options.mock && token) {
         const pubUrl = `https://www.coinsieme.it/#${existsInNotizie.id || ''}`;
-        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Aggiornamento a 'pubblicato'...`);
-        await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
+        console.log(`  - [ALLINEAMENTO STATO] Record ${seg.id} già presente in Notizie (${existsInNotizie.id}). Verifica della presenza sul sito...`);
+        auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
           data_pubblicazione: dataSeg || new Date().toISOString().slice(0, 10),
-          url_pubblicato: pubUrl
+          url_pubblicato: pubUrl, url_fonte: existsInNotizie.url_fonte, titolo_editoriale: existsInNotizie.titolo_editoriale
         });
       }
       alreadyTransferred.push(auditItem);
@@ -506,21 +492,21 @@ async function processSegnalazioniMaurizio(options = {}) {
       console.log(`    [MOCK] Notizia creata: "${titoloEditoriale}" (${fonte})`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'mock_transferred';
-      item.auditItem.urlPubblicato = urlPubblicato;
+      item.auditItem.urlPubblicato = item.auditItem.statoVerificato === 'pubblicato' ? 'https://www.coinsieme.it/' : null;
       continue;
     }
 
     try {
       await insertIntoNotizie(token, baseId, notizieTable, notiziaApprovata);
-      await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
+      item.auditItem.statoVerificato = await updateSegnalazionePublished(token, baseId, segnalazioniTable, seg.id, {
         data_pubblicazione: dataFonte,
-        url_pubblicato: urlPubblicato
+        url_pubblicato: urlPubblicato, url_fonte: cleanUrl, titolo_editoriale: titoloEditoriale
       });
-      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e segnalazione aggiornata a "pubblicato".`);
+      console.log(`    ✓ Notizia inserita con successo in "${notizieTable}" (stato: pubblica) e stato segnalazione verificato sul sito pubblico.`);
       newlyCreatedRecords.push(notiziaApprovata);
       item.auditItem.transferResult = 'success';
       item.auditItem.createdNotiziaId = id;
-      item.auditItem.urlPubblicato = urlPubblicato;
+      item.auditItem.urlPubblicato = item.auditItem.statoVerificato === 'pubblicato' ? 'https://www.coinsieme.it/' : null;
     } catch (err) {
       console.error(`    ✗ Errore salvataggio notizia per ${cleanUrl}: ${err.message}`);
       item.auditItem.transferResult = 'error';

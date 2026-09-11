@@ -1,44 +1,31 @@
 name: Airtable Schema and Records Migration
-
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-
 permissions:
-  contents: write
-
+  contents: read
+concurrency:
+  group: airtable-segnalazioni-audit
+  cancel-in-progress: false
 jobs:
   audit-and-migrate:
-    name: Audit PAT Permessi, Schema e Migrazione Record
+    name: Verifica sito e correzione Segnalazioni Maurizio
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-
-      - name: Installazione dipendenze deterministica (npm ci)
-        run: npm ci
-
-      - name: Esegui Audit e Migrazione Airtable
+      - name: Test verifica pubblicazione
+        run: node --test scripts/verify-publication.test.js
+      - name: Verifica e correzione Airtable senza pubblicazione
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
+          AIRTABLE_BASE_ID: appPqa952bdRrQJNI
         run: node scripts/airtable-audit-and-migrate.js
-
-      - name: Commit e Push del Report di Audit
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -f "content/rassegna/airtable-full-audit.json" ]; then
-            git add content/rassegna/airtable-full-audit.json
-            git diff --staged --quiet || git commit -m "docs(airtable): aggiornamento report audit e migrazione schema [skip ci]"
-            git push origin main || echo "Nessuna modifica da inviare"
-          fi
+      - name: Conserva report con HTTP status e verifica API finale
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: airtable-verification
+          path: content/rassegna/airtable-full-audit.json
+          if-no-files-found: error
