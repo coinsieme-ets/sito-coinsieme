@@ -49,7 +49,11 @@ jobs:
         run: node scripts/publish-segnalazioni.js prepare
       - name: Compila sito e pagine permanenti della rassegna
         if: steps.prepare.outputs.count != '0'
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
         run: |
+          node --test scripts/home-feature.test.js
+          node scripts/refresh-home-editorial.js
           node scripts/build-cms.js
           node scripts/build-hybrid-index.js
       - name: Verifica tutte le schede prima del deploy

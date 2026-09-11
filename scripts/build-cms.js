@@ -652,7 +652,8 @@ function resolveNewsImage(item) {
 }
 
 function buildDailyNewsCard(items) {
-  const latest = getHomeHeroItem(items);
+  const {selectHomeFeature,loadHomeItems}=require("./home-feature");
+  const latest = selectHomeFeature(loadHomeItems(items));
   if (!latest) {
     return `<section id="focus-news" class="news-highlight-section" style="display:none;" aria-hidden="true"></section>`;
   }
@@ -677,10 +678,7 @@ function buildDailyNewsCard(items) {
     badgeLabel = 'Ricerca & Famiglie';
   }
 
-  let tagLabel = 'In evidenza oggi';
-  if (latest.posizione_sito === 'home_principale') {
-    tagLabel = 'Primo Piano';
-  }
+  const tagLabel = 'Primo Piano';
 
   return `<section id="focus-news" class="news-highlight-section" aria-label="Notizia in evidenza del giorno">
   <div class="container">

@@ -1,0 +1,14 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');
+const {selectHomeFeature}=require('./home-feature');
+const base={id:'old',stato:'pubblicata',posizione_sito:'home_normale',titolo_editoriale:'Test',fonte:'Fonte',url_fonte:'https://example.org',data_pubblicazione:'2026-09-03',ordine_editoriale:1,priorita:'alta'};
+const fresh={...base,id:'new',data_pubblicazione:'2026-09-11',ordine_editoriale:99,priorita:'bassa'};
+const pick=items=>selectHomeFeature(items,'2026-09-11')?.id;
+test('newest beats old position, priority and order',()=>assert.equal(pick([{...base,posizione_sito:'home_evidenza'},fresh]),'new'));
+test('explicit main wins',()=>assert.equal(pick([{...base,posizione_sito:'home_principale'},fresh]),'old'));
+test('active pin inclusive until date',()=>assert.equal(pick([{...base,mantieni_in_evidenza_fino_al:'2026-09-11'},fresh]),'old'));
+test('expired main pin loses precedence',()=>assert.equal(pick([{...base,posizione_sito:'home_principale',mantieni_in_evidenza_fino_al:'2026-09-10'},fresh]),'new'));
+test('future, RSS, archive-only and incomplete excluded',()=>assert.equal(pick([{...fresh,data_pubblicazione:'2026-09-12'},{...fresh,stato:'da_valutare'},{...fresh,posizione_sito:'solo_rassegna'},{...fresh,fonte:''},base]),'old'));
+test('publication date beats source date',()=>assert.equal(pick([{...fresh,data_fonte:'2025-01-01'},base]),'new'));
+test('same date editorial order then priority',()=>{assert.equal(pick([{...base,data_pubblicazione:'2026-09-11'},fresh]),'old');assert.equal(pick([{...base,data_pubblicazione:'2026-09-11',ordine_editoriale:99},fresh]),'old');});
+test('empty dataset',()=>assert.equal(selectHomeFeature([]),null));
+test('input unchanged',()=>{const a=[fresh,base];pick(a);assert.equal(a[0],fresh);});
