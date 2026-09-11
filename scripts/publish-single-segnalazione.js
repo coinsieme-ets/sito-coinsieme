@@ -39,7 +39,7 @@ async function run(mode) {
     const result = await processSegnalazioniMaurizio({recordId,deferPublicationConfirmation:true});
     if(result.auditLog.segnalazioni.length!==1 || result.auditLog.segnalazioni[0].recordId!==recordId) throw new Error('Elaborazione non circoscritta');
     const news = await newsFor(source);
-    const item = validateAndNormalizeRecord(news);
+    const item = normalizeTarget(news);
     if(!item || !item.titolo_editoriale || /^Aggiornamento da /i.test(item.titolo_editoriale)) throw new Error('Titolo o contenuto non valido: revisione necessaria');
     item.posizione_sito='home_evidenza';
     item.ordine_editoriale=0;
@@ -81,4 +81,7 @@ async function run(mode) {
     console.log('Airtable verificato: '+recordId+' pubblicato '+date);
   } else throw new Error('Modalita sconosciuta');
 }
-run(process.argv[2]).catch(e=>{console.error(e.message);process.exitCode=1;});
+function normalizeTarget(news) { return validateAndNormalizeRecord(news.fields, news.id, news); }
+if (require.main === module) run(process.argv[2]).catch(e=>{console.error(e.message);process.exitCode=1;});
+module.exports = {normalizeTarget};
+

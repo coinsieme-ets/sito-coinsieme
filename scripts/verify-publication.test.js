@@ -58,3 +58,10 @@ test('single-record mode excludes other submissions and defers every state write
     assert.equal(result.auditLog.segnalazioni[0].statoVerificato,undefined);
   } finally {fs.writeFileSync=originalWrite;global.fetch=originalFetch;}
 });
+test('single publication normalizes the Airtable fields envelope correctly', () => {
+  const {normalizeTarget}=require('./publish-single-segnalazione');
+  const item=normalizeTarget({id:'recTarget',fields:{stato:'pubblica',data_fonte:'2026-09-10',
+    titolo_editoriale:'Sport e inclusione',url_fonte:'https://example.org/sport',fonte:'Fondazione'}});
+  assert.equal(item.titolo_editoriale,'Sport e inclusione');
+  assert.equal(item.airtableRecordId,'recTarget');
+});
