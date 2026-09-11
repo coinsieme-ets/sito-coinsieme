@@ -63,6 +63,21 @@ async function runAuditAndMigration() {
       const metaJson = JSON.parse(metaText);
       metaTables = metaJson.tables || [];
       console.log(`   ✅ schema.bases:read: ACCORDATO (Trovate ${metaTables.length} tabelle)`);
+      for (const t of metaTables) {
+        report.tables[t.name] = {
+          id: t.id,
+          fields: (t.fields || []).map(f => ({
+            name: f.name,
+            type: f.type,
+            choices: f.options?.choices?.map(c => c.name) || null
+          })),
+          views: (t.views || []).map(v => ({
+            id: v.id,
+            name: v.name,
+            type: v.type
+          }))
+        };
+      }
     } else {
       report.permissions['schema.bases:read'].granted = false;
       report.permissions['schema.bases:read'].error = metaText;
@@ -266,6 +281,76 @@ async function runAuditAndMigration() {
         } catch (e) {
           console.log(`     ❌ Eccezione aggiornamento scelte "stato": ${e.message}`);
         }
+      }
+    }
+
+    const notTable = metaTables.find(t => t.name.toLowerCase() === notizieTableName.toLowerCase());
+    if (notTable) {
+      console.log(`\n   Tabella "${notTable.name}" trovata (ID: ${notTable.id}).`);
+      const existingFields = notTable.fields || [];
+      const fieldMap = new Map(existingFields.map(f => [f.name.toLowerCase(), f]));
+
+      const NOTIZIE_FIELDS = [
+        { name: 'priorita', type: 'singleSelect', options: { choices: [{ name: 'alta' }, { name: 'media' }, { name: 'bassa' }] } },
+        { name: 'posizione_sito', type: 'singleSelect', options: { choices: [{ name: 'home_principale' }, { name: 'home_evidenza' }, { name: 'home_normale' }, { name: 'solo_rassegna' }] } },
+        { name: 'ordine_editoriale', type: 'number', options: { precision: 0 } },
+        { name: 'mantieni_in_evidenza_fino_al', type: 'date', options: { dateFormat: { name: 'iso' } } },
+        { name: 'immagine_in_evidenza', type: 'multipleAttachments' },
+        { name: 'data_pubblicazione', type: 'date', options: { dateFormat: { name: 'iso' } } }
+      ];
+
+      for (const reqField of NOTIZIE_FIELDS) {
+        if (!fieldMap.has(reqField.name.toLowerCase())) {
+          console.log(`   + Creazione campo Notizie "${reqField.name}" (${reqField.type})...`);
+          try {
+            const createFieldUrl = `https://api.airtable.com/v0/meta/bases/${baseId}/tables/${notTable.id}/fields`;
+            const cfRes = await fetch(createFieldUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(reqField)
+            });
+            const cfText = await cfRes.text();
+            if (cfRes.ok) {
+              report.permissions['schema.bases:write'].granted = true;
+              console.log(`     ✅ Campo "${reqField.name}" creato con successo in Notizie.`);
+            } else {
+              console.log(`     ❌ Errore creazione "${reqField.name}" in Notizie (${cfRes.status}): ${cfText}`);
+            }
+          } catch (e) {
+            console.log(`     ❌ Eccezione creazione "${reqField.name}" in Notizie: ${e.message}`);
+          }
+        }
+      }
+
+      const statoField = fieldMap.get('stato');
+      if (statoField && statoField.type === 'singleSelect') {
+        const choiceMap = new Map();
+        for (const c of (statoField.options?.choices || [])) choiceMap.set(c.name.toLowerCase(), c);
+        for (const reqChoice of ['segnalata', 'da_valutare', 'approvata', 'pubblica', 'pubblicata', 'scartata']) {
+          if (!choiceMap.has(reqChoice.toLowerCase())) choiceMap.set(reqChoice.toLowerCase(), { name: reqChoice });
+        }
+        try {
+          const patchFieldUrl = `https://api.airtable.com/v0/meta/bases/${baseId}/tables/${notTable.id}/fields/${statoField.id}`;
+          const pfRes = await fetch(patchFieldUrl, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: 'stato',
+              type: 'singleSelect',
+              options: { choices: Array.from(choiceMap.values()) }
+            })
+          });
+          if (pfRes.ok) {
+            report.permissions['schema.bases:write'].granted = true;
+            console.log('     ✅ Opzioni campo "stato" Notizie aggiornate con successo.');
+          }
+        } catch (e) {}
       }
     }
   }
