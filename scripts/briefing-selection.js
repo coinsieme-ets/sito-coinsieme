@@ -30,12 +30,15 @@ function selectCandidates(candidates,existing=[],segnalazioni=[],date){
   if(reason){excluded.push({title:item.titolo_editoriale,reason});continue;}
   ranked.push({...item,...rating});
  }
- ranked.sort((a,b)=>b.score-a.score||b.data_fonte.localeCompare(a.data_fonte)||a.url_fonte.localeCompare(b.url_fonte));
- const selected=[];
- for(const item of ranked){const url=normalizeUrl(item.url_fonte);let reason;
+ const selected=[],sourceCounts=new Map();
+ const sourceKey=item=>String(item.fonte).trim().toLowerCase().replace(/\s+/g,' ');
+ while(ranked.length){
+  // Relevance remains first; diversity only breaks equal-score ties.
+  ranked.sort((a,b)=>b.score-a.score||(sourceCounts.get(sourceKey(a))||0)-(sourceCounts.get(sourceKey(b))||0)||b.data_fonte.localeCompare(a.data_fonte)||a.url_fonte.localeCompare(b.url_fonte));
+  const item=ranked.shift();const url=normalizeUrl(item.url_fonte);let reason;
   if(urls.has(url)||checkEditorialSimilarity(item.titolo_editoriale,selected))reason='duplicato nella raccolta';
   else if(selected.length>=MAX)reason='oltre le cinque piu rilevanti';
-  if(reason)excluded.push({title:item.titolo_editoriale,reason});else{selected.push(item);urls.add(url);}
+  if(reason)excluded.push({title:item.titolo_editoriale,reason});else{selected.push(item);urls.add(url);sourceCounts.set(sourceKey(item),(sourceCounts.get(sourceKey(item))||0)+1);}
  }
  return {selected,excluded,total:candidates.length};
 }
