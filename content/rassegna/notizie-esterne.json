@@ -1,24 +1,5 @@
 [
   {
-    "id": "domotica-sociale-domos-postazione-informatica-accessibile-2026-09-03",
-    "categoria": "Domotica & Tecnologia",
-    "data_fonte": "2026-09-03",
-    "data_pubblicazione": "2026-09-03",
-    "titolo_originale": "Al centro Domos la postazione informatica accessibile",
-    "titolo_editoriale": "Tecnologie accessibili: al centro Domos una postazione informatica per sperimentare gli ausili",
-    "fonte": "Domotica Sociale",
-    "url_fonte": "https://www.domoticasociale.it/it/news-ed-eventi/al-centro-domos-la-postazione-informatica-accessibile-048.html",
-    "sintesi_editoriale": "Al centro Domos è disponibile una postazione informatica accessibile con tastiera ad alto contrasto, joystick, sensori di comando e software dedicati.",
-    "rilevanza_coinsieme": "Rilevante per COINSIEME perché mostra una modalità concreta di avvicinamento alle tecnologie assistive attraverso prova, apprendimento e consulenza.",
-    "immagine_in_evidenza": "",
-    "immagine_news": "",
-    "stato": "pubblicata",
-    "priorita": "alta",
-    "posizione_sito": "home_principale",
-    "ordine_editoriale": 1,
-    "mantieni_in_evidenza_fino_al": ""
-  },
-  {
     "id": "fondazione-con-il-sud-sport-e-inclusione-al-via-15-n-2026-09-10",
     "categoria": "Welfare e Terzo Settore",
     "data_fonte": "2026-09-10",
@@ -122,6 +103,27 @@
     "mantieni_in_evidenza_fino_al": "",
     "segnalazioni": [
       "rechy2PgToVMZaOvG"
+    ]
+  },
+  {
+    "id": "animazionesociale-sognare-rsa-senza-muri-2026-09-12",
+    "categoria": "Welfare e cura",
+    "data_fonte": "2026-09-12",
+    "data_pubblicazione": "2026-09-12",
+    "titolo_originale": "Sognare RSA senza muri",
+    "titolo_editoriale": "Sognare RSA senza muri",
+    "fonte": "Animazionesociale",
+    "url_fonte": "https://www.animazionesociale.it/it-schede-3964-sognare_rsa_senza_muri?fbclid=IwdGRjcAUSbExwZG9mBWZkaWQWUOQOIBB-GWwyluR_D5J1BYZgYCCpsGV4dG4DYWVtATAAYWRpZAGrPB-O-nFyc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHnL_Rungt3E8PXOu4OGhKmMnXOFX5GgCkSjD5Qt5Rl5Uh4_vj_X6okT3r2_k_aem_bkoGkzmHhHElQ_wyCXUpiA&utm_medium=paid&utm_source=fb&utm_id=120255918908200562&utm_content=120255918908190562&utm_term=120255918908210562&utm_campaign=120255918908200562",
+    "sintesi_editoriale": "Le RSA non sono solo luoghi di cura, ma piccoli mondi sociali da reinventare. Quattro sfide per abbattere i muri � fisici e mentali � che ancora separano gli anziani dalla vita della comunit�.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "rec2H3saOuF6NH6X9"
     ]
   }
 ]
