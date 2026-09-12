@@ -99,6 +99,7 @@ function findExistingSuccessfulDispatch(entries, dateIso, dateStr, recipient, su
 }
 
 function renderEmailHtml(records, viewUrl, dateStr) {
+  if(!Array.isArray(records)||records.length>5)throw new Error('BLOCCO: massimo 5 notizie per briefing');
   const itemsHtml = records.map((rec, index) => {
     const f = rec.fields || rec;
     const cat = escapeHtml(f.categoria || 'Welfare e Terzo Settore');
@@ -107,7 +108,7 @@ function renderEmailHtml(records, viewUrl, dateStr) {
     const fonte = escapeHtml(f.fonte || 'Fonte esterna');
     const url = escapeHtml(f.url_fonte || '#');
     const sintesi = escapeHtml(f.sintesi_editoriale || '');
-    const rilevanza = escapeHtml(f.rilevanza_coinsieme || '');
+    const rilevanza = escapeHtml(f.rilevanza || f.rilevanza_coinsieme || '');
     const stato = (f.stato || 'da_valutare').trim().toLowerCase();
 
     let statoBadge = '<span style="display:inline-block; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700; background:#fef3c7; color:#92400e;">SEGNALATA</span>';
@@ -122,7 +123,7 @@ function renderEmailHtml(records, viewUrl, dateStr) {
           ${dataFonte ? `<span style="font-size:12px; color:#6b5d52; margin-left:8px;">${dataFonte}</span>` : ''}
           <span style="float:right;">${statoBadge}</span>
         </div>
-        <h3 style="margin:8px 0 10px 0; font-size:16px; line-height:1.35; color:#3d2208; font-weight:700;">${titolo}</h3>
+        <h3 data-airtable-id="${escapeHtml(rec.id)}" style="margin:8px 0 10px 0; font-size:16px; line-height:1.35; color:#3d2208; font-weight:700;">${titolo}</h3>
         <p style="margin:0 0 10px 0; font-size:13.5px; color:#5a4a3a; line-height:1.5;">${sintesi}</p>
         <div style="font-size:12.5px; color:#6b5d52; margin-bottom:10px;">
           <strong>Fonte:</strong> ${fonte} &nbsp;·&nbsp; <a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#c45e1a; text-decoration:underline; font-weight:600;">Apri articolo originale ↗</a>
@@ -193,41 +194,6 @@ function renderEmailHtml(records, viewUrl, dateStr) {
   `.trim();
 }
 
-async function fetchCandidateRecords(token, baseId, tableName) {
-  let allRecords = [];
-  let offset = null;
-
-  do {
-    const params = new URLSearchParams();
-    params.set('filterByFormula', "OR(LOWER({stato}) = 'da_valutare', LOWER({stato}) = 'segnalata', LOWER({stato}) = 'proposta', LOWER({stato}) = 'da_verificare', LOWER({Stato}) = 'da_valutare', LOWER({Stato}) = 'segnalata')");
-    params.set('sort[0][field]', 'data_fonte');
-    params.set('sort[0][direction]', 'desc');
-    params.set('pageSize', '100');
-    if (offset) params.set('offset', offset);
-
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params.toString()}`;
-    const res = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      }
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Errore API Airtable (${res.status} ${res.statusText}): ${errorText}`);
-    }
-
-    const data = await res.json();
-    if (Array.isArray(data.records)) {
-      allRecords = allRecords.concat(data.records);
-    }
-    offset = data.offset || null;
-  } while (offset);
-
-  return allRecords;
-}
-
 async function sendViaResend(apiKey, sender, recipient, subject, html) {
   let fromAddress = sender || 'onboarding@resend.dev';
   const toList = [String(recipient).trim()];
@@ -237,7 +203,8 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Idempotency-Key': 'coinsieme-briefing-'+getIsoDateRome()
     },
     body: JSON.stringify({
       from: fromAddress,
@@ -258,7 +225,8 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+      'Idempotency-Key': 'coinsieme-briefing-'+getIsoDateRome()
         },
         body: JSON.stringify({
           from: 'onboarding@resend.dev',
@@ -284,182 +252,30 @@ async function sendViaResend(apiKey, sender, recipient, subject, html) {
   };
 }
 
-async function main(options = {}) {
-  const isScheduled = process.env.GITHUB_EVENT_NAME === 'schedule';
-  const forceRun = options.force || process.argv.includes('--force') || process.env.FORCE_BRIEFING === 'true' || !isScheduled;
-  const forceDuplicate = options.forceDuplicate || process.argv.includes('--force-duplicate') || process.env.FORCE_RESEND_DUPLICATE === 'true';
-
-  // 1. Controllo Timezone Europe/Rome
-  if (!forceRun) {
-    if (!isRomeTimeWindow()) {
-      const { hours, minutes } = getRomeTimeParts();
-      console.log(`[Briefing Mail] Ora italiana corrente: ${hours}:${String(minutes).padStart(2, '0')}. Esecuzione non pertinente per questo slot orario. Terminato.`);
-      return { skipped: true, reason: 'outside_time_window' };
-    }
-  }
-
-  const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
-  const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
-  const viewUrl = options.viewUrl || process.env.AIRTABLE_VIEW_URL || 'https://airtable.com';
-  const resendApiKey = options.resendApiKey || process.env.RESEND_API_KEY;
-
-  // Unico destinatario rigoroso: segreteria@coinsieme.it
-  const recipient = (options.recipient || process.env.BRIEFING_RECIPIENT_EMAIL || 'segreteria@coinsieme.it').trim();
-  const sender = (options.sender || process.env.BRIEFING_SENDER_EMAIL || 'onboarding@resend.dev').trim();
-
-  const customLogPath = options.dispatchLogPath || dispatchLogPath;
-
-  let candidateRecords = [];
-
-  if (options.mockRecords) {
-    candidateRecords = options.mockRecords.filter(r => {
-      const s = (r.fields?.stato || r.stato || '').trim().toLowerCase();
-      return s === 'da_valutare' || s === 'segnalata' || s === 'proposta' || s === 'da_verificare';
-    });
-  } else {
-    if (!token || !baseId) {
-      throw new Error('AIRTABLE_PERSONAL_ACCESS_TOKEN e AIRTABLE_BASE_ID sono obbligatori.');
-    }
-    console.log(`[Briefing Mail] Recupero notizie candidate da Airtable (Base: ${baseId}, Tabella: ${tableName})...`);
-    candidateRecords = await fetchCandidateRecords(token, baseId, tableName);
-  }
-
-  console.log(`[Briefing Mail] Notizie candidate automatiche trovate: ${candidateRecords.length}`);
-
-  // 2. Controllo: nessuna notizia candidata -> skip
-  if (candidateRecords.length === 0) {
-    console.log('[Briefing Mail] Nessuna notizia candidata automatica in attesa. Nessuna email inviata.');
-    return { skipped: true, reason: 'no_candidate_records' };
-  }
-
-  const dateStr = options.customDateStr || getFormattedDateRome();
-  const dateIso = options.customDateIso || getIsoDateRome();
-  const subject = `Briefing notizie COINSIEME - ${dateStr}`;
-
-  // 3. CONTROLLO ANTI-DUPLICATO
-  const dispatchLog = loadDispatchLog(customLogPath);
-  const existingDispatch = findExistingSuccessfulDispatch(dispatchLog, dateIso, dateStr, recipient, subject);
-
-  if (existingDispatch && !forceDuplicate) {
-    console.log('\n======================================================================');
-    console.log(' BRIEFING GIÀ INVIATO OGGI — INVIO SALTATO (ANTI-DUPLICATO ATTIVO)');
-    console.log('======================================================================');
-    console.log(`  - Data briefing: ${dateStr} (${dateIso})`);
-    console.log(`  - Destinatario unico: ${recipient}`);
-    console.log(`  - Oggetto: ${subject}`);
-    console.log(`  - Resend Message ID precedente: ${existingDispatch.resendMessageId}`);
-    console.log(`  - Inviato precedentemente il: ${existingDispatch.timestampRome || existingDispatch.timestamp}`);
-    console.log('  - Esito: NESSUNA NUOVA MAIL RICHIESTA A RESEND (Invio protetto da duplicazione).');
-    console.log('======================================================================\n');
-
-    return {
-      sent: false,
-      skipped: true,
-      reason: 'already_sent_today',
-      existing: existingDispatch
-    };
-  }
-
-  if (existingDispatch && forceDuplicate) {
-    console.log(`[Briefing Anti-Duplicato] AVVISO: Invio duplicato forzato esplicitamente per la data ${dateStr}.`);
-  }
-
-  const htmlContent = renderEmailHtml(candidateRecords, viewUrl, dateStr);
-
-  if (options.mockSend) {
-    console.log('\n======================================================================');
-    console.log(' BRIEFING GENERATO CON SUCCESSO (MODALITÀ MOCK)');
-    console.log('======================================================================');
-    console.log(`  - Destinatario unico: ${recipient}`);
-    console.log(`  - Oggetto: ${subject}`);
-    console.log(`  - Notizie incluse: ${candidateRecords.length}`);
-    console.log('======================================================================\n');
-    return { sent: true, mock: true, subject, count: candidateRecords.length, html: htmlContent };
-  }
-
-  if (!resendApiKey) {
-    throw new Error('RESEND_API_KEY è obbligatorio per l\'invio reale della mail.');
-  }
-
-  console.log(`[Briefing Mail] Invio in corso di una NUOVA mail a ${recipient} tramite Resend...`);
-  const now = new Date();
-  const timestampIso = now.toISOString();
-  const timestampRome = now.toLocaleString('it-IT', { timeZone: 'Europe/Rome' });
-
-  try {
-    const resendResult = await sendViaResend(resendApiKey, sender, recipient, subject, htmlContent);
-
-    // Registra nel log di dispatch
-    const logEntry = {
-      timestamp: timestampIso,
-      timestampRome: timestampRome,
-      dateStr: dateStr,
-      dateIso: dateIso,
-      recipient: recipient,
-      sender: resendResult.senderUsed,
-      subject: subject,
-      resendMessageId: resendResult.id,
-      httpStatus: resendResult.httpStatus,
-      candidateCount: candidateRecords.length,
-      status: 'sent'
-    };
-
-    dispatchLog.push(logEntry);
-    saveDispatchLog(dispatchLog, customLogPath);
-
-    console.log('\n======================================================================');
-    console.log(' NUOVA EMAIL DI BRIEFING INVIATA CON SUCCESSO TRAMITE RESEND');
-    console.log('======================================================================');
-    console.log(`  - Tipo: Mail NUOVA realmente richiesta all'API Resend`);
-    console.log(`  - Destinatario unico: ${recipient}`);
-    console.log(`  - Mittente effettivo: ${resendResult.senderUsed}`);
-    console.log(`  - Oggetto: ${subject}`);
-    console.log(`  - Resend Message ID: ${resendResult.id}`);
-    console.log(`  - Risposta HTTP Resend: ${resendResult.httpStatus} OK`);
-    console.log(`  - Notizie candidate incluse: ${candidateRecords.length}`);
-    console.log(`  - Data/Ora invio (Italia): ${timestampRome}`);
-    console.log('======================================================================\n');
-
-    return {
-      sent: true,
-      newlySent: true,
-      id: resendResult.id,
-      recipient: recipient,
-      count: candidateRecords.length
-    };
-  } catch (err) {
-    const errorEntry = {
-      timestamp: timestampIso,
-      timestampRome: timestampRome,
-      dateStr: dateStr,
-      dateIso: dateIso,
-      recipient: recipient,
-      sender: sender,
-      subject: subject,
-      status: 'error',
-      errorMessage: err.message
-    };
-    dispatchLog.push(errorEntry);
-    saveDispatchLog(dispatchLog, customLogPath);
-    throw err;
-  }
+async function main(options={}) {
+ const {readBatch}=require('./daily-briefing');
+ const {createApi}=require('./publish-segnalazioni');
+ const dateIso=getIsoDateRome(),dateStr=getFormattedDateRome();
+ const batch=options.batch||JSON.parse(fs.readFileSync(path.join(root,'scratch','briefing-batch.json'),'utf8'));
+ if(batch.date!==dateIso)throw Error('BLOCCO: batch non odierno');
+ const api=options.api||createApi(process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN);
+ const records=await readBatch(api,batch.records.map(r=>r.id),dateIso);
+ for(const r of records){const expected=batch.records.find(x=>x.id===r.id);if(!expected||expected.fields.url_fonte!==r.fields.url_fonte||expected.fields.titolo_editoriale!==r.fields.titolo_editoriale)throw Error('BLOCCO: record cambiato dopo la selezione');}
+ const html=renderEmailHtml(records,'https://airtable.com/appPqa952bdRrQJNI/tblonsfQ2mnaelCAn',dateStr);
+ const rendered=[...html.matchAll(/data-airtable-id="(rec[a-zA-Z0-9]+)"/g)].map(m=>m[1]);
+ if(JSON.stringify(rendered)!==JSON.stringify(records.map(r=>r.id)))throw Error('BLOCCO: HTML diverso dal batch Airtable');
+ fs.mkdirSync(path.join(root,'scratch'),{recursive:true});
+ fs.writeFileSync(path.join(root,'scratch','briefing-preview.html'),html);
+ fs.writeFileSync(path.join(root,'scratch','briefing-verification.json'),JSON.stringify({date:dateIso,count:records.length,recordIds:rendered,airtableReadback:true,htmlMatches:true,preview:Boolean(options.preview)},null,2));
+ if(options.preview){console.log('PREVIEW: '+records.length+' record Airtable verificati, zero richieste a Resend');return {preview:true,count:records.length};}
+ if(!records.length){console.log('Nessuna notizia nuova: nessuna email');return {skipped:true};}
+ const log=loadDispatchLog(),recipient='segreteria@coinsieme.it',subject='Briefing notizie COINSIEME - '+dateStr;
+ if(log.some(e=>e.status==='sent'&&e.dateIso===dateIso)){console.log('Gia inviato oggi: invio bloccato');return {skipped:true};}
+ if(!process.env.RESEND_API_KEY)throw Error('Credenziale Resend mancante');
+ const result=await sendViaResend(process.env.RESEND_API_KEY,process.env.BRIEFING_SENDER_EMAIL||'onboarding@resend.dev',recipient,subject,html);
+ log.push({timestamp:new Date().toISOString(),dateIso,dateStr,recipient,subject,resendMessageId:result.id,httpStatus:result.httpStatus,sender:result.senderUsed,candidateCount:records.length,status:'sent'});
+ saveDispatchLog(log);
+ return {sent:true,count:records.length};
 }
-
-if (require.main === module) {
-  main().catch(err => {
-    console.error('\n[Briefing Mail] ERRORE DI SPEDIZIONE:', err.message);
-    process.exit(1);
-  });
-}
-
-module.exports = {
-  main,
-  renderEmailHtml,
-  isRomeTimeWindow,
-  getFormattedDateRome,
-  getIsoDateRome,
-  loadDispatchLog,
-  saveDispatchLog,
-  findExistingSuccessfulDispatch
-};
+if(require.main===module)main({preview:process.argv.includes('--preview')}).catch(e=>{console.error(e.message);process.exitCode=1;});
+module.exports={main,renderEmailHtml,isRomeTimeWindow,getFormattedDateRome,getIsoDateRome,loadDispatchLog,saveDispatchLog,findExistingSuccessfulDispatch};

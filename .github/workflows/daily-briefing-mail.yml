@@ -1,47 +1,59 @@
 name: Invio Briefing Quotidiano Rassegna News (6:30 Italiane)
-
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '30 4,5 * * *' # 04:30 UTC (CEST / Estate) e 05:30 UTC (CET / Inverno) -> 06:30 Europe/Rome
+    - cron: '30 4,5 * * *'
   workflow_dispatch:
-
+    inputs:
+      mode:
+        description: preview crea il batch reale e verifica HTML, senza inviare email
+        type: choice
+        options: [preview, send]
+        default: preview
 permissions:
   contents: write
-
+concurrency:
+  group: daily-briefing
+  cancel-in-progress: false
 jobs:
-  send-briefing:
+  briefing:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Invia Briefing Mail alle 6:30 Europe/Rome (con Anti-Duplicato)
+      - name: Test limite, provenienza, duplicati e isolamento
+        run: node --test scripts/briefing.test.js scripts/publish-segnalazioni.test.js scripts/verify-publication.test.js
+      - name: Batch reale e anteprima senza invio
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'preview'
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI' }}
-          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'Notizie' }}
-          AIRTABLE_VIEW_URL: ${{ secrets.AIRTABLE_VIEW_URL }}
+          AUDIT_PREVIOUS_BRIEFING: 'true'
+        run: node scripts/daily-briefing.js --preview
+      - name: Selezione quotidiana e invio delle sole notizie appena registrate
+        if: github.event_name == 'schedule' || inputs.mode == 'send'
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          BRIEFING_RECIPIENT_EMAIL: 'segreteria@coinsieme.it'
           BRIEFING_SENDER_EMAIL: ${{ secrets.BRIEFING_SENDER_EMAIL || 'onboarding@resend.dev' }}
-          FORCE_BRIEFING: 'true'
-        run: node scripts/send-briefing-mail.js
-
-      - name: Persisti Log Dispatch Briefing nel Repository
+        run: node scripts/daily-briefing.js
+      - name: Conserva verifica privata e anteprima
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: briefing-verification
+          path: |
+            scratch/briefing-*.json
+            scratch/briefing-preview.html
+          if-no-files-found: ignore
+      - name: Persisti solo il registro degli invii reali
         if: always()
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main || true
-          git add content/rassegna/briefing-dispatch-log.json content/rassegna/candidati-in-attesa.json || true
-          git commit -m "docs(briefing): aggiorna registro invii rassegna [skip ci]" || echo "Nessuna modifica da committare"
-          git push origin main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/rassegna/briefing-dispatch-log.json
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: registra invio briefing [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

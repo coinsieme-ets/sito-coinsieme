@@ -17,8 +17,9 @@ jobs:
         with:
           node-version: 20
       - name: Raccogli candidati senza pubblicazione
-        env:
-          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-          AIRTABLE_BASE_ID: appPqa952bdRrQJNI
-          AIRTABLE_TABLE_NAME: Notizie
         run: node scripts/fetch-rassegna-rss.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rss-candidates
+          path: scratch/rss-candidates.json
+          retention-days: 2

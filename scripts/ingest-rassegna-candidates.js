@@ -187,13 +187,13 @@ async function fetchExistingAirtableRecords(token, baseId, tableName) {
 
   do {
     const params = new URLSearchParams();
-    params.set('fields[]', 'url_fonte');
-    params.set('fields[]', 'id');
-    params.set('fields[]', 'titolo_editoriale');
-    params.set('fields[]', 'titolo_originale');
-    params.set('fields[]', 'fonte');
-    params.set('fields[]', 'data_fonte');
-    params.set('fields[]', 'stato');
+    params.append('fields[]', 'url_fonte');
+    params.append('fields[]', 'id');
+    params.append('fields[]', 'titolo_editoriale');
+    params.append('fields[]', 'titolo_originale');
+    params.append('fields[]', 'fonte');
+    params.append('fields[]', 'data_fonte');
+    params.append('fields[]', 'stato');
     params.set('pageSize', '100');
     if (offset) params.set('offset', offset);
 
@@ -266,104 +266,10 @@ async function createAirtableRecords(token, baseId, tableName, records) {
 }
 
 async function ingestCandidates(options = {}) {
-  const token = options.token || process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = options.baseId || process.env.AIRTABLE_BASE_ID || 'appPqa952bdRrQJNI';
-  const tableName = options.tableName || process.env.AIRTABLE_TABLE_NAME || 'Notizie';
-  const filePath = options.filePath || defaultCandidatesFile;
-  const dryRun = options.dryRun || process.argv.includes('--dry-run');
-
-  let rawCandidates = [];
-  if (options.candidates && Array.isArray(options.candidates)) {
-    rawCandidates = options.candidates;
-  } else if (fs.existsSync(filePath)) {
-    rawCandidates = JSON.parse(fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, ''));
-  } else {
-    console.log(`[Ingest Candidati] Nessun file candidati trovato in: ${filePath}`);
-    return { ingested: 0, skipped: 0, total: 0 };
-  }
-
-  if (!Array.isArray(rawCandidates) || rawCandidates.length === 0) {
-    console.log('[Ingest Candidati] Nessuna notizia candidata da processare.');
-    return { ingested: 0, skipped: 0, total: 0 };
-  }
-
-  console.log(`[Ingest Candidati] Elaborazione di ${rawCandidates.length} notizie candidate...`);
-
-  // Recupero record esistenti da Airtable per protezione duplicati
-  let existingRecords = [];
-  if (!dryRun && !options.mock) {
-    if (!token || !baseId) {
-      throw new Error('AIRTABLE_PERSONAL_ACCESS_TOKEN e AIRTABLE_BASE_ID sono obbligatori.');
-    }
-    console.log(`[Ingest Candidati] Controllo record e duplicati su Airtable (Base: ${baseId}, Tabella: ${tableName})...`);
-    existingRecords = await fetchExistingAirtableRecords(token, baseId, tableName);
-  } else if (options.existingRecords) {
-    existingRecords = options.existingRecords;
-  }
-
-  const existingNormalizedUrls = new Set(existingRecords.map(r => normalizeUrl(r.url_fonte)).filter(Boolean));
-  const existingIds = new Set(existingRecords.map(r => (r.id || '').trim().toLowerCase()).filter(Boolean));
-
-  const toInsert = [];
-  let exactDuplicatesCount = 0;
-  let potentialDuplicatesCount = 0;
-
-  for (let i = 0; i < rawCandidates.length; i++) {
-    const raw = rawCandidates[i];
-    const candidateUrlNorm = normalizeUrl(raw.url_fonte || raw.url || '');
-    const candidateId = (raw.id || '').trim().toLowerCase();
-
-    // 1. REGOLA: DUPLICATO CERTO (stesso url o stesso id) -> Skip
-    if ((candidateUrlNorm && existingNormalizedUrls.has(candidateUrlNorm)) || (candidateId && existingIds.has(candidateId))) {
-      console.log(`  - [DUPLICATO CERTO IGNORATO] "${raw.titolo_editoriale || raw.titolo || raw.titolo_originale}" (${raw.fonte || candidateUrlNorm})`);
-      exactDuplicatesCount++;
-      continue;
-    }
-
-    // 2. Validazione, controllo campi e similarità con record esistenti
-    const { record, isValid, isPotentialDuplicate, similarityMatch, issues } = validateAndEnrichCandidate(raw, existingRecords);
-
-    // Doppio controllo se id generato collide con un record esistente
-    const generatedId = (record.id || '').trim().toLowerCase();
-    if (existingIds.has(generatedId)) {
-      console.log(`  - [DUPLICATO CERTO PER ID GENERATO] "${record.titolo_editoriale}" (ID: ${record.id})`);
-      exactDuplicatesCount++;
-      continue;
-    }
-
-    if (isPotentialDuplicate) {
-      potentialDuplicatesCount++;
-      console.log(`  - [POSSIBILE DUPLICATO EDITORIALE -> SEGNALATA] "${record.titolo_editoriale}" (Simile a: "${similarityMatch.matchedTitle}")`);
-    } else if (!isValid) {
-      console.log(`  - [CAMPI INCOMPLETI -> SEGNALATA (${issues.join(', ')})] "${record.titolo_editoriale || 'Senza titolo'}"`);
-    } else {
-      console.log(`  - [PRONTO COME DA_VALUTARE] "${record.titolo_editoriale}" (${record.fonte})`);
-    }
-
-    toInsert.push(record);
-    if (candidateUrlNorm) existingNormalizedUrls.add(candidateUrlNorm);
-    if (record.id) existingIds.add(record.id.toLowerCase());
-    existingRecords.push(record); // aggiorna la lista locale per confronti sequenziali
-  }
-
-  console.log(`[Ingest Candidati] Riepilogo: ${toInsert.length} nuovi record pronti (${exactDuplicatesCount} duplicati certi esclusi, ${potentialDuplicatesCount} possibili duplicati editoriali contrassegnati come 'segnalata').`);
-
-  if (toInsert.length === 0) {
-    console.log('[Ingest Candidati] Nessun nuovo record da caricare su Airtable.');
-    return { ingested: 0, skipped: exactDuplicatesCount, potentialDuplicates: potentialDuplicatesCount, total: rawCandidates.length };
-  }
-
-  if (dryRun || options.mock) {
-    console.log('[Ingest Candidati - DRY RUN] Record pronti per Airtable (nessuna scrittura effettuata):');
-    toInsert.forEach((r, i) => console.log(`    #${i + 1} [${r.stato.toUpperCase()}] ${r.titolo_editoriale} (${r.fonte})`));
-    return { ingested: toInsert.length, skipped: exactDuplicatesCount, potentialDuplicates: potentialDuplicatesCount, total: rawCandidates.length, records: toInsert };
-  }
-
-  console.log(`[Ingest Candidati] Inserimento in corso di ${toInsert.length} record in Airtable...`);
-  const createdRecords = await createAirtableRecords(token, baseId, tableName, toInsert);
-  console.log(`[Ingest Candidati] Operazione completata: ${createdRecords.length} record inseriti con successo in Airtable.`);
-
-  return { ingested: createdRecords.length, skipped: exactDuplicatesCount, potentialDuplicates: potentialDuplicatesCount, total: rawCandidates.length };
+ // All automatic ingestion now goes through the same daily, bounded batch.
+ const {prepareBatch}=require('./daily-briefing');
+ if(options.dryRun || options.mock) throw new Error('Usare i test di selezione senza scritture o il workflow preview');
+ return prepareBatch(options);
 }
 
 async function fetchSegnalazioniDaValutare(token, baseId, tableName = 'Segnalazioni Maurizio') {

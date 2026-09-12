@@ -16,12 +16,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const { ingestCandidates } = require('./ingest-rassegna-candidates');
+
 
 const root = path.resolve(__dirname, '..');
-const candidatesJsonPath = path.join(root, 'content', 'rassegna', 'candidati-in-attesa.json');
+const candidatesJsonPath = path.join(root, 'scratch', 'rss-candidates.json');
 
 const RSS_FEEDS = [
+  {name:'Superando',url:'https://www.superando.it/feed/'},
   {
     name: 'Vita.it',
     url: 'https://www.vita.it/feed/',
@@ -43,6 +44,7 @@ const RELEVANCE_KEYWORDS = [
 
 function cleanHtmlText(text = '') {
   return String(text)
+    .replace(/&#(\d+);/g, (_,n)=>String.fromCodePoint(Number(n)))
     .replace(/&amp;/g, '&')
     .replace(/&#8217;/g, "'")
     .replace(/&#8216;/g, "'")
@@ -59,14 +61,14 @@ function cleanHtmlText(text = '') {
 }
 
 function parseRssDate(dateStr) {
-  if (!dateStr) return new Date().toISOString().slice(0, 10);
+  if (!dateStr) return '';
   try {
     const d = new Date(dateStr);
     if (!isNaN(d.getTime())) {
       return d.toISOString().slice(0, 10);
     }
   } catch (e) {}
-  return new Date().toISOString().slice(0, 10);
+  return '';
 }
 
 function isRelevantArticle(title = '', desc = '', category = '') {
@@ -110,11 +112,13 @@ async function fetchArticleOgImage(url) {
 async function fetchCandidatesFromRss() {
   console.log('=== [RSS Crawler] Inizio scansione feed autorevoli ===');
   const candidates = [];
+  let rawCount=0;
 
   for (const feed of RSS_FEEDS) {
     console.log(`\n[RSS Crawler] Scansione: ${feed.name} (${feed.url})...`);
     try {
       const res = await fetch(feed.url, {
+        signal: AbortSignal.timeout(30000),
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
@@ -129,6 +133,7 @@ async function fetchCandidatesFromRss() {
       const itemMatches = xml.match(/<item>[\s\S]*?<\/item>/gi) || [];
       console.log(`  ✓ Trovati ${itemMatches.length} elementi nel feed.`);
 
+      rawCount+=itemMatches.length;
       for (const itemXml of itemMatches) {
         const rawTitle = (itemXml.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/i) || [])[1] || '';
         const title = cleanHtmlText(rawTitle);
@@ -142,11 +147,6 @@ async function fetchCandidatesFromRss() {
         const rawCat = cleanHtmlText(catMatch[1] || '');
 
         if (!title || !link || !/^https?:\/\//i.test(link)) continue;
-
-        // Filtro pertinenza
-        if (!isRelevantArticle(title, summary, rawCat)) {
-          continue;
-        }
 
         const categoria = mapToCategory(title, summary, rawCat);
         const rilevanza_coinsieme = generateRilevanzaText(title, categoria, feed.name);
@@ -168,65 +168,17 @@ async function fetchCandidatesFromRss() {
     }
   }
 
-  console.log(`\n[RSS Crawler] Totale articoli pertinenti selezionati: ${candidates.length}`);
+  console.log(`\n[RSS Crawler] Totale candidati raccolti prima della selezione: ${candidates.length}`);
 
-  // Recupera immagini og:image per i candidati
-  for (let i = 0; i < candidates.length; i++) {
-    const c = candidates[i];
-    console.log(`  [${i + 1}/${candidates.length}] Ricerca immagine per: "${c.titolo_editoriale}"...`);
-    const ogImg = await fetchArticleOgImage(c.url_fonte);
-    if (ogImg) {
-      c.immagine_news = ogImg;
-    }
-    delete c.rawLink;
-  }
-
+  candidates.stats={rawCount,validCount:candidates.length};
   return candidates;
 }
 
 async function main() {
-  const token = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-  const baseId = process.env.AIRTABLE_BASE_ID;
-  const tableName = process.env.AIRTABLE_TABLE_NAME || 'Notizie';
-
-  const candidates = await fetchCandidatesFromRss();
-
-  if (candidates.length === 0) {
-    console.log('[RSS Crawler] Nessun candidato pertinente da elaborare.');
-    return;
-  }
-
-  // Salva comunque il file candidati in content/rassegna per tracciabilità
-  const rassegnaDir = path.dirname(candidatesJsonPath);
-  if (!fs.existsSync(rassegnaDir)) {
-    fs.mkdirSync(rassegnaDir, { recursive: true });
-  }
-  fs.writeFileSync(candidatesJsonPath, JSON.stringify(candidates, null, 2) + '\n', 'utf8');
-  console.log(`[RSS Crawler] Salvati ${candidates.length} candidati in: ${candidatesJsonPath}`);
-
-  // Se i token Airtable sono disponibili, esegue l'ingestione diretta
-  if (token && baseId) {
-    console.log('[RSS Crawler] Token Airtable presenti: avvio ingestione candidati su Airtable...');
-    await ingestCandidates({
-      token,
-      baseId,
-      tableName,
-      candidates
-    });
-  } else {
-    console.log('[RSS Crawler] Token Airtable non configurati in locale: esecuzione in modalità DRY RUN.');
-    await ingestCandidates({
-      dryRun: true,
-      candidates
-    });
-  }
+ const candidates=await fetchCandidatesFromRss();
+ fs.mkdirSync(path.dirname(candidatesJsonPath),{recursive:true});
+ fs.writeFileSync(candidatesJsonPath,JSON.stringify({collectedAt:new Date().toISOString(),stats:candidates.stats,candidates},null,2));
+ console.log('Raccolta completata: nessuna scrittura Airtable, nessun invio o pubblicazione.');
 }
-
-if (require.main === module) {
-  main().catch((err) => {
-    console.warn('[RSS Crawler] Attenzione: scansione RSS non completata:', err.message);
-    process.exit(0);
-  });
-}
-
-module.exports = { fetchCandidatesFromRss, main };
+if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
+module.exports={fetchCandidatesFromRss,main};
