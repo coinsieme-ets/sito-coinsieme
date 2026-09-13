@@ -52,13 +52,21 @@ jobs:
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
         run: |
-          node --test scripts/home-feature.test.js
+          node --test scripts/home-feature.test.js scripts/article-home.test.js scripts/news-images.test.js
           node scripts/refresh-home-editorial.js
           node scripts/build-cms.js
           node scripts/build-hybrid-index.js
       - name: Verifica tutte le schede prima del deploy
         if: steps.prepare.outputs.count != '0'
         run: node scripts/check-publication-build.js
+      - name: Report immagini originali
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: news-image-verification
+          path: scratch/news-images.json
+          if-no-files-found: ignore
+
       - name: Prepara artefatto pubblico
         if: steps.prepare.outputs.count != '0'
         run: |

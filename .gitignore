@@ -26,3 +26,5 @@ Thumbs.db
 # Pagine rassegna rigenerate dal dataset editoriale durante ogni build
 /rassegna/
 /rassegna.html
+
+/assets/news/generated/

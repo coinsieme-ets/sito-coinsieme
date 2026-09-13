@@ -196,6 +196,7 @@ function loadAllArticles() {
     const articleDate = parseArticleDate(item);
 
     return {
+      ...require("./article-home").editorialFields(item),
       title: item.title.trim(),
       slug,
       category: item.category ? String(item.category).trim() : 'Articolo',
@@ -531,6 +532,7 @@ function buildRassegnaSection(items) {
     const url = escapeHtml(item.url_fonte);
 
     return `        <article class="rassegna-card" role="listitem">
+          <img src="${escapeHtml(resolveNewsImage(item))}" alt="${title}" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px">
           <div class="rassegna-card-meta">
             <span class="rassegna-card-category">${category}</span>
             ${dateHtml}
@@ -627,29 +629,7 @@ function buildHeroImage(items) {
   return `<img src="assets/hero_inclusion.jpg?v=20260907e" alt="Gruppo di lavoro, accoglienza e cooperazione sociale Fondazione COINSIEME ETS" width="1376" height="768" class="hero-main-photo" loading="eager">`;
 }
 
-function resolveNewsImage(item) {
-  // Priorità 1: Immagine specifica fornita per la notizia (URL o percorso locale)
-  const customImg = (item.immagine_in_evidenza || item.immagine_news || item.image_url || item.thumbnail || '').trim();
-  if (customImg) {
-    return customImg;
-  }
-
-  // Priorità 2 & 3: Immagine tematica di categoria (MAI usare hero_inclusion.jpg della home)
-  const catText = `${item.categoria || ''} ${item.titolo_editoriale || ''} ${item.titolo_originale || ''}`.toLowerCase();
-  if (/domotic/i.test(catText)) {
-    return 'assets/rassegna/categoria-domotica-tecnologia.jpg';
-  } else if (/software|caa|digit|sintesi|inps|riforma|servizi telematici/i.test(catText)) {
-    return 'assets/rassegna/categoria-riforma-diritti.jpg';
-  } else if (/lavoro|scuola|cooperaz|metide|giovani/i.test(catText)) {
-    return 'assets/rassegna/categoria-lavoro-inclusione.jpg';
-  } else if (/duchenne|ricerca|malatt|parent project/i.test(catText)) {
-    return 'assets/rassegna/categoria-ricerca-famiglie.jpg';
-  } else if (/welfare|cura|famigli|ascolto|fish|sostegn/i.test(catText)) {
-    return 'assets/rassegna/categoria-welfare-cura.jpg';
-  }
-
-  return 'assets/rassegna/categoria-default.jpg';
-}
+function resolveNewsImage(item) { return require("./news-images").resolveNewsImage(item); }
 
 function buildDailyNewsCard(items) {
   const {selectHomeFeature,loadHomeItems}=require("./home-feature");
@@ -740,10 +720,7 @@ async function main() {
     .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
   fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
 
-  // Unified chronological sorting across ALL articles
-  const allArticlesForHome = [...allArticles].sort(
-    (a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title, 'it')
-  );
+  const allArticlesForHome = require("./article-home").selectHomeArticles(allArticles);
 
   const latest = allArticlesForHome.slice(0, 3);
   const latestHtml = buildHomeSection(latest);
@@ -757,6 +734,7 @@ async function main() {
 
   // Rassegna News processing
   const rassegnaItems = loadRassegnaNews();
+  await require("./news-images").refreshNewsImages(rassegnaItems);
   const approvedRassegna = getSortedApprovedItems(rassegnaItems);
   const rassegnaSectionHtml = buildRassegnaSection(rassegnaItems);
   const topNewsBarHtml = buildTopNewsBar(rassegnaItems);

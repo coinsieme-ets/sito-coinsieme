@@ -264,18 +264,20 @@ async function main(options={}) {
  const html=renderEmailHtml(records,'https://airtable.com/appPqa952bdRrQJNI/tblonsfQ2mnaelCAn',dateStr);
  const rendered=[...html.matchAll(/data-airtable-id="(rec[a-zA-Z0-9]+)"/g)].map(m=>m[1]);
  if(JSON.stringify(rendered)!==JSON.stringify(records.map(r=>r.id)))throw Error('BLOCCO: HTML diverso dal batch Airtable');
- fs.mkdirSync(path.join(root,'scratch'),{recursive:true});
- fs.writeFileSync(path.join(root,'scratch','briefing-preview.html'),html);
- fs.writeFileSync(path.join(root,'scratch','briefing-verification.json'),JSON.stringify({date:dateIso,count:records.length,recordIds:rendered,airtableReadback:true,htmlMatches:true,preview:Boolean(options.preview)},null,2));
- if(options.preview){console.log('PREVIEW: '+records.length+' record Airtable verificati, zero richieste a Resend');return {preview:true,count:records.length};}
- if(!records.length){console.log('Nessuna notizia nuova: nessuna email');return {skipped:true};}
- const log=loadDispatchLog(),recipient='segreteria@coinsieme.it',subject='Briefing notizie COINSIEME - '+dateStr;
- if(log.some(e=>e.status==='sent'&&e.dateIso===dateIso)){console.log('Gia inviato oggi: invio bloccato');return {skipped:true};}
+ const reportDir=options.outputDir||path.join(root,'scratch');
+ fs.mkdirSync(reportDir,{recursive:true});
+ fs.writeFileSync(path.join(reportDir,'briefing-preview.html'),html);
+ fs.writeFileSync(path.join(reportDir,'briefing-verification.json'),JSON.stringify({date:dateIso,count:records.length,recordIds:rendered,airtableReadback:true,htmlMatches:true,preview:Boolean(options.preview)},null,2));
+ if(options.preview){console.log('PREVIEW: '+records.length+' record Airtable verificati, zero richieste a Resend');return {preview:true,reason:'preview_no_send',count:records.length};}
+ if(!records.length){console.log('Nessuna notizia nuova e rilevante dopo le esclusioni: nessuna email');return {skipped:true,reason:'no_new_relevant_news',count:0};}
+ const customLogPath=options.dispatchLogPath||dispatchLogPath;
+ const log=loadDispatchLog(customLogPath),recipient='segreteria@coinsieme.it',subject='Briefing notizie COINSIEME - '+dateStr;
+ if(log.some(e=>e.status==='sent'&&e.dateIso===dateIso)){console.log('Gia inviato oggi: invio bloccato');return {skipped:true,reason:'already_sent_today'};}
  if(!process.env.RESEND_API_KEY)throw Error('Credenziale Resend mancante');
  const result=await sendViaResend(process.env.RESEND_API_KEY,process.env.BRIEFING_SENDER_EMAIL||'onboarding@resend.dev',recipient,subject,html);
  log.push({timestamp:new Date().toISOString(),dateIso,dateStr,recipient,subject,resendMessageId:result.id,httpStatus:result.httpStatus,sender:result.senderUsed,candidateCount:records.length,status:'sent'});
- saveDispatchLog(log);
- return {sent:true,count:records.length};
+ saveDispatchLog(log,customLogPath);
+ return {sent:true,resendCalled:true,httpStatus:result.httpStatus,messageId:result.id,sender:result.senderUsed,count:records.length};
 }
 if(require.main===module)main({preview:process.argv.includes('--preview')}).catch(e=>{console.error(e.message);process.exitCode=1;});
 module.exports={main,renderEmailHtml,isRomeTimeWindow,getFormattedDateRome,getIsoDateRome,loadDispatchLog,saveDispatchLog,findExistingSuccessfulDispatch};

@@ -1,0 +1,7 @@
+const {test}=require('node:test'),assert=require('node:assert/strict');const {selectHomeArticles}=require('./article-home');
+const old={slug:'old',date:'2026-09-01'},fresh={slug:'new',date:'2026-09-13'};const pick=items=>selectHomeArticles(items,'2026-09-13').map(x=>x.slug);
+test('explicit primary older article wins',()=>assert.equal(pick([{...old,rilevanza_home:'principale',ordine_home:1},fresh])[0],'old'));
+test('archive only excluded, original array remains intact',()=>{const items=[{...old,rilevanza_home:'solo_archivio'},fresh];assert.deepEqual(pick(items),['new']);assert.equal(items.length,2);});
+test('active pin inclusive, expired prominence returns normal',()=>{assert.equal(pick([{...old,rilevanza_home:'evidenza',mantieni_in_evidenza_fino_al:'2026-09-13'},fresh])[0],'old');assert.equal(pick([{...old,rilevanza_home:'principale',mantieni_in_evidenza_fino_al:'2026-09-12'},fresh])[0],'new');});
+test('same level sorts pin, order then publication date',()=>{assert.equal(pick([{...old,ordine_home:1},{...fresh,ordine_home:2}])[0],'old');assert.equal(pick([old,fresh])[0],'new');assert.equal(pick([{...old,ordine_home:9,mantieni_in_evidenza_fino_al:'2026-09-13'},{...fresh,ordine_home:1}])[0],'old');});
+test('future and invalid controls rejected',()=>{assert.deepEqual(pick([{...old,date:'2026-09-14'}]),[]);assert.throws(()=>pick([{...old,rilevanza_home:'wrong'}]));assert.throws(()=>pick([{...old,ordine_home:'wrong'}]));});
