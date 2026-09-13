@@ -9,3 +9,5 @@ Le immagini news vengono recuperate a ogni build dalle pagine fonte: prima og:im
 Il report scratch/news-images.json registra pagina fonte, URL immagine originale, file mostrato, status e motivi del fallback; viene conservato nell'artifact GitHub news-image-verification. Le immagini sono rigenerate per ogni deploy e incluse nell'artefatto Pages, non nei commit. Un anno vecchio nel percorso dell'immagine non indica una selezione dall'archivio COINSIEME: si usa esclusivamente il metadato della pagina fonte corrente.
 
 Il briefing salva anche briefing-outcome.json: candidati, esclusioni per motivo, selezionati, inseriti, destinatario, mittente configurato/effettivo, chiamata Resend, HTTP e message ID. Se non ci sono record idonei, HTTP e message ID restano null e il motivo è no_new_relevant_news.
+
+Se una pagina fonte blocca il runner, source-image-cache.json consente di riusare esclusivamente l'URL OpenGraph gia verificato per quella stessa pagina. Anche in questo caso l'immagine deve superare un nuovo download e la validazione. Il report distingue questa associazione conservata dal rilevamento diretto attuale; non vengono importate immagini di altre notizie.
