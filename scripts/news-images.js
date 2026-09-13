@@ -30,7 +30,13 @@ async function inspectSource(source,{fetcher=fetch,cache}={}){
   const known=cache[source];
   if(known && safeUrl(known.original)){
    try{return {...report,...await downloadImage({url:known.original,kind:known.kind},fetcher),cachedSourceAssociation:true,associationVerifiedAt:known.verifiedAt};}
-   catch(error){report.attempts.push({image:known.original,error:error.message});}
+   catch(error){report.attempts.push({image:known.original,error:error.message});
+    if(known.local?.startsWith('/assets/news/source-cache/')&&!known.local.includes('..')){
+     try{const buffer=fs.readFileSync(path.join(ROOT,known.local.slice(1))),hash=crypto.createHash('sha256').update(buffer).digest('hex'),meta=await require('sharp')(buffer).metadata();
+      if(hash===known.hash && meta.width>=200 && meta.height>=100)return {...report,original:known.original,kind:known.kind,buffer,hash,format:meta.format,width:meta.width,height:meta.height,cachedSourceAssociation:true,cachedImage:true,associationVerifiedAt:known.verifiedAt};
+     }catch(cacheError){report.attempts.push({error:'Copia fonte non valida: '+cacheError.message});}
+    }
+   }
   }
  }return report;
 }

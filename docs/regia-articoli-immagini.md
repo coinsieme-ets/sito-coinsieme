@@ -11,3 +11,5 @@ Il report scratch/news-images.json registra pagina fonte, URL immagine originale
 Il briefing salva anche briefing-outcome.json: candidati, esclusioni per motivo, selezionati, inseriti, destinatario, mittente configurato/effettivo, chiamata Resend, HTTP e message ID. Se non ci sono record idonei, HTTP e message ID restano null e il motivo è no_new_relevant_news.
 
 Se una pagina fonte blocca il runner, source-image-cache.json consente di riusare esclusivamente l'URL OpenGraph gia verificato per quella stessa pagina. Anche in questo caso l'immagine deve superare un nuovo download e la validazione. Il report distingue questa associazione conservata dal rilevamento diretto attuale; non vengono importate immagini di altre notizie.
+
+Per Quotidianopiu anche il CDN blocca il runner: viene conservata in assets/news/source-cache la copia originale scaricata dalla stessa fonte e verificata dal PC. L'hash deve coincidere con quello registrato; il report indica cachedImage e la data di verifica. La copia serve solo a quella precisa news.
