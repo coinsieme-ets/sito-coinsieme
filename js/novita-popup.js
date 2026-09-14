@@ -117,7 +117,7 @@
         text-decoration: none;
         display: block;
         overflow-wrap: anywhere;
-        
+
         overflow: hidden;
       }
       .novita-bubble-title:hover,
@@ -221,9 +221,20 @@
     }, 600);
   }
 
+  function waitForReading() {
+    function onScroll() {
+      const intro = document.getElementById('identita');
+      const cookieBanner = document.getElementById('iubenda-cs-banner');
+      if (cookieBanner && cookieBanner.getBoundingClientRect().height > 0) return;
+      if (window.scrollY < 120 || (intro && intro.getBoundingClientRect().bottom > 100)) return;
+      window.removeEventListener('scroll', onScroll);
+      initNovitaPopup();
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNovitaPopup);
+    document.addEventListener('DOMContentLoaded', waitForReading);
   } else {
-    initNovitaPopup();
+    waitForReading();
   }
 })();

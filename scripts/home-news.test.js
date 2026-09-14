@@ -1,0 +1,4 @@
+const {test}=require('node:test'),assert=require('node:assert/strict');const {renderHomeNews}=require('./home-news');const items=Array.from({length:8},(_,i)=>({titolo_editoriale:'Notizia '+i,fonte:'Fonte',data_pubblicazione:'2026-09-14',url_fonte:'https://example.org/'+i}));
+test('compact news keeps five selected items with dates sources and archive link',()=>{const html=renderHomeNews(items);assert.equal((html.match(/<li>/g)||[]).length,5);assert(html.includes('Notizia 0'));assert(!html.includes('Notizia 5'));assert(html.includes('<time'));assert(html.includes('Fonte'));assert(html.includes('/rassegna.html'));assert(!html.includes('<img'));assert(html.includes('tabindex="0"'));});
+test('news title and URL are escaped',()=>assert(renderHomeNews([{...items[0],titolo_editoriale:'A < B & C'}]).includes('A &lt; B &amp; C')));
+test('empty selection remains clear',()=>assert(renderHomeNews([]).includes('Nessuna notizia')));

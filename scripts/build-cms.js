@@ -494,78 +494,10 @@ function getHomeHeroItem(items) {
 }
 
 function buildRassegnaSection(items) {
-  const approved = getSortedApprovedItems(items);
-  const heroItem = getHomeHeroItem(items);
-
-  // Esclude l'articolo mostrato in evidenza e tutti i record 'solo_rassegna' (che non vanno in home)
-  const subsequent = approved
-    .filter(i => (!heroItem || i.id !== heroItem.id) && i.posizione_sito !== 'solo_rassegna')
-    .slice(0, 3);
-
-  if (subsequent.length === 0) {
-    return `<section id="cosa-si-muove" class="rassegna-section" aria-labelledby="rassegna-titolo" style="display: none;" aria-hidden="true">
-    <div class="container">
-      <div class="rassegna-header">
-        <div style="max-width: 780px;">
-          <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Osservatorio &amp; Contesto</p>
-          <h2 id="rassegna-titolo" class="rassegna-title">Cosa si muove intorno a noi</h2>
-          <p class="rassegna-subtitle">
-            Notizie e aggiornamenti selezionati su disabilità, Terzo Settore, cooperazione sociale e cambiamenti del welfare.
-          </p>
-        </div>
-      </div>
-      <div class="rassegna-grid" role="list" aria-label="Notizie selezionate dal Terzo Settore e dal welfare">
-      </div>
-    </div>
-  </section>`;
-  }
-
-  const cardsHtml = subsequent.map((item) => {
-    const formattedDate = formatDateIt(item.data_pubblicazione || item.data_fonte);
-    const dateHtml = (item.data_pubblicazione || item.data_fonte)
-      ? `<time class="rassegna-card-date" datetime="${escapeHtml(item.data_pubblicazione || item.data_fonte)}">${escapeHtml(formattedDate)}</time>`
-      : '';
-    const title = escapeHtml(item.titolo_editoriale || item.titolo_originale);
-    const category = escapeHtml(item.categoria);
-    const summary = escapeHtml(item.sintesi_editoriale);
-    const source = escapeHtml(item.fonte);
-    const url = escapeHtml(item.url_fonte);
-
-    return `        <article class="rassegna-card" role="listitem">
-          <img src="${escapeHtml(resolveNewsImage(item))}" alt="${title}" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px">
-          <div class="rassegna-card-meta">
-            <span class="rassegna-card-category">${category}</span>
-            ${dateHtml}
-          </div>
-          <h3 class="rassegna-card-title">
-            <a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a>
-          </h3>
-          <p class="rassegna-card-summary">${summary}</p>
-          <div class="rassegna-card-footer">
-            <span class="rassegna-card-source">Fonte: <strong>${source}</strong></span>
-            <a href="${url}" class="rassegna-card-link" target="_blank" rel="noopener noreferrer">
-              Leggi sulla fonte <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span class="sr-only">(apre in una nuova scheda)</span>
-            </a>
-          </div>
-        </article>`;
-  }).join('\n');
-
-  return `<section id="cosa-si-muove" class="rassegna-section bg-crema-chiara" aria-labelledby="rassegna-titolo">
-    <div class="container">
-      <div class="rassegna-header">
-        <div style="max-width: 780px;">
-          <p class="section-tag" style="color: var(--terracotta); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; margin-bottom: 8px;">Osservatorio &amp; Contesto</p>
-          <h2 id="rassegna-titolo" class="rassegna-title">Cosa si muove intorno a noi</h2>
-          <p class="rassegna-subtitle">
-            Notizie e aggiornamenti selezionati su disabilità, Terzo Settore, cooperazione sociale e cambiamenti del welfare.
-          </p>
-        </div>
-      </div>
-      <div class="rassegna-grid" role="list" aria-label="Notizie selezionate dal Terzo Settore e dal welfare">
-${cardsHtml}
-      </div>
-    </div>
-  </section>`;
+  const approved = getSortedApprovedItems(items).filter(i => i.posizione_sito !== 'solo_rassegna');
+  const hero = getHomeHeroItem(items);
+  const ordered = hero ? [hero, ...approved.filter(i => i.id !== hero.id)] : approved;
+  return require('./home-news').renderHomeNews(ordered);
 }
 
 function buildTopNewsBar(items) {
@@ -745,11 +677,7 @@ async function main() {
   );
   assert(homepageWithRassegna !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
 
-  const homepageUpdated = homepageWithRassegna.replace(
-    /(<!-- CMS_ULTIMA_NOTIZIA_START -->)[\s\S]*?(<!-- CMS_ULTIMA_NOTIZIA_END -->)/,
-    `$1\n${topNewsBarHtml}\n$2`
-  );
-  assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori ultima notizia mancanti');
+  const homepageUpdated = homepageWithRassegna;
 
   const heroImageHtml = buildHeroImage(rassegnaItems);
 
