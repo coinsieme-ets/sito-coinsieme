@@ -1,7 +1,8 @@
 'use strict';
 const {normalizeUrl}=require('./ingest-rassegna-candidates');
 const {sourceUrl}=require('./verify-publication');
-const canonical=value=>normalizeUrl(sourceUrl(value));
+const storyAliases=Object.fromEntries(Object.entries(require('../content/rassegna/briefing-story-aliases.json')).map(([a,b])=>[normalizeUrl(a),normalizeUrl(b)]));
+const canonical=value=>{const url=normalizeUrl(sourceUrl(value));return storyAliases[url]||url;};
 const normalizedTitle=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 function isSameStory(title,records){const key=normalizedTitle(title);return key.length>=20&&records.some(r=>normalizedTitle(r.titolo_editoriale||r.titolo_originale)===key);}
 const MAX=5;

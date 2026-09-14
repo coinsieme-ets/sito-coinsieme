@@ -15,3 +15,5 @@ Incidente del 12 settembre 2026: il mittente interrogava tutti gli stati in atte
 A parita di punteggio di rilevanza viene favorita la testata meno rappresentata nel batch gia selezionato; seguono data fonte e URL per uno spareggio stabile. Il conteggio si aggiorna solo per notizie effettivamente selezionate, non per duplicati esclusi. Nessuna quota rigida per fonte: la diversita non sostituisce una notizia con punteggio superiore.
 
 La rilevanza considera il testo completo del feed, senza il footer della testata; il riassunto visualizzato resta breve. Le iniziative territoriali con servizi, lavoro, diritti o accessibilità trasferibili non sono escluse automaticamente. La sola somiglianza tematica non determina un duplicato. Gli artifact registrano conteggi per fonte, candidati completi e motivi distinti di esclusione.
+
+Le riprese dello stesso comunicato verificate editorialmente possono essere associate nel registro briefing-story-aliases.json. Il registro confronta URL precisi, senza escludere altri articoli sullo stesso tema. Il 14 settembre è stata riconosciuta la ripresa Vita/Superando del medesimo appello AISM sulla scuola.

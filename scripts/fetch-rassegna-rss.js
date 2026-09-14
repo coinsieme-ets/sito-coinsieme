@@ -162,7 +162,7 @@ async function fetchCandidatesFromRss() {
           url_fonte: link,
           data_fonte,
           categoria,
-          selection_text: summary.replace(/\s*L['’]articolo[^]*?proviene da[^.]*\.?\s*$/i, '').trim(),
+          selection_text: summary.replace(/\s*L['’]articolo[^]*?proviene da[^]*$/i, '').trim(),
           sintesi_editoriale: summary.length > 300 ? summary.slice(0, 297) + '...' : summary,
           rilevanza_coinsieme,
           rawLink: link
