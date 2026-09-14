@@ -11,7 +11,7 @@ function assertBatch(records,date){
  if(!Array.isArray(records)||records.length>MAX)throw Error('BLOCCO: briefing oltre il limite di 5');
  const ids=new Set(),urls=new Set();
  for(const r of records){const f=r.fields||{},url=normalizeUrl(f.url_fonte);
-  if(!/^rec[a-zA-Z0-9]+$/.test(r.id||'')||!String(f.id||'').startsWith(prefix(date))||f.stato!=='da_valutare'||todayRomeDate(r.createdTime)!==date||!url||ids.has(r.id)||urls.has(url))throw Error('BLOCCO: batch non odierno, non verificato o duplicato');
+  if(!/^rec[a-zA-Z0-9]+$/.test(r.id||'')||!String(f.id||'').startsWith(prefix(date))||f.stato!=='da_valutare'||f.data_briefing!==date||todayRomeDate(r.createdTime)!==date||!url||ids.has(r.id)||urls.has(url))throw Error('BLOCCO: batch non odierno, non verificato o duplicato');
   ids.add(r.id);urls.add(url);
  }
  return records;
@@ -25,16 +25,21 @@ async function prepareBatch({api=createApi(process.env.AIRTABLE_PERSONAL_ACCESS_
  if(!candidates)candidates=await require('./fetch-rassegna-rss').fetchCandidatesFromRss();
  const result=selectCandidates(candidates,existing.map(r=>r.fields),segs.map(r=>r.fields),date);
  fs.mkdirSync("scratch",{recursive:true});fs.writeFileSync("scratch/briefing-candidates.json",JSON.stringify({date,stats:candidates.stats||null,candidates},null,2));
- const fields=result.selected.map(item=>({id:prefix(date)+crypto.createHash('sha256').update(normalizeUrl(item.url_fonte)).digest('hex').slice(0,16),
+ const records=await saveSelected({api,selected:result.selected,date});
+ return {date,reused:false,total:candidates.stats?.rawCount??candidates.length,validCandidates:candidates.length,sources:candidates.stats?.sources||[],eligible:result.selected.length+result.excluded.filter(x=>x.reason==='oltre le cinque piu rilevanti').length,excluded:result.excluded.length+(candidates.stats?.rawCount??candidates.length)-candidates.length,exclusionReasons:result.excluded,records};
+}
+async function saveSelected({api,selected,date}){
+ const fields=selected.map(item=>({id:prefix(date)+crypto.createHash('sha256').update(normalizeUrl(item.url_fonte)).digest('hex').slice(0,16),
   titolo_originale:item.titolo_originale||item.titolo_editoriale,titolo_editoriale:item.titolo_editoriale,fonte:item.fonte,url_fonte:item.url_fonte,
-  data_fonte:item.data_fonte,sintesi_editoriale:item.sintesi_editoriale,stato:'da_valutare',fld6PleXUSkuOcHsF:item.reason}));
+  data_fonte:item.data_fonte,sintesi_editoriale:item.sintesi_editoriale,stato:'da_valutare',data_briefing:date,fld6PleXUSkuOcHsF:item.reason}));
  if(fields.length>MAX)throw Error('BLOCCO: inserimento oltre limite');
  let records=[];
  if(fields.length){const response=await api(NEWS,'POST',{records:fields.map(fields=>({fields}))});if(response.records?.length!==fields.length)throw Error('Inserimento Airtable incompleto');records=await readBatch(api,response.records.map(r=>r.id),date);
   for(const r of records){const expected=fields.find(f=>f.id===r.fields.id);if(!expected||expected.url_fonte!==r.fields.url_fonte||expected.titolo_editoriale!==r.fields.titolo_editoriale)throw Error('Verifica Airtable non corrispondente');}
  }
- return {date,reused:false,total:candidates.stats?.rawCount??candidates.length,validCandidates:candidates.length,sources:candidates.stats?.sources||[],eligible:result.selected.length+result.excluded.filter(x=>x.reason==='oltre le cinque piu rilevanti').length,excluded:result.excluded.length+(candidates.stats?.rawCount??candidates.length)-candidates.length,exclusionReasons:result.excluded,records};
+ return records;
 }
+
 function outcome(values){
  const result={date:todayRome(),recipient:'segreteria@coinsieme.it',sender:process.env.BRIEFING_SENDER_EMAIL||'onboarding@resend.dev',resendCalled:false,httpStatus:null,messageId:null,...values};
  fs.mkdirSync('scratch',{recursive:true});fs.writeFileSync('scratch/briefing-outcome.json',JSON.stringify(result,null,2));console.log('BRIEFING_OUTCOME',JSON.stringify(result));return result;
@@ -62,4 +67,4 @@ async function main(){
  console.log('BATCH',JSON.stringify({date:batch.date,total:batch.total,excluded:batch.excluded,reused:batch.reused,records:batch.records.map(r=>({id:r.id,title:r.fields.titolo_editoriale,source:r.fields.fonte,reason:r.fields.rilevanza||r.fields.rilevanza_coinsieme}))}));
 }
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={prepareBatch,readBatch,assertBatch,prefix,todayRomeDate};
+module.exports={saveSelected,prepareBatch,readBatch,assertBatch,prefix,todayRomeDate};

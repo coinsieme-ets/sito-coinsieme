@@ -17,3 +17,5 @@ A parita di punteggio di rilevanza viene favorita la testata meno rappresentata 
 La rilevanza considera il testo completo del feed, senza il footer della testata; il riassunto visualizzato resta breve. Le iniziative territoriali con servizi, lavoro, diritti o accessibilità trasferibili non sono escluse automaticamente. La sola somiglianza tematica non determina un duplicato. Gli artifact registrano conteggi per fonte, candidati completi e motivi distinti di esclusione.
 
 Le riprese dello stesso comunicato verificate editorialmente possono essere associate nel registro briefing-story-aliases.json. Il registro confronta URL precisi, senza escludere altri articoli sullo stesso tema. Il 14 settembre è stata riconosciuta la ripresa Vita/Superando del medesimo appello AISM sulla scuola.
+
+Il campo data_briefing viene scritto insieme a stato=da_valutare esclusivamente sui record selezionati. La rilettura prima della mail ne verifica la corrispondenza con il giorno italiano del batch; data_fonte conserva la data originale e non identifica il batch. Vista Briefing Oggi: stato=da_valutare AND data_briefing=oggi. Nessuna modifica automatica dell’arretrato.
