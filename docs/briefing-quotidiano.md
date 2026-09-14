@@ -2,7 +2,7 @@
 
 Il workflow giornaliero raccoglie nuovamente i feed Vita, Forum Terzo Settore e Superando. Il crawler orario conserva solamente un artifact e non possiede credenziali Airtable.
 
-La selezione esclude URL già in Notizie o Segnalazioni Maurizio, titoli simili, duplicati nella raccolta, dati incompleti, fonti più vecchie di sette giorni o future, eventi locali e temi marginali. La graduatoria pesa disabilità/autonomia, accessibilità e ausili, Terzo Settore, inclusione lavorativa, welfare, con un incremento per norme e misure operative. Non importa l'arretrato di Airtable e non forza cinque elementi se non ci sono abbastanza candidati idonei.
+La selezione esclude URL già in Notizie o Segnalazioni Maurizio, titoli identici normalizzati, duplicati nella raccolta, dati incompleti, fonti più vecchie di sette giorni o future, eventi locali senza ricadute operative documentate e temi marginali. La graduatoria pesa disabilità/autonomia, accessibilità e ausili, Terzo Settore, inclusione lavorativa, welfare, con un incremento per norme e misure operative. Non importa l'arretrato di Airtable e non forza cinque elementi se non ci sono abbastanza candidati idonei.
 
 Solo i migliori cinque vengono creati in Notizie come da_valutare. L'ID editoriale rssbrief-YYYY-MM-DD-hash identifica la provenienza automatica e il giorno italiano del batch senza nuovi campi. Un secondo tentativo riusa quel gruppo, senza altri inserimenti. Nessuna scrittura riguarda Segnalazioni Maurizio; i suoi URL vengono letti esclusivamente per escluderli.
 
@@ -13,3 +13,5 @@ Non ci sono invii al push. I due cron UTC sono filtrati sull'ora italiana. Il wo
 Incidente del 12 settembre 2026: il mittente interrogava tutti gli stati in attesa, senza data né limite. Il crawler inseriva a ogni ora; params.set ripetuto per fields[] lasciava solo stato e rendeva inefficace la verifica di URL/titolo. Corretto con append e sostituito l'ingresso automatico illimitato con il batch giornaliero. I vecchi duplicati non vengono cancellati automaticamente.
 
 A parita di punteggio di rilevanza viene favorita la testata meno rappresentata nel batch gia selezionato; seguono data fonte e URL per uno spareggio stabile. Il conteggio si aggiorna solo per notizie effettivamente selezionate, non per duplicati esclusi. Nessuna quota rigida per fonte: la diversita non sostituisce una notizia con punteggio superiore.
+
+La rilevanza considera il testo completo del feed, senza il footer della testata; il riassunto visualizzato resta breve. Le iniziative territoriali con servizi, lavoro, diritti o accessibilità trasferibili non sono escluse automaticamente. La sola somiglianza tematica non determina un duplicato. Gli artifact registrano conteggi per fonte, candidati completi e motivi distinti di esclusione.

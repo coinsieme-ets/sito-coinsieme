@@ -113,8 +113,10 @@ async function fetchCandidatesFromRss() {
   console.log('=== [RSS Crawler] Inizio scansione feed autorevoli ===');
   const candidates = [];
   let rawCount=0;
+  const sources=[];
 
   for (const feed of RSS_FEEDS) {
+    const stats={source:feed.name,url:feed.url,rawCount:0,validCount:0};sources.push(stats);
     console.log(`\n[RSS Crawler] Scansione: ${feed.name} (${feed.url})...`);
     try {
       const res = await fetch(feed.url, {
@@ -124,6 +126,7 @@ async function fetchCandidatesFromRss() {
         }
       });
 
+      stats.httpStatus=res.status;
       if (!res.ok) {
         console.warn(`  ✗ Errore download feed ${feed.name}: HTTP ${res.status}`);
         continue;
@@ -133,7 +136,7 @@ async function fetchCandidatesFromRss() {
       const itemMatches = xml.match(/<item>[\s\S]*?<\/item>/gi) || [];
       console.log(`  ✓ Trovati ${itemMatches.length} elementi nel feed.`);
 
-      rawCount+=itemMatches.length;
+      rawCount+=itemMatches.length;stats.rawCount=itemMatches.length;
       for (const itemXml of itemMatches) {
         const rawTitle = (itemXml.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/i) || [])[1] || '';
         const title = cleanHtmlText(rawTitle);
@@ -151,6 +154,7 @@ async function fetchCandidatesFromRss() {
         const categoria = mapToCategory(title, summary, rawCat);
         const rilevanza_coinsieme = generateRilevanzaText(title, categoria, feed.name);
 
+        stats.validCount++;
         candidates.push({
           titolo_originale: title,
           titolo_editoriale: title,
@@ -158,19 +162,21 @@ async function fetchCandidatesFromRss() {
           url_fonte: link,
           data_fonte,
           categoria,
+          selection_text: summary.replace(/\s*L['’]articolo[^]*?proviene da[^.]*\.?\s*$/i, '').trim(),
           sintesi_editoriale: summary.length > 300 ? summary.slice(0, 297) + '...' : summary,
           rilevanza_coinsieme,
           rawLink: link
         });
       }
     } catch (err) {
+      stats.error=err.message;
       console.error(`  ✗ Errore scansione ${feed.name}: ${err.message}`);
     }
   }
 
   console.log(`\n[RSS Crawler] Totale candidati raccolti prima della selezione: ${candidates.length}`);
 
-  candidates.stats={rawCount,validCount:candidates.length};
+  candidates.stats={rawCount,validCount:candidates.length,sources};
   return candidates;
 }
 
