@@ -23,6 +23,7 @@ function parseArticleDate(item) {
 }
 
 const fs = require('fs');
+const {rubricaBadge} = require('./article-rubrica');
 const path = require('path');
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
@@ -199,6 +200,7 @@ function loadAllArticles() {
       ...require("./article-home").editorialFields(item),
       title: item.title.trim(),
       slug,
+      rubrica: item.rubrica || '',
       category: item.category ? String(item.category).trim() : 'Articolo',
       contentType: item.content_type ? String(item.content_type).trim() : 'approfondimento',
       summary: item.summary.trim(),
@@ -242,6 +244,7 @@ function renderArticle(item, template) {
   const encodedBody = encodeURIComponent(`Ti condivido questo articolo di Fondazione COINSIEME ETS:\n"${item.title}"\n\n${canonicalUrl}`);
 
   let html = template
+    .replace(/\{\{RUBRICA_HTML\}\}/g, rubricaBadge(item.rubrica))
     .replace(/\{\{TITOLO\}\}/g, escapeHtml(item.title))
     .replace(/\{\{META_DESCRIPTION\}\}/g, escapeHtml(item.summary))
     .replace(/\{\{OG_TITLE\}\}/g, escapeHtml(ogTitle))
@@ -288,10 +291,10 @@ function buildCard(item) {
   }
 
   const wrapperClass = topVisual ? 'archivio-card-content' : 'archivio-card-text-only';
-  return `<a href="/articoli/${escapeHtml(item.slug)}/" class="archivio-card archivio-card-link" data-title="${escapeHtml(item.title.toLowerCase())}">
+  return `<a href="/articoli/${escapeHtml(item.slug)}/" class="archivio-card archivio-card-link" data-rubrica="${escapeHtml(item.rubrica || '')}" data-title="${escapeHtml(item.title.toLowerCase())}">
     ${topVisual}
     <div class="${wrapperClass}">
-      <div class="archivio-card-meta">${category}</div>
+      <div class="archivio-card-meta">${category}</div>${rubricaBadge(item.rubrica)}
       <h2 class="archivio-card-title">${title}</h2>
       <div class="archivio-card-action">Leggi l'articolo <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </div>
@@ -641,6 +644,7 @@ async function main() {
   const allForIndex = allArticles.map((item) => ({
     title: item.title,
     slug: item.slug,
+    rubrica: item.rubrica || '',
     category: item.category || 'Articolo',
     image: item.image ? String(item.image).replace(/^\//, '') : '',
     imageType: item.image ? 'photo' : 'text'

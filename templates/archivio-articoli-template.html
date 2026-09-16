@@ -50,6 +50,7 @@
     gtag('js', new Date());
     gtag('config', 'G-YY3TEDJ68N');
   </script>
+  <link rel="stylesheet" href="/css/article-rubrica.css">
 </head>
 <body>
 <!-- SKIP LINK -->
@@ -182,6 +183,13 @@
         <h2 style="font-size:clamp(1.5rem, 2.6vw, 1.95rem); color:var(--marrone-scuro); font-weight:700; margin:0 0 20px 0;">Tutti gli articoli</h2>
       </div>
 
+      <div class="archivio-rubrica-filter">
+        <label for="archivio-rubrica">Filtra per rubrica</label>
+        <select id="archivio-rubrica" aria-controls="archivio-results">
+          <option value="">Tutte le rubriche e gli altri articoli</option>
+          <option value="tecnologie-che-aiutano">Tecnologie che aiutano</option>
+        </select>
+      </div>
       <div class="archivio-header">
           <div class="archivio-search-container">
               <input type="text" id="archivio-search" class="archivio-search-input" placeholder="Cerca nel titolo..." aria-label="Cerca articoli per titolo">
@@ -196,7 +204,7 @@
           Nessun risultato trovato per questo criterio di ricerca.
       </div>
 
-      <div class="archivio-grid">
+      <div class="archivio-grid" id="archivio-results">
           {{CARDS}}
       </div>
 

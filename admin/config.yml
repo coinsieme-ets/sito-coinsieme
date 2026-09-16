@@ -94,7 +94,7 @@ collections:
       - "author"
     fields:
       - { label: "Titolo", name: "title", widget: "string", required: true }
-      - label: "Rubrica Tematica"
+      - label: "Categoria tematica"
         name: "category"
         widget: "select"
         required: true
@@ -109,6 +109,13 @@ collections:
           - { label: "Turismo & Accessibilità", value: "Turismo & Accessibilità" }
           - { label: "Storia & Radici CO.IN.", value: "Storia & Radici CO.IN." }
           - { label: "Memoria & Testimonianze", value: "Memoria & Testimonianze" }
+      - label: "Rubrica editoriale (facoltativa)"
+        name: "rubrica"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Tecnologie che aiutano", value: "tecnologie-che-aiutano" }
+        hint: "Serie editoriale, distinta dalla categoria e dal tipo di contenuto. Lascia vuoto per gli altri articoli."
       - label: "Tipo di Contenuto"
         name: "content_type"
         widget: "select"

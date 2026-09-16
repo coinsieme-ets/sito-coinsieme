@@ -1,0 +1,5 @@
+.article-rubrica { display:inline-block; max-width:100%; padding:.3rem .7rem; margin:0 0 .75rem; border:1px solid #854019; border-radius:999px; background:#f4dfb9; color:#553311; font-family:var(--font-heading); font-size:.85rem; font-weight:700; line-height:1.5; }
+.archivio-rubrica-filter { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin:1rem 0; }
+.archivio-rubrica-filter label { font-weight:700; color:var(--marrone-scuro); }
+.archivio-rubrica-filter select { max-width:100%; min-height:44px; padding:.55rem; border:1px solid #854019; border-radius:6px; font:inherit; color:#553311; background:#fff; }
+.archivio-rubrica-filter select:focus-visible { outline:3px solid #854019; outline-offset:3px; }
