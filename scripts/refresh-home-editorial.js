@@ -4,6 +4,7 @@ const fs=require('node:fs');
 const {sourceUrl}=require('./verify-publication');
 const {createApi}=require('./publish-segnalazioni');
 async function main() {
+ await require("./articles-editorial").main();
  const token=process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN;
  if(!token)throw new Error('Credenziale Airtable mancante');
  const api=createApi(token),records=[];let offset;

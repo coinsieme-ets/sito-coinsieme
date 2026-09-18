@@ -153,13 +153,15 @@ function assert(condition, message) {
 }
 
 function loadAllArticles() {
+  const editorial=require("./articles-editorial");
+  const snapshot=editorial.readSnapshot();
   if (!fs.existsSync(newArticlesDir)) return [];
   const files = fs.readdirSync(newArticlesDir).filter((name) => name.endsWith('.json')).sort();
   const seen = new Set();
 
   return files.map((name) => {
     const file = path.join(newArticlesDir, name);
-    const item = readJson(file);
+    const item = editorial.apply(readJson(file),name,snapshot);
     assert(item.title && item.title.trim(), `${name}: titolo mancante`);
     
     // Auto-generate slug from title if omitted or empty
@@ -198,6 +200,7 @@ function loadAllArticles() {
 
     return {
       ...require("./article-home").editorialFields(item),
+      visible: item.visible !== false,
       title: item.title.trim(),
       slug,
       rubrica: item.rubrica || '',
@@ -632,7 +635,13 @@ function buildDailyNewsCard(items) {
 
 async function main() {
   const convertedImages = await convertHeicUploads();
-  const allArticles = loadAllArticles();
+  const loadedArticles = loadAllArticles();
+  // Never withdraw an existing generated page implicitly.
+  for(const item of loadedArticles.filter(a=>!a.visible)){
+    if(fs.existsSync(path.join(articlesDir,item.slug,"index.html")))
+      throw Error("Ritiro articolo gia pubblicato non supportato: "+item.slug);
+  }
+  const allArticles = loadedArticles.filter(a=>a.visible);
   const articleTemplate = fs.readFileSync(path.join(root, 'templates', 'articolo-template.html'), 'utf8');
 
   for (const item of allArticles) {
@@ -707,7 +716,8 @@ async function main() {
   console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
-main().catch((error) => {
+module.exports={parseArticleDate,loadAllArticles};
+if(require.main===module)main().catch((error) => {
   console.error(error.message);
   process.exit(1);
 });

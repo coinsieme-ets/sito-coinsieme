@@ -39,7 +39,7 @@ jobs:
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
         run: |
-          node --test scripts/home-feature.test.js scripts/article-home.test.js scripts/news-images.test.js scripts/novita-popup.test.js scripts/home-news.test.js scripts/home-structure.test.js
+          node --test scripts/articles-editorial.test.js scripts/home-feature.test.js scripts/article-home.test.js scripts/news-images.test.js scripts/novita-popup.test.js scripts/home-news.test.js scripts/home-structure.test.js
           node scripts/refresh-home-editorial.js
           node scripts/build-cms.js
 

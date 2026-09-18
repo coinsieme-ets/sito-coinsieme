@@ -82,6 +82,7 @@ collections:
   - name: "articoli"
     label: "Articoli"
     label_singular: "Articolo"
+    description: "Scrivi qui testi e immagini. I nuovi articoli entrano come bozze in Airtable: autorizza pubblicazione, data e rilevanza dal Cruscotto editoriale COINSIEME. Le decisioni Airtable prevalgono sui valori iniziali del CMS."
     folder: "content/articoli"
     extension: "json"
     format: "json"
@@ -127,9 +128,9 @@ collections:
           - { label: "Guida pratica", value: "Guida pratica" }
           - { label: "Bando / Opportunità", value: "Bando" }
           - { label: "Intervista / Testimonianza", value: "Intervista" }
-      - { label: "Rilevanza in homepage", name: "rilevanza_home", widget: "select", options: ["principale", "evidenza", "normale", "solo_archivio"], default: "normale", required: false }
-      - { label: "Ordine in homepage", name: "ordine_home", widget: "number", value_type: "int", min: 0, default: 999, required: false }
-      - { label: "Mantieni in evidenza fino al", name: "mantieni_in_evidenza_fino_al", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, required: false, hint: "Dopo questa data la priorita torna normale. Vuoto: nessuna scadenza." }
+      - { label: "Rilevanza iniziale (poi gestita in Airtable)", name: "rilevanza_home", widget: "select", options: ["principale", "evidenza", "normale", "solo_archivio"], default: "normale", required: false }
+      - { label: "Ordine iniziale (poi gestito in Airtable)", name: "ordine_home", widget: "number", value_type: "int", min: 0, default: 999, required: false }
+      - { label: "Scadenza iniziale (poi gestita in Airtable)", name: "mantieni_in_evidenza_fino_al", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, required: false, hint: "Dopo questa data la priorita torna normale. Vuoto: nessuna scadenza." }
       - { label: "Sintesi", name: "summary", widget: "text", required: true }
       - { label: "Testo dell'articolo", name: "body", widget: "markdown", required: true }
       - { label: "Autore", name: "author", widget: "string", required: false }

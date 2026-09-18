@@ -86,6 +86,8 @@ console.log(`- Totale articoli gestiti nel CMS (content/articoli/): ${newDecapAr
 
 // 5. Generate Preview HTML with ALL Cards & Verify Reachable Hrefs (Dinamico)
 console.log("\n5. Generazione dell'anteprima HTML con tutte le card...");
+const activeSlugs=new Set(require("./build-cms").loadAllArticles().filter(a=>a.visible).map(a=>a.slug));
+newDecapArticles=newDecapArticles.filter(a=>activeSlugs.has(getArticleSlug(a)));
 let mergedForIndex = newDecapArticles;
 
 let hrefSet = new Set();
