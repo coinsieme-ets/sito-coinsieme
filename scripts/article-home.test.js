@@ -3,5 +3,22 @@ const old={slug:'old',date:'2026-09-01'},fresh={slug:'new',date:'2026-09-13'};co
 test('explicit primary older article wins',()=>assert.equal(pick([{...old,rilevanza_home:'principale',ordine_home:1},fresh])[0],'old'));
 test('archive only excluded, original array remains intact',()=>{const items=[{...old,rilevanza_home:'solo_archivio'},fresh];assert.deepEqual(pick(items),['new']);assert.equal(items.length,2);});
 test('active pin inclusive, expired prominence returns normal',()=>{assert.equal(pick([{...old,rilevanza_home:'evidenza',mantieni_in_evidenza_fino_al:'2026-09-13'},fresh])[0],'old');assert.equal(pick([{...old,rilevanza_home:'principale',mantieni_in_evidenza_fino_al:'2026-09-12'},fresh])[0],'new');});
-test('same level sorts pin, order then publication date',()=>{assert.equal(pick([{...old,ordine_home:1},{...fresh,ordine_home:2}])[0],'old');assert.equal(pick([old,fresh])[0],'new');assert.equal(pick([{...old,ordine_home:9,mantieni_in_evidenza_fino_al:'2026-09-13'},{...fresh,ordine_home:1}])[0],'old');});
+test('normal articles sort by newest date regardless of old order or pin',()=>{
+ assert.equal(pick([{...old,ordine_home:1},{...fresh,ordine_home:999}])[0],'new');
+ assert.equal(pick([{...old,ordine_home:1,mantieni_in_evidenza_fino_al:'2026-09-13'},fresh])[0],'new');
+});
+test('active editorial tier sorts pin, order, then date',()=>{
+ const primary=x=>({...x,rilevanza_home:'principale'});
+ assert.equal(pick([primary({...old,ordine_home:1}),primary({...fresh,ordine_home:2})])[0],'old');
+ assert.equal(pick([primary(old),primary(fresh)])[0],'new');
+ assert.equal(pick([primary({...old,ordine_home:9,mantieni_in_evidenza_fino_al:'2026-09-13'}),primary({...fresh,ordine_home:1})])[0],'old');
+});
+test('expired recent article competes by date and keeps its metadata',()=>{
+ const expired={...fresh,rilevanza_home:'principale',ordine_home:999,mantieni_in_evidenza_fino_al:'2026-09-12'};
+ assert.equal(pick([{...old,ordine_home:1},expired])[0],'new');
+ assert.equal(selectHomeArticles([expired],'2026-09-13')[0].rilevanza_home,'principale');
+});
+test('primary without expiry remains ahead until editorial choice changes',()=>{
+ assert.equal(selectHomeArticles([{...old,rilevanza_home:'principale'},fresh],'2027-01-01')[0].slug,'old');
+});
 test('future and invalid controls rejected',()=>{assert.deepEqual(pick([{...old,date:'2026-09-14'}]),[]);assert.throws(()=>pick([{...old,rilevanza_home:'wrong'}]));assert.throws(()=>pick([{...old,ordine_home:'wrong'}]));});
