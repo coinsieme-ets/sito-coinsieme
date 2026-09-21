@@ -44,11 +44,11 @@ function outcome(values){
  const result={date:todayRome(),recipient:'segreteria@coinsieme.it',sender:process.env.BRIEFING_SENDER_EMAIL||'onboarding@resend.dev',resendCalled:false,httpStatus:null,messageId:null,...values};
  fs.mkdirSync('scratch',{recursive:true});fs.writeFileSync('scratch/briefing-outcome.json',JSON.stringify(result,null,2));console.log('BRIEFING_OUTCOME',JSON.stringify(result));return result;
 }
-async function main(){
+async function main(options={}){
  const preview=process.argv.includes('--preview');
- if(!preview && process.env.GITHUB_EVENT_NAME==='schedule' && !require('./send-briefing-mail').isRomeTimeWindow()){outcome({skipped:true,reason:'outside_rome_time_window'});return;}
- if(!process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN)throw Error('Credenziale Airtable mancante');
- const api=createApi(process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN),date=todayRome();
+ // GitHub cron can start hours late: eligibility depends on the Rome date, not the clock window.
+ if(!options.api&&!process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN)throw Error('Credenziale Airtable mancante');
+ const api=options.api||createApi(process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN),date=todayRomeDate(options.now||new Date());
  fs.mkdirSync('scratch',{recursive:true});
  if(process.env.AUDIT_PREVIOUS_BRIEFING==='true'){
   const records=await all(api,NEWS),cutoff='2026-09-12T04:38:26.129Z';
@@ -57,7 +57,7 @@ async function main(){
   fs.writeFileSync('scratch/briefing-audit.json',JSON.stringify(audit,null,2));console.log('AUDIT',JSON.stringify(audit));
  }
  // Do not create another daily batch after a successful real dispatch.
- const mail=require('./send-briefing-mail');
+ const mail=options.mail||require('./send-briefing-mail');
  if(!preview&&mail.loadDispatchLog().some(e=>e.status==='sent'&&e.dateIso===date)){outcome({skipped:true,reason:'already_sent_today'});return;}
  const batch=await prepareBatch({api,date});
  fs.writeFileSync('scratch/briefing-batch.json',JSON.stringify(batch,null,2));
@@ -67,4 +67,4 @@ async function main(){
  console.log('BATCH',JSON.stringify({date:batch.date,total:batch.total,excluded:batch.excluded,reused:batch.reused,records:batch.records.map(r=>({id:r.id,title:r.fields.titolo_editoriale,source:r.fields.fonte,reason:r.fields.rilevanza||r.fields.rilevanza_coinsieme}))}));
 }
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={saveSelected,prepareBatch,readBatch,assertBatch,prefix,todayRomeDate};
+module.exports={main,saveSelected,prepareBatch,readBatch,assertBatch,prefix,todayRomeDate};

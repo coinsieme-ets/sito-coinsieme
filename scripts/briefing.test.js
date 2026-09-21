@@ -36,3 +36,29 @@ test('Maurizio URLs with text prefix are excluded',()=>{const item=candidates[0]
 test('confirmed cross-source republication is a duplicate',()=>{const url='https://www.vita.it/sclerosi-multipla-a-scuola/';const result=selectCandidates([{titolo_editoriale:'Sclerosi multipla a scuola',url_fonte:url,sintesi_editoriale:'Appello AISM per studenti con sclerosi multipla',data_fonte:'2026-09-14',fonte:'Vita'}],[{url_fonte:'https://superando.it/2026/09/11/quando-una-malattia-invisibile-ruba-gli-anni-degli-studi/'}],[],'2026-09-14');assert.equal(result.selected.length,0);assert.match(result.excluded[0].reason,/duplicato URL/);});
 
 test('briefing date is independent of source date and mandatory on readback',()=>{const r=records(1)[0];r.fields.data_fonte='2026-09-10';assertBatch([r],date);for(const value of [undefined,'2026-09-11']){r.fields.data_briefing=value;assert.throws(()=>assertBatch([r],date));}});
+
+
+test('scheduled 06:30 briefing runs at 10:30 and 11:30 Rome, with one dispatch per Rome day',async()=>{
+ const {main}=require('./daily-briefing');
+ const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+ const cwd=process.cwd(),dir=fs.mkdtempSync(path.join(os.tmpdir(),'briefing-delay-'));
+ const oldEvent=process.env.GITHUB_EVENT_NAME;
+ process.chdir(dir);process.env.GITHUB_EVENT_NAME='schedule';
+ try {
+  for(const hour of ['08','09']) {
+   const now=new Date('2026-09-21T'+hour+':30:00Z'); // 10:30 / 11:30 Europe/Rome
+   const batchDate='2026-09-21',log=[];let sends=0,reads=0;
+   const row={id:'recDELAYED',createdTime:now.toISOString(),fields:{id:prefix(batchDate)+'delayed',stato:'da_valutare',data_briefing:batchDate,data_fonte:'2026-09-20',url_fonte:'https://example.org/delayed',titolo_editoriale:'Disabilita e autonomia'}};
+   const api=async(endpoint,method='GET')=>{reads++;assert.equal(method,'GET');if(endpoint.startsWith('tblStce'))return {records:[]};return endpoint.includes('?')?{records:[row]}:row;};
+   const mail={loadDispatchLog:()=>log,main:async({batch})=>{assert.equal(batch.date,batchDate);assert.equal(batch.records.length,1);sends++;log.push({status:'sent',dateIso:batch.date});return {sent:true};}};
+   await main({now,api,mail});assert.equal(sends,1);
+   const before=reads;await main({now,api,mail});assert.equal(sends,1);assert.equal(reads,before);
+  }
+ }finally{process.chdir(cwd);fs.rmSync(dir,{recursive:true,force:true});if(oldEvent===undefined)delete process.env.GITHUB_EVENT_NAME;else process.env.GITHUB_EVENT_NAME=oldEvent;}
+});
+
+test('daily date follows Rome across UTC midnight and winter time',()=>{
+ const {todayRomeDate}=require('./daily-briefing');
+ assert.equal(todayRomeDate('2026-09-20T22:30:00Z'),'2026-09-21');
+ assert.equal(todayRomeDate('2026-12-20T23:30:00Z'),'2026-12-21');
+});
