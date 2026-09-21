@@ -304,72 +304,56 @@ function buildCard(item) {
   </a>`;
 }
 
+// Homepage-only derivatives: originals and article/social metadata remain untouched.
+async function prepareHomeImages(items) {
+  const output = path.join(root, 'assets', 'home', 'generated');
+  for (const item of items) {
+    if (!item.image || item.imageIsExternal) continue;
+    const source = path.resolve(root, item.image.replace(/^\//, ''));
+    if (!source.startsWith(root + path.sep) || !fs.existsSync(source)) continue;
+    try {
+      const buffer = fs.readFileSync(source);
+      const hash = require('crypto').createHash('sha256').update(buffer).digest('hex').slice(0, 16);
+      fs.mkdirSync(output, { recursive: true });
+      const variants = [];
+      for (const width of [320, 640, 1120]) {
+        const filename = `${hash}-${width}.webp`;
+        const destination = path.join(output, filename);
+        if (!fs.existsSync(destination)) {
+          await sharp(buffer).rotate().resize({width}).webp({quality: 80}).toFile(destination);
+        }
+        variants.push(`/assets/home/generated/${filename} ${width}w`);
+      }
+      item.home_image_src = `/assets/home/generated/${hash}-640.webp`;
+      item.home_image_srcset = variants.join(', ');
+    } catch (error) {
+      console.warn(`Homepage image fallback for ${item.slug}: ${error.message}`);
+    }
+  }
+}
+
 function buildHomeSection(items) {
-  if (!items || items.length === 0) {
-    return '<p style="color:var(--grigio-testo);">Nessun articolo disponibile.</p>';
-  }
-
-  const primary = items[0];
-  const secondaries = items.slice(1, 3);
-
-  const primaryImageSrc = primary.image ? (primary.imageIsExternal ? primary.image : `/${primary.image}`) : '';
-  const primaryImgPos = primary.image_position || primary.imagePosition || 'center 20%';
-  const primaryImageHtml = primaryImageSrc
-    ? `<div class="conoscenza-featured-img-wrap"><img src="${escapeHtml(primaryImageSrc)}" alt="${escapeHtml(primary.imageAlt || '')}" class="conoscenza-featured-img" style="object-position: ${escapeHtml(primaryImgPos)};" width="800" height="450" loading="lazy"></div>`
-    : '';
-
-  const primaryDateHtml = primary.date
-    ? `<time datetime="${escapeHtml(primary.date)}">${new Date(`${primary.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
-    : '';
-  const primaryAuthorHtml = primary.author ? `<span>di ${escapeHtml(primary.author)}</span>` : '';
-  const primaryMetaSep = primaryDateHtml && primaryAuthorHtml ? '<span aria-hidden="true">·</span>' : '';
-  const primaryCategory = escapeHtml(primary.category || primary.contentType || 'Conoscenza');
-  const primarySummary = primary.home_summary || primary.summary;
-
-  const primaryHtml = `<article class="conoscenza-featured-card">
-    ${primaryImageHtml}
-    <div class="conoscenza-featured-body">
-      <div style="margin-bottom:8px;"><span class="badge badge-terracotta" style="font-size:0.75rem;">${primaryCategory}</span></div>
-      <h3 style="font-size:1.3rem; color:var(--marrone-scuro); font-weight:700; line-height:1.3; margin-bottom:8px;">${escapeHtml(primary.title)}</h3>
-      <p style="font-size:0.95rem; color:var(--grigio-testo); line-height:1.5; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(primarySummary)}</p>
-      <div class="article-card-meta" style="font-size:0.85rem; margin-bottom:16px;">${primaryDateHtml}${primaryMetaSep}${primaryAuthorHtml}</div>
-      <div style="margin-top:auto;"><a href="/articoli/${escapeHtml(primary.slug)}/" class="btn btn-terracotta" style="display:inline-flex; width:fit-content; align-items:center; gap:6px; padding:8px 18px; font-weight:600; text-decoration:none; border-radius:6px; font-size:0.88rem;">Leggi l'articolo <span aria-hidden="true">→</span></a></div>
-    </div>
-  </article>`;
-
-  if (secondaries.length === 0) {
-    return `<div class="conoscenza-asymmetric-grid" style="grid-template-columns: 1fr;">${primaryHtml}</div>`;
-  }
-
-  const secondariesHtml = secondaries.map((sec) => {
-    const secImageSrc = sec.image ? (sec.imageIsExternal ? sec.image : `/${sec.image}`) : '';
-    const secThumbHtml = secImageSrc
-      ? `<img src="${escapeHtml(secImageSrc)}" alt="" class="conoscenza-compact-thumb" width="80" height="64" loading="lazy">`
-      : '';
-    const secDateHtml = sec.date
-      ? `<time datetime="${escapeHtml(sec.date)}">${new Date(`${sec.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>`
-      : '';
-    const secCategory = escapeHtml(sec.category || sec.contentType || 'Approfondimento');
-
-    return `<article class="conoscenza-compact-card">
-      ${secThumbHtml}
-      <div class="conoscenza-compact-body">
-        <div style="margin-bottom:4px;"><span class="badge badge-subtle" style="font-size:0.72rem; background:var(--crema-chiara); color:var(--terracotta); border:1px solid var(--grigio-bordino); border-radius:4px; padding:1px 6px; font-weight:600;">${secCategory}</span></div>
-        <h4 style="font-size:0.95rem; font-weight:700; color:var(--marrone-scuro); margin-bottom:6px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(sec.title)}</h4>
-        <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; color:var(--grigio-testo); margin-top:auto;">
-          ${secDateHtml}
-          <a href="/articoli/${escapeHtml(sec.slug)}/" style="font-weight:600; color:var(--terracotta); text-decoration:none; display:inline-flex; align-items:center; gap:3px; margin-left:auto;">Leggi <span aria-hidden="true">→</span></a>
-        </div>
+  if (!items?.length) return '<p>Nessun articolo disponibile.</p>';
+  const card = (item, featured) => {
+    const title = escapeHtml(item.title);
+    const url = `/articoli/${escapeHtml(item.slug)}/`;
+    const src = item.home_image_src || (item.image ? (item.imageIsExternal ? item.image : `/${item.image.replace(/^\//, '')}`) : '');
+    const responsive = item.home_image_srcset ? ` srcset="${escapeHtml(item.home_image_srcset)}" sizes="${featured ? '(max-width: 600px) calc(100vw - 32px), (max-width: 1120px) calc((100vw - 60px) / 2), 526px' : '(max-width: 600px) 100px, (max-width: 1000px) calc((100vw - 56px) / 2), 252px'}"` : '';
+    const image = src ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(item.imageAlt || '')}" width="800" height="450"${responsive} loading="lazy" decoding="async" style="object-position:${escapeHtml(item.image_position || 'center center')}">` : '<span class="home-editorial-no-image" aria-hidden="true">COINSIEME</span>';
+    const badge = rubricaBadge(item.rubrica) || `<span class="badge">${escapeHtml(item.category || 'Approfondimento')}</span>`;
+    const date = item.date ? `<time datetime="${escapeHtml(item.date)}">${formatDateIt(item.date)}</time>` : '';
+    return `<article class="${featured ? 'conoscenza-featured-card' : 'conoscenza-compact-card'}">
+      <div class="home-editorial-image">${image}</div>
+      <div class="home-editorial-body">
+        <div class="home-editorial-badge">${badge}</div>
+        <h3><a href="${url}">${title}</a></h3>
+        ${featured ? `<p class="home-editorial-summary">${escapeHtml(item.home_summary || item.summary || '')}</p><div class="article-card-meta">${date}${item.author ? `<span>di ${escapeHtml(item.author)}</span>` : ''}</div>` : ''}
+        <a class="home-editorial-link" href="${url}" aria-label="Leggi: ${title}">Leggi l’articolo <span aria-hidden="true">→</span></a>
       </div>
     </article>`;
-  }).join('\n');
-
-  return `<div class="conoscenza-asymmetric-grid">
-    ${primaryHtml}
-    <div class="conoscenza-secondary-column">
-      ${secondariesHtml}
-    </div>
-  </div>`;
+  };
+  return `<div class="home-editorial-primary">${items.slice(0, 2).map(x => card(x, true)).join('\n')}</div>
+    ${items.length > 2 ? `<div class="home-editorial-secondary">${items.slice(2, 6).map(x => card(x, false)).join('\n')}</div>` : ''}`;
 }
 
 const ALLOWED_RASSEGNA_STATI = new Set(['segnalata', 'da_valutare', 'approvata', 'pubblica', 'pubblicata', 'scartata', 'archiviata']);
@@ -667,8 +651,9 @@ async function main() {
 
   const allArticlesForHome = require("./article-home").selectHomeArticles(allArticles);
 
-  const latest = allArticlesForHome.slice(0, 3);
-  const latestHtml = buildHomeSection(latest);
+  const latest = allArticlesForHome.filter((item, index, all) => all.findIndex(other => other.slug === item.slug) === index).slice(0, 6);
+  await prepareHomeImages(latest);
+  const latestHtml = buildHomeSection(latest).replace(/[ \t]+$/gm, '');
   const homepagePath = path.join(root, 'index.html');
   const homepage = fs.readFileSync(homepagePath, 'utf8');
   const homepageWithArticles = homepage.replace(
@@ -716,7 +701,7 @@ async function main() {
   console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
-module.exports={parseArticleDate,loadAllArticles};
+module.exports={parseArticleDate,loadAllArticles,buildHomeSection};
 if(require.main===module)main().catch((error) => {
   console.error(error.message);
   process.exit(1);

@@ -28,3 +28,6 @@ Thumbs.db
 /rassegna.html
 
 /assets/news/generated/
+
+# Homepage image derivatives generated at build time
+/assets/home/generated/

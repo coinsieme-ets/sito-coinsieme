@@ -132,6 +132,7 @@ collections:
       - { label: "Ordine iniziale (poi gestito in Airtable)", name: "ordine_home", widget: "number", value_type: "int", min: 0, default: 999, required: false }
       - { label: "Scadenza iniziale (poi gestita in Airtable)", name: "mantieni_in_evidenza_fino_al", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, required: false, hint: "Dopo questa data la priorita torna normale. Vuoto: nessuna scadenza." }
       - { label: "Sintesi", name: "summary", widget: "text", required: true }
+      - { label: "Sintesi breve per la homepage", name: "home_summary", widget: "text", required: false, hint: "Facoltativa: una o due frasi. Se vuota viene usata la sintesi dell’articolo." }
       - { label: "Testo dell'articolo", name: "body", widget: "markdown", required: true }
       - { label: "Autore", name: "author", widget: "string", required: false }
       - label: "Data di pubblicazione"
