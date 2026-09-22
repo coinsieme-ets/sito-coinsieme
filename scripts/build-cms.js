@@ -210,6 +210,8 @@ function loadAllArticles() {
       body: item.body,
       author: item.author ? String(item.author).trim() : '',
       date: articleDate,
+      date_verified: item.date_verified,
+      updated_at: item.updated_at || '',
       image,
       imageIsExternal,
       imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : ''),
@@ -228,8 +230,9 @@ function renderArticle(item, template) {
   const authorHtml = item.author
     ? `<span>di <strong style="color:var(--marrone);">${escapeHtml(item.author)}</strong></span><span aria-hidden="true">·</span>`
     : '';
-  const dateHtml = item.date
-    ? `<time datetime="${escapeHtml(item.date)}">${new Date(`${item.date}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time><span aria-hidden="true">·</span>`
+  const displayDate = require('./article-date').displayDate(item);
+  const dateHtml = displayDate.date
+    ? `<time datetime="${escapeHtml(displayDate.date)}">${escapeHtml(displayDate.label)}</time><span aria-hidden="true">·</span>`
     : '';
   const imageSrc = item.imageIsExternal ? item.image : `../../${item.image}`;
   const imageHtml = item.image
@@ -263,7 +266,7 @@ function renderArticle(item, template) {
     .replace(/\{\{IMMAGINE_HTML\}\}/g, imageHtml)
     .replace(/\{\{CORPO_HTML\}\}/g, bodyHtml)
     .replace(/\{\{SCHEMA_AUTORE\}\}/g, item.author ? `"author": { "@type": "Person", "name": ${JSON.stringify(item.author)} },` : '')
-    .replace(/\{\{SCHEMA_DATA\}\}/g, item.date ? `"datePublished": ${JSON.stringify(item.date)},` : '');
+    .replace(/\{\{SCHEMA_DATA\}\}/g, require('./article-date').schemaDates(item));
 
   assert(!/\{\{[A-Z_]+\}\}/.test(html), `${item.slug}: segnaposto template residuo`);
   return html;
@@ -341,7 +344,8 @@ function buildHomeSection(items) {
     const responsive = item.home_image_srcset ? ` srcset="${escapeHtml(item.home_image_srcset)}" sizes="${featured ? '(max-width: 600px) calc(100vw - 32px), (max-width: 1120px) calc((100vw - 60px) / 2), 526px' : '(max-width: 600px) 100px, (max-width: 1000px) calc((100vw - 56px) / 2), 252px'}"` : '';
     const image = src ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(item.imageAlt || '')}" width="800" height="450"${responsive} loading="lazy" decoding="async" style="object-position:${escapeHtml(item.image_position || 'center center')}">` : '<span class="home-editorial-no-image" aria-hidden="true">COINSIEME</span>';
     const badge = rubricaBadge(item.rubrica) || `<span class="badge">${escapeHtml(item.category || 'Approfondimento')}</span>`;
-    const date = item.date ? `<time datetime="${escapeHtml(item.date)}">${formatDateIt(item.date)}</time>` : '';
+    const shownDate = require('./article-date').displayDate(item);
+    const date = shownDate.date ? `<time datetime="${escapeHtml(shownDate.date)}">${escapeHtml(shownDate.label)}</time>` : '';
     return `<article class="${featured ? 'conoscenza-featured-card' : 'conoscenza-compact-card'}">
       <div class="home-editorial-image">${image}</div>
       <div class="home-editorial-body">
@@ -697,6 +701,7 @@ async function main() {
 
   fs.writeFileSync(homepagePath, homepageWithHero, 'utf8');
   require('./build-segnalazioni-pages').build(root);
+  console.log('SEO:', require('./build-seo').build(root, allArticles));
 
   console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
