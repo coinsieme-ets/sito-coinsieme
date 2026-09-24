@@ -19,9 +19,14 @@ function verifyPage(html,item) {
     html.includes('rel="canonical" href="'+item.publicUrl+'"') &&
     inspectPage(html,item.source,item.title);
 }
+class EditorialRecordError extends Error {}
+function reportPreparationErrors(manifest) {
+  for (const e of manifest.errors) console.warn('::warning::'+e.recordId+': '+e.error+'; lasciato da_pubblicare, da correggere');
+  if (manifest.errors.length && process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '\n### Segnalazioni da correggere\n'+manifest.errors.map(e=>'- '+e.recordId+': '+e.error).join('\n')+'\n');
+}
 function publicItem(news) {
   const item=validateAndNormalizeRecord(news.fields,news.id,news);
-  if(!item || /^Aggiornamento da /i.test(title(item.titolo_editoriale))) throw new Error('Titolo o metadati non pubblicabili');
+  if(!item || /^Aggiornamento da /i.test(title(item.titolo_editoriale))) throw new EditorialRecordError('Titolo o metadati non pubblicabili');
   // This is the public editorial dataset, never the Airtable response or audit payload.
   const {createdTime,airtableRecordId,originalStato,rilevanza_coinsieme,...clean}=item;
   return {...clean,titolo_editoriale:title(clean.titolo_editoriale),titolo_originale:title(clean.titolo_originale),
@@ -60,14 +65,14 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
   for(const seg of pending) {
     try {
       const source=sourceUrl(seg.fields.url_articolo);
-      if(!source) throw new Error('URL fonte non valido');
+      if(!source) throw new EditorialRecordError('URL fonte non valido');
       let matches=news.filter(n=>sourceUrl(n.fields.url_fonte)===source);
-      if(matches.length>1) throw new Error('Record Notizie duplicati: richiesta verifica editoriale');
+      if(matches.length>1) throw new EditorialRecordError('Record Notizie duplicati: richiesta verifica editoriale');
       if(!matches.length) {
         await processRecord({recordId:seg.id,deferPublicationConfirmation:true});
         news=await all(api,NEWS);matches=news.filter(n=>sourceUrl(n.fields.url_fonte)===source);
       }
-      if(matches.length!==1) throw new Error('Record Notizie non disponibile');
+      if(matches.length!==1) throw new EditorialRecordError('Record Notizie non disponibile');
       let n=matches[0];
       // A submission marked da_pubblicare is explicit editorial approval of that source.
       // Never promote unrelated RSS candidates.
@@ -79,7 +84,10 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
       item.segnalazioni=[...new Set([...(previous?.segnalazioni||[]),seg.id])];
       dataset.set(source,item);
       manifest.items.push({recordId:seg.id,newsId:n.id,source,title:item.titolo_editoriale,publicUrl:publicUrl(seg.id)});
-    } catch(e) {manifest.errors.push({recordId:seg.id,error:e.message});console.error(seg.id+': '+e.message);}
+    } catch(e) {
+      if (!(e instanceof EditorialRecordError)) throw e;
+      manifest.errors.push({recordId:seg.id,error:e.message,status:'needs_editorial_correction'});
+    }
   }
   // Keep stable pages for already published records without changing those Airtable records.
   for(const seg of segs.filter(s=>s.fields.stato==='pubblicato')) {
@@ -126,13 +134,13 @@ async function main(mode) {
     fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
     if(process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT,'count='+manifest.items.length+'\n');
     console.log('Segnalazioni preparate: '+manifest.items.length+'; errori: '+manifest.errors.length);
-    if(!manifest.items.length && manifest.errors.length) throw new Error('Nessuna segnalazione pubblicabile: consultare artifact');
+    reportPreparationErrors(manifest);
   } else if(mode==='confirm'){
     const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
     const results=await confirm(api,manifest);
     fs.writeFileSync('scratch/publication-result.json',JSON.stringify({results,preparationErrors:manifest.errors},null,2)+'\n');
-    if(results.some(r=>r.status==='not_verified_pending') || manifest.errors.length) throw new Error('Alcune segnalazioni restano in attesa; consultare artifact');
+    if(results.some(r=>r.status==='not_verified_pending')) throw new Error('Alcune segnalazioni restano in attesa; consultare artifact');
   } else throw new Error('Modalita non valida');
 }
 if(require.main===module)main(process.argv[2]).catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={selectPending,canConfirm,verifyPage,publicItem,createApi,prepare,confirm,publicUrl};
+module.exports={reportPreparationErrors,selectPending,canConfirm,verifyPage,publicItem,createApi,prepare,confirm,publicUrl};

@@ -76,3 +76,25 @@ test('prepare excludes unrelated RSS and makes no submission writes',async()=>{
   assert.equal(saved[0].url_fonte,news.url_fonte);assert.deepEqual(writes,[]);
  }finally{fs.readFileSync=originalRead;fs.writeFileSync=originalWrite;}
 });
+
+
+test('PMI fallback recPoewbcR0Bs8irU is quarantined without blocking valid records or creating duplicates',async()=>{
+ const read=fs.readFileSync,write=fs.writeFileSync;
+ const source='https://www.pmi.it/economia/lavoro/408421/permessi-104-piu-familiari.html';
+ try {
+  fs.readFileSync=(p,...args)=>p==='content/rassegna/notizie-esterne.json'?'[]':read(p,...args);
+  fs.writeFileSync=()=>{};
+  for(const includeValid of [false,true]) {
+   const manifest=await prepare(async(p,m)=>{
+    assert.equal(m,undefined,'No Airtable writes');
+    if(p.startsWith('tblStce'))return {records:[{id:'recPoewbcR0Bs8irU',fields:{stato:'da_pubblicare',url_articolo:source}},...(includeValid?[{id:ID,fields:{stato:'da_pubblicare',url_articolo:news.url_fonte}}]:[])]};
+    return {records:[{id:'recGtGTGJlO6JeFX4',fields:{...news,stato:'pubblica',url_fonte:source,titolo_editoriale:'Aggiornamento da Pmi'}},{id:'recValid',fields:{...news,stato:'pubblica'}}]};
+   },{pages:[],processRecord:()=>{throw Error('Duplicate creation');}});
+   assert.equal(manifest.items.length,includeValid?1:0);
+   assert.equal(manifest.errors.length,1);
+   assert.equal(manifest.errors[0].recordId,'recPoewbcR0Bs8irU');
+   assert.equal(manifest.errors[0].status,'needs_editorial_correction');
+   assert.doesNotThrow(()=>require('./publish-segnalazioni').reportPreparationErrors(manifest));
+  }
+ } finally {fs.readFileSync=read;fs.writeFileSync=write;}
+});
