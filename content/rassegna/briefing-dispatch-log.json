@@ -157,5 +157,17 @@
     "sender": "onboarding@resend.dev",
     "candidateCount": 5,
     "status": "sent"
+  },
+  {
+    "timestamp": "2026-09-27T10:07:42.994Z",
+    "dateIso": "2026-09-27",
+    "dateStr": "27 settembre 2026",
+    "recipient": "segreteria@coinsieme.it",
+    "subject": "Briefing notizie COINSIEME - 27 settembre 2026",
+    "resendMessageId": "01a0e255-b53c-7598-aae9-0b4c2df0cee7",
+    "httpStatus": 200,
+    "sender": "onboarding@resend.dev",
+    "candidateCount": 5,
+    "status": "sent"
   }
 ]
