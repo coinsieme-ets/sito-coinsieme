@@ -32,6 +32,8 @@ function build(root, articles) {
     add(path.join(root,'articoli',item.slug,'index.html'), `${ORIGIN}/articoli/${item.slug}/`);
   }
   for (const name of fs.readdirSync(root).filter(n=>n.endsWith('.html') && n!=='404.html')) add(path.join(root,name));
+  const sportello = path.join(root, 'sportello', 'index.html');
+  if (fs.existsSync(sportello)) add(sportello);
   for (const dir of ['pubblicazioni','rassegna']) for(const file of htmlFiles(path.join(root,dir))) add(file);
   const destination = `${ORIGIN}/articoli/${TARGET}/`;
   if(!urls.has(destination)) throw Error('SEO redirect target not published');

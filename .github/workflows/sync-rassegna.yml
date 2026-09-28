@@ -72,7 +72,7 @@ jobs:
         run: |
           mkdir -p _site
           cp *.html CNAME _site/
-          for dir in admin articoli pubblicazioni assets css js documenti rassegna; do
+          for dir in admin articoli pubblicazioni assets css js documenti rassegna sportello; do
             if [ -d "$dir" ]; then cp -R "$dir" _site/; fi
           done
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
