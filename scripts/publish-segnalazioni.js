@@ -60,7 +60,7 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
   let news=await all(api,NEWS);
   const existing=JSON.parse(fs.readFileSync(DATA,'utf8'));
   const publishedSources=new Set(segs.filter(s=>s.fields.stato==='pubblicato').map(s=>sourceUrl(s.fields.url_articolo)));
-  const dataset=new Map(existing.filter(n=>n.segnalazioni?.length || publishedSources.has(sourceUrl(n.url_fonte)) ||
+  const dataset=new Map(existing.filter(n=>n.segnalazioni?.length || n.notizie?.length || publishedSources.has(sourceUrl(n.url_fonte)) ||
     verifyPublication(pages,n).online).map(n=>[sourceUrl(n.url_fonte),n]));
   for(const seg of pending) {
     try {

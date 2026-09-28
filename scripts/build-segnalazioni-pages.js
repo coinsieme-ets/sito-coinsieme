@@ -25,10 +25,10 @@ function build(root=path.join(__dirname,'..')){
  const dir=path.join(root,'rassegna');fs.mkdirSync(dir,{recursive:true});
  const cards=[];
  for(const item of items){
-  for(const id of item.segnalazioni||[]){
+  for(const id of [...new Set([...(item.segnalazioni||[]),...(item.notizie||[])])]){
    if(!/^rec[a-zA-Z0-9]{14}$/.test(id))throw new Error('ID segnalazione non valido nel dataset');
    fs.writeFileSync(path.join(dir,id+'.html'),page(item,id));
-   cards.push('<article class="rassegna-card" style="margin-bottom:24px">'+newsImage(item)+'<h2><a href="/rassegna/'+id+'.html">'+escape(item.titolo_editoriale)+'</a></h2><p>'+escape(item.sintesi_editoriale)+'</p><p>Fonte: '+escape(item.fonte)+'</p></article>');
+   if(id===(item.segnalazioni?.[0]||item.notizie?.[0]))cards.push('<article class="rassegna-card" style="margin-bottom:24px">'+newsImage(item)+'<h2><a href="/rassegna/'+id+'.html">'+escape(item.titolo_editoriale)+'</a></h2><p>'+escape(item.sintesi_editoriale)+'</p><p>Fonte: '+escape(item.fonte)+'</p></article>');
   }
  }
  fs.writeFileSync(path.join(root,'rassegna.html'),shell('Rassegna stampa','https://www.coinsieme.it/rassegna.html','<h1>Rassegna stampa</h1><p>Le segnalazioni pubblicate da COINSIEME, con i collegamenti alle fonti.</p>'+cards.join('\n')));

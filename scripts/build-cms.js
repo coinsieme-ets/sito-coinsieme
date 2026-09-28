@@ -488,10 +488,8 @@ function getHomeHeroItem(items) {
 }
 
 function buildRassegnaSection(items) {
-  const approved = getSortedApprovedItems(items).filter(i => i.posizione_sito !== 'solo_rassegna');
-  const hero = getHomeHeroItem(items);
-  const ordered = hero ? [hero, ...approved.filter(i => i.id !== hero.id)] : approved;
-  return require('./home-news').renderHomeNews(ordered);
+  const {renderHomeNews,selectHomeNews}=require('./home-news');
+  return renderHomeNews(selectHomeNews(require('./home-feature').loadHomeItems(items)));
 }
 
 function buildTopNewsBar(items) {

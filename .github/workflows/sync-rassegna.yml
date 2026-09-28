@@ -26,7 +26,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
-    name: Pubblica, verifica online e conferma Segnalazioni Maurizio
+    name: Pubblica e verifica Notizie e Segnalazioni Maurizio
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -41,12 +41,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Test regole di pubblicazione e isolamento RSS
-        run: node --test scripts/verify-publication.test.js scripts/publish-segnalazioni.test.js
-      - name: Prepara esclusivamente le segnalazioni da_pubblicare
+        run: node --test scripts/verify-publication.test.js scripts/publish-segnalazioni.test.js scripts/publish-rassegna.test.js scripts/home-news.test.js
+      - name: Prepara Notizie pubblica e Segnalazioni da_pubblicare
         id: prepare
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-        run: node scripts/publish-segnalazioni.js prepare
+        run: node scripts/publish-rassegna.js prepare
       - name: Compila sito e pagine permanenti della rassegna
         if: steps.prepare.outputs.count != '0'
         env:
@@ -86,13 +86,13 @@ jobs:
         id: deployment
         if: steps.prepare.outputs.count != '0'
         uses: actions/deploy-pages@v4
-      - name: Verifica sito pubblico e conferma solo i record ancora da_pubblicare
+      - name: Verifica sito pubblico e conferma i record ancora autorizzati
         id: confirm
         if: steps.prepare.outputs.count != '0'
         continue-on-error: true
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
-        run: node scripts/publish-segnalazioni.js confirm
+        run: node scripts/publish-rassegna.js confirm
       - name: Conserva esclusivamente il dataset editoriale pubblicato
         if: steps.deployment.outcome == 'success'
         run: |
