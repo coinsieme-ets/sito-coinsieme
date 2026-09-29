@@ -35,6 +35,12 @@ test('orientamento: every 0–3 area combination yields 2–4 unique canonical l
  assert.equal(areas.length,6);
  assert.ok(areas.some(a=>a.id==='relazioni-solitudine'));
  for(const [url] of Object.entries(resources)){
+   if(url.startsWith('/articoli/')) {
+     const slug=url.split('/')[2];
+     const article=JSON.parse(fs.readFileSync(path.join(root,'content/articoli',slug+'.json'),'utf8'));
+     assert.equal(article.slug,slug);
+     continue;
+   }
    const html=fs.readFileSync(path.join(root,url.slice(1)),'utf8');
    assert.ok(html.includes('href="https://www.coinsieme.it'+url+'"'));
    assert.doesNotMatch(html,/<meta[^>]+http-equiv=["']refresh/i);
@@ -59,7 +65,7 @@ test('orientamento: deterministic order, duplicate choices, safe limit and no te
  assert.deepEqual(chooseResources(['casa-autonomia','casa-autonomia']),chooseResources(['casa-autonomia']));
  assert.deepEqual(chooseResources(['diagnosi inventata']),chooseResources([]));
  assert.deepEqual(chooseResources(['tecnologie-aiuto','casa-autonomia']).map(r=>r.url),
- ['/domotica.html','/persone-famiglie.html','/articoli.html']);
+ ['/domotica.html','/articoli/una-casa-che-si-accorge-di-una-caduta-senza-guardarci/','/persone-famiglie.html','/articoli.html']);
 });
 test('orientamento: fallback for unavailable primary and no dead resource when both unavailable',()=>{
  const {chooseResources}=orientation;

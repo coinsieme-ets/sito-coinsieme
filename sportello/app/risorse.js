@@ -13,7 +13,7 @@
     "id": "tecnologie-aiuto",
     "title": "Tecnologie che possono aiutare",
     "text": "Capire quando domotica e strumenti semplici possono essere davvero utili.",
-    "link": "/domotica.html",
+    "link": "/articoli/una-casa-che-si-accorge-di-una-caduta-senza-guardarci/",
     "order": 2,
     "fallback": "/articoli.html"
   },
@@ -51,6 +51,7 @@
   }
 ];
   const resources = {
+    '/articoli/una-casa-che-si-accorge-di-una-caduta-senza-guardarci/': {title: 'Rilevare una caduta senza telecamere', text: 'Come funzionano i radar non intrusivi che possono riconoscere movimenti compatibili con una caduta e inviare una segnalazione, tutelando maggiormente la privacy.'},
     '/domotica.html': {title: 'Domotica assistiva', text: 'Come affrontare gli adattamenti della casa, partendo dalla persona.'},
     '/persone-famiglie.html': {title: 'Persone e famiglie', text: 'Gli ambiti in cui COINSIEME può offrire informazioni e possibilità di confronto.'},
     '/cosa-facciamo.html': {title: 'Cosa facciamo', text: 'Attività e progetti della Fondazione, distinguendo ciò che è operativo da ciò che è in sviluppo.'},
