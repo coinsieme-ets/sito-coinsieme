@@ -917,5 +917,50 @@
     "notizie": [
       "recqzdlP787FPiNBq"
     ]
+  },
+  {
+    "id": "la-nazione-alla-sala-dei-notari-si-presen-2026-10-01",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-10-01",
+    "data_pubblicazione": "2026-10-01",
+    "titolo_originale": "Alla Sala dei Notari si presenta oggi il libro di Francesca Bondì",
+    "titolo_editoriale": "Alla Sala dei Notari si presenta oggi il libro di Francesca Bondì",
+    "fonte": "La Nazione",
+    "url_fonte": "https://www.lanazione.it/umbria/cronaca/alla-sala-dei-notari-si-0cbfd24c",
+    "sintesi_editoriale": "“Quando sono nata c’era il sole - La mia vita a Capodarco“ è il libro autobiografico di Francesca Bondì che...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recZDFX6LTvBLnJeD"
+    ],
+    "notizie": [
+      "recYdUg3iMWw0tQwq"
+    ]
+  },
+  {
+    "id": "ravennanotizie-cohousing-over65-san-michele-2026-09-28",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-09-28",
+    "data_pubblicazione": "2026-10-01",
+    "titolo_originale": "Vivere in autonomia senza vivere da soli: a San Michele nasce il primo co-housing per over 65, 9 appartamentini per 15 anziani",
+    "titolo_editoriale": "Ravenna, nasce un cohousing per over 65: autonomia senza solitudine",
+    "fonte": "RavennaNotizie.it",
+    "url_fonte": "https://www.ravennanotizie.it/2026/09/28/vivere-in-autonomia-senza-vivere-da-soli-a-san-michele-nasce-il-primo-co-housing-per-over-65-9-appartamentini-per-15-anziani/622838/",
+    "sintesi_editoriale": "A San Michele, nel Ravennate, nasce un progetto di cohousing rivolto agli over 65: nove piccoli appartamenti destinati a ospitare fino a 15 persone anziane, con l’obiettivo di conciliare autonomia personale, relazioni e sostegno reciproco. Un’esperienza che propone un’alternativa tra la vita completamente sola e le strutture residenziali tradizionali.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 1,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recNfTnP9bHPPDMVH"
+    ]
   }
 ]
