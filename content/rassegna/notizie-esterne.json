@@ -962,5 +962,26 @@
     "notizie": [
       "recNfTnP9bHPPDMVH"
     ]
+  },
+  {
+    "id": "pmi-fondo-garanzia-terzo-settore-2026-10-01",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-10-01",
+    "data_pubblicazione": "2026-10-02",
+    "titolo_originale": "Prestiti agevolati al Terzo Settore dal Fondo di Garanzia",
+    "titolo_editoriale": "Terzo Settore: garanzia pubblica gratuita all’80% sui finanziamenti",
+    "fonte": "PMI.it",
+    "url_fonte": "https://www.pmi.it/economia/finanziamenti/500560/fondo-garanzia-terzo-settore.html",
+    "sintesi_editoriale": "Dal 21 settembre 2026 è operativa la sezione speciale del Fondo di Garanzia dedicata agli Enti del Terzo Settore. Per gli ETS iscritti al RUNTS e non iscritti al REA, la garanzia pubblica è gratuita e può coprire l’80% di ciascun finanziamento fino a 60.000 euro, anche per esigenze di liquidità. La domanda passa attraverso banca o confidi.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 1,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "rec7cgdMyi1xtPGDF"
+    ]
   }
 ]
