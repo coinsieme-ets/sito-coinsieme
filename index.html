@@ -87,6 +87,53 @@
   </nav>
 </header>
 
+<!-- CMS_TOP_STATUS_START -->
+<aside id="top-news-bar" class="top-news-bar" aria-label="Aggiornamento in tempo reale e data odierna">
+  <div class="container">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <div style="display:inline-flex; align-items:center; gap:10px; font-size:0.86rem;">
+        <span class="top-news-live-tag">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>OGGI</span>
+        </span>
+        <span class="top-news-divider" aria-hidden="true">·</span>
+        <time class="top-news-date" id="top-news-live-date" datetime="2026-10-03">Sabato 3 ottobre 2026</time>
+        <span class="top-news-divider" aria-hidden="true">·</span>
+        <span class="top-news-clock" id="top-news-live-clock" aria-label="Ora corrente">00:00</span>
+      </div>
+      <div style="font-size:0.80rem; color:var(--grigio-testo); display:inline-flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--terracotta);" aria-hidden="true"></span>
+        <span>Aggiornato in tempo reale</span>
+      </div>
+    </div>
+  </div>
+</aside>
+<script>
+  (function() {
+    function updateTopClock() {
+      var clockEl = document.getElementById('top-news-live-clock');
+      var dateEl = document.getElementById('top-news-live-date');
+      if (!clockEl && !dateEl) return;
+      var now = new Date();
+      if (clockEl) {
+        var h = String(now.getHours()).padStart(2, '0');
+        var m = String(now.getMinutes()).padStart(2, '0');
+        clockEl.textContent = h + ':' + m;
+      }
+      if (dateEl) {
+        try {
+          var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+          var dStr = now.toLocaleDateString('it-IT', options);
+          dateEl.textContent = dStr.charAt(0).toUpperCase() + dStr.slice(1);
+        } catch(e) {}
+      }
+    }
+    updateTopClock();
+    setInterval(updateTopClock, 30000);
+  })();
+</script>
+<!-- CMS_TOP_STATUS_END -->
+
 <main id="main-content" class="home-renewed">
 <section id="identita" class="home-intro" aria-labelledby="hero-titolo"><div class="container intro-grid"><div>
 <p class="home-eyebrow">Fondazione COINSIEME ETS</p><h1 id="hero-titolo">Più autonomia nella vita quotidiana.</h1>

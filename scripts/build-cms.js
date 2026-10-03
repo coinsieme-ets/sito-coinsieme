@@ -677,7 +677,11 @@ async function main() {
   );
   assert(homepageWithRassegna !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
 
-  const homepageUpdated = homepageWithRassegna;
+  const homepageUpdated = homepageWithRassegna.replace(
+    /(<!-- CMS_TOP_STATUS_START -->)[\s\S]*?(<!-- CMS_TOP_STATUS_END -->)/,
+    `$1\n${topNewsBarHtml}\n$2`
+  );
+  assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori data e ora mancanti');
 
   const heroImageHtml = buildHeroImage(rassegnaItems);
 
