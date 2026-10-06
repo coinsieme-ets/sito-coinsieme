@@ -1172,5 +1172,68 @@
     "notizie": [
       "recvvBOZ9Y776HrQr"
     ]
+  },
+  {
+    "id": "sole24ore-senior-housing-sfida-sociale-2026-10-05",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-10-05",
+    "data_pubblicazione": "2026-10-06",
+    "titolo_originale": "Senior housing, la sfida sociale dell’Italia che invecchia",
+    "titolo_editoriale": "Senior housing: non solo residenze, ma una sfida sociale",
+    "fonte": "Il Sole 24 Ore",
+    "url_fonte": "https://www.ilsole24ore.com/art/senior-housing-sfida-sociale-dell-italia-che-invecchia-AJ4ORAaB",
+    "sintesi_editoriale": "In un’Italia che invecchia cresce l’interesse per abitazioni capaci di unire autonomia, sicurezza, servizi e relazioni. Il senior housing viene presentato non come una semplice operazione immobiliare, ma come una possibile risposta sociale ai cambiamenti demografici e alla necessità di ripensare il modo di abitare nella terza età.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 1,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recNXAxj7PUfWXDyW"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-10-06-2424b41b526b02b8",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-10-05",
+    "data_pubblicazione": "2026-10-05",
+    "titolo_originale": "Arriva a Roma il “TourAutism 2026”",
+    "titolo_editoriale": "Arriva a Roma il “TourAutism 2026”",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/10/05/arriva-a-roma-il-tourautism-2026/",
+    "sintesi_editoriale": "Un camper che attraversa l’Italia, allo scopo di dimostrare che per le persone con autismo una vita indipendente è possibile: è “TourAutism 2026”, progetto che intende trasformare il viaggio e la quotidianità in una palestra di autonomia, socializzazione e inclusione, nato dall’esperienza della T...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "reciOgALNrYXjPtSs"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-10-06-4952190a5d6f408c",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-10-05",
+    "data_pubblicazione": "2026-10-05",
+    "titolo_originale": "Disabilità visiva: niente “superpoteri”, ma un altro modo di conoscere il mondo",
+    "titolo_editoriale": "Disabilità visiva: niente “superpoteri”, ma un altro modo di conoscere il mondo",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/10/05/disabilita-visiva-niente-superpoteri-ma-un-altro-modo-di-conoscere-il-mondo/",
+    "sintesi_editoriale": "«Un mito da sfatare sulla cecità e in generale sulla grave disabilità visiva – scrive Laura Tessari, pedagogista, educatrice dell’orientamento, della mobilità e dell’autonomia personale in tale àmbito – è quello che proprio le persone con deficit visivo mi hanno insegnato a vedere, ossia che esse...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recy25P1FyTdikHXl"
+    ]
   }
 ]
