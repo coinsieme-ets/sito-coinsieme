@@ -70,9 +70,10 @@ jobs:
       - name: Prepara artefatto pubblico
         if: steps.prepare.outputs.count != '0'
         run: |
+          node scripts/build-legacy-redirects.js
           mkdir -p _site
           cp *.html CNAME _site/
-          for dir in admin articoli pubblicazioni assets css js documenti rassegna sportello; do
+          for dir in admin articoli pubblicazioni assets css js documenti rassegna progetti-e-servizi trasparenza domotica-assistiva archivio-storico galleria blog pubblicazioni-alcuni-eroi-del-nostro-tempo la-domotica-assistiva documenti-istituzionali servizi-della-fondazione sportello; do
             if [ -d "$dir" ]; then cp -R "$dir" _site/; fi
           done
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
