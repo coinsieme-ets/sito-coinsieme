@@ -1343,5 +1343,47 @@
     "notizie": [
       "rec81OR2ToxYcmeWW"
     ]
+  },
+  {
+    "id": "il-sole-24-ore-non-profit-crescono-organizzazioni-dipendenti-2026-10-09",
+    "categoria": "Terzo Settore",
+    "data_fonte": "2026-10-09",
+    "data_pubblicazione": "2026-10-09",
+    "titolo_originale": "Non profit, crescono le organizzazioni e i dipendenti",
+    "titolo_editoriale": "Non profit, crescono le organizzazioni e i dipendenti",
+    "fonte": "Il Sole 24 Ore",
+    "url_fonte": "https://www.ilsole24ore.com/art/non-profit-crescono-organizzazioni-e-dipendenti-AJneMZeB",
+    "sintesi_editoriale": "Il non profit italiano continua a crescere: quasi 372mila organizzazioni, circa 938mila dipendenti e una rete di collaborazioni che coinvolge nove istituzioni su dieci. I dati Istat presentati alle Giornate di Bertinoro confermano il peso economico, occupazionale e sociale assunto dal settore.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 2,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recAQgGn5dv4NNVDh"
+    ]
+  },
+  {
+    "id": "ansa-capodarco-salute-mentale-servizi-macchia-leopardo-2026-10-09",
+    "categoria": "Welfare e cura",
+    "data_fonte": "2026-10-09",
+    "data_pubblicazione": "2026-10-09",
+    "titolo_originale": "Salute mentale, allarme della Comunità di Capodarco 'Servizi a macchia di leopardo'",
+    "titolo_editoriale": "Salute mentale, l’allarme di Capodarco: servizi ancora a macchia di leopardo",
+    "fonte": "ANSA",
+    "url_fonte": "https://www.ansa.it/marche/notizie/2026/10/09/salute-mentale-allarme-della-comunita-di-capodarco-servizi-a-macchia-di-leopardo_8e00938b-914e-4a8c-88b5-2739729f1cb4.html",
+    "sintesi_editoriale": "Alla vigilia della Giornata mondiale della salute mentale, la Comunità di Capodarco denuncia forti disuguaglianze territoriali: centri con orari e capacità di presa in carico molto diversi, percorsi poco chiari nelle emergenze, famiglie spesso lasciate sole e uno stigma ancora radicato. La richiesta è trasformare i diritti riconosciuti sulla carta in servizi uniformi, accessibili e capaci di favorire la piena partecipazione delle persone alla vita della comunità.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 1,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recRMNrc9BwYnpKyp"
+    ]
   }
 ]
