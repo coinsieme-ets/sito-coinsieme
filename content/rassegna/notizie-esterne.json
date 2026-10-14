@@ -1363,6 +1363,9 @@
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recAQgGn5dv4NNVDh"
+    ],
+    "segnalazioni": [
+      "recu0Fjc6kjQ9mgus"
     ]
   },
   {
@@ -1489,6 +1492,54 @@
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recICznbqNSezS6yW"
+    ]
+  },
+  {
+    "id": "vita-aggiornamento-da-vita-2026-10-12",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-10-12",
+    "data_pubblicazione": "2026-10-14",
+    "titolo_originale": "Se l’intelligenza artificiale fa crescere la qualità dei lavori di cura",
+    "titolo_editoriale": "Intelligenza artificiale e lavoro di cura: due esperienze della cooperazione sociale",
+    "fonte": "Vita",
+    "url_fonte": "https://www.vita.it/se-lintelligenza-artificiale-fa-crescere-la-qualita-dei-lavori-di-cura/",
+    "sintesi_editoriale": "Due cooperative sociali piemontesi sperimentano strumenti digitali a sostegno del lavoro di cura. Frassati ha sviluppato un prototipo di assistente virtuale per supportare le decisioni nelle RSA; Il Margine, con il progetto Knock Knock, utilizza ambienti virtuali per familiarizzare con un centro diurno prima dell’ingresso. Formazione, tutela dei dati e responsabilità degli operatori sono condizioni essenziali: la tecnologia deve rafforzare la relazione con la persona.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recjY7Mc2cv2WeEOS"
+    ],
+    "notizie": [
+      "recUFlYFTfhuxL3qU"
+    ]
+  },
+  {
+    "id": "avvenire-bei-banca-etica-inclusione-2026-10-12",
+    "categoria": "Terzo Settore",
+    "data_fonte": "2026-10-12",
+    "data_pubblicazione": "2026-10-14",
+    "titolo_originale": "L’intesa tra Bei e Banca Etica: altri 30 milioni a inclusione, imprese femminili e sviluppo aree fragili",
+    "titolo_editoriale": "BEI e Banca Etica: altri 30 milioni per inclusione e territori fragili",
+    "fonte": "Avvenire",
+    "url_fonte": "https://www.avvenire.it/economia/lintesa-tra-bei-e-banca-etica-altri-30-milioni-a-inclusione-imprese-femminili-e-sviluppo-aree-fragili_114207",
+    "sintesi_editoriale": "Banca Etica e Banca europea per gli investimenti rinnovano la collaborazione con una seconda tranche da 30 milioni di euro, nell’ambito di un accordo da 60 milioni. Le risorse sostengono l’accesso al credito per iniziative a impatto sociale e ambientale, imprenditoria femminile, persone rifugiate e richiedenti asilo e sviluppo dei territori più fragili. Si tratta di finanziamenti, non di contributi a fondo perduto.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "reckz9qwDry6AOT0j"
+    ],
+    "notizie": [
+      "recpv1a0cWtR1ZK4L"
     ]
   }
 ]
