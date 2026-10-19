@@ -76,7 +76,7 @@ test('orientamento: fallback for unavailable primary and no dead resource when b
 test('both deploy packages preserve the complete sportello directory',()=>{
  for(const name of ['build-articoli.yml','sync-rassegna.yml']){
   const workflow=fs.readFileSync(path.join(root,'.github/workflows',name),'utf8');
-  assert.match(workflow,/for dir in [^\n]*\bsportello; do/);
+  assert.match(workflow,/for dir in [^\n]*\bsportello(?:\s+[^;]+)?; do/);
   assert.match(workflow,/cp -R "\$dir" _site\//);
  }
 });
