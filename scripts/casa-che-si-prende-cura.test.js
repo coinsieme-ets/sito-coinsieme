@@ -34,6 +34,15 @@ test('le dodici immagini hanno file, dimensioni e testi alternativi', () => {
   assert.match(data.assets.solutionImageNote, /non raffigura un prodotto verificato da COINSIEME/);
 });
 
+test('l’immagine introduttiva della Casa è distinta da quella della homepage', () => {
+  const hero = html.match(/<figure class="casa-hero-media">[\s\S]*?<img[^>]+src="([^"]+)"[^>]+alt="([^"]+)"/);
+  assert.ok(hero, 'Immagine introduttiva non trovata');
+  assert.equal(hero[1], 'assets/casa-domotica-tablet.webp');
+  assert.match(hero[2], /tablet/i);
+  assert.ok(fs.existsSync(path.join(casaRoot, hero[1])), `File mancante: ${hero[1]}`);
+  assert.doesNotMatch(hero[0], /domotica_hero_autonomia/);
+});
+
 test('la Casa e collegata senza creare sezioni duplicate', () => {
   for (const file of ['index.html', 'domotica.html', 'persone-famiglie.html']) {
     const page = fs.readFileSync(path.join(root, file), 'utf8');
