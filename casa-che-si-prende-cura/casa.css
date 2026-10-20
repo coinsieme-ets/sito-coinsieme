@@ -54,6 +54,22 @@
 @media(max-width:600px){.house-room-selector{margin-right:-16px;padding-right:16px}.house-stage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;aspect-ratio:auto;min-height:0;padding:10px}.house-art-placeholder,.house-plan-image{position:relative;grid-column:1/-1;aspect-ratio:3/2;border-radius:6px}.house-plan-image{height:auto;object-fit:contain}.future-art-label{width:70%;padding:10px}.stage-room-name{font-size:.58rem}.house-stage .hotspot{position:static;min-width:0;width:100%;transform:none}.house-stage .hotspot:hover,.house-stage .hotspot:focus-visible,.house-stage .hotspot[aria-pressed="true"]{transform:none}.house-stage .hotspot-label{position:static;width:auto;max-width:none;padding:0;border:0;background:transparent;box-shadow:none;font-size:.75rem;text-align:left;opacity:1;visibility:visible;transform:none}.house-stage .hotspot.is-room-muted{display:none}.house-plan-disclaimer{position:static;grid-column:1/-1;max-width:none;background:#4f3826;font-size:.7rem}}
 @media(prefers-reduced-motion:reduce){.house-stage .hotspot{transition:none}}
 .solution-media{position:relative;margin:-20px -20px 16px;overflow:hidden;border-radius:5px 5px 0 0;background:#eee3d8}
+.casa-demo{margin:16px 0!important;padding:12px!important;border:1px solid #c7d6cc!important;border-radius:6px;background:#f4f8f5}
+.casa-demo summary{min-height:44px;display:flex;align-items:center;color:#254d3a;font-size:.9rem}
+.demo-scene{position:relative;height:150px;margin:12px 0;overflow:hidden;border:1px solid #becac2;border-radius:5px;background:#34483e;transition:background .35s}
+.demo-window{position:absolute;top:18px;left:16%;width:38%;height:86px;border:5px solid #fff;background:#c6e7ee;overflow:hidden}
+.demo-shutter{position:absolute;inset:0;background:repeating-linear-gradient(#69766b 0 8px,#4d5b50 8px 10px);transition:transform .6s}
+.demo-lamp{position:absolute;right:18%;top:22px;width:25px;height:25px;border-radius:50%;background:#a2aba5}
+.demo-sofa{position:absolute;bottom:15px;left:20%;width:60%;height:28px;border:5px solid #90a798;border-radius:8px;background:#597361}
+.demo-light .demo-shutter{display:none}.demo-light.is-on{background:#f9edc4}.demo-light.is-on .demo-lamp{background:#ffdd66;box-shadow:0 0 35px 18px #ffe79b}
+.demo-blind{background:#e9eee9}.demo-blind.is-on .demo-shutter{transform:translateY(-92%)}
+.demo-help{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:#e9eee9;height:auto;min-height:120px}
+.demo-step{flex:1;min-width:0;text-align:center;padding:12px 4px;border:2px solid #526b5c;border-radius:5px;color:#294333;background:#fff;font-size:.73rem}
+.demo-step+.demo-step:before{content:'→';display:block}.demo-help.is-on .demo-step{background:#d4ecdf;border-color:#315b45;animation:demo-step .4s both}.demo-help.is-on .demo-step:nth-child(2){animation-delay:.4s}.demo-help.is-on .demo-step:nth-child(3){animation-delay:.8s}
+.demo-controls{display:flex;flex-wrap:wrap;gap:8px}.demo-controls button{min-height:44px;padding:9px 12px;border:1px solid #315b45;border-radius:5px;background:#fff;color:#254d3a;font:600 .82rem/1.3 var(--font-body);cursor:pointer}.demo-controls button:first-child{background:#315b45;color:#fff}.demo-controls button:focus-visible{outline:3px solid #a6430b;outline-offset:3px}
+.casa-demo .demo-status{margin:12px 0 0;font-weight:600;color:#294333}.casa-demo .demo-note{font-size:.76rem;margin:10px 0 0}
+@keyframes demo-step{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.demo-scene,.demo-shutter{transition:none}.demo-help.is-on .demo-step{animation:none}}
 .solution-media img{display:block;width:100%;aspect-ratio:370/238;object-fit:cover}
 .solution-media figcaption{position:absolute;right:7px;bottom:7px;left:7px;padding:5px 7px;border-radius:4px;background:rgba(49,31,18,.9);color:#fff;font-size:.66rem;line-height:1.3}
 @media(max-width:639px){.solution-media{margin:-18px -18px 15px}.solution-media figcaption{position:static;border-radius:0;background:#4f3826;font-size:.68rem}}

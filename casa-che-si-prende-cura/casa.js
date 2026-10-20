@@ -213,4 +213,53 @@
   });
 
   clearPath?.addEventListener('click', resetPath);
+
+  const demos = [
+    { title: 'Luci accessibili e automatizzate', kind: 'light', label: 'Illuminazione intelligente', action: 'Accendi la luce', active: 'Spegni la luce', initial: 'Luce spenta', changed: 'Luce accesa' },
+    { title: 'Tapparelle e tende motorizzate', kind: 'blind', label: 'Tapparella motorizzata', action: 'Alza la tapparella', active: 'Abbassa la tapparella', initial: 'Tapparella abbassata', changed: 'Tapparella alzata' },
+    { title: 'Chiamata di aiuto e telesoccorso', kind: 'help', label: 'Chiamata di aiuto', action: 'Prova il pulsante di aiuto', active: 'Ripeti la simulazione', initial: 'Simulazione pronta. Nessuna richiesta inviata.', changed: 'Percorso illustrato: pulsante, collegamento, contatto designato. Nessuna richiesta inviata e nessun soccorso confermato.' }
+  ];
+  demos.forEach((demo) => {
+    const card = cards.find((item) => item.querySelector('h3')?.textContent.trim() === demo.title);
+    if (!card) return;
+    const panel = document.createElement('details');
+    panel.className = 'casa-demo';
+    const summary = document.createElement('summary');
+    summary.textContent = 'Prova: ' + demo.label;
+    const scene = document.createElement('div');
+    scene.className = 'demo-scene demo-' + demo.kind;
+    scene.setAttribute('aria-hidden', 'true');
+    scene.innerHTML = demo.kind === 'help'
+      ? '<span class="demo-step">Pulsante</span><span class="demo-step">Collegamento</span><span class="demo-step">Contatto designato</span>'
+      : '<div class="demo-window"><div class="demo-shutter"></div></div><div class="demo-lamp"></div><div class="demo-sofa"></div>';
+    const note = document.createElement('p');
+    note.className = 'demo-note';
+    note.textContent = 'Dimostrazione: non controlla dispositivi reali e non invia comunicazioni.';
+    const status = document.createElement('p');
+    status.className = 'demo-status';
+    status.setAttribute('role', 'status');
+    status.textContent = demo.initial;
+    const controls = document.createElement('div');
+    controls.className = 'demo-controls';
+    const action = document.createElement('button');
+    action.type = 'button';
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.textContent = 'Ripristina';
+    reset.setAttribute('aria-label', 'Ripristina: ' + demo.label);
+    let on = false;
+    const render = () => {
+      scene.classList.toggle('is-on', on);
+      status.textContent = on ? demo.changed : demo.initial;
+      action.textContent = on ? demo.active : demo.action;
+      action.setAttribute('aria-label', action.textContent + ': ' + demo.label);
+      if (demo.kind !== 'help') action.setAttribute('aria-pressed', String(on));
+    };
+    render();
+    action.addEventListener('click', () => { on = demo.kind === 'help' || !on; render(); });
+    reset.addEventListener('click', () => { on = false; render(); });
+    controls.append(action, reset);
+    panel.append(summary, scene, controls, status, note);
+    card.insertBefore(panel, card.querySelector('details'));
+  });
 })();
