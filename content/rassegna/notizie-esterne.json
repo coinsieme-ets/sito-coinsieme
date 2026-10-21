@@ -1733,5 +1733,47 @@
     "notizie": [
       "recwhvq1qQCdp0yBI"
     ]
+  },
+  {
+    "id": "mlps-runts-sessione-autenticata-2026-10-15",
+    "categoria": "Terzo Settore",
+    "data_fonte": "2026-10-15",
+    "data_pubblicazione": "2026-10-15",
+    "titolo_originale": "RUNTS – Presentazione delle pratiche in sessione autenticata",
+    "titolo_editoriale": "RUNTS: invio delle pratiche in sessione autenticata, con eccezioni da conoscere",
+    "fonte": "Ministero del Lavoro e delle Politiche Sociali",
+    "url_fonte": "https://www.lavoro.gov.it/notizie/pagine/runts-presentazione-delle-pratiche-sessione-autenticata",
+    "sintesi_editoriale": "Dal 15 ottobre il portale consente l’invio di pratiche dopo autenticazione con SPID, CIE o CNS, senza firma digitale della distinta nella modalità ordinaria. Restano eccezioni per le pratiche notarili e per specifiche deleghe che richiedono la sottoscrizione del delegante.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "rec0YbFooO3J75DE2"
+    ]
+  },
+  {
+    "id": "mlps-rendicontazione-5x1000-linee-guida-2026-10-15",
+    "categoria": "Terzo Settore",
+    "data_fonte": "2026-10-15",
+    "data_pubblicazione": "2026-10-15",
+    "titolo_originale": "Rendicontazione 5x1000: linee guida aggiornate",
+    "titolo_editoriale": "Cinque per mille: aggiornate le linee guida per rendicontare i contributi",
+    "fonte": "Ministero del Lavoro e delle Politiche Sociali",
+    "url_fonte": "https://www.lavoro.gov.it/notizie/pagine/rendicontazione-5x1000-linee-guida-aggiornate",
+    "sintesi_editoriale": "Il Ministero comunica l’adozione di nuove indicazioni e modelli con il decreto direttoriale 257/2026. Sono previsti percorsi distinti per la rendicontazione su modelli e tramite piattaforma, secondo importo e annualità del contributo; la pagina ufficiale rimanda agli allegati e al manuale.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "rec1JzKAhoaBtjUXh"
+    ]
   }
 ]
