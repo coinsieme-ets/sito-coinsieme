@@ -1,7 +1,10 @@
-const {test}=require('node:test');
+const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.join(__dirname,'..'),base=path.join(root,'anteprima-sportello');
+let homepage;
+before(async()=>{homepage=await require('./test-support/homepage-fixture').productionFixture();});
+after(()=>homepage?.cleanup());
 test('collaudo: percorso autonomo, privato e senza riferimenti al Quartiere',()=>{
   const html=fs.readFileSync(path.join(base,'index.html'),'utf8');
   assert.match(html,/noindex,nofollow/);assert.match(html,/connect-src 'none'/);
@@ -12,7 +15,12 @@ test('collaudo: percorso autonomo, privato e senza riferimenti al Quartiere',()=
     const file=match[1].split(/[?#]/)[0];
     assert.ok(fs.existsSync(path.join(root,file)),file);
   }
-  for(const file of ['index.html','domotica.html','persone-famiglie.html','casa-che-si-prende-cura/index.html','sportello/index.html']){
+  assert.equal((homepage.html.match(/href="\/anteprima-sportello\/#esplora-servizi"/g)||[]).length,1);
+  assert.match(homepage.html,/Sportello COINSIEME · Collaudo/);
+  assert.match(homepage.html,/Catalogo in verifica/);
+  assert.doesNotMatch(homepage.html,/href="\/anteprima-sportello\/#(?:ascolto|intervista)/);
+  assert.match(html,/id="esplora-servizi"/);
+  for(const file of ['domotica.html','persone-famiglie.html','casa-che-si-prende-cura/index.html','sportello/index.html']){
     assert.doesNotMatch(fs.readFileSync(path.join(root,file),'utf8'),/\/anteprima-sportello\//);
   }
 });

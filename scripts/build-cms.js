@@ -651,61 +651,16 @@ async function main() {
     .replace('{{CARDS}}', allForIndex.map(buildCard).join('\n'));
   fs.writeFileSync(path.join(root, 'articoli.html'), archiveHtml, 'utf8');
 
-  const allArticlesForHome = require("./article-home").selectHomeArticles(allArticles);
-
-  const latest = allArticlesForHome.filter((item, index, all) => all.findIndex(other => other.slug === item.slug) === index).slice(0, 6);
-  await prepareHomeImages(latest);
-  const latestHtml = buildHomeSection(latest).replace(/[ \t]+$/gm, '');
-  const homepagePath = path.join(root, 'index.html');
-  const homepage = fs.readFileSync(homepagePath, 'utf8');
-  const homepageWithArticles = homepage.replace(
-    /(<!-- CMS_ULTIMI_ARTICOLI_START -->)[\s\S]*?(<!-- CMS_ULTIMI_ARTICOLI_END -->)/,
-    `$1\n${latestHtml}\n        $2`
-  );
-  assert(homepageWithArticles !== homepage || homepage.includes(latestHtml), 'Homepage: marcatori ultimi articoli mancanti');
-
-  // Rassegna News processing
+  // Article pages, archive and withdrawal protection above remain unchanged.
   const rassegnaItems = loadRassegnaNews();
   await require("./news-images").refreshNewsImages(rassegnaItems);
   const approvedRassegna = getSortedApprovedItems(rassegnaItems);
-  const rassegnaSectionHtml = buildRassegnaSection(rassegnaItems);
-  const topNewsBarHtml = buildTopNewsBar(rassegnaItems);
-
-  const homepageWithRassegna = homepageWithArticles.replace(
-    /(<!-- CMS_RASSEGNA_SECTION_START -->)[\s\S]*?(<!-- CMS_RASSEGNA_SECTION_END -->)/,
-    `$1\n  ${rassegnaSectionHtml}\n  $2`
-  );
-  assert(homepageWithRassegna !== homepageWithArticles || homepageWithArticles.includes(rassegnaSectionHtml), 'Homepage: marcatori rassegna news mancanti');
-
-  const homepageUpdated = homepageWithRassegna.replace(
-    /(<!-- CMS_TOP_STATUS_START -->)[\s\S]*?(<!-- CMS_TOP_STATUS_END -->)/,
-    `$1\n${topNewsBarHtml}\n$2`
-  );
-  assert(homepageUpdated !== homepageWithRassegna || homepageWithRassegna.includes(topNewsBarHtml), 'Homepage: marcatori data e ora mancanti');
-
-  const heroImageHtml = buildHeroImage(rassegnaItems);
-
-  let homepageWithHero = homepageUpdated;
-  if (homepageWithHero.includes('<!-- CMS_HERO_IMAGE_START -->')) {
-    homepageWithHero = homepageWithHero.replace(
-      /(<!-- CMS_HERO_IMAGE_START -->)[\s\S]*?(<!-- CMS_HERO_IMAGE_END -->)/,
-      `$1\n            ${heroImageHtml}\n            $2`
-    );
-  }
-
-  const dailyNewsCardHtml = buildDailyNewsCard(rassegnaItems);
-  if (homepageWithHero.includes('<!-- CMS_DAILY_NEWS_CARD_START -->')) {
-    homepageWithHero = homepageWithHero.replace(
-      /(<!-- CMS_DAILY_NEWS_CARD_START -->)[\s\S]*?(<!-- CMS_DAILY_NEWS_CARD_END -->)/,
-      `$1\n${dailyNewsCardHtml}\n$2`
-    );
-  }
-
-  fs.writeFileSync(homepagePath, homepageWithHero, 'utf8');
+  // Validates the same Airtable snapshot, rendered links and privacy block.
+  await require('./build-homepage').build();
   require('./build-segnalazioni-pages').build(root);
   console.log('SEO:', require('./build-seo').build(root, allArticles));
 
-  console.log(`Build CMS completata: ${allArticles.length} articoli interni in content/articoli/, ${allForIndex.length} card nell'archivio, ${latest.length} articoli in homepage, ${rassegnaItems.length} notizie rassegna registrate (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
+  console.log(`Build CMS completata: ${allArticles.length} articoli interni, ${allForIndex.length} card nell'archivio, homepage dinamica, ${rassegnaItems.length} notizie (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
 module.exports={parseArticleDate,loadAllArticles,buildHomeSection};

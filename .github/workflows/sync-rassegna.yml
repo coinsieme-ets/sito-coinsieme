@@ -2,6 +2,14 @@ name: Sincronizzazione Rassegna News da Airtable
 on:
   workflow_dispatch:
     inputs:
+      safety_retry:
+        description: Tentativo di ricostruzione di sicurezza
+        default: '0'
+        type: string
+      origin_request:
+        description: Run originario, conservato nelle ricostruzioni
+        default: ''
+        type: string
       record_id:
         description: Facoltativo; vuoto elabora tutti i da_pubblicare
         required: false
@@ -9,6 +17,12 @@ on:
         type: string
   workflow_call:
     inputs:
+      safety_retry:
+        default: '0'
+        type: string
+      origin_request:
+        default: ''
+        type: string
       record_id:
         required: false
         default: ''
@@ -19,14 +33,21 @@ on:
     - cron: '*/15 * * * *'
 permissions:
   contents: write
+  actions: read
   pages: write
   id-token: write
 concurrency:
   group: pages
+  queue: max
   cancel-in-progress: false
 jobs:
   publish:
     name: Pubblica e verifica Notizie e Segnalazioni Maurizio
+    permissions:
+      contents: write
+      actions: write
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -35,29 +56,48 @@ jobs:
       SEGNALAZIONE_RECORD_ID: ${{ inputs.record_id || '' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+      - name: Salta solo controlli periodici gia superati
+        id: entry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/deploy-safety.js entry
       - run: npm ci
+        if: steps.entry.outputs.run == 'true'
       - name: Test regole di pubblicazione e isolamento RSS
-        run: node --test scripts/casa-che-si-prende-cura.test.js scripts/verify-publication.test.js scripts/publish-segnalazioni.test.js scripts/publish-rassegna.test.js scripts/home-news.test.js
+        if: steps.entry.outputs.run == 'true'
+        run: node -r ./scripts/test-support/offline.js --test scripts/*.test.js preview/home-dinamica/selection.test.js
+      - name: Registra codice e dati editoriali prima della preparazione
+        if: steps.entry.outputs.run == 'true'
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          ORIGIN_REQUEST: ${{ inputs.origin_request || github.run_id }}
+        run: node scripts/deploy-safety.js capture
       - name: Prepara Notizie pubblica e Segnalazioni da_pubblicare
         id: prepare
+        if: steps.entry.outputs.run == 'true'
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          DEPLOY_SAFETY_OBSERVE: '1'
+          NODE_OPTIONS: --require=./scripts/deploy-safety.js
         run: node scripts/publish-rassegna.js prepare
       - name: Compila sito e pagine permanenti della rassegna
-        if: steps.prepare.outputs.count != '0'
+        if: steps.entry.outputs.run == 'true' && steps.prepare.outputs.count != '0'
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          DEPLOY_SAFETY_OBSERVE: '1'
         run: |
           node --test scripts/home-feature.test.js scripts/article-home.test.js scripts/news-images.test.js
-          node scripts/refresh-home-editorial.js
-          node scripts/build-cms.js
+          NODE_OPTIONS='--require=./scripts/deploy-safety.js' node scripts/refresh-home-editorial.js
+          NODE_OPTIONS='--require=./scripts/deploy-safety.js' node scripts/build-cms.js
           node scripts/build-hybrid-index.js
       - name: Verifica tutte le schede prima del deploy
-        if: steps.prepare.outputs.count != '0'
+        if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
         run: node scripts/check-publication-build.js
       - name: Report immagini originali
         if: always()
@@ -68,28 +108,39 @@ jobs:
           if-no-files-found: ignore
 
       - name: Prepara artefatto pubblico
-        if: steps.prepare.outputs.count != '0'
+        if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
         run: |
           node scripts/build-legacy-redirects.js
           mkdir -p _site
           cp *.html CNAME _site/
-          for dir in admin articoli pubblicazioni assets css js documenti rassegna progetti-e-servizi trasparenza domotica-assistiva archivio-storico galleria blog pubblicazioni-alcuni-eroi-del-nostro-tempo la-domotica-assistiva documenti-istituzionali servizi-della-fondazione privacy-skill-alexa sportello casa-che-si-prende-cura; do
+          for dir in admin articoli pubblicazioni assets css js documenti rassegna progetti-e-servizi trasparenza domotica-assistiva archivio-storico galleria blog pubblicazioni-alcuni-eroi-del-nostro-tempo la-domotica-assistiva documenti-istituzionali servizi-della-fondazione privacy-skill-alexa sportello anteprima-sportello casa-che-si-prende-cura; do
             if [ -d "$dir" ]; then cp -R "$dir" _site/; fi
           done
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
+          node scripts/check-pages-sportello.js _site
       - uses: actions/configure-pages@v5
-        if: steps.prepare.outputs.count != '0'
+        if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
       - uses: actions/upload-pages-artifact@v3
-        if: steps.prepare.outputs.count != '0'
+        if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
         with:
           path: _site
+      - name: Escludi artefatti obsoleti e richiedi ricostruzione
+        id: freshness
+        if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          SAFETY_WORKFLOW: sync-rassegna.yml
+          SAFETY_RETRY: ${{ inputs.safety_retry || '0' }}
+          ORIGIN_REQUEST: ${{ inputs.origin_request || github.run_id }}
+        run: node scripts/deploy-safety.js verify
       - name: Pubblica su GitHub Pages
         id: deployment
-        if: steps.prepare.outputs.count != '0'
+        if: steps.prepare.outputs.count != '0' && steps.freshness.outputs.fresh == 'true'
         uses: actions/deploy-pages@v4
       - name: Verifica sito pubblico e conferma i record ancora autorizzati
         id: confirm
-        if: steps.prepare.outputs.count != '0'
+        if: steps.deployment.outcome == 'success'
         continue-on-error: true
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}

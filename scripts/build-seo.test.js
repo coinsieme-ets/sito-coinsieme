@@ -22,3 +22,16 @@ test('fails on missing target, wrong canonical and unsafe overwrite',t=>{
  page(`articoli/${TARGET}/index.html`,'/wrong/');assert.throws(()=>build(root,articles),/mismatch/);
  page(`articoli/${TARGET}/index.html`,`/articoli/${TARGET}/`);page(`articoli/${ALIASES[0]}/index.html`,'/existing/');assert.throws(()=>build(root,articles),/refusing to overwrite/);
 });
+
+test('sitemap conserva Casa e Sportello pubblico, escludendo collaudo e prototipi',t=>{
+ const {root,page,articles}=fixture(t);
+ page('casa-che-si-prende-cura/index.html','/casa-che-si-prende-cura/');
+ page('sportello/index.html','/sportello/');
+ page('anteprima-sportello/index.html','/anteprima-sportello/','<meta name="robots" content="noindex">');
+ page('preview/quartiere-che-si-prende-cura/index.html','/preview/quartiere-che-si-prende-cura/');
+ build(root,articles);
+ const xml=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
+ assert.match(xml,/https:\/\/www.coinsieme.it\/casa-che-si-prende-cura\//);
+ assert.match(xml,/https:\/\/www.coinsieme.it\/sportello\//);
+ assert.doesNotMatch(xml,/anteprima-sportello|quartiere-che-si-prende-cura/);
+});

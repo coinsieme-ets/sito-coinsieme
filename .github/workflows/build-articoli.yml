@@ -5,26 +5,39 @@ on:
     branches:
       - main
   workflow_dispatch:
-  schedule:
-    # Refresh at midnight Rome in both summer and winter.
-    - cron: '0 22,23 * * *'
+    inputs:
+      safety_retry:
+        description: Tentativo di ricostruzione di sicurezza
+        default: '0'
+        type: string
+      origin_request:
+        description: Run originario, conservato nelle ricostruzioni
+        default: ''
+        type: string
+  # Periodic editorial refresh, including overnight, is owned by sync-rassegna.
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
 concurrency:
   group: pages
+  queue: max
   cancel-in-progress: false
 
 jobs:
   build:
     name: Compilazione Sito e Articoli
     runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.safety.outputs.sha }}
     steps:
       - name: Checkout del repository
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Configurazione Node.js
         uses: actions/setup-node@v4
@@ -35,14 +48,21 @@ jobs:
       - name: Installazione dipendenze deterministica (npm ci)
         run: npm ci
 
+      - name: Registra codice e dati editoriali prima della build
+        id: safety
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          ORIGIN_REQUEST: ${{ inputs.origin_request || github.run_id }}
+        run: node scripts/deploy-safety.js capture
+
       - name: Compilazione pagine articoli e indici (build-cms)
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          DEPLOY_SAFETY_OBSERVE: '1'
         run: |
-          node --test scripts/casa-che-si-prende-cura.test.js scripts/sportello.test.js scripts/article-date.test.js scripts/build-seo.test.js scripts/articles-editorial.test.js scripts/home-feature.test.js scripts/article-home.test.js scripts/news-images.test.js scripts/novita-popup.test.js scripts/home-news.test.js scripts/home-structure.test.js
-          node --test scripts/anteprima-sportello.test.js
-          node scripts/refresh-home-editorial.js
-          node scripts/build-cms.js
+          node -r ./scripts/test-support/offline.js --test scripts/*.test.js preview/home-dinamica/selection.test.js
+          NODE_OPTIONS='--require=./scripts/deploy-safety.js' node scripts/refresh-home-editorial.js
+          NODE_OPTIONS='--require=./scripts/deploy-safety.js' node scripts/build-cms.js
 
       - name: Verifica e validazione integrita (build-hybrid-index)
         run: node scripts/build-hybrid-index.js
@@ -77,9 +97,17 @@ jobs:
 
           # 4. Copia eventuali file di servizio se presenti (robots, sitemap, favicon)
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
+          node scripts/check-pages-sportello.js _site
 
       - name: Configurazione GitHub Pages
         uses: actions/configure-pages@v5
+
+      - name: Conserva ricevuta di sicurezza senza dati personali
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-safety
+          path: scratch/deploy-safety.json
+          if-no-files-found: error
 
       - name: Caricamento artefatto Pages (_site)
         uses: actions/upload-pages-artifact@v3
@@ -88,12 +116,37 @@ jobs:
 
   deploy:
     name: Distribuzione su GitHub Pages
+    permissions:
+      contents: read
+      actions: write
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/download-artifact@v4
+        with:
+          name: deploy-safety
+          path: scratch
+      - name: Escludi artefatti obsoleti e richiedi ricostruzione
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+          SAFETY_WORKFLOW: build-articoli.yml
+          SAFETY_RETRY: ${{ inputs.safety_retry || '0' }}
+          ORIGIN_REQUEST: ${{ inputs.origin_request || github.run_id }}
+        run: node scripts/deploy-safety.js verify
       - name: Deploy su GitHub Pages
         id: deployment
+        if: steps.freshness.outputs.fresh == 'true'
         uses: actions/deploy-pages@v4

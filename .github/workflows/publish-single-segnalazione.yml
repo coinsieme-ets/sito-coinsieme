@@ -12,6 +12,11 @@ permissions:
   id-token: write
 jobs:
   publish:
+    permissions:
+      contents: write
+      actions: write
+      pages: write
+      id-token: write
     uses: ./.github/workflows/sync-rassegna.yml
     with:
       record_id: ${{ inputs.record_id }}

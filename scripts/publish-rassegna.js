@@ -8,14 +8,14 @@ const NEWS='tblonsfQ2mnaelCAn', DATA='content/rassegna/notizie-esterne.json';
 async function all(api){const records=[];let offset;do{const r=await api(NEWS+'?pageSize=100'+(offset?'&offset='+encodeURIComponent(offset):''));records.push(...r.records);offset=r.offset;}while(offset);return records;}
 const signature=n=>crypto.createHash('sha256').update(JSON.stringify(seg.publicItem(n))).digest('hex');
 const section=html=>(html.match(/<section id="cosa-si-muove"[\s\S]*?<\/section>/)||[])[0]||'';
-async function prepare(api,{recordId,pages,prepareSegments=seg.prepare,read=()=>JSON.parse(fs.readFileSync(DATA,'utf8')),write=items=>fs.writeFileSync(DATA,JSON.stringify(items,null,2)+'\n')}={}){
+async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,today=require('./home-feature').todayRome(),fetcher=fetch,prepareSegments=seg.prepare,read=()=>JSON.parse(fs.readFileSync(DATA,'utf8')),write=items=>fs.writeFileSync(DATA,JSON.stringify(items,null,2)+'\n')}={}){
  pages=pages||await fetchPublicPages();
  const submissions=await prepareSegments(api,{recordId,pages});
  const records=await all(api), dataset=read();
  const manifest={...submissions,news:[],newsErrors:[]};
  for(const record of records.filter(r=>r.fields.stato==='pubblica')){
   try{
-   if(String(record.fields.data_pubblicazione||'').slice(0,10)>require('./home-feature').todayRome())continue;
+   if(String(record.fields.data_pubblicazione||'').slice(0,10)>today)continue;
    const item=seg.publicItem(record),source=sourceUrl(item.url_fonte);
    if(records.filter(r=>sourceUrl(r.fields.url_fonte)===source).length!==1)throw Error('URL fonte duplicato in Airtable: verifica editoriale richiesta');
    const previous=dataset.find(n=>sourceUrl(n.url_fonte)===source);
@@ -39,6 +39,19 @@ async function prepare(api,{recordId,pages,prepareSegments=seg.prepare,read=()=>
  manifest.homeHtml=renderHomeNews(selectHomeNews(home));
  manifest.homeChanged=section(pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'')!==manifest.homeHtml;
  manifest.count=manifest.items.length+manifest.news.length+(manifest.homeChanged?1:0);
+ if(dynamicHome){
+  const state=require('./homepage-state');
+  const articles=await state.readArticles(api,articleInventory,today);
+  const current=state.publicState(articles,home,today);
+  manifest.dynamicHome={signature:current.signature,selection:current.selection};
+  manifest.homeChanged=!state.verify(pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'',current);
+  let pendingPagesChanged=false;
+  if(!manifest.homeChanged)for(const item of [...manifest.items,...manifest.news]){
+   const response=await fetcher(item.publicUrl,{headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(30000)});
+   if(!response.ok||!seg.verifyPage(await response.text(),item)){pendingPagesChanged=true;break;}
+  }
+  manifest.count=manifest.homeChanged||pendingPagesChanged?1:0;
+ }
  if(manifest.news.length)write(dataset);
  return manifest;
 }
@@ -70,7 +83,12 @@ async function main(mode){
  fs.mkdirSync('scratch',{recursive:true});
  const file='scratch/publication-manifest.json';
  if(mode==='prepare'){
-  const manifest=await prepare(api,{recordId:process.env.SEGNALAZIONE_RECORD_ID||''});
+  const manifest=await prepare(api,{recordId:process.env.SEGNALAZIONE_RECORD_ID||'',dynamicHome:true});
+  // Retry a pending status confirmation without rebuilding an already correct site.
+  if(manifest.count===0&&(manifest.items.length||manifest.news.length)){
+   const results=[...await seg.confirm(api,manifest,{retries:1}),...await confirmNews(api,manifest,{retries:1})];
+   if(results.some(r=>r.status==='not_verified_pending'))throw Error('Conferma pendente non verificata; nessun deploy avviato');
+  }
   fs.writeFileSync(file,JSON.stringify(manifest,null,2)+'\n');
   if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,'count='+manifest.count+'\n');
   seg.reportPreparationErrors(manifest);
@@ -79,7 +97,8 @@ async function main(mode){
  }else if(mode==='confirm'){
   const manifest=JSON.parse(fs.readFileSync(file,'utf8'));
   const results=await seg.confirm(api,manifest), newsResults=await confirmNews(api,manifest);
-  const pages=await fetchPublicPages(), homeVerified=section(pages[0].html)===manifest.homeHtml;
+  const pages=await fetchPublicPages(),publicHome=pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'';
+  const homeVerified=manifest.dynamicHome?require('./homepage-state').verify(publicHome,manifest.dynamicHome):section(publicHome)===manifest.homeHtml;
   fs.writeFileSync('scratch/publication-result.json',JSON.stringify({results,newsResults,homeVerified,homeTitles:manifest.homeTitles,preparationErrors:[...manifest.errors,...(manifest.newsErrors||[])]},null,2)+'\n');
   console.log(JSON.stringify({results,newsResults,homeVerified}));
   if(!homeVerified||[...results,...newsResults].some(r=>r.status==='not_verified_pending'))throw Error('Verifica pubblica incompleta; consultare artifact');
