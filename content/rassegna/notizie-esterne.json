@@ -1952,5 +1952,29 @@
     "notizie": [
       "recpaboY1q2pRrAYk"
     ]
+  },
+  {
+    "id": "simfer-notizia-segnalata-2026-10-25",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-10-25",
+    "data_pubblicazione": "2026-10-25",
+    "titolo_originale": "Notizia segnalata",
+    "titolo_editoriale": "Notizia segnalata",
+    "fonte": "Simfer",
+    "url_fonte": "https://simfer.it/robot-intelligenti-che-aiutano-a-camminare-al-congresso-simfer-di-torino-le-nuove-frontiere-della-riabilitazione/",
+    "sintesi_editoriale": "Aggiornamento e approfondimento segnalato da Maurizio su Notizia segnalata.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "rec0iLs0QfKPzsbDq"
+    ],
+    "notizie": [
+      "recJt166ccxDuTyeJ"
+    ]
   }
 ]
