@@ -13,6 +13,8 @@ function inventory(dir,base=dir){
 function protectedFiles(base){return ['casa-che-si-prende-cura','sportello','anteprima-sportello'].map(name=>[name,inventory(path.join(base,name))]);}
 function child(args){
  const env={...process.env,GITHUB_ACTIONS:'true',AIRTABLE_PERSONAL_ACCESS_TOKEN:''};
+ // Temporary fixtures live outside the checkout; reuse its locked dependencies.
+ env.NODE_PATH=[path.join(root,'node_modules'),process.env.NODE_PATH].filter(Boolean).join(path.delimiter);
  delete env.NODE_TEST_CONTEXT;
  try{return execFileSync(process.execPath,['-r',path.join(workspace,'scripts/test-support/offline.js'),...args],{cwd:workspace,env,encoding:'utf8',maxBuffer:12*1024*1024,stdio:['ignore','pipe','pipe']});}
  catch(error){error.message+='\n'+String(error.stdout||'');throw error;}
@@ -20,7 +22,8 @@ function child(args){
 before(()=>{
  workspace=temporary('release-workspace');
  fs.cpSync(root,workspace,{recursive:true,filter:source=>{
-  const relative=path.relative(root,source),parts=relative.split(path.sep);
+  // Node 20 may pass extended-length Windows paths to the copy filter.
+  const relative=path.relative(path.toNamespacedPath(root),path.toNamespacedPath(source)),parts=relative.split(path.sep);
   if(['.git','node_modules','scratch','_site'].includes(parts[0]))return false;
   if(parts[0]!=='preview')return true;
   return parts.length===1||(parts[1]==='home-dinamica'&&!['index.html','build-report.json','media'].includes(parts[2]));
