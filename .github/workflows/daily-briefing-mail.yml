@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Installazione dipendenze deterministica (npm ci)
+        run: npm ci
       - name: Test limite, provenienza, duplicati e isolamento
         run: node --test scripts/briefing.test.js scripts/publish-segnalazioni.test.js scripts/verify-publication.test.js
       - name: Verifica scrittura automatica data briefing su record tecnico
