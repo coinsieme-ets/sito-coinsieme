@@ -24,6 +24,62 @@ test('failed or unexpected public response must not trigger offline corrections'
   await assert.rejects(fetchPublicPages(async()=>({ok:false,status:503})),/inconclusiva/);
   await assert.rejects(fetchPublicPages(async()=>({ok:true,status:200,text:async()=>'<html>error</html>'})),/inattesa/);
 });
+
+test('public page validation retains legacy homepage and archive checks', async () => {
+  const pages=await fetchPublicPages(async url=>({ok:true,status:200,text:async()=>url.endsWith('articoli.html')?
+    '<html>COINSIEME archivio</html>':'<html>COINSIEME<!-- CMS_RASSEGNA_SECTION_END --></html>'}));
+  assert.equal(pages.length,2);
+});
+
+test('public page validation accepts the production renderer but rejects incomplete or commented layouts', async () => {
+  const fixture=await require('./test-support/homepage-fixture').productionFixture();
+  const respond=home=>async url=>({ok:true,status:200,text:async()=>url.endsWith('articoli.html')?'<html>COINSIEME archivio</html>':home});
+  try {
+    assert.ok(!fixture.html.includes('CMS_RASSEGNA_SECTION_END'));
+    assert.equal((await fetchPublicPages(respond(fixture.html))).length,2);
+    for(const broken of [
+      fixture.html.replace('name="coinsieme-public-state"','name="other-state"'),
+      fixture.html.replace('id="updates-title"','id="missing-updates"'),
+      fixture.html.replace('id="projects-title"','id="missing-projects"'),
+      fixture.html.replaceAll('href="/anteprima-sportello/#esplora-servizi"','href="/sportello/"'),
+      '<html>COINSIEME<!--'+fixture.html+'--></html>'
+    ])await assert.rejects(fetchPublicPages(respond(broken)),/Struttura sito inattesa/);
+    await assert.rejects(fetchPublicPages(async url=>({ok:true,status:200,text:async()=>url.endsWith('articoli.html')?
+      '<html>COINSIEME pagina senza archivio valido</html>'.replace('archivio','catalogo'):fixture.html})),/Struttura sito inattesa/);
+  } finally {fixture.cleanup();}
+});
+
+test('production homepage validation allows pending news preparation without duplicates or premature confirmation', async () => {
+  const fixture=await require('./test-support/homepage-fixture').productionFixture();
+  const {prepare,confirmNews}=require('./publish-rassegna');
+  const {page}=require('./build-segnalazioni-pages');
+  const today=require('./home-feature').todayRome();
+  let dataset=[],writes=0;
+  const record={id:'rec12345678901234',fields:{id:'fixture-pending',stato:'pubblica',data_fonte:today,data_pubblicazione:today,
+    titolo_editoriale:'Notizia in attesa di pubblicazione',titolo_originale:'Notizia in attesa di pubblicazione',
+    url_fonte:'https://example.org/pending',fonte:'Fonte simulata',categoria:'Welfare e autonomia',sintesi_editoriale:'Solo test locale.'}};
+  const api=async(endpoint,method,body)=>{
+    if(method==='PATCH'){writes++;record.fields={...record.fields,...body.fields};return structuredClone(record);}
+    assert.ok(!method||method==='GET');
+    if(endpoint==='tblonsfQ2mnaelCAn/'+record.id)return structuredClone(record);
+    return {records:endpoint.startsWith('tblonsfQ2mnaelCAn')?[structuredClone(record)]:[]};
+  };
+  try {
+    const pages=await fetchPublicPages(async url=>({ok:true,status:200,text:async()=>url.endsWith('articoli.html')?'<html>COINSIEME archivio</html>':fixture.html}));
+    const options={pages,dynamicHome:true,articleInventory:[],today,prepareSegments:async()=>({items:[],errors:[]}),
+      read:()=>structuredClone(dataset),write:items=>{dataset=structuredClone(items);}};
+    const manifest=await prepare(api,options);
+    assert.equal(manifest.count,1);assert.equal(manifest.news.length,1);assert.equal(writes,0);
+    await prepare(api,options);assert.equal(dataset.length,1);assert.equal(writes,0);
+    const failed=await confirmNews(api,manifest,{fetcher:async()=>({ok:false}),retries:1});
+    assert.equal(failed[0].status,'not_verified_pending');assert.equal(writes,0);
+    const fetcher=async()=>({ok:true,text:async()=>page(record.fields,record.id)});
+    assert.equal((await confirmNews(api,manifest,{fetcher,retries:1}))[0].status,'verified');
+    assert.equal(writes,1);
+    assert.equal((await confirmNews(api,manifest,{fetcher,retries:1}))[0].status,'skipped_changed_or_published');
+    assert.equal(writes,1);
+  } finally {fixture.cleanup();}
+});
 test('extracts source without changing stored url_articolo', () => {
   assert.equal(sourceUrl('La notizia https://www.example.org/a'),'https://www.example.org/a');
 });

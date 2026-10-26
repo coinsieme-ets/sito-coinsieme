@@ -31,8 +31,13 @@ async function fetchPublicPages(fetcher = fetch) {
     const res = await fetcher(url, {headers: {'Cache-Control': 'no-cache'}, signal: AbortSignal.timeout(30000)});
     if (!res.ok) throw new Error('Verifica sito inconclusiva: HTTP ' + res.status + ' ' + url);
     const html = await res.text();
+    const visible = visibleHtml(html);
+    const dynamicHome = /<meta\b[^>]*name="coinsieme-public-state"[^>]*content="[a-f0-9]{64}"/.test(visible) &&
+      /<h1\b[^>]*>\s*Vivere meglio, insieme\s*<\/h1>/.test(visible) &&
+      ['id="main-content"','id="updates-title"','id="projects-title"',
+        'href="/casa-che-si-prende-cura/"','href="/anteprima-sportello/#esplora-servizi"'].every(marker => visible.includes(marker));
     if (!html.includes('</html>') || !html.includes('COINSIEME') ||
-        (url === PAGES[0] && !html.includes('CMS_RASSEGNA_SECTION_END')) ||
+        (url === PAGES[0] && !html.includes('CMS_RASSEGNA_SECTION_END') && !dynamicHome) ||
         (url === PAGES[1] && !html.includes('archivio'))) throw new Error('Struttura sito inattesa: ' + url);
     pages.push({url, status: res.status, html});
   }
