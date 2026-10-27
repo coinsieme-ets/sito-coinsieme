@@ -6,7 +6,7 @@ const context={window:{}};vm.createContext(context);vm.runInContext(fs.readFileS
 const data=context.window.SportelloMobilitaData;
 test('EcoMoby: nove categorie, un record tecnico, gli altri cataloghi invariati',()=>{
  assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,43);assert.equal(catalog.homeOperators.length,7);
- assert.equal(catalog.technicalResources.length,1);assert.equal(catalog.technicalResources[0],item);
+ assert.equal(catalog.technicalResources.length,2);assert.equal(catalog.technicalResources[0],item);
  assert.equal(item.category,'mobilita');assert.equal(catalog.isVerifiedResource(item),true);
 });
 test('EcoMoby: tutti i termini ricercabili nei due percorsi',()=>{

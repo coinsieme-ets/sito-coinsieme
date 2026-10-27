@@ -58,7 +58,7 @@
     return [...new Map([...home,...other].map(r=>[r.id,r])).values()];
   }
   function hasDocumentedRomeCoverage(catalog){
-    return (catalog.homeOperators||[]).some(r=>r.allRomeDeclared===true&&catalog.isVerifiedResource(r));
+    return [...(catalog.homeOperators||[]),...(catalog.technicalResources||[])].some(r=>r.allRomeDeclared===true&&catalog.isVerifiedResource(r));
   }
   function servicePresentation(resource,group,catalog){
     const inline=resource.id.startsWith('info-')&&resource.status==='informazione_orientativa'&&!catalog.isVerifiedResource(resource);

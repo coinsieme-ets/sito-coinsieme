@@ -41,8 +41,8 @@
   ];
   const homeOperators=typeof module==='object'&&module.exports?require('./operatori-domicilio.js'):root.SportelloOperatoriDomicilio;
   resultGroups.push({id:'domicilio:badante',label:'Badanti e assistenti familiari'},{id:'domicilio:cooperativa',label:'Cooperative di assistenza domiciliare'},{id:'domicilio:pubblico',label:'Servizi pubblici e orientamento all’assistenza'});
-  const technicalResources=[typeof module==='object'&&module.exports?require('./ecomoby.js'):root.SportelloEcoMoby];
-  resultGroups.push({id:'domicilio:ausili',label:'Assistenza tecnica per ausili domestici'});
+  const technicalResources=[typeof module==='object'&&module.exports?require('./ecomoby.js'):root.SportelloEcoMoby,typeof module==='object'&&module.exports?require('./ortopedia24ore.js'):root.SportelloOrtopedia24ore];
+  resultGroups.push({id:'domicilio:ausili',label:'Noleggio e assistenza tecnica per ausili domestici'});
   const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,technicalResources,isVerifiedResource};
   if(typeof module==='object'&&module.exports)module.exports=data;else root.SportelloServizi=data;
 })(typeof window==='undefined'?globalThis:window);

@@ -12,7 +12,7 @@
     return [...data.records,...extra].filter(r=>(!options.kind||r.groups.includes(options.kind))&&matchesTerritory(r,options.territory)&&fold([r.name,...(r.keywords||[])].join(' ')).includes(fold(options.name)));
   }
   function normalize(record,data,kind){
-    if(record.coverageClass==='nazionale_dichiarata')return record;
+    if(record.homeKind==='ausili')return record;
     return {...record,category:'mobilita',subcategory:record.groups.includes(kind)?kind:record.groups[0],entity:record.name,zone:record.coverage,
       status:'presenza_documentata',verificationScope:'mobilita',verifiedAt:data.checkedAt,source:record.sourceUrls[0],
       sources:record.sourceUrls.map(url=>({url,label:'Fonte ufficiale · '+new URL(url).hostname,checkedAt:data.checkedAt})),
@@ -30,13 +30,13 @@
     if(options)for(const [value,text] of options){const opt=make('option',text);opt.value=value;control.append(opt);}else control.type='search';
     wrap.append(control);controls.append(wrap);control.addEventListener(options?'change':'input',()=>root.querySelector('#servizi-scelte').dispatchEvent(new Event('change',{bubbles:true})));return control;
   }
-  const kind=input('mobilita-tipo','Trasporto o assistenza tecnica',[['','Tutte le tipologie'],...Object.entries(data.groups),['ausili','Manutenzione e riparazione ausili']]);
+  const kind=input('mobilita-tipo','Trasporto o ausili',[['','Tutte le tipologie'],...Object.entries(data.groups),['ausili','Noleggio, manutenzione e riparazione ausili']]);
   const territory=input('mobilita-territorio','Territorio servito',[['tutti','Tutte le risorse censite'],['v','Municipio V'],['est','Roma Est · IV, V, VI e VII'],['roma','Roma intera · solo copertura documentata'],['nazionale','Copertura nazionale dichiarata · intervento locale da concordare']]);
   const name=input('mobilita-nome','Cerca per nome o ausilio');
   controls.append(make('p','I servizi cittadini includono i filtri Municipio V e Roma Est, ma non garantiscono vetture in ogni quartiere. Una sede romana non prova copertura dell’intera città. Accompagnamento personale e disponibilità del mezzo sono informazioni distinte.'));
   root.querySelector('#servizi-risultati').before(controls);
   for(const [id,label] of Object.entries(data.groups))window.SportelloServizi.resultGroups.push({id:'mobilita:'+id,label});
-  window.SportelloServizi.resultGroups.push({id:'mobilita:ausili',label:'Manutenzione e riparazione ausili'});
+  window.SportelloServizi.resultGroups.push({id:'mobilita:ausili',label:'Noleggio, manutenzione e riparazione ausili'});
   window.SportelloMobilita={choose(ids){controls.hidden=!ids.includes('mobilita');if(controls.hidden){kind.value='';territory.value='tutti';name.value='';return [];}
     return choose(data,{kind:kind.value,territory:territory.value,name:name.value},window.SportelloServizi.technicalResources).map(r=>normalize(r,data,kind.value));}};
 })();
