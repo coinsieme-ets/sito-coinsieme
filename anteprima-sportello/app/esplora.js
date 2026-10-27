@@ -85,6 +85,7 @@
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
+      if(window.SportelloDiagnostica)window.SportelloDiagnostica.decorate(resource,details);
       if(window.SportelloFarmacie)window.SportelloFarmacie.decorate(resource,details,catalog,resources);
       if(window.SportelloResidenziali)window.SportelloResidenziali.decorate(resource,details);
       target.append(details);

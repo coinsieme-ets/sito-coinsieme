@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const data=require('../anteprima-sportello/app/residenziali-data'),catalog=require('../anteprima-sportello/app/servizi'),engine=require('../anteprima-sportello/app/orientamento');
 test('Residenziali: un percorso salute, nove categorie e quattordici strutture canoniche',()=>{
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,42);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,43);
  assert.equal(catalog.subcategories.filter(s=>s.id==='residenziali').length,1);
  assert.equal(data.records.length,14);assert.equal(new Set(data.records.map(r=>r.id)).size,14);
  for(const id of ['castello-quiete','villa-lucia','alessandrino','longoni','magnolia','medica-group','divino-amore'])assert.ok(data.records.some(r=>r.id==='res-'+id));
