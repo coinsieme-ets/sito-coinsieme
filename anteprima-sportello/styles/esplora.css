@@ -4,6 +4,9 @@
 .sp-result-group{border-top:1px solid #b8cabc;padding:12px 0}
 .sp-result-group>summary{cursor:pointer;font-weight:650;min-height:44px;line-height:1.5}
 .sp-result-group-content{padding-top:12px}
+.sp-service-intro{border-top:0;padding:0;animation:none}
+.sp-service-intro>h4{font-size:1rem;margin:0 0 10px}
+.sp-service-intro+.sp-service-intro{margin-top:16px}
 .sportello-shell .sp-home-hero{gap:24px;align-items:start}
 .sportello-shell .sp-home-hero h1{font-size:2rem;line-height:1.2;margin-bottom:12px}
 .sportello-shell .sp-home-lead{font-size:1.05rem}

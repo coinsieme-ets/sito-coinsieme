@@ -60,5 +60,10 @@
   function hasDocumentedRomeCoverage(catalog){
     return (catalog.homeOperators||[]).some(r=>r.allRomeDeclared===true&&catalog.isVerifiedResource(r));
   }
-  return {areas,resources,selectAreas,chooseResources,chooseServiceResources,groupServiceResources,homeTerritoryMatches,chooseHomeResources,hasDocumentedRomeCoverage};
+  function servicePresentation(resource,group,catalog){
+    const inline=resource.id.startsWith('info-')&&resource.status==='informazione_orientativa'&&!catalog.isVerifiedResource(resource);
+    const sameTitle=String(group.label).trim().toLocaleLowerCase('it')===String(resource.name).trim().toLocaleLowerCase('it');
+    return {inline,showHeading:inline&&!(group.collapsible&&sameTitle)};
+  }
+  return {areas,resources,selectAreas,chooseResources,chooseServiceResources,groupServiceResources,homeTerritoryMatches,chooseHomeResources,hasDocumentedRomeCoverage,servicePresentation};
 });

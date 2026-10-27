@@ -52,15 +52,21 @@
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
         section.addEventListener('toggle',()=>{hint.textContent=section.open?'Chiudi questo ambito':'Esplora questo ambito';});
       }
-      for(const resource of group.resources)destinations.set(resource.id,target);
+      for(const resource of group.resources)destinations.set(resource.id,{target,group});
     }
     for(const resource of resources){
-      const details=make('details',null,'sp-service-result'),summary=make('summary',resource.name);
-      summary.append(make('span','Approfondisci','sp-service-invite'));
-      details.addEventListener('toggle',()=>{summary.querySelector('.sp-service-invite').textContent=details.open?'Chiudi i dettagli':'Approfondisci';});
+      const {target,group}=destinations.get(resource.id),presentation=engine.servicePresentation(resource,group,catalog);
+      const details=make(presentation.inline?'div':'details',null,'sp-service-result'+(presentation.inline?' sp-service-intro':''));
+      details.setAttribute('data-resource-id',resource.id);
+      if(presentation.inline){
+        if(presentation.showHeading)details.append(make('h4',resource.name));
+      }else{
+        const summary=make('summary',resource.name);summary.append(make('span','Approfondisci','sp-service-invite'));details.append(summary);
+        details.addEventListener('toggle',()=>{summary.querySelector('.sp-service-invite').textContent=details.open?'Chiudi i dettagli':'Approfondisci';});
+      }
       const isVerified=catalog.isVerifiedResource(resource);
       const badge=isVerified?(resource.verificationScope==='consegne'?'Consegna dichiarata · Copertura e disponibilità da verificare':resource.verificationScope==='mobilita'?'Trasporto documentato · Condizioni e disponibilità da confermare':resource.verificationScope==='operatore'?'Operatore censito · Servizi e copertura dichiarati, disponibilità non verificata':resource.verificationScope==='riferimento'?'Riferimento istituzionale · Accesso specifico da verificare':resource.verificationScope==='servizio'?'Servizio documentato · Disponibilità non verificata':'Sede documentata · Disponibilità delle prestazioni non verificata'):resource.status==='in_preparazione'?'Progetto in preparazione · Non è un servizio attivabile':'Informazione orientativa · Non è un servizio attivabile';
-      details.append(summary,make('p',badge,'sp-service-badge'),make('p',resource.description));
+      details.append(make('p',badge,'sp-service-badge'),make('p',resource.description));
       if(isVerified){
       const dl=make('dl');
       const fields=[['Indirizzo documentato',resource.address],['Indirizzo da confermare',resource.addressNote],['Ente o operatore',resource.entity],['Tipologia',resource.providerType],['Territorio di riferimento',resource.zone],['Servizi citati nella fonte, non disponibilità in tempo reale',(resource.services||[]).join('; ')],['Destinatari',resource.recipients],['Requisiti documentati',resource.requirements],['Accesso',resource.access||'Consultare il sito ufficiale o contattare la struttura; nessuna richiesta viene inviata da questa pagina.'],['Orari documentati',resource.hours],['Costi',resource.costs||'Non verificati: la presenza della sede non attesta gratuità.']];
@@ -78,7 +84,7 @@
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
-      destinations.get(resource.id).append(details);
+      target.append(details);
     }
     root.querySelector('#servizi-azzera').disabled=!ids.length;
   }
