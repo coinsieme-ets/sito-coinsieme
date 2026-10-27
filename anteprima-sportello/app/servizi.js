@@ -12,6 +12,7 @@
   ];
   areas.push({id:'salute',title:'Salute e servizi sanitari di prossimità',text:'Medici, Case della Comunità, ambulatori, ospedali, assistenza domiciliare e prevenzione',icon:'health'});
   const subcategories=[
+    {id:'residenziali',category:'salute',name:'Strutture residenziali per anziani e persone con disabilità',description:'RSA, case di riposo e residenze socioassistenziali: percorsi di accesso e sedi documentate, senza disponibilità di posti accertate.'},
     {id:'medici-pediatri',category:'salute',name:'Medici di famiglia e pediatri',description:'Orientamento regionale e sportelli ASL per la scelta e revoca. Nessun elenco nominativo o posto disponibile verificato nelle fonti pubbliche consultate.'},
     {id:'visite-private-televisite',category:'salute',name:'Visite specialistiche e televisite, anche da casa',description:'Orientamento alle piattaforme di prenotazione privata: prezzi, collegamento in video e limiti da verificare con lo specialista. Non è un servizio di urgenza.'},
     {id:'case-ambulatori',category:'salute',name:'Case della Comunità e poliambulatori',description:'Informazioni da raccogliere sulle strutture di prossimità e sui relativi servizi. Questa scheda non attesta sedi aperte o prestazioni disponibili.'},

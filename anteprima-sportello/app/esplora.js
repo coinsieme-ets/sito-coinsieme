@@ -86,6 +86,7 @@
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
       if(window.SportelloFarmacie)window.SportelloFarmacie.decorate(resource,details,catalog,resources);
+      if(window.SportelloResidenziali)window.SportelloResidenziali.decorate(resource,details);
       target.append(details);
     }
     root.querySelector('#servizi-azzera').disabled=!ids.length;

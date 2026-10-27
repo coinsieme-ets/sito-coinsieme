@@ -4,7 +4,7 @@ const data=require('../anteprima-sportello/app/continuita-data'),catalog=require
 test('Continuita: cinque prestazioni distinte, riuso dei due presidi, catalogo precedente conservato',()=>{
  assert.equal(data.sites.length,5);assert.equal(new Set(data.sites.map(r=>r.id)).size,5);
  assert.equal(data.sites.filter(r=>r.resourceId).length,2);
- assert.equal(catalog.resources.length,41);assert.equal(catalog.areas.length,9);
+ assert.equal(catalog.resources.length,42);assert.equal(catalog.areas.length,9);
  for(const site of data.sites.filter(r=>r.resourceId))assert.equal(catalog.resources.filter(r=>r.id===site.resourceId).length,1);
  const forte=data.resolve(data.sites[0],catalog);assert.equal(forte.address,catalog.resources.find(r=>r.id===forte.resourceId).address);
  assert.equal(data.choose(catalog,{name:'eucalipti'})[0].address,'Via degli Eucalipti 14, Roma');
