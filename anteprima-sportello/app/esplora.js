@@ -58,6 +58,7 @@
       const {target,group}=destinations.get(resource.id),presentation=engine.servicePresentation(resource,group,catalog);
       const details=make(presentation.inline?'div':'details',null,'sp-service-result'+(presentation.inline?' sp-service-intro':''));
       details.setAttribute('data-resource-id',resource.id);
+      details.id='risorsa-'+resource.id;
       if(presentation.inline){
         if(presentation.showHeading)details.append(make('h4',resource.name));
       }else{
@@ -84,6 +85,7 @@
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
+      if(window.SportelloFarmacie)window.SportelloFarmacie.decorate(resource,details,catalog,resources);
       target.append(details);
     }
     root.querySelector('#servizi-azzera').disabled=!ids.length;
