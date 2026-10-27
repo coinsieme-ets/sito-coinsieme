@@ -21,15 +21,17 @@
     for(const [value,text] of items){const option=make('option',text);option.value=value;select.append(option);}
     wrapper.append(select);homeControls.append(wrapper);select.addEventListener('change',render);return select;
   }
-  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio']]);
+  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici']]);
   const homeTerritory=selectControl('domicilio-territorio','Territorio',[['tutti','Tutti gli operatori censiti'],['v','Municipio Roma V'],['est','Roma Est · Municipi IV, V, VI e VII'],['roma','Tutta Roma · solo copertura espressamente dichiarata']].filter(([value])=>value!=='roma'||engine.hasDocumentedRomeCoverage(catalog)));
+  const national=make('option','Copertura nazionale dichiarata · intervento locale da concordare');national.value='nazionale';homeTerritory.append(national);
+  const searchLabel=make('label','Cerca per nome o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
   homeControls.append(make('p','I filtri riguardano soltanto Assistenza a domicilio. Municipio V e Roma Est includono sedi accertate o territori documentati, non disponibilità garantita. Una sede a Roma non prova copertura in tutta la città. I Municipi non accertati restano da verificare. Nessun operatore è presentato come partner COINSIEME.'));
   results.before(homeControls);
   function render(){
     const ids=selected();homeControls.hidden=!ids.includes('domicilio');
     if(window.SportelloSocialita)window.SportelloSocialita.render(ids);
-    const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne));
-    if(window.SportelloMobilita)resources.push(...window.SportelloMobilita.choose(ids));
+    const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value,name:homeName.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne));
+    if(window.SportelloMobilita)for(const item of window.SportelloMobilita.choose(ids))if(!resources.some(r=>r.id===item.id))resources.push(item);
     if(window.SportelloConsegne)resources.push(...window.SportelloConsegne.choose(ids));
     results.replaceChildren();
     root.querySelector('#servizi-empty').hidden=ids.length>0;
@@ -73,6 +75,7 @@
       for(const source of resource.sources||[]){const p=make('p'),a=make('a',source.label);a.href=source.url;a.rel='noopener noreferrer';p.append(a,make('span',' · Consultata il '+source.checkedAt));details.append(p);}
       }else if(resource.access){details.append(make('p',resource.access));}
       for(const link of resource.links){const a=make('a',link.label);a.href=link.url;details.append(a);}
+      if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       destinations.get(resource.id).append(details);
     }
     root.querySelector('#servizi-azzera').disabled=!ids.length;
@@ -82,7 +85,7 @@
   root.querySelector('#servizi-vai-risultati').addEventListener('click',event=>{event.preventDefault();reach(root.querySelector('#servizi-risultati-titolo'));});
   root.querySelector('.sp-edit-choices').addEventListener('click',event=>{event.preventDefault();reach(choices.querySelector('input'));});
   root.querySelector('#servizi-azzera').addEventListener('click',()=>{clear();choices.querySelector('input').focus();});
-  function clear(){choices.querySelectorAll('input').forEach(i=>{i.checked=false;});homeKind.value='tutti';homeTerritory.value='tutti';render();}
+  function clear(){choices.querySelectorAll('input').forEach(i=>{i.checked=false;});homeKind.value='tutti';homeTerritory.value='tutti';homeName.value='';render();}
   window.addEventListener('pagehide',clear);
   window.addEventListener('pageshow',event=>{if(event.persisted)clear();});
   root.querySelector('#servizi-controls').hidden=false;render();

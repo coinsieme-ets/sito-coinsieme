@@ -5,7 +5,8 @@
     const term=(options.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it');
     return records.filter(r=>(!options.group||r.groups.includes(options.group))&&(!options.municipio||r.municipalities.includes(options.municipio))&&(!options.neighborhood||r.neighborhood===options.neighborhood)&&(!options.field||r.fields.includes(options.field))&&r.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it').includes(term));
   }
-  if(typeof module==='object'&&module.exports){module.exports={filter,groups};return;}
+  function forCategories(records,ids){return records.filter(r=>ids.includes('socialita')||(r.categories||[]).some(id=>ids.includes(id)));}
+  if(typeof module==='object'&&module.exports){module.exports={filter,groups,forCategories};return;}
   const root=document.getElementById('esplora-servizi');
   if(!root)return;
   const make=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
@@ -14,7 +15,7 @@
   const heading=make('h3','Risorse per socialità e partecipazione');heading.id='socialita-titolo';section.append(heading);
   section.append(make('p','Prima ricognizione documentale, non elenco esaustivo. I Municipi filtrano sedi documentate oppure ambiti dichiarati: la distinzione è indicata in ogni scheda. Nessun ente è presentato come partner della Fondazione.'));
   const controls=make('fieldset'),legend=make('legend','Affina le risorse di socialità');controls.append(legend);section.append(controls);
-  const inputs={};let records=[],limit=12,loaded=false,failed=false;
+  const inputs={};let records=[],limit=12,loaded=false,failed=false,activeCategories=[];
   function control(key,label,options){const wrap=make('label',label),input=make(options?'select':'input');input.id='socialita-'+key;
     if(options)for(const [value,text] of options){const opt=make('option',text);opt.value=value;input.append(opt);}else input.type='search';
     wrap.append(input);controls.append(wrap);inputs[key]=input;input.addEventListener(options?'change':'input',()=>{limit=12;draw();});return input;
@@ -27,7 +28,7 @@
   const more=make('button','Mostra altre risorse');more.type='button';more.className='btn btn-outline';more.addEventListener('click',()=>{const previous=limit;limit+=12;draw();const next=list.children[previous];if(next)next.querySelector('summary').focus();});
   section.append(count,list,more);root.querySelector('#servizi-risultati').before(section);
   function draw(){
-    list.replaceChildren();const options=Object.fromEntries(Object.entries(inputs).map(([k,v])=>[k,v.value]));const matches=filter(records,options);
+    list.replaceChildren();const options=Object.fromEntries(Object.entries(inputs).map(([k,v])=>[k,v.value]));const matches=filter(forCategories(records,activeCategories),options);
     count.textContent=failed?'Catalogo non caricato. Restano disponibili le altre opportunità e le fonti nel rapporto.':!loaded?'Caricamento del catalogo…':matches.length+' risorse · '+Math.min(limit,matches.length)+' mostrate';
     more.hidden=limit>=matches.length;
     for(const r of matches.slice(0,limit)){
@@ -45,7 +46,7 @@
       list.append(details);
     }
   }
-  window.SportelloSocialita={get available(){return loaded;},render(ids){section.hidden=!ids.includes('socialita');if(section.hidden){for(const input of Object.values(inputs))input.value='';limit=12;}draw();}};
+  window.SportelloSocialita={get available(){return loaded;},render(ids){activeCategories=ids;section.hidden=!ids.some(id=>['socialita','vicinato'].includes(id));if(section.hidden){for(const input of Object.values(inputs))input.value='';limit=12;}draw();}};
   try {
     records=window.SportelloSocialitaData.records;loaded=true;
     for(const field of [...new Set(records.flatMap(r=>r.fields))].sort()){const opt=make('option',field);opt.value=field;inputs.field.append(opt);}

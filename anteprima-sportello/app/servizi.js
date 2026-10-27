@@ -12,7 +12,7 @@
   ];
   areas.push({id:'salute',title:'Salute e servizi sanitari di prossimità',text:'Medici, Case della Comunità, ambulatori, ospedali, assistenza domiciliare e prevenzione',icon:'health'});
   const subcategories=[
-    {id:'medici-pediatri',category:'salute',name:'Medici di famiglia e pediatri',description:'Un ambito per orientarsi tra medico di famiglia e pediatra. Professionisti, sedi e modalità di accesso nel territorio devono ancora essere verificati.'},
+    {id:'medici-pediatri',category:'salute',name:'Medici di famiglia e pediatri',description:'Orientamento regionale e sportelli ASL per la scelta e revoca. Nessun elenco nominativo o posto disponibile verificato nelle fonti pubbliche consultate.'},
     {id:'case-ambulatori',category:'salute',name:'Case della Comunità e poliambulatori',description:'Informazioni da raccogliere sulle strutture di prossimità e sui relativi servizi. Questa scheda non attesta sedi aperte o prestazioni disponibili.'},
     {id:'ospedali',category:'salute',name:'Ospedali e presidi sanitari',description:'Un riferimento per il futuro elenco dei presidi del territorio. Nessuna struttura, disponibilità o modalità di prenotazione è verificata in questa anteprima.'},
     {id:'domiciliare-sanitaria',category:'salute',name:'Assistenza domiciliare sanitaria e infermieristica',description:'Un ambito distinto dall’aiuto domestico e dall’assistenza familiare. Requisiti, percorsi di accesso e servizi territoriali saranno documentati con fonti ufficiali.'},
@@ -38,6 +38,8 @@
   ];
   const homeOperators=typeof module==='object'&&module.exports?require('./operatori-domicilio.js'):root.SportelloOperatoriDomicilio;
   resultGroups.push({id:'domicilio:badante',label:'Badanti e assistenti familiari'},{id:'domicilio:cooperativa',label:'Cooperative di assistenza domiciliare'},{id:'domicilio:pubblico',label:'Servizi pubblici e orientamento all’assistenza'});
-  const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,isVerifiedResource};
+  const technicalResources=[typeof module==='object'&&module.exports?require('./ecomoby.js'):root.SportelloEcoMoby];
+  resultGroups.push({id:'domicilio:ausili',label:'Assistenza tecnica per ausili domestici'});
+  const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,technicalResources,isVerifiedResource};
   if(typeof module==='object'&&module.exports)module.exports=data;else root.SportelloServizi=data;
 })(typeof window==='undefined'?globalThis:window);
