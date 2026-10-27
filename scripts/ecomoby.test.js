@@ -5,7 +5,7 @@ const home=require('../anteprima-sportello/app/orientamento'),mobility=require('
 const context={window:{}};vm.createContext(context);vm.runInContext(fs.readFileSync('anteprima-sportello/app/mobilita-data.js','utf8'),context);
 const data=context.window.SportelloMobilitaData;
 test('EcoMoby: nove categorie, un record tecnico, gli altri cataloghi invariati',()=>{
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,40);assert.equal(catalog.homeOperators.length,7);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,41);assert.equal(catalog.homeOperators.length,7);
  assert.equal(catalog.technicalResources.length,1);assert.equal(catalog.technicalResources[0],item);
  assert.equal(item.category,'mobilita');assert.equal(catalog.isVerifiedResource(item),true);
 });

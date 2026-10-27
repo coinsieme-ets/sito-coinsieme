@@ -76,6 +76,8 @@
       }else if(resource.access){details.append(make('p',resource.access));}
       for(const link of resource.links){const a=make('a',link.label);a.href=link.url;details.append(a);}
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
+      if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
+      if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
       destinations.get(resource.id).append(details);
     }
     root.querySelector('#servizi-azzera').disabled=!ids.length;
