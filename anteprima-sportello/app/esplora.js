@@ -21,7 +21,7 @@
     for(const [value,text] of items){const option=make('option',text);option.value=value;select.append(option);}
     wrapper.append(select);homeControls.append(wrapper);select.addEventListener('change',render);return select;
   }
-  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici']]);
+  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici'],['psicologia','Sostegno psicologico online']]);
   const homeTerritory=selectControl('domicilio-territorio','Territorio',[['tutti','Tutti gli operatori censiti'],['v','Municipio Roma V'],['est','Roma Est · Municipi IV, V, VI e VII'],['roma','Tutta Roma · solo copertura espressamente dichiarata']].filter(([value])=>value!=='roma'||engine.hasDocumentedRomeCoverage(catalog)));
   const national=make('option','Copertura nazionale dichiarata · intervento locale da concordare');national.value='nazionale';homeTerritory.append(national);
   const searchLabel=make('label','Cerca per nome o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
@@ -63,17 +63,21 @@
         if(presentation.showHeading)details.append(make('h4',resource.name));
       }else{
         const summary=make('summary',resource.name);summary.append(make('span','Approfondisci','sp-service-invite'));details.append(summary);
+        if(resource.verificationScope==='psicologia-online'){
+          details.classList.add('sp-psychology-'+resource.funding);
+          summary.append(make('span',resource.funding==='public'?'Opportunità finanziata pubblicamente':'Servizio privato a pagamento','sp-psychology-kind'));
+        }
         details.addEventListener('toggle',()=>{summary.querySelector('.sp-service-invite').textContent=details.open?'Chiudi i dettagli':'Approfondisci';});
       }
       const isVerified=catalog.isVerifiedResource(resource);
-      const badge=isVerified?(resource.verificationScope==='consegne'?'Consegna dichiarata · Copertura e disponibilità da verificare':resource.verificationScope==='mobilita'?'Trasporto documentato · Condizioni e disponibilità da confermare':resource.verificationScope==='operatore'?'Operatore censito · Servizi e copertura dichiarati, disponibilità non verificata':resource.verificationScope==='riferimento'?'Riferimento istituzionale · Accesso specifico da verificare':resource.verificationScope==='servizio'?'Servizio documentato · Disponibilità non verificata':'Sede documentata · Disponibilità delle prestazioni non verificata'):resource.status==='in_preparazione'?'Progetto in preparazione · Non è un servizio attivabile':'Informazione orientativa · Non è un servizio attivabile';
+      const badge=resource.verificationScope==='psicologia-online'?'Servizio da remoto documentato · Condizioni e credenziali individuali da verificare':isVerified?(resource.verificationScope==='consegne'?'Consegna dichiarata · Copertura e disponibilità da verificare':resource.verificationScope==='mobilita'?'Trasporto documentato · Condizioni e disponibilità da confermare':resource.verificationScope==='operatore'?'Operatore censito · Servizi e copertura dichiarati, disponibilità non verificata':resource.verificationScope==='riferimento'?'Riferimento istituzionale · Accesso specifico da verificare':resource.verificationScope==='servizio'?'Servizio documentato · Disponibilità non verificata':'Sede documentata · Disponibilità delle prestazioni non verificata'):resource.status==='in_preparazione'?'Progetto in preparazione · Non è un servizio attivabile':'Informazione orientativa · Non è un servizio attivabile';
       details.append(make('p',badge,'sp-service-badge'),make('p',resource.description));
       if(isVerified){
       const dl=make('dl');
       const fields=[['Indirizzo documentato',resource.address],['Indirizzo da confermare',resource.addressNote],['Ente o operatore',resource.entity],['Tipologia',resource.providerType],['Territorio di riferimento',resource.zone],['Servizi citati nella fonte, non disponibilità in tempo reale',(resource.services||[]).join('; ')],['Destinatari',resource.recipients],['Requisiti documentati',resource.requirements],['Accesso',resource.access||'Consultare il sito ufficiale o contattare la struttura; nessuna richiesta viene inviata da questa pagina.'],['Orari documentati',resource.hours],['Costi',resource.costs||'Non verificati: la presenza della sede non attesta gratuità.']];
       if(resource.verificationScope==='mobilita')fields.splice(5,0,['Tipo di mezzo',resource.vehicle],['Accessibilità del trasporto',resource.accessibility],['Accompagnamento personale distinto dal mezzo',resource.personalAssistance]);
       if(resource.verificationScope==='consegne')fields.splice(5,0,['Canali documentati',resource.orderingChannels]);
-      if(resource.homeKind)fields.splice(2,0,['Municipio della sede',resource.seatMunicipio||'Non accertato in questa ricognizione'],['Territorio dichiarato dall’operatore',resource.declaredCoverage],['Municipi con iscrizione RUC documentata',resource.publicMunicipi&&resource.verificationScope==='operatore'?(resource.publicMunicipi.length?resource.publicMunicipi.join(', ')+' · iscrizione, non contratto attivo o disponibilità garantiti':'Non documentati in questa ricognizione'):null],['Stato della verifica territoriale',resource.coverageStatus]);
+      if(resource.homeKind&&resource.verificationScope!=='psicologia-online')fields.splice(2,0,['Municipio della sede',resource.seatMunicipio||'Non accertato in questa ricognizione'],['Territorio dichiarato dall’operatore',resource.declaredCoverage],['Municipi con iscrizione RUC documentata',resource.publicMunicipi&&resource.verificationScope==='operatore'?(resource.publicMunicipi.length?resource.publicMunicipi.join(', ')+' · iscrizione, non contratto attivo o disponibilità garantiti':'Non documentati in questa ricognizione'):null],['Stato della verifica territoriale',resource.coverageStatus]);
       for(const [label,value] of fields){if(value){dl.append(make('dt',label),make('dd',value));}}details.append(dl);
       details.append(make('p',resource.availability));
       for(const note of resource.notes||[])details.append(make('p',note,'sp-service-caution'));
@@ -85,6 +89,7 @@
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
+      if(window.SportelloPsicologia)window.SportelloPsicologia.decorate(resource,details);
       if(window.SportelloDiagnostica)window.SportelloDiagnostica.decorate(resource,details);
       if(window.SportelloFarmacie)window.SportelloFarmacie.decorate(resource,details,catalog,resources);
       if(window.SportelloResidenziali)window.SportelloResidenziali.decorate(resource,details);

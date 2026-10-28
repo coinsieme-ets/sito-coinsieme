@@ -9,7 +9,7 @@ test('Presentazione: introduzioni sanitarie dirette senza seconda intestazione i
  }
 });
 test('Presentazione: nessun record duplicato o perso in tutte le selezioni di categorie',()=>{
- assert.equal(catalog.resources.length,43);assert.equal(new Set(catalog.resources.map(r=>r.id)).size,43);
+ assert.equal(catalog.resources.length,50);assert.equal(new Set(catalog.resources.map(r=>r.id)).size,50);
  const ids=catalog.areas.map(a=>a.id);
  for(let mask=1;mask<2**ids.length;mask++){
   const selected=ids.filter((_,i)=>mask&(1<<i)),records=engine.chooseHomeResources(selected,catalog),groups=engine.groupServiceResources(records,selected,catalog);

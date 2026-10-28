@@ -6,7 +6,7 @@ test('Farmacie: sei schede, cinque nuovi record e un riferimento canonico a Cast
  assert.equal(data.records.length,6);assert.equal(new Set(data.records.map(r=>r.id)).size,6);
  assert.equal(data.records.filter(r=>!r.deliveryRef).length,5);const ref=data.records.find(r=>r.deliveryRef);assert.equal(ref.id,'consegne-castelforte');assert.equal(ref.address,undefined);assert.equal(ref.phone,undefined);
  const base=deliveries.records.find(r=>r.id===ref.id),record=data.resolve(ref,deliveries);assert.equal(record.address,base.address);assert.equal(record.phone,base.phones[0].number);assert.equal(record.original,base);
- assert.equal(catalog.resources.length,43);assert.equal(catalog.areas.length,9);assert.throws(()=>data.resolve(ref,{records:[]}),/non trovata/);
+ assert.equal(catalog.resources.length,50);assert.equal(catalog.areas.length,9);assert.throws(()=>data.resolve(ref,{records:[]}),/non trovata/);
 });
 test('Farmacie: tre modalita e ricerca combinata senza presunzioni sui turni odierni',()=>{
  assert.equal(data.choose(deliveries,{mode:'notturne'}).length,4);assert.equal(data.choose(deliveries,{mode:'festive'}).length,5);assert.equal(data.choose(deliveries,{mode:'consegna'}).length,4);

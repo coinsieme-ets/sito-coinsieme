@@ -24,6 +24,8 @@
     {id:'prevenzione',category:'salute',name:'Consultori, screening e prevenzione',description:'Informazioni orientative sui percorsi di consultorio, screening e prevenzione. Destinatari, sedi e modalità di accesso richiedono verifica prima della pubblicazione di schede territoriali.'}
   ];
   const resources=areas.filter(area=>area.id!=='salute').map(area=>({id:'info-'+area.id,category:area.id,name:area.title,description:area.description,recipients:area.recipients,access:area.access,zone:null,entity:null,providerType:null,requirements:null,contacts:null,costs:null,status:'informazione_orientativa',source:null,verifiedAt:null,links:[{url:area.link,label:area.id==='digitale'?'Esplora le tecnologie nella Casa':area.id==='diritti'?'Contatti della Fondazione (non uno sportello pubblico)':'Approfondisci sul sito COINSIEME'}]}));
+  const psychology=typeof module==='object'&&module.exports?require('./psicologia.js'):root.SportelloPsicologia;
+  resources.push(...psychology.resources);
   for(const subcategory of subcategories)resources.push({id:'info-salute-'+subcategory.id,category:'salute',subcategory:subcategory.id,name:subcategory.name,description:subcategory.description,recipients:null,access:null,zone:null,entity:null,providerType:null,requirements:null,contacts:null,costs:null,status:'informazione_orientativa',source:null,verifiedAt:null,links:[]});
   function isVerifiedResource(resource){
     return ['attivo_verificato','presenza_documentata'].includes(resource.status)&&Boolean(resource.entity&&resource.zone&&resource.source&&/^https:\/\//.test(resource.source)&&/^\d{4}-\d{2}-\d{2}$/.test(resource.verifiedAt||'')&&Number.isFinite(Date.parse(resource.verifiedAt)));
@@ -31,6 +33,8 @@
   const territorial=typeof module==='object'&&module.exports?require('./territorio.js'):root.SportelloTerritorio;
   resources.push(...territorial);
   const resultGroups=[
+    {id:'salute:sostegno-psicologico-online',category:'salute',label:'Sostegno psicologico online'},
+    {id:'domicilio:sostegno-psicologico-online',category:'domicilio',label:'Sostegno psicologico online'},
     ...subcategories.map(s=>({id:s.category+':'+s.id,category:s.category,label:s.name})),
     {id:'salute:protesica',category:'salute',label:'Ausili e assistenza protesica'},
     {id:'diritti:anagrafe-documenti',category:'diritti',label:'Anagrafe e documenti'},

@@ -40,6 +40,7 @@
   }
   function homeTerritoryMatches(resource,territory){
     if(!territory||territory==='tutti')return true;
+    if(resource.remoteItaly&&['v','est','roma','nazionale'].includes(territory))return true;
     if(territory==='nazionale')return resource.coverageClass==='nazionale_dichiarata';
     if(territory==='roma')return resource.allRomeDeclared===true;
     const municipi=[resource.seatMunicipio,...(resource.coverageMunicipi||[])];
@@ -54,7 +55,9 @@
     // Projections leave the original 25 records and their category selection untouched.
     const publicItems=catalog.resources.filter(r=>publicIds.includes(r.id)).map(r=>({...r,category:'domicilio',categories:['domicilio'],subcategory:'pubblico',homeKind:'pubblico',coverageMunicipi:['V'],publicMunicipi:['V'],allRomeDeclared:false,coverageStatus:'Percorso competente nel Municipio V; accesso individuale da valutare'}));
     const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it');
-    const home=[...(catalog.homeOperators||[]),...publicItems,...(catalog.technicalResources||[])].filter(r=>(!options.kind||options.kind==='tutti'||r.homeKind===options.kind)&&homeTerritoryMatches(r,options.territory)&&fold([r.name,...(r.keywords||[])].join(' ')).includes(fold(options.name))).map(r=>r.categories?.includes('domicilio')?{...r,category:'domicilio',categories:['domicilio']}:r);
+    const shared=catalog.resources.filter(r=>r.subcategory==='sostegno-psicologico-online'&&r.categories?.includes('domicilio'));
+    const home=[...(catalog.homeOperators||[]),...publicItems,...(catalog.technicalResources||[]),...shared].filter(r=>(!options.kind||options.kind==='tutti'||r.homeKind===options.kind)&&homeTerritoryMatches(r,options.territory)&&fold([r.name,...(r.keywords||[])].join(' ')).includes(fold(options.name))).map(r=>r.categories?.includes('domicilio')?{...r,category:'domicilio',categories:['domicilio']}:r);
+    if(home.some(r=>r.verificationScope==='psicologia-online')&&!home.some(r=>r.id==='info-sostegno-psicologico-online'))home.unshift({...shared[0],category:'domicilio',categories:['domicilio']});
     return [...new Map([...home,...other].map(r=>[r.id,r])).values()];
   }
   function hasDocumentedRomeCoverage(catalog){

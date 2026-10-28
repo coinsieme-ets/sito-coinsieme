@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const data=require('../anteprima-sportello/app/televisite-data'),catalog=require('../anteprima-sportello/app/servizi');
 test('Televisite: tre piattaforme uniche, una sola nuova sottocategoria e nove categorie',()=>{
  assert.equal(data.records.length,3);assert.equal(new Set(data.records.map(r=>r.id)).size,3);
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,43);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,50);
  assert.equal(catalog.resources.filter(r=>r.id==='info-salute-visite-private-televisite').length,1);
  assert.equal(catalog.resources.filter(r=>r.id==='info-salute-continuita-assistenziale').length,1);
  assert.equal(catalog.resources.filter(r=>r.id==='info-salute-medici-pediatri').length,1);

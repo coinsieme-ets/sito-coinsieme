@@ -41,3 +41,6 @@
 .sp-social-catalog select,.sp-social-catalog input { width:100%; min-width:0; min-height:44px; font:inherit; }
 .sp-social-catalog dl,.sp-social-catalog p,.sp-social-catalog summary,.sp-social-catalog a { overflow-wrap:anywhere; }
 .sp-social-catalog [hidden],.sp-social-catalog[hidden] { display:none; }
+.sp-service-result.sp-psychology-public{border-left:4px solid #21624c;padding-left:12px}
+.sp-service-result.sp-psychology-private{border-left:4px solid #60727b;padding-left:12px}
+.sp-psychology-kind{display:block;margin-top:4px;color:#294856;font-size:.85em;font-weight:600;line-height:1.5}
