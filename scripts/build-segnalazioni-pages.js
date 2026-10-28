@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {publicUrl}=require('./publish-segnalazioni');
 const {resolveNewsImage}=require('./news-images');
+const {isUsefulNews,usefulBadge}=require('./news-kind');
 const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 function shell(title,canonical,body){
   return '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'+
@@ -25,6 +26,12 @@ function build(root=path.join(__dirname,'..')){
  const dir=path.join(root,'rassegna');fs.mkdirSync(dir,{recursive:true});
  const cards=[];
  for(const item of items){
+  if(isUsefulNews(item)){
+   const file=path.join(root,new URL(item.url_fonte).pathname);
+   if(!fs.existsSync(file))throw Error('Scheda COINSIEME completa mancante: '+item.url_fonte);
+   cards.push('<article class="rassegna-card" style="margin-bottom:24px">'+usefulBadge+'<p>A cura di Fondazione COINSIEME ETS</p><h2><a href="'+escape(item.url_fonte)+'">'+escape(item.titolo_editoriale)+'</a></h2><p><time datetime="'+escape(item.data_pubblicazione)+'">'+escape(item.data_pubblicazione)+'</time></p><p>'+escape(item.sintesi_editoriale)+'</p><a href="'+escape(item.url_fonte)+'">Leggi la scheda COINSIEME</a></article>');
+   continue;
+  }
   for(const id of [...new Set([...(item.segnalazioni||[]),...(item.notizie||[])])]){
    if(!/^rec[a-zA-Z0-9]{14}$/.test(id))throw new Error('ID segnalazione non valido nel dataset');
    fs.writeFileSync(path.join(dir,id+'.html'),page(item,id));
