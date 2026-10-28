@@ -20,7 +20,7 @@ test('Casa precede il catalogo e il percorso di ascolto resta facoltativo',()=>{
  }
  assert.doesNotMatch(html,/quartiere-che-si-prende-cura/);
 });
-test('copertina, strumenti e notizie precedono Progetti e collaborazioni',()=>{
+test('copertina, strumenti e notizie precedono progetti, esperienze e nuove iniziative',()=>{
  assert.match(html,/<h1>Vivere meglio, insieme<\/h1>/);
  assert.match(html,/Informazioni, tecnologie e servizi per l’autonomia e la vita quotidiana/);
  let last=-1;
@@ -31,6 +31,8 @@ test('copertina, strumenti e notizie precedono Progetti e collaborazioni',()=>{
  assert.equal((html.match(/class="news-list"/g)||[]).length,1);
  assert.equal((html.match(/class="articles-column"/g)||[]).length,1);
  assert.match(html,/<h3 id="progetto-titolo">Trilogia di Vita<\/h3>/);
+ assert.match(html,/<h2 id="projects-title">Progetti, esperienze e nuove iniziative<\/h2>/);
+ assert.equal((html.match(/class="project-entry"/g)||[]).length,4);
  assert.doesNotMatch(html,/id="focus-news"|show-platform|novita-popup/);
 });
 test('contratto del renderer: stato pubblico unico, date reali, privacy e risorse',()=>{
