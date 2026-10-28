@@ -91,6 +91,9 @@ async function build({withoutImages=false,outputDir=__dirname,articlesInput,news
   html=html.replace('href="style.css"','href="style.css?v='+styleVersion+'"');
   if(state)html=html.replace('</head>','<meta name="coinsieme-public-state" content="'+state.signature+'"></head>');
   if(production){
+    const {organization}=JSON.parse(fs.readFileSync(path.join(root,'content/organization.json'),'utf8'));
+    const jsonLd=JSON.stringify(organization).replace(/</g,'\\u003c');
+    html=html.replace('</head>','<script type="application/ld+json" id="coinsieme-organization">'+jsonLd+'</script></head>');
     const privacy=(current.match(/<!-- HOME_PRIVACY_START -->([\s\S]*?)<!-- HOME_PRIVACY_END -->/)||current.match(/(<!-- iubenda Cookie Solution -->[\s\S]*?)(?=<link rel="stylesheet" href="css\/home.css)/))?.[1];
     if(!privacy)throw Error('Blocco privacy della homepage mancante');
     html=html.replace('<meta name="robots" content="noindex,nofollow">','<link rel="canonical" href="https://www.coinsieme.it/"><meta name="description" content="Informazioni, tecnologie e servizi per l’autonomia e la vita quotidiana.">')

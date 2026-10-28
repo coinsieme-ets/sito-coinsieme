@@ -5,6 +5,7 @@ const seg=require('./publish-segnalazioni');
 const {sourceUrl,fetchPublicPages}=require('./verify-publication');
 const {selectHomeNews,renderHomeNews}=require('./home-news');
 const {isUsefulNews}=require('./news-kind');
+const {canonicalUrl}=require('./rassegna-urls');
 const NEWS='tblonsfQ2mnaelCAn', DATA='content/rassegna/notizie-esterne.json';
 async function all(api){const records=[];let offset;do{const r=await api(NEWS+'?pageSize=100'+(offset?'&offset='+encodeURIComponent(offset):''));records.push(...r.records);offset=r.offset;}while(offset);return records;}
 const signature=n=>crypto.createHash('sha256').update(JSON.stringify(seg.publicItem(n))).digest('hex');
@@ -24,7 +25,7 @@ async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,to
      ...(previous?.segnalazioni?{segnalazioni:previous.segnalazioni}:{}),
      notizie:[...new Set([...(previous?.notizie||[]),record.id])]};
    if(previous)dataset[dataset.indexOf(previous)]=merged;else dataset.push(merged);
-   manifest.news.push({recordId:record.id,source,title:merged.titolo_editoriale,publicUrl:isUsefulNews(merged)?merged.url_fonte:seg.publicUrl(record.id),signature:signature(record)});
+   manifest.news.push({recordId:record.id,source,title:merged.titolo_editoriale,publicUrl:isUsefulNews(merged)?merged.url_fonte:seg.publicUrl(record.id),canonicalUrl:canonicalUrl(merged,record.id),signature:signature(record)});
   }catch(e){manifest.newsErrors.push({recordId:record.id,error:e.message});}
  }
  // Read-only editorial overlay also enables expiry/rotation without a new submission.

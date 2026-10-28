@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs');
 const path=require('node:path');
-const {publicUrl}=require('./publish-segnalazioni');
+const {canonicalUrl}=require('./rassegna-urls');
 const {resolveNewsImage}=require('./news-images');
 const {isUsefulNews,usefulBadge}=require('./news-kind');
 const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
@@ -14,7 +14,7 @@ function shell(title,canonical,body){
 }
 function newsImage(item){return '<img src="'+escape(resolveNewsImage(item))+'" alt="'+escape(item.titolo_editoriale)+'" loading="lazy" style="width:100%;max-height:450px;object-fit:contain;margin:20px 0">';}
 function page(item,id){
- return shell(item.titolo_editoriale,publicUrl(id),'<article data-segnalazione="'+id+'">'+
+ return shell(item.titolo_editoriale,canonicalUrl(item,id),'<article data-segnalazione="'+id+'">'+
    '<p>Rassegna stampa · '+escape(item.categoria)+'</p><h1><a href="'+escape(item.url_fonte)+'" target="_blank" rel="noopener noreferrer">'+escape(item.titolo_editoriale)+'</a></h1>'+
    newsImage(item)+'<p>Pubblicazione su COINSIEME: <time datetime="'+escape(item.data_pubblicazione)+'">'+escape(item.data_pubblicazione)+'</time>'+
    (item.data_fonte?' · Data della fonte: <time datetime="'+escape(item.data_fonte)+'">'+escape(item.data_fonte)+'</time>':'')+'</p>'+

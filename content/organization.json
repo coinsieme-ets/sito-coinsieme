@@ -1,0 +1,23 @@
+{
+  "organization": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://www.coinsieme.it/#organization",
+    "name": "Fondazione COINSIEME ETS",
+    "url": "https://www.coinsieme.it/",
+    "logo": "https://www.coinsieme.it/assets/logo-symbol.png",
+    "email": "segreteria@coinsieme.it",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Enrico Giglioli 54A",
+      "postalCode": "00169",
+      "addressLocality": "Roma",
+      "addressRegion": "RM",
+      "addressCountry": "IT"
+    }
+  },
+  "sources": [
+    { "url": "https://www.coinsieme.it/contatti.html", "fields": ["name", "email", "address"], "verifiedOn": "2026-10-28" },
+    { "url": "https://www.coinsieme.it/", "fields": ["url", "logo"], "verifiedOn": "2026-10-28" }
+  ]
+}

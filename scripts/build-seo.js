@@ -4,6 +4,13 @@ const path = require('node:path');
 const ORIGIN = 'https://www.coinsieme.it';
 const TARGET = 'dal-2027-cambiano-le-regole-per-l-invalidita-civile-e-la-legge-104';
 const ALIASES = ['dal-2027-cambiano-le-regole-per-l-invalidità-civile-e-la-legge-104-copy', TARGET + '-copy'];
+function buildArticleCompatibility(root){
+  const file=path.join(root,'articolo.html');
+  if(!fs.existsSync(file))return;
+  const html=fs.readFileSync(file,'utf8');
+  if(!html.includes('[CONTENUTO PROVVISORIO]')&&!html.includes('data-coinsieme-article-compat'))throw Error('SEO refusing to overwrite non-placeholder articolo.html');
+  fs.writeFileSync(file,'<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Archivio articoli — COINSIEME</title><meta name="robots" content="noindex,follow"><link rel="canonical" href="https://www.coinsieme.it/articoli.html"><meta http-equiv="refresh" content="0;url=/articoli.html"></head><body data-coinsieme-article-compat><p>Gli approfondimenti sono disponibili nell’<a href="/articoli.html">archivio degli articoli COINSIEME</a>.</p></body></html>');
+}
 const escape = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 function canonical(html) {
   const tag = (html.match(/<link\b[^>]*>/gi) || []).find(t => /\brel=["']canonical["']/i.test(t));
@@ -55,6 +62,7 @@ function build(root, articles) {
   // timestamps do not establish a reliable date of substantive modification.
   const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...urls].sort().map(url=>`  <url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n';
   fs.writeFileSync(path.join(root,'sitemap.xml'),xml);
+  buildArticleCompatibility(root);
   return {urls:urls.size, articles:articles.filter(a=>a.visible!==false).length, redirects:ALIASES.length};
 }
-module.exports={build,TARGET,ALIASES};
+module.exports={build,TARGET,ALIASES,buildArticleCompatibility};

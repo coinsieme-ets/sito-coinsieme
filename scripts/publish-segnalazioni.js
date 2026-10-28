@@ -7,7 +7,7 @@ const {processSegnalazioniMaurizio} = require('./process-segnalazioni-maurizio')
 const BASE='appPqa952bdRrQJNI', SEG='tblStce99L9z4YXAf', NEWS='tblonsfQ2mnaelCAn';
 const DATA='content/rassegna/notizie-esterne.json', MANIFEST='scratch/publication-manifest.json';
 const today=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const publicUrl=id=>'https://www.coinsieme.it/rassegna/'+id+'.html';
+const {recordUrl:publicUrl,canonicalUrl,validCanonical}=require('./rassegna-urls');
 function selectPending(records,id) {
   return records.filter(r=>r.fields.stato==='da_pubblicare' && (!id || r.id===id));
 }
@@ -15,8 +15,10 @@ function canConfirm(current,expected) {
   return current.fields.stato==='da_pubblicare' && sourceUrl(current.fields.url_articolo)===expected.source;
 }
 function verifyPage(html,item) {
+  const canonical=item.canonicalUrl||item.publicUrl;
+  if(item.canonicalUrl&&!validCanonical(canonical))return false;
   return html.includes('data-segnalazione="'+item.recordId+'"') &&
-    html.includes('rel="canonical" href="'+item.publicUrl+'"') &&
+    html.includes('rel="canonical" href="'+canonical+'"') &&
     inspectPage(html,item.source,item.title);
 }
 class EditorialRecordError extends Error {}
@@ -83,7 +85,7 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
       item.data_pubblicazione=today();
       item.segnalazioni=[...new Set([...(previous?.segnalazioni||[]),seg.id])];
       dataset.set(source,item);
-      manifest.items.push({recordId:seg.id,newsId:n.id,source,title:item.titolo_editoriale,publicUrl:publicUrl(seg.id)});
+      manifest.items.push({recordId:seg.id,newsId:n.id,source,title:item.titolo_editoriale,publicUrl:publicUrl(seg.id),canonicalUrl:canonicalUrl(item,seg.id)});
     } catch(e) {
       if (!(e instanceof EditorialRecordError)) throw e;
       manifest.errors.push({recordId:seg.id,error:e.message,status:'needs_editorial_correction'});

@@ -2,7 +2,7 @@ const {test,before,after}=require('node:test'),assert=require('node:assert/stric
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process');
 const {root,temporary,cleanup,snapshot}=require('./test-support/homepage-fixture');
 const {check}=require('./check-pages-sportello');
-let workspace,initialProtected,buildLog;
+let workspace,initialProtected,initialArticles,buildLog;
 const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 function inventory(dir,base=dir){
  return fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>{
@@ -32,6 +32,8 @@ before(()=>{
  fs.mkdirSync(path.join(workspace,'scratch'),{recursive:true});
  fs.writeFileSync(path.join(workspace,'scratch/articles-editorial.json'),JSON.stringify(snapshot()));
  buildLog=child(['scripts/build-cms.js']);
+ const firstSitemap=fs.readFileSync(path.join(workspace,'sitemap.xml'),'utf8');
+ initialArticles=[...firstSitemap.matchAll(/<loc>https:\/\/www.coinsieme.it(\/articoli\/[^<]+\/)<\/loc>/g)].map(match=>[match[1],digest(path.join(workspace,match[1],'index.html'))]);
  // A second real local build simulates the news update that previously lost the catalog.
  const file=path.join(workspace,'content/rassegna/notizie-esterne.json'),news=JSON.parse(fs.readFileSync(file,'utf8'));
  const today=require('./home-feature').todayRome();
@@ -57,6 +59,15 @@ test('build reale offline ripetuta: layout, rassegna, privacy, orologio e pagine
  assert.deepEqual(protectedFiles(workspace),initialProtected);
  assert.ok(fs.existsSync(path.join(workspace,'articoli.html')));
  assert.ok(fs.existsSync(path.join(workspace,'rassegna/rec12345678901234.html')));
+ for(const [url,hash]of initialArticles)assert.equal(digest(path.join(workspace,url,'index.html')),hash,'Articolo alterato: '+url);
+ assert.match(html,/id="coinsieme-organization"/);
+ assert.match(fs.readFileSync(path.join(workspace,'articolo.html'),'utf8'),/data-coinsieme-article-compat/);
+ const news=JSON.parse(fs.readFileSync(path.join(workspace,'content/rassegna/notizie-esterne.json'),'utf8'));
+ for(const item of news){
+  if(require('./news-kind').isUsefulNews(item))continue;
+  const canonical=require('./rassegna-urls').canonicalUrl(item);
+  for(const id of [...(item.segnalazioni||[]),...(item.notizie||[])])assert.ok(fs.readFileSync(path.join(workspace,'rassegna',id+'.html'),'utf8').includes('rel="canonical" href="'+canonical+'"'));
+ }
 });
 test('intera suite pertinente sul sito realmente generato, non soltanto sul renderer',()=>{
  const tests=fs.readdirSync(path.join(workspace,'scripts')).filter(name=>name.endsWith('.test.js')&&name!=='pre-release.test.js').map(name=>'scripts/'+name);
@@ -90,6 +101,10 @@ for(const workflow of ['build-articoli.yml','sync-rassegna.yml'])test('artefatto
  assert.ok(fs.existsSync(path.join(site,'assets/home-dinamica/clock.js')));
  assert.match(fs.readFileSync(path.join(site,'index.html'),'utf8'),/Aggiornamento locale di collaudo/);
  assert.ok(!fs.existsSync(path.join(site,'preview')));
+ for(const [url,hash]of initialArticles)assert.equal(digest(path.join(site,url,'index.html')),hash,'Articolo mancante/alterato nel pacchetto: '+url);
+ assert.match(fs.readFileSync(path.join(site,'articolo.html'),'utf8'),/noindex,follow/);
+ const xml=fs.readFileSync(path.join(site,'sitemap.xml'),'utf8'),locations=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+ assert.equal(new Set(locations).size,locations.length);
  const damaged=path.join(site,'anteprima-sportello/app/servizi.js');
  fs.appendFileSync(damaged,'\n/* damaged fixture */');
  assert.throws(()=>check(workspace,site),/alterato/);
