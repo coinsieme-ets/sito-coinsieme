@@ -216,7 +216,7 @@
 
   const demos = [
     { title: 'Luci accessibili e automatizzate', kind: 'light', label: 'Illuminazione intelligente', action: 'Accendi la luce', active: 'Spegni la luce', initial: 'Luce spenta', changed: 'Luce accesa' },
-    { title: 'Tapparelle e tende motorizzate', kind: 'blind', label: 'Tapparella motorizzata', action: 'Alza la tapparella', active: 'Abbassa la tapparella', initial: 'Tapparella abbassata', changed: 'Tapparella alzata' },
+    { title: 'Tapparelle elettriche e tende motorizzate', kind: 'blind', label: 'Tapparella motorizzata', action: 'Alza la tapparella', active: 'Abbassa la tapparella', initial: 'Tapparella abbassata', changed: 'Tapparella alzata' },
     { title: 'Chiamata di aiuto e telesoccorso', kind: 'help', label: 'Chiamata di aiuto', action: 'Prova il pulsante di aiuto', active: 'Ripeti la simulazione', initial: 'Simulazione pronta. Nessuna richiesta inviata.', changed: 'Percorso illustrato: pulsante, collegamento, contatto designato. Nessuna richiesta inviata e nessun soccorso confermato.' }
   ];
   demos.forEach((demo) => {

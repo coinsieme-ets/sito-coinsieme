@@ -15,7 +15,7 @@ window.CASA_PREVIEW_DATA = {
       'Luci accessibili e automatizzate': { src: 'assets/ausili/illuminazione-notturna.webp', alt: 'Illuminazione notturna lungo un corridoio domestico', width: 370, height: 214 },
       'Oggetti a portata di mano': { src: 'assets/ausili/comodino-organizzato.webp', alt: 'Comodino con telefono e oggetti ordinati a portata di mano', width: 370, height: 238 },
       'Letto regolabile elettricamente': { src: 'assets/ausili/letto-regolabile.webp', alt: 'Letto domestico con schienale e gambe regolabili', width: 370, height: 238 },
-      'Tapparelle e tende motorizzate': { src: 'assets/ausili/tapparelle-motorizzate.webp', alt: 'Tapparella motorizzata con comando a parete', width: 370, height: 214 },
+      'Tapparelle elettriche e tende motorizzate': { src: 'assets/ausili/tapparelle-motorizzate.webp', alt: 'Tapparella motorizzata con comando a parete', width: 370, height: 214 },
       'Chiamata di aiuto e telesoccorso': { src: 'assets/ausili/chiamata-aiuto.webp', alt: 'Pulsante di richiesta aiuto con cordino', width: 370, height: 214 }
     }
   },
@@ -118,7 +118,7 @@ window.CASA_PREVIEW_DATA = {
       room: '#camera'
     },
     tapparelle: {
-      title: 'Tapparelle e tende motorizzate',
+      title: 'Tapparelle elettriche e tende motorizzate',
       benefit: 'Consentono apertura e chiusura con meno sforzo e da più punti della casa.',
       how: 'Un motore aziona tapparelle o tende tramite pulsante, telecomando o automazione.',
       advantages: 'Riduce lo sforzo manuale e consente di gestire luce e privacy da una posizione comoda.',
@@ -139,11 +139,11 @@ window.CASA_PREVIEW_DATA = {
     }
   },
   paths: {
-    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Voce e pulsanti', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi'] },
+    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Comandi vocali', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi'] },
     movimento: { label: 'Muoversi meglio dentro casa', terms: ['Prevenzione delle cadute', 'Deambulatore', 'Maniglioni e soglie', 'Rimozione di ostacoli', 'Porte scorrevoli', 'Corrimano', 'Doccia accessibile'] },
     raggiungere: { label: 'Raggiungere meglio gli oggetti', terms: ['Pinza prensile', 'Piani di lavoro', 'Utensili', 'Oggetti a portata', 'Ausili per vestirsi'] },
     bagno: { label: 'Rendere il bagno più comodo e sicuro', terms: ['Maniglioni correttamente', 'Doccia accessibile', 'Sollevatore', 'Sedia o sgabello', 'Doccetta', 'Rialzo WC'] },
     tranquillita: { label: 'Sentirsi più tranquilli a casa', terms: ['Chiamata di aiuto', 'Rilevatori', 'Prevenzione delle cadute', 'Videocitofono', 'Videocomunicazione'] },
-    condivisione: { label: 'Usare la casa insieme ad altre persone', terms: ['Voce e pulsanti', 'Videocomunicazione', 'Piani di lavoro', 'Vassoio e stoviglie', 'Telecomando'] }
+    condivisione: { label: 'Usare la casa insieme ad altre persone', terms: ['Comandi vocali', 'Videocomunicazione', 'Piani di lavoro', 'Vassoio e stoviglie', 'Telecomando'] }
   }
 };
