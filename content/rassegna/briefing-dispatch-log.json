@@ -553,5 +553,17 @@
     "sender": "onboarding@resend.dev",
     "candidateCount": 5,
     "status": "sent"
+  },
+  {
+    "timestamp": "2026-10-31T10:30:14.384Z",
+    "dateIso": "2026-10-31",
+    "dateStr": "31 ottobre 2026",
+    "recipient": "segreteria@coinsieme.it",
+    "subject": "Briefing notizie COINSIEME - 31 ottobre 2026",
+    "resendMessageId": "01a19182-8c26-7a2c-8d03-9819efe2c289",
+    "httpStatus": 200,
+    "sender": "onboarding@resend.dev",
+    "candidateCount": 5,
+    "status": "sent"
   }
 ]
