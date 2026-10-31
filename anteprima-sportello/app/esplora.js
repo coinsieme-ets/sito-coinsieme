@@ -21,10 +21,10 @@
     for(const [value,text] of items){const option=make('option',text);option.value=value;select.append(option);}
     wrapper.append(select);homeControls.append(wrapper);select.addEventListener('change',render);return select;
   }
-  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici'],['psicologia','Sostegno psicologico online']]);
+  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici'],['psicologia','Sostegno psicologico online'],['fisioterapia','Fisioterapia e riabilitazione a domicilio']]);
   const homeTerritory=selectControl('domicilio-territorio','Territorio',[['tutti','Tutti gli operatori censiti'],['v','Municipio Roma V'],['est','Roma Est · Municipi IV, V, VI e VII'],['roma','Tutta Roma · solo copertura espressamente dichiarata']].filter(([value])=>value!=='roma'||engine.hasDocumentedRomeCoverage(catalog)));
   const national=make('option','Copertura nazionale dichiarata · intervento locale da concordare');national.value='nazionale';homeTerritory.append(national);
-  const searchLabel=make('label','Cerca per nome o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
+  const searchLabel=make('label','Cerca per nome, servizio o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
   homeControls.append(make('p','I filtri riguardano soltanto Assistenza a domicilio. Municipio V e Roma Est includono sedi accertate o territori documentati, non disponibilità garantita. Una sede a Roma non prova copertura in tutta la città. I Municipi non accertati restano da verificare. Nessun operatore è presentato come partner COINSIEME.'));
   results.before(homeControls);
   function render(){
@@ -39,14 +39,16 @@
     root.querySelector('#servizi-vai-risultati').textContent=ids.includes('socialita')?'Vedi le opportunità': 'Vedi le opportunità ('+resources.length+')';
     root.querySelector('#servizi-riepilogo').textContent=ids.length?catalog.areas.filter(a=>ids.includes(a.id)).map(a=>a.title).join(' · '):'Nessun interesse selezionato';
     const verified=resources.filter(catalog.isVerifiedResource).length;
-    status.textContent=ids.length?ids.length+(ids.length===1?' interesse selezionato. ':' interessi selezionati. ')+resources.length+' schede: '+verified+' risorse con presenza documentata; '+(resources.length-verified)+' informazioni orientative.':'Scegli liberamente uno o più interessi. Non occorre raccontare la tua situazione.';
+    const orientative=resources.length-verified;
+    status.textContent=ids.length?ids.length+(ids.length===1?' interesse selezionato. ':' interessi selezionati. ')+resources.length+(resources.length===1?' scheda: ':' schede: ')+verified+(verified===1?' risorsa con presenza documentata; ':' risorse con presenza documentata; ')+orientative+(orientative===1?' informazione orientativa.':' informazioni orientative.'):'Scegli liberamente uno o più interessi. Non occorre raccontare la tua situazione.';
     if(ids.includes('socialita'))status.textContent='Per la socialità consulta il repertorio e il suo conteggio filtrato. Altre opportunità selezionate: '+resources.length+'.';
     if(ids.length&&!resources.length&&!ids.includes('socialita'))results.append(make('p','Nessuna risorsa documentata per questi filtri. La mancata inclusione non prova assenza del servizio: copertura o municipio possono richiedere conferma.'));
     const destinations=new Map();
     for(const group of engine.groupServiceResources(resources,ids,catalog)){
       let target=results;
       if(group.collapsible){
-        const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+' ('+group.resources.length+')');
+        const caption=window.SportelloFisioterapia?.groupCaption(group);
+        const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:' ('+group.resources.length+')'));
         const hint=make('span','Esplora questo ambito','sp-service-invite');summary.append(hint);
         section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);results.append(section);
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
@@ -59,6 +61,9 @@
       const details=make(presentation.inline?'div':'details',null,'sp-service-result'+(presentation.inline?' sp-service-intro':''));
       details.setAttribute('data-resource-id',resource.id);
       details.id='risorsa-'+resource.id;
+      if(window.SportelloFisioterapia&&resource.id===window.SportelloFisioterapia.introId){
+        window.SportelloFisioterapia.decorate(resource,details,catalog);target.append(details);continue;
+      }
       if(presentation.inline){
         if(presentation.showHeading)details.append(make('h4',resource.name));
       }else{
@@ -95,6 +100,8 @@
       if(window.SportelloResidenziali)window.SportelloResidenziali.decorate(resource,details);
       target.append(details);
     }
+    const physioCaption=window.SportelloFisioterapia?.selectionCaption(resources);
+    if(physioCaption){status.textContent=physioCaption;root.querySelector('#servizi-vai-risultati').textContent='Vedi i percorsi di fisioterapia';}
     root.querySelector('#servizi-azzera').disabled=!ids.length;
   }
   choices.addEventListener('change',render);

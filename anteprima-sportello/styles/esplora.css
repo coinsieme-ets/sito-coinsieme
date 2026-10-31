@@ -44,3 +44,28 @@
 .sp-service-result.sp-psychology-public{border-left:4px solid #21624c;padding-left:12px}
 .sp-service-result.sp-psychology-private{border-left:4px solid #60727b;padding-left:12px}
 .sp-psychology-kind{display:block;margin-top:4px;color:#294856;font-size:.85em;font-weight:600;line-height:1.5}
+.sp-physio-paths{display:grid;gap:10px;margin:16px 0}
+.sp-physio,.sp-physio section{padding:0}
+.sp-physio-intro a{color:#843a0b}
+.sp-physio button{min-height:44px;font:inherit;white-space:normal;text-align:left;cursor:pointer;padding:10px;border:1px solid #738779;border-radius:6px;background:#fff;color:#254c31;max-width:100%}
+.sp-physio button[aria-pressed=true]{background:#edf5ee;border-color:#386448}
+.sp-physio-paths button{box-sizing:border-box;width:100%;border-width:2px;padding:12px}
+.sp-physio-paths button[data-path=pubblico]{background:#f3f7f3;border-color:#386448}
+.sp-physio-paths button[aria-pressed=true]{background:#dcebdc;border-color:#254c31;box-shadow:inset 4px 0 0 #254c31}
+.sp-physio-paths strong,.sp-physio-paths span{display:block;line-height:1.5}
+.sp-physio-paths strong{font-size:1rem}
+.sp-physio-paths span{font-size:.9375rem;margin-top:3px}
+.sp-physio-welcome strong{display:block;margin-bottom:6px}
+.sp-physio-note{border-left:3px solid #738779;padding:10px 12px;margin:16px 0;background:#f5f7f5;color:#354d3d;font-size:.875rem;line-height:1.6}
+.sp-physio-note p{margin:6px 0;font-size:inherit}
+.sp-physio-meta{font-size:.875rem;color:#354d3d}
+.sp-physio-steps{padding-left:24px}
+.sp-physio-steps li{list-style:decimal;margin:10px 0;font-size:1rem;line-height:1.6}
+.sp-physio :focus-visible{outline:3px solid #9b3f0d;outline-offset:3px}
+.sp-physio h4{scroll-margin-top:110px}
+.sp-physio h5{font-size:1rem;margin:18px 0 8px}
+.sp-physio-filters{min-width:0;padding:10px;border:1px solid #b8cabc}
+.sp-physio-filters label{display:block;margin:8px 0}
+.sp-physio-filters select,.sp-physio-filters input{box-sizing:border-box;display:block;min-width:0;width:100%;min-height:44px;font:inherit}
+.sp-physio a{display:block;overflow-wrap:anywhere;min-height:30px;margin:6px 0}
+.sp-physio [hidden]{display:none}

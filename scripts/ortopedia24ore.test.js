@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const item=require('../anteprima-sportello/app/ortopedia24ore'),catalog=require('../anteprima-sportello/app/servizi'),home=require('../anteprima-sportello/app/orientamento'),mobility=require('../anteprima-sportello/app/mobilita');
 const context={window:{}};vm.runInNewContext(fs.readFileSync('anteprima-sportello/app/mobilita-data.js','utf8'),context);const data=context.window.SportelloMobilitaData;
 test('Ortopedia24ore: un record condiviso, categorie invariate e nessun servizio diagnostico',()=>{
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,50);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,51);
  assert.equal(catalog.technicalResources.filter(r=>r.id===item.id).length,1);
  assert.deepEqual(item.categories,['mobilita','domicilio']);assert.equal(catalog.isVerifiedResource(item),true);
  assert.equal(catalog.resources.filter(r=>/ortopedia24|ortopedia centocelle/i.test(r.name)).length,0);

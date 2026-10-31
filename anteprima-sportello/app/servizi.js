@@ -26,6 +26,8 @@
   const resources=areas.filter(area=>area.id!=='salute').map(area=>({id:'info-'+area.id,category:area.id,name:area.title,description:area.description,recipients:area.recipients,access:area.access,zone:null,entity:null,providerType:null,requirements:null,contacts:null,costs:null,status:'informazione_orientativa',source:null,verifiedAt:null,links:[{url:area.link,label:area.id==='digitale'?'Esplora le tecnologie nella Casa':area.id==='diritti'?'Contatti della Fondazione (non uno sportello pubblico)':'Approfondisci sul sito COINSIEME'}]}));
   const psychology=typeof module==='object'&&module.exports?require('./psicologia.js'):root.SportelloPsicologia;
   resources.push(...psychology.resources);
+  const physiotherapy=typeof module==='object'&&module.exports?require('./fisioterapia-data.js'):root.SportelloFisioterapiaData;
+  resources.push(physiotherapy.intro);
   for(const subcategory of subcategories)resources.push({id:'info-salute-'+subcategory.id,category:'salute',subcategory:subcategory.id,name:subcategory.name,description:subcategory.description,recipients:null,access:null,zone:null,entity:null,providerType:null,requirements:null,contacts:null,costs:null,status:'informazione_orientativa',source:null,verifiedAt:null,links:[]});
   function isVerifiedResource(resource){
     return ['attivo_verificato','presenza_documentata'].includes(resource.status)&&Boolean(resource.entity&&resource.zone&&resource.source&&/^https:\/\//.test(resource.source)&&/^\d{4}-\d{2}-\d{2}$/.test(resource.verifiedAt||'')&&Number.isFinite(Date.parse(resource.verifiedAt)));
@@ -47,6 +49,7 @@
   resultGroups.push({id:'domicilio:badante',label:'Badanti e assistenti familiari'},{id:'domicilio:cooperativa',label:'Cooperative di assistenza domiciliare'},{id:'domicilio:pubblico',label:'Servizi pubblici e orientamento all’assistenza'});
   const technicalResources=[typeof module==='object'&&module.exports?require('./ecomoby.js'):root.SportelloEcoMoby,typeof module==='object'&&module.exports?require('./ortopedia24ore.js'):root.SportelloOrtopedia24ore];
   resultGroups.push({id:'domicilio:ausili',label:'Noleggio e assistenza tecnica per ausili domestici'});
+  resultGroups.push({id:'domicilio:fisioterapia',category:'domicilio',label:'Fisioterapia e riabilitazione a domicilio'});
   const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,technicalResources,isVerifiedResource};
   if(typeof module==='object'&&module.exports)module.exports=data;else root.SportelloServizi=data;
 })(typeof window==='undefined'?globalThis:window);

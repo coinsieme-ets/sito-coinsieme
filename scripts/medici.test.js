@@ -4,7 +4,7 @@ const data=require('../anteprima-sportello/app/medici-data'),catalog=require('..
 const vm=require('node:vm');
 const doctor={id:'fixture-mmg',name:'Professionista simulato per test',type:'MMG',address:'Indirizzo simulato',quarter:'Quartiere di test',municipio:'V',asl:'ASL Roma 2',source:data.asl,checkedAt:data.checkedAt};
 test('Medici: nessun nominativo o disponibilita inventati, nove categorie e cataloghi conservati',()=>{
-  assert.deepEqual(data.doctors,[]);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,50);
+  assert.deepEqual(data.doctors,[]);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,51);
   assert.equal(catalog.homeOperators.length,7);assert.equal(data.choose(data.doctors).length,0);
 });
 test('Medici: quattro riferimenti a presidi esistenti, senza nuove schede territoriali',()=>{
