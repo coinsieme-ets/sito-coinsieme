@@ -11,7 +11,7 @@
     const label=make('label',null,'sp-service-choice'),input=make('input');input.type='checkbox';input.value=area.id;input.id='servizio-'+area.id;
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',area.icon==='health'?'M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3':paths[area.icon]);svg.append(path);
-    const copy=make('span');copy.append(make('strong',area.title),make('span',area.text));label.append(input,svg,copy);choices.append(label);
+    const copy=make('span');copy.append(make('strong',area.title),make('span',area.id==='abitare'&&window.SportelloCoabitazione?'Cohousing e coabitazione solidale.':area.text));label.append(input,svg,copy);choices.append(label);
   }
   function selected(){return [...choices.querySelectorAll('input:checked')].map(input=>input.value);}
   const homeControls=make('fieldset',null,'sp-home-filters');
@@ -61,6 +61,9 @@
       const details=make(presentation.inline?'div':'details',null,'sp-service-result'+(presentation.inline?' sp-service-intro':''));
       details.setAttribute('data-resource-id',resource.id);
       details.id='risorsa-'+resource.id;
+      if(window.SportelloCoabitazione&&resource.id==='info-abitare'){
+        window.SportelloCoabitazione.decorate(resource,details);target.append(details);continue;
+      }
       if(window.SportelloFisioterapia&&resource.id===window.SportelloFisioterapia.introId){
         window.SportelloFisioterapia.decorate(resource,details,catalog);target.append(details);continue;
       }
@@ -102,6 +105,8 @@
     }
     const physioCaption=window.SportelloFisioterapia?.selectionCaption(resources);
     if(physioCaption){status.textContent=physioCaption;root.querySelector('#servizi-vai-risultati').textContent='Vedi i percorsi di fisioterapia';}
+    const coabCaption=window.SportelloCoabitazione?.selectionCaption(resources);
+    if(coabCaption){status.textContent=coabCaption;root.querySelector('#servizi-vai-risultati').textContent='Vedi la coabitazione solidale';}
     root.querySelector('#servizi-azzera').disabled=!ids.length;
   }
   choices.addEventListener('change',render);

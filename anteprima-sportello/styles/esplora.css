@@ -69,3 +69,20 @@
 .sp-physio-filters select,.sp-physio-filters input{box-sizing:border-box;display:block;min-width:0;width:100%;min-height:44px;font:inherit}
 .sp-physio a{display:block;overflow-wrap:anywhere;min-height:30px;margin:6px 0}
 .sp-physio [hidden]{display:none}
+.sp-coabitazione section{padding:0;min-width:0}
+.sp-coabitazione .sp-coab-question{font-weight:700;color:#254c31}
+.sp-coab-paths{display:grid;gap:10px;margin:16px 0}
+.sp-coab-paths button{font:inherit;min-height:44px;padding:12px;text-align:left;white-space:normal;border:2px solid #738779;border-radius:6px;color:#254c31;background:#fff;cursor:pointer}
+.sp-coab-paths button[aria-pressed=true]{background:#dcebdc;border-color:#254c31}
+.sp-coabitazione :focus-visible{outline:3px solid #9b3f0d;outline-offset:3px}
+.sp-coabitazione h5{font-size:1rem;scroll-margin-top:110px}
+.sp-coabitazione a{display:block;color:#843a0b;overflow-wrap:anywhere;min-height:30px;margin:8px 0}
+.sp-coab-note{font-size:.875rem;line-height:1.6;border-left:3px solid #738779;padding:10px;margin:12px 0;color:#354d3d}
+.sp-coab-note p{font-size:inherit}
+.sp-coabitazione fieldset{min-width:0;padding:10px;border:1px solid #b8cabc}
+.sp-coabitazione label{display:block;margin:8px 0}
+.sp-coabitazione select,.sp-coabitazione input{box-sizing:border-box;display:block;width:100%;min-width:0;min-height:44px;font:inherit}
+.sp-coabitazione [hidden]{display:none}
+.sp-coab-priority{border-left:3px solid #386448;background:#edf5ee;padding:10px;color:#254c31}
+.sp-coabitazione h6{font-size:1rem;line-height:1.5;margin:18px 0 10px;color:#254c31}
+.sp-coab-card-status{display:block;margin-top:5px;font-size:.875rem;font-weight:400;line-height:1.5;color:#354d3d}
