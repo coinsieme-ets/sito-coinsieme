@@ -1,0 +1,29 @@
+.contribute-page{background:#fff;color:#263c31;font-family:Inter,Arial,sans-serif;line-height:1.65}
+.contribute-page *{box-sizing:border-box;min-width:0}
+.contribute-page .container{width:calc(100% - 40px);max-width:1200px;margin-inline:auto}
+.contribute-page a{color:#245e42;text-underline-offset:4px}
+.contribute-page :focus-visible{outline:3px solid #935022;outline-offset:4px}
+.contribute-page .skip-link{background:#24583d;color:#fff;transition:none}
+.contribute-page .skip-link:focus{outline:3px solid #935022;outline-offset:3px}
+.contribute-header{border-bottom:1px solid #dbe6df;background:#fff}
+.contribute-header nav{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:16px}
+.contribute-header a{display:inline-flex;align-items:center;min-height:44px}
+.contribute-brand{gap:12px;text-decoration:none;font-size:21px;font-weight:700;color:#263c31}
+.contribute-brand img{object-fit:contain;flex-shrink:0}.contribute-brand small{display:block;font-size:12px;font-weight:500}
+.contribute-breadcrumb{display:flex;gap:12px;align-items:center;padding-top:20px;font-size:14px}.contribute-breadcrumb a{padding-block:8px}
+.contribute-intro{padding:24px 0 28px;max-width:78ch}.contribute-intro h1{font-size:36px;line-height:1.2;margin:8px 0 16px;color:#244b37;letter-spacing:0}
+.contribute-eyebrow{font-size:13px;font-weight:650;color:#426650;margin:0}.contribute-intro .contribute-lead{font-size:21px;line-height:1.5;color:#31563f;margin-bottom:18px}.contribute-intro p{margin:0 0 12px;font-size:16px}
+.contribute-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:0 0 30px}
+.contribute-card{display:flex;flex-direction:column;border:1px solid #cbdcd0;border-top:4px solid #37674c;border-radius:6px;padding:24px;background:#f6faf7}
+.contribute-card:nth-child(2){background:#f5f8fb;border-top-color:#426d83}.contribute-card:nth-child(3){background:#faf7f3;border-top-color:#83614a}
+.contribute-icon{width:30px;height:30px;margin-bottom:16px;color:#315d44;flex-shrink:0}.contribute-card h2{font-size:23px;line-height:1.3;margin:0 0 14px;color:#263c31;letter-spacing:0}
+.contribute-card p{font-size:15px;margin:0 0 16px}.contribute-card .contribute-detail{font-size:14px;color:#455d50;margin-bottom:22px}
+.contribute-card .contribute-action{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:12px 14px;border:1px solid #37674c;border-radius:4px;background:#fff;color:#24583d;font-size:14px;font-weight:650;text-decoration:none;line-height:1.5}
+.contribute-mail-note{padding:22px 24px;border-left:3px solid #72937d;background:#f4f7f4;margin-bottom:30px}.contribute-mail-note h2{font-size:20px;line-height:1.4;margin:0 0 12px}.contribute-mail-note p{font-size:15px;margin:0 0 10px}.contribute-mail-note p:last-child{margin-bottom:0}.contribute-mail-note strong{overflow-wrap:anywhere}
+.contribute-review{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;border-top:1px solid #dbe6df;padding:26px 0}.contribute-review h2,.contribute-review h3{font-size:20px;line-height:1.4;margin:0 0 12px;color:#263c31}.contribute-review p{font-size:15px;margin:0}
+.contribute-thanks{font-size:17px;max-width:80ch;padding:0 0 32px;margin:0;color:#31563f}
+.contribute-footer{border-top:1px solid #dbe6df;padding:22px 0;background:#f4f7f4}.contribute-footer>.container{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.contribute-footer p{font-size:13px;margin:0}.contribute-footer nav{display:flex;gap:20px;flex-wrap:wrap}.contribute-footer a{font-size:14px;display:inline-flex;align-items:center;min-height:44px}
+@media(hover:hover){.contribute-card .contribute-action:hover{background:#e6f0e9;text-decoration:underline}}
+@media(max-width:1000px){.contribute-options{grid-template-columns:1fr}.contribute-card{padding:22px}.contribute-card .contribute-action{align-self:flex-start;max-width:100%}.contribute-review{gap:24px}}
+@media(max-width:600px){.contribute-page .container{width:calc(100% - 32px)}.contribute-intro{padding-top:20px}.contribute-intro h1{font-size:29px}.contribute-intro .contribute-lead{font-size:19px}.contribute-card h2{font-size:22px}.contribute-review{grid-template-columns:1fr}.contribute-mail-note{padding:18px}.contribute-brand{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.contribute-page{scroll-behavior:auto}}
