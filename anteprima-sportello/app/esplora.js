@@ -51,6 +51,7 @@
         const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:' ('+group.resources.length+')'));
         const hint=make('span','Esplora questo ambito','sp-service-invite');summary.append(hint);
         section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);results.append(section);
+        if(group.id==='domicilio:badante'){const p=make('p'),a=make('a','Prima di scegliere: fiducia, costo complessivo, notti e assistenza condivisa');a.href='/articoli/badante-condominio-fiducia-costi-assistenza-condivisa/';p.append(a);target.append(p);}
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
         section.addEventListener('toggle',()=>{hint.textContent=section.open?'Chiudi questo ambito':'Esplora questo ambito';});
       }
@@ -94,6 +95,10 @@
       for(const source of resource.sources||[]){const p=make('p'),a=make('a',source.label);a.href=source.url;a.rel='noopener noreferrer';p.append(a,make('span',' · Consultata il '+source.checkedAt));details.append(p);}
       }else if(resource.access){details.append(make('p',resource.access));}
       for(const link of resource.links){const a=make('a',link.label);a.href=link.url;details.append(a);}
+      if(['info-vicinato','info-domicilio'].includes(resource.id)){
+        const p=make('p'),a=make('a','Badante: fiducia, costi complessivi e assistenza condivisa · Guida COINSIEME');
+        a.href='/articoli/badante-condominio-fiducia-costi-assistenza-condivisa/';p.append(a);details.append(p);
+      }
       if(window.SportelloMedici)window.SportelloMedici.decorate(resource,details,catalog);
       if(window.SportelloContinuita)window.SportelloContinuita.decorate(resource,details,catalog);
       if(window.SportelloTelevisite)window.SportelloTelevisite.decorate(resource,details,catalog);
