@@ -2192,5 +2192,53 @@
     "notizie": [
       "recqfyvF8JsQju1sj"
     ]
+  },
+  {
+    "id": "rec7ygBaoMELenqeg",
+    "categoria": "Domotica & Tecnologia",
+    "data_fonte": "2026-11-02",
+    "data_pubblicazione": "2026-11-03",
+    "titolo_originale": "Servizi INPS online con Arianna: come usare l’assistente con intelligenza artificiale",
+    "titolo_editoriale": "Arianna INPS: l’intelligenza artificiale aiuta a orientarsi tra prestazioni e servizi",
+    "fonte": "PMI.it",
+    "url_fonte": "https://www.pmi.it/pubblica-amministrazione/416577/arianna-inps-assistente-digitale.html",
+    "sintesi_editoriale": "PMI.it illustra Arianna, l’assistente digitale INPS basato sull’intelligenza artificiale generativa. Disponibile sul portale e nell’app INPS Mobile, consente di porre domande con parole comuni per individuare informazioni e collegamenti a oltre 400 prestazioni. La consultazione informativa non richiede credenziali. L’assistente orienta, ma non consulta la posizione personale né sostituisce l’area riservata e i canali di assistenza per le pratiche individuali. Le risposte possono contenere imprecisioni: requisiti e indicazioni importanti vanno verificati nelle schede ufficiali dell’Istituto.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 20,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "rec7ygBaoMELenqeg"
+    ],
+    "notizie": [
+      "recZ1NPnHqztEofR6"
+    ]
+  },
+  {
+    "id": "recOiPsvVJB0j08hC",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-02",
+    "data_pubblicazione": "2026-11-03",
+    "titolo_originale": "Turismo accessibile vale 9,8 miliardi: al Sud investe un hotel su dieci",
+    "titolo_editoriale": "Turismo accessibile: una risorsa da 9,8 miliardi, ma gli investimenti restano insufficienti",
+    "fonte": "PMI.it",
+    "url_fonte": "https://www.pmi.it/economia/mercati/502833/turismo-accessibile-italia.html",
+    "sintesi_editoriale": "PMI.it presenta le stime SRM sul turismo accessibile e inclusivo: 9,8 miliardi di euro di impatto economico complessivo in Italia, considerando anche effetti indiretti e indotti. La ricerca segnala un divario negli investimenti: introduce nuovi servizi per questa clientela il 16,9% degli alberghi indipendenti intervistati, contro il 10,3% nel Mezzogiorno. Accessibilità, trasporti e servizi territoriali coordinati possono favorire viaggi e partecipazione di persone con disabilità, anziani e famiglie con esigenze specifiche. Dati e approfondimenti nell’articolo di Anna Fabi del 2 novembre 2026.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recOiPsvVJB0j08hC"
+    ],
+    "notizie": [
+      "recsgRT9J4NjkZZJd"
+    ]
   }
 ]
