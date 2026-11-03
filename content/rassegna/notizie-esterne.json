@@ -9,14 +9,16 @@
     "fonte": "COINSIEME · Notizia utile",
     "url_fonte": "https://www.coinsieme.it/rassegna/notizie-utili/influenza-2026-2027-prenotare.html",
     "sintesi_editoriale": "Campagna vaccinale nel Lazio: destinatari e canali ufficiali, prenotazione CupMedico soltanto per gli studi aderenti e cautele per le persone con mobilità ridotta. Care Home è un’indicazione di uno specifico studio, non un servizio regionale universale; 800 118 800 è il riferimento domiciliare riportato dalla Regione per l’anti-Covid.",
-    "stato": "pubblica",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
-    "immagine_in_evidenza": "",
-    "immagine_news": "",
     "mantieni_in_evidenza_fino_al": "",
-    "notizie": ["recKtSxFzXRghhNiX"]
+    "notizie": [
+      "recKtSxFzXRghhNiX"
+    ]
   },
   {
     "id": "fondazione-con-il-sud-sport-e-inclusione-al-via-15-n-2026-09-10",
@@ -2282,6 +2284,48 @@
     ],
     "notizie": [
       "recd4aPUqsHFSBcSr"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-03-438ba6c4796728b6",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-02",
+    "data_pubblicazione": "2026-11-02",
+    "titolo_originale": "Un reale accesso per tutti ai libri e alla lettura è un tema di diritti fondamentali",
+    "titolo_editoriale": "Un reale accesso per tutti ai libri e alla lettura è un tema di diritti fondamentali",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/02/un-reale-accesso-per-tutti-ai-libri-e-alla-lettura-e-un-tema-di-diritti-fondamentali/",
+    "sintesi_editoriale": "L’accesso ai libri e alla lettura da parte di tutte le persone con disabilità non è solo una questione tecnologica, ma anche un tema di diritti fondamentali e in tale contesto la sfida per il settore editoriale non consiste semplicemente nel soddisfare requisiti tecnici, bensì nell’integrare l’ac...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "rechjKLX0qQYFu1pd"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-03-02ce330dad3c8973",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-03",
+    "data_pubblicazione": "2026-11-03",
+    "titolo_originale": "I giovani con disabilità devono essere in prima linea nelle azioni e nei negoziati sui cambiamenti climatici",
+    "titolo_editoriale": "I giovani con disabilità devono essere in prima linea nelle azioni e nei negoziati sui cambiamenti climatici",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/03/i-giovani-con-disabilita-devono-essere-in-prima-linea-nelle-azioni-e-nei-negoziati-sui-cambiamenti-climatici/",
+    "sintesi_editoriale": "Sono molti milioni nel mondo, ma sono ampiamente sottorappresentati, se non assenti, nei dibattiti sui cambiamenti climatici, pur essendo tra le fasce di popolazione che ne subiscono maggiormente le conseguenze. Per questo il Forum Europeo sulla Disabilità e l’YNA (“Accademia dei Giovani Negoziat...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "rectWsjhrP1aN8Jxu"
     ]
   }
 ]
