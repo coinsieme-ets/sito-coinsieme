@@ -12,6 +12,10 @@
     container.append(make('p','La scelta avviene tramite il servizio sanitario regionale, non tramite COINSIEME. Non inserire dati sanitari o credenziali in questa pagina.'),
       make('p','Per cercare un medico: consulta personalmente il tuo FSE oppure richiedi alla ASL l’elenco dei convenzionati. Per la prima scelta del medico di famiglia e per il pediatra consulta gli sportelli ASL; per cambiare medico di famiglia è previsto anche il FSE.'));
     for(const entry of data.sources)source(container,entry);
+    const platform=data.bookingPlatform,booking=make('details');booking.className='sp-service-result';booking.id='cupmedico-medico-famiglia';
+    booking.append(make('summary',platform.name),make('p',platform.description),make('p',platform.access),make('p',platform.caution));
+    source(booking,{url:platform.url,label:'Apri CupMedico · sito esterno degli studi aderenti',checkedAt:platform.checkedAt});
+    const related=make('p');related.append(link('Vaccinazione 2026-2027: informazioni e prenotazione',platform.article));booking.append(related);container.append(booking);
     const state=make('p',data.publicSearch.status);state.append(' ',link('Controlla la ricerca regionale',data.publicSearch.url),' · Verifica '+data.checkedAt);container.append(state);
     const documented=data.choose(data.doctors);
     const section=make('section');section.className='sp-social-catalog';section.hidden=!documented.length;

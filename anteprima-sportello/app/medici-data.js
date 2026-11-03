@@ -36,7 +36,12 @@
         (!filters.availability||filters.availability==='tutti'||availability(record)===filters.availability);
     });
   }
-  const data={checkedAt,sources,offices,doctors:[],availabilityLabels,availability,documented,choose,region,asl,
+  const bookingPlatform={id:'cupmedico',name:'CupMedico — Prenotazioni presso gli studi aderenti',url:'https://www.cupmedico.it/',checkedAt:'2026-11-03',
+    description:'Piattaforma online per prenotare appuntamenti presso gli studi medici che la utilizzano. Non è il CUP regionale e non è disponibile per tutti i medici.',
+    access:'Chiedi al tuo studio se aderisce e quali appuntamenti rende prenotabili. Segui le sue istruzioni; se non riesci a usare il servizio digitale, contatta lo studio per concordare una modalità alternativa.',
+    caution:'La piattaforma non serve a scegliere o cambiare medico e non attesta disponibilità di nuovi assistiti. Nessuna prenotazione o raccolta di dati sanitari su COINSIEME; nessuna partnership dichiarata.',
+    article:'/rassegna/notizie-utili/influenza-2026-2027-prenotare.html'};
+  const data={checkedAt,sources,offices,bookingPlatform,doctors:[],availabilityLabels,availability,documented,choose,region,asl,
     publicSearch:{url:'https://www.salutelazio.it/ricerca-medici',checkedAt,status:'Ricerca pubblica in aggiornamento: nessun elenco nominativo recuperato, anche cercando Roma; nessuna esportazione individuata. Non significa assenza di medici.'}};
   if(typeof module==='object'&&module.exports)module.exports=data;else root.SportelloMediciData=data;
 })(typeof window==='undefined'?globalThis:window);
