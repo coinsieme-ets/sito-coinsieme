@@ -6,6 +6,7 @@ test('CupMedico: piattaforma distinta da CUP regionale, nessun medico o categori
  const script=fs.readFileSync(path.join(root,'anteprima-sportello/app/medici.js'),'utf8');assert.equal((script.match(/id='cupmedico-medico-famiglia'/g)||[]).length,1);assert.match(script,/make\('summary',platform.name\)/);assert.doesNotMatch(script,/fetch\(|localStorage/);
 });
 test('Vaccini: associazione reale al record e compatibilità con il verificatore esistente',()=>{
+ const items=JSON.parse(fs.readFileSync(path.join(root,'content/rassegna/notizie-esterne.json')));const matches=items.filter(n=>n.url_fonte===url||n.id==='coinsieme-influenza-2026-2027-prenotare');assert.equal(matches.length,1);assert.deepEqual(matches[0].notizie,[recordId]);assert.equal(matches[0].fonte,'COINSIEME · Notizia utile');
  const html=fs.readFileSync(path.join(root,new URL(url).pathname),'utf8');assert.ok(require('./publish-segnalazioni').verifyPage(html,{recordId,publicUrl:url,source:url,title}));assert.ok(!require('./publish-segnalazioni').verifyPage(html,{recordId:'recXXXXXXXXXXXXXX',publicUrl:url,source:url,title}));
  assert.ok(require('./news-kind').isUsefulNews({fonte:'COINSIEME · Notizia utile',url_fonte:url}));assert.match(html,/tel:800118800/);assert.match(html,/non va considerato automaticamente/);assert.match(html,/specifico studio/);assert.match(html,/Care Home/);assert.doesNotMatch(html,/<form|<input|<iframe|<img/);assert.match(html,/indicazioni d’uso e valutazioni cliniche/);
 });
