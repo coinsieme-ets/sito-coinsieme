@@ -33,7 +33,7 @@ test('2C: denominazioni coerenti con simulazione e percorso guidato', () => {
   assert.ok(data.paths.fatica.terms.includes('Comandi vocali'));
   assert.ok(data.paths.condivisione.terms.includes('Comandi vocali'));
   for (const title of Object.keys(data.assets.cardImages)) assert.ok(html.includes('<h3>' + title + '</h3>'), title);
-  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length, 33);
+  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length, 34);
   assert.equal((js.match(/kind: '(?:light|blind|help)'/g) || []).length, 3);
 });
 

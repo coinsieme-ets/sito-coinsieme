@@ -82,6 +82,7 @@
   const detailPanel = document.getElementById('object-detail-panel');
   const discoverButton = document.getElementById('discover-solution');
   const roomLink = document.getElementById('object-room-link');
+  const articleLink = document.getElementById('object-article-link');
 
   const closeObjectDetails = () => {
     if (!detailPanel || !discoverButton) return;
@@ -106,11 +107,16 @@
       requirements.textContent = solution.requirements;
       roomLink.href = solution.room;
       roomLink.hidden = false;
+      if (articleLink) {
+        articleLink.hidden = !solution.article;
+        if (solution.article) articleLink.href = solution.article;
+        else articleLink.removeAttribute('href');
+      }
       discoverButton.disabled = false;
       closeObjectDetails();
 
       media.replaceChildren();
-      const illustration = data.assets?.cardImages?.[solution.title];
+      const illustration = data.assets?.cardImages?.[solution.imageTitle || solution.title];
       const imageData = illustration || (solution.image ? {
         src: solution.image,
         alt: solution.alt,

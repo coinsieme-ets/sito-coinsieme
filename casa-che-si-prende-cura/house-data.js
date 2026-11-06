@@ -5,7 +5,7 @@ window.CASA_PREVIEW_DATA = {
     housePlanAlt: 'Illustrazione isometrica di una casa arredata con soggiorno, cucina, bagno, camera da letto, corridoio, ingresso e una saletta',
     solutionImageNote: 'Illustrazione generata: non raffigura un prodotto verificato da COINSIEME.',
     cardImages: {
-      'Videocitofono con monitor o app': { src: 'assets/ausili/videocitofono.webp', alt: 'Videocitofono con schermo che mostra una persona alla porta', width: 370, height: 214 },
+      'Vedere chi arriva e aprire senza spostarsi': { src: 'assets/ausili/videocitofono.webp', alt: 'Videocitofono con schermo che mostra una persona alla porta', width: 370, height: 214 },
       'Telecomando semplificato': { src: 'assets/ausili/telecomando-semplificato.webp', alt: 'Telecomando con pulsanti grandi utilizzato in soggiorno', width: 370, height: 239 },
       'Poltrona con alzata assistita': { src: 'assets/ausili/poltrona-alzata-assistita.webp', alt: 'Poltrona elettrica con meccanismo di alzata in soggiorno', width: 370, height: 239 },
       'Pinza prensile': { src: 'assets/ausili/pinza-prensile.webp', alt: 'Pinza prensile che raccoglie un oggetto leggero dal pavimento', width: 370, height: 239 },
@@ -21,12 +21,14 @@ window.CASA_PREVIEW_DATA = {
   },
   solutions: {
     videocitofono: {
-      title: 'Videocitofono con monitor o app',
-      benefit: 'Aiuta a riconoscere chi suona e a comunicare prima di aprire.',
-      how: 'Una telecamera e un citofono collegano il punto esterno a un monitor interno o, negli impianti compatibili, a un’app.',
-      advantages: 'Permette di vedere e parlare con chi suona prima di decidere se aprire.',
-      limits: 'L’app può dipendere dalla connessione e non deve essere l’unico modo per aprire o comunicare.',
-      requirements: 'Verificare impianto, privacy, semplicità dei comandi, connessione e funzionamento anche senza rete.',
+      title: 'Ingresso e accessi',
+      imageTitle: 'Vedere chi arriva e aprire senza spostarsi',
+      benefit: 'Vedere chi arriva, rispondere dal divano o dal letto e rientrare senza cercare le chiavi: soluzioni diverse possono rendere l’accesso più semplice per chiunque.',
+      how: 'Un videocitofono compatibile può portare sullo smartphone la chiamata, la voce e, se l’impianto dispone di video, le immagini di chi suona. Il comando può sbloccare il portone condominiale compatibile: la porta dell’appartamento è un accesso distinto. Una serratura intelligente può sbloccare la porta di casa; per muovere fisicamente il battente può servire una motorizzazione separata.',
+      advantages: 'Puoi riconoscere chi suona e aprire a un familiare o assistente autorizzato senza alzarti. Una serratura predisposta può aiutare quando rientri con le borse della spesa o hai dimenticato le chiavi in casa, evitando gesti difficili per chi ha poca forza nelle mani o mobilità ridotta. Codice e impronta possono consentire l’ingresso anche senza telefono, se il dispositivo e gli accessori li prevedono.',
+      limits: 'Telefono, codice e impronta non sono funzioni universali. Il comando nelle vicinanze e quello via Internet dipendono dal sistema e dagli eventuali accessori. Senza rete possono non funzionare i comandi remoti. Sbloccare la serratura non significa aprire fisicamente la porta.',
+      requirements: 'Verificare compatibilità di citofono, porta e serratura, condizioni condominiali, raggiungibilità dei comandi e semplicità d’uso. Proteggere account e credenziali, valutare privacy e aggiornamenti, controllare batterie e alimentazione e predisporre una modalità alternativa di accesso concretamente utilizzabile.',
+      article: '../articoli/aprire-senza-chiavi-rispondere-al-citofono-da-lontano/',
       room: '#ingresso',
       image: '../assets/hero_domotica.jpg',
       alt: 'Serratura elettronica controllata da smartphone accanto alla porta'
@@ -139,11 +141,11 @@ window.CASA_PREVIEW_DATA = {
     }
   },
   paths: {
-    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Comandi vocali', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi'] },
-    movimento: { label: 'Muoversi meglio dentro casa', terms: ['Prevenzione delle cadute', 'Deambulatore', 'Maniglioni e soglie', 'Rimozione di ostacoli', 'Porte scorrevoli', 'Corrimano', 'Doccia accessibile'] },
+    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Comandi vocali', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi', 'Vedere chi arriva', 'Serrature intelligenti', 'Motorizzazione della porta'] },
+    movimento: { label: 'Muoversi meglio dentro casa', terms: ['Prevenzione delle cadute', 'Deambulatore', 'Maniglioni e soglie', 'Rimozione di ostacoli', 'Porte scorrevoli', 'Corrimano', 'Doccia accessibile', 'Motorizzazione della porta'] },
     raggiungere: { label: 'Raggiungere meglio gli oggetti', terms: ['Pinza prensile', 'Piani di lavoro', 'Utensili', 'Oggetti a portata', 'Ausili per vestirsi'] },
     bagno: { label: 'Rendere il bagno più comodo e sicuro', terms: ['Maniglioni correttamente', 'Doccia accessibile', 'Sollevatore', 'Sedia o sgabello', 'Doccetta', 'Rialzo WC'] },
-    tranquillita: { label: 'Sentirsi più tranquilli a casa', terms: ['Chiamata di aiuto', 'Rilevatori', 'Prevenzione delle cadute', 'Videocitofono', 'Videocomunicazione'] },
+    tranquillita: { label: 'Sentirsi più tranquilli a casa', terms: ['Chiamata di aiuto', 'Rilevatori', 'Prevenzione delle cadute', 'Vedere chi arriva', 'Serrature intelligenti', 'Videocomunicazione'] },
     condivisione: { label: 'Usare la casa insieme ad altre persone', terms: ['Comandi vocali', 'Videocomunicazione', 'Piani di lavoro', 'Vassoio e stoviglie', 'Telecomando'] }
   }
 };

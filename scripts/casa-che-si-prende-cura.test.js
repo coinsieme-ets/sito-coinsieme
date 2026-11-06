@@ -13,7 +13,7 @@ vm.runInContext(fs.readFileSync(path.join(casaRoot, 'house-data.js'), 'utf8'), c
 const data = context.window.CASA_PREVIEW_DATA;
 
 test('la pagina pubblica conserva struttura e navigazione accessibile', () => {
-  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length, 33);
+  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length, 34);
   assert.equal((html.match(/class="room-section(?: alt)?"/g) || []).length, 7);
   assert.equal((html.match(/class="path-action"/g) || []).length, 6);
   assert.equal((html.match(/class="hotspot /g) || []).length, 12);
