@@ -34,6 +34,23 @@
     {id:'territorio-casilino',category:'salute',subcategory:'ospedali',name:'Policlinico Casilino · poliambulatori',entity:'Policlinico Casilino',providerType:'Privato · regime della singola prestazione da verificare',address:'Via Casilina 1040, Roma · edifici D ed E, poliambulatori',description:'La mappa ufficiale identifica al civico 1040 i poliambulatori. Non usare questo indirizzo indistintamente per ogni reparto del complesso.',services:['Poliambulatori, edifici D ed E'],phones:[phone('06231881','Centralino del Policlinico, non dei soli poliambulatori')],sources:[source('https://www.policlinicocasilino.it/la-struttura/','Policlinico Casilino · La struttura'),source('https://www.policlinicocasilino.it/contatti/','Policlinico Casilino · Contatti'),source('https://www.lifenet.it/cliniche/policlinico-casilino/','Lifenet · Policlinico Casilino')],notes:['Il sito del gruppo indica 1049 per la struttura generale; 1040 è confermato per i poliambulatori. Chiedere l’ingresso pertinente alla prestazione. Copertura per i residenti del Municipio V non attestata.'],zone:'Roma Est · risorsa di prossimità, non classificata qui come sede del Municipio V',verificationScope:'sede'},
     {id:'territorio-vannini',category:'salute',subcategory:'ospedali',name:'Ospedale Madre Giuseppina Vannini',entity:'Istituto Figlie di San Camillo',providerType:'Ospedale classificato accreditato',address:'Via di Acqua Bullicante 4, Roma',description:'Ospedale identificato dal sito dell’ente. Presenza documentata: prestazioni e disponibilità richiedono verifica specifica.',services:[],phones:[phone('0624291600','CUP · Centro prenotazioni'),phone('0624291900','Prenotazioni private')],sources:[source('https://roma.figliedisancamillo.it/dove-siamo/','Ospedale Vannini · Dove siamo'),source('https://roma.figliedisancamillo.it/','Ospedale Vannini · Sito ufficiale')],notes:['CUP e prenotazioni private sono canali distinti. Non sono indicati tempi di attesa o disponibilità.'],verificationScope:'sede'}
   ];
+  resources.push({
+    id:'territorio-tor-vergata',category:'salute',subcategory:'ospedali',
+    name:'Policlinico Tor Vergata',entity:'Azienda Ospedaliera Universitaria Policlinico Tor Vergata',providerType:'Pubblico',
+    address:'Viale Oxford 81, 00133 Roma',zone:'Roma sud-est · Tor Vergata',verifiedAt:'2026-11-07',
+    description:'Ospedale universitario pubblico di Roma sud-est. Consultare il sito ufficiale per i percorsi di accesso alla singola prestazione.',
+    services:[],verificationScope:'sede',
+    access:'La pagina ufficiale indica ReCUP 06 9939 per prime visite SSN con priorità B, D, P o non indicata. Per controlli con priorità “Altro”: 06 2090 3333 o richiesta tramite i servizi online PTV. Il Centro Prelievi richiede prenotazione online. Le prestazioni private in libera professione seguono canali distinti: consultare le istruzioni ufficiali.',
+    hours:'Centralino: lun–ven 8:00–17:30. URP: lun–ven 9:00–14:00; prefestivi 9:00–13:00. Non sono gli orari dei reparti o delle prestazioni.',
+    phones:[phone('0620901','Centralino · informazioni generali'),phone('0620902020','URP · informazioni al pubblico'),phone('069939','ReCUP · prime visite SSN secondo le indicazioni PTV'),phone('0620903333','PTV · controlli con priorità “Altro”')],
+    costs:'Ticket ed eventuali esenzioni da verificare per la prestazione SSN. Le prestazioni private hanno condizioni economiche distinte.',
+    sources:[
+      {url:'https://www.ptvonline.it/index.php/mnu-utenti/column-3-utenti/cosa-fare-per',label:'Policlinico Tor Vergata · Contatti, sede e prenotazioni',checkedAt:'2026-11-07'},
+      {url:'https://www.indicepa.gov.it/ipa-portale/consultazione/indirizzo-sede/ricerca-ente/scheda-ente/476',label:'Indice PA · Azienda ospedaliera universitaria pubblica',checkedAt:'2026-11-07'}
+    ],
+    links:[{url:'https://www.ptvonline.it/',label:'Policlinico Tor Vergata · Sito ufficiale'},{url:'https://www.google.com/maps/search/?api=1&query=Policlinico%20Tor%20Vergata%20Viale%20Oxford%2081%20Roma',label:'Mappa · Viale Oxford 81'}],
+    notes:['La collocazione a Roma sud-est non implica appartenenza al Municipio V né disponibilità di ogni prestazione per ogni assistito.','Disponibilità, tempi di attesa e accessibilità dello specifico percorso non verificati. Per le emergenze sanitarie chiamare il 112.']
+  });
   const protesica='https://www.aslroma2.it/index.php/servizi-9d/uoc-assistenza-protesica-e-riabilitativa?id=11&view=page';
   const consultori='https://www.aslroma2.it/index.php/component/pagebuilderck/';
   const consultoriFlyer='https://www.aslroma2.it/attachments/article/644/vernice%20violenza%20invito.pdf';
@@ -122,7 +139,7 @@
     phones:[],emails:office.emails,hours:office.hours,sources:[source(office.url,'Municipio V · '+office.name)],notes:office.notes
   });
   for(const resource of resources){
-    Object.assign(resource,{kind:'territoriale',status:'presenza_documentata',verifiedAt:checked,source:resource.sources[0].url,zone:resource.zone||'Municipio Roma V · copertura della singola prestazione da verificare',links:resource.links||[],costs:resource.costs||null,availability:'La presenza documentata non garantisce disponibilità, accesso, gratuità o presa in carico per la singola prestazione.'});
+    Object.assign(resource,{kind:'territoriale',status:'presenza_documentata',verifiedAt:resource.verifiedAt||checked,source:resource.sources[0].url,zone:resource.zone||'Municipio Roma V · copertura della singola prestazione da verificare',links:resource.links||[],costs:resource.costs||null,availability:'La presenza documentata non garantisce disponibilità, accesso, gratuità o presa in carico per la singola prestazione.'});
   }
   if(typeof module==='object'&&module.exports)module.exports=resources;else root.SportelloTerritorio=resources;
 })(typeof window==='undefined'?globalThis:window);

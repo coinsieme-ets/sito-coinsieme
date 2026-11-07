@@ -21,7 +21,7 @@ test('Fisioterapia rifinitura: erogatori, guide ASL, fonti e date integralmente 
  assert.match(data.paths[0].label,/ASL/);assert.match(data.paths[0].description,/valutazione/);
 });
 test('Fisioterapia: voce autonoma a domicilio, singolo record orientativo senza nuove macroaree',()=>{
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,52);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,53);
  const records=catalog.resources.filter(r=>r.id===id);assert.equal(records.length,1);const r=records[0];
  assert.equal(r.homeKind,'fisioterapia');assert.equal(r.category,'domicilio');assert.equal(r.status,'informazione_orientativa');assert.equal(catalog.isVerifiedResource(r),false);
  for(const field of ['entity','zone','source','verifiedAt'])assert.equal(r[field],null);

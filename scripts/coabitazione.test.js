@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const data=require('../anteprima-sportello/app/coabitazione-data'),catalog=require('../anteprima-sportello/app/servizi'),engine=require('../anteprima-sportello/app/orientamento');
 test('Coabitazione: cinque riferimenti unici senza nuove categorie o record introduttivi',()=>{
- assert.equal(data.records.length,5);assert.equal(new Set(data.records.map(r=>r.id)).size,5);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,52);
+ assert.equal(data.records.length,5);assert.equal(new Set(data.records.map(r=>r.id)).size,5);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,53);
  assert.equal(catalog.resources.filter(r=>r.id==='info-abitare').length,1);
  for(let mask=1;mask<512;mask++){const ids=catalog.areas.filter((a,i)=>mask&(1<<i)).map(a=>a.id);const result=engine.chooseHomeResources(ids,catalog);assert.equal(result.filter(r=>r.id==='info-abitare').length,ids.includes('abitare')?1:0);}
 });
