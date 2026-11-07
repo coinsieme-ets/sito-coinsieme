@@ -2459,5 +2459,53 @@
     "notizie": [
       "recAmgBbY5N53g0PE"
     ]
+  },
+  {
+    "id": "ipsoa-page-expired-2026-11-07",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-11-07",
+    "data_pubblicazione": "2026-11-07",
+    "titolo_originale": "Page Expired",
+    "titolo_editoriale": "Page Expired",
+    "fonte": "Ipsoa",
+    "url_fonte": "https://www.ipsoa.it/documents/quotidiano/2026/11/07/impresa-sociale-modello-diffonde-e-diversifica-numeri-confermano",
+    "sintesi_editoriale": "Aggiornamento e approfondimento segnalato da Maurizio su Page Expired.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recG1Vq27l7nvnipH"
+    ],
+    "notizie": [
+      "recRbmaOeXlNoU93e"
+    ]
+  },
+  {
+    "id": "tuttolavoro24-badanti-quale-contratto-vi-spe-2026-11-07",
+    "categoria": "Lavoro e inclusione",
+    "data_fonte": "2026-11-07",
+    "data_pubblicazione": "2026-11-07",
+    "titolo_originale": "Badanti, Quale Contratto Vi Spetta? Dai Giudici di Cassazione Arriva la Conferma - TuttoLavoro24",
+    "titolo_editoriale": "Badanti, Quale Contratto Vi Spetta? Dai Giudici di Cassazione Arriva la Conferma - TuttoLavoro24",
+    "fonte": "Tuttolavoro24",
+    "url_fonte": "https://tuttolavoro24.it/2026/11/07/badanti-quale-contratto-vi-spetta-dai-giudici-di-cassazione-arriva-la-conferma/",
+    "sintesi_editoriale": "Badanti, il contratto cambia se ad assumerle è una cooperativa o un’associazione. Ecco cosa ha stabilito la Cassazione",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblicata",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recGaU041NrDPAxdK"
+    ],
+    "notizie": [
+      "rec9uurEkgMp6LvaS"
+    ]
   }
 ]
