@@ -69,5 +69,22 @@
     const sameTitle=String(group.label).trim().toLocaleLowerCase('it')===String(resource.name).trim().toLocaleLowerCase('it');
     return {inline,showHeading:inline&&!(group.collapsible&&sameTitle)};
   }
-  return {areas,resources,selectAreas,chooseResources,chooseServiceResources,groupServiceResources,homeTerritoryMatches,chooseHomeResources,hasDocumentedRomeCoverage,servicePresentation};
+  const healthSections=[
+    {id:'scelta',title:'Scegliere il medico e prenotare',groups:['medici-pediatri','prenotazioni']},
+    {id:'non-urgenti',title:'Cure non urgenti e farmacie',groups:['continuita-assistenziale','farmacie']},
+    {id:'territorio',title:'Servizi sanitari del territorio',groups:['case-ambulatori','ospedali','prevenzione','protesica']},
+    {id:'domicilio',title:'Ricevere cure a domicilio',groups:['domiciliare-sanitaria','diagnostica-domicilio']},
+    {id:'specialisti',title:'Specialisti e sostegno psicologico',groups:['visite-private-televisite','sostegno-psicologico-online']},
+    {id:'residenze',title:'Valutare una struttura residenziale',groups:['residenziali']}
+  ];
+  function organizeServiceGroups(groups){
+    const health=groups.filter(g=>g.id.startsWith('salute:')).map(group=>{
+      const section=healthSections.find(s=>s.groups.includes(group.id.slice(7)))||healthSections[2];
+      const resources=[...group.resources].sort((a,b)=>Number(b.id.startsWith('info-'))-Number(a.id.startsWith('info-'))||Number(b.providerType==='Pubblico')-Number(a.providerType==='Pubblico')||a.name.localeCompare(b.name,'it'));
+      return {...group,resources,healthSection:section};
+    }).sort((a,b)=>healthSections.indexOf(a.healthSection)-healthSections.indexOf(b.healthSection)||a.healthSection.groups.indexOf(a.id.slice(7))-b.healthSection.groups.indexOf(b.id.slice(7)));
+    let inserted=false;
+    return groups.flatMap(g=>{if(!g.id.startsWith('salute:'))return[g];if(inserted)return[];inserted=true;return health;});
+  }
+  return {areas,resources,selectAreas,chooseResources,chooseServiceResources,groupServiceResources,homeTerritoryMatches,chooseHomeResources,hasDocumentedRomeCoverage,servicePresentation,healthSections,organizeServiceGroups};
 });

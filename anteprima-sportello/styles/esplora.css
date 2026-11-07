@@ -86,3 +86,8 @@
 .sp-coab-priority{border-left:3px solid #386448;background:#edf5ee;padding:10px;color:#254c31}
 .sp-coabitazione h6{font-size:1rem;line-height:1.5;margin:18px 0 10px;color:#254c31}
 .sp-coab-card-status{display:block;margin-top:5px;font-size:.875rem;font-weight:400;line-height:1.5;color:#354d3d}
+.sp-health-section{margin:24px 0;padding:0;min-width:0}
+.sp-health-section>h3{margin:0 0 12px;font-size:1.15rem;line-height:1.4;color:#254c31}
+.sp-health-notice{padding:12px 16px;border-left:3px solid #386448;background:#edf5ee;color:#254c31;line-height:1.6}
+.sp-health-related{display:block;max-width:100%;min-height:44px;margin:0 0 14px;padding:8px 12px;font:inherit;text-align:left;color:#254c31;background:#fff;border:1px solid #386448;border-radius:4px;cursor:pointer}
+.sp-health-related:focus-visible{outline:3px solid #386448;outline-offset:3px}

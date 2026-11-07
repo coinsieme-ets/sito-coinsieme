@@ -43,21 +43,36 @@
     status.textContent=ids.length?ids.length+(ids.length===1?' interesse selezionato. ':' interessi selezionati. ')+resources.length+(resources.length===1?' scheda: ':' schede: ')+verified+(verified===1?' risorsa con presenza documentata; ':' risorse con presenza documentata; ')+orientative+(orientative===1?' informazione orientativa.':' informazioni orientative.'):'Scegli liberamente uno o più interessi. Non occorre raccontare la tua situazione.';
     if(ids.includes('socialita'))status.textContent='Per la socialità consulta il repertorio e il suo conteggio filtrato. Altre opportunità selezionate: '+resources.length+'.';
     if(ids.length&&!resources.length&&!ids.includes('socialita'))results.append(make('p','Nessuna risorsa documentata per questi filtri. La mancata inclusione non prova assenza del servizio: copertura o municipio possono richiedere conferma.'));
-    const destinations=new Map();
-    for(const group of engine.groupServiceResources(resources,ids,catalog)){
+    const destinations=new Map(),healthTargets=new Map();
+    if(ids.includes('salute'))results.append(make('p','Emergenze sanitarie: 112. Per cure non urgenti e orientamento sanitario: 116117. ReCUP serve a prenotare visite ed esami, non a gestire emergenze.','sp-health-notice'));
+    const groups=engine.organizeServiceGroups(engine.groupServiceResources(resources,ids,catalog));
+    for(const group of groups){
       let target=results;
+      if(group.healthSection){
+        const info=group.healthSection;
+        if(!healthTargets.has(info.id)){
+          const band=make('section',null,'sp-health-section'),heading=make('h3',info.title);heading.id='salute-bisogno-'+info.id;band.setAttribute('aria-labelledby',heading.id);band.append(heading);
+          if(info.id==='domicilio'){
+            const link=make('button','Vai a Fisioterapia e riabilitazione a domicilio','sp-health-related');link.type='button';
+            link.addEventListener('click',()=>{choices.querySelector('input[value="domicilio"]').checked=true;render();const destination=results.querySelector('[data-group="domicilio:fisioterapia"]');if(destination){destination.open=true;destination.querySelector(':scope > summary').focus();destination.scrollIntoView({block:'start',behavior:'auto'});}});band.append(link);
+          }
+          healthTargets.set(info.id,band);results.append(band);
+        }
+        target=healthTargets.get(info.id);
+      }
       if(group.collapsible){
         const caption=window.SportelloFisioterapia?.groupCaption(group);
-        const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:' ('+group.resources.length+')'));
+        const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:group.healthSection?'':' ('+group.resources.length+')'));
+        section.dataset.group=group.id;
         const hint=make('span','Esplora questo ambito','sp-service-invite');summary.append(hint);
-        section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);results.append(section);
+        const parent=target;section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);parent.append(section);
         if(group.id==='domicilio:badante'){const p=make('p'),a=make('a','Prima di scegliere: fiducia, costo complessivo, notti e assistenza condivisa');a.href='/articoli/badante-condominio-fiducia-costi-assistenza-condivisa/';p.append(a);target.append(p);}
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
         section.addEventListener('toggle',()=>{hint.textContent=section.open?'Chiudi questo ambito':'Esplora questo ambito';});
       }
       for(const resource of group.resources)destinations.set(resource.id,{target,group});
     }
-    for(const resource of resources){
+    for(const resource of groups.flatMap(group=>group.resources)){
       const {target,group}=destinations.get(resource.id),presentation=engine.servicePresentation(resource,group,catalog);
       const details=make(presentation.inline?'div':'details',null,'sp-service-result'+(presentation.inline?' sp-service-intro':''));
       details.setAttribute('data-resource-id',resource.id);
