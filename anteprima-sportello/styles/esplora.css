@@ -91,3 +91,17 @@
 .sp-health-notice{padding:12px 16px;border-left:3px solid #386448;background:#edf5ee;color:#254c31;line-height:1.6}
 .sp-health-related{display:block;max-width:100%;min-height:44px;margin:0 0 14px;padding:8px 12px;font:inherit;text-align:left;color:#254c31;background:#fff;border:1px solid #386448;border-radius:4px;cursor:pointer}
 .sp-health-related:focus-visible{outline:3px solid #386448;outline-offset:3px}
+.sp-social-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.sp-social-paths button{display:flex;flex-direction:column;gap:5px;min-width:0;min-height:70px;padding:12px;text-align:left;font:inherit;line-height:1.5;color:#254c31;background:#fff;border:1px solid #738779;border-radius:4px;cursor:pointer;overflow-wrap:anywhere}
+.sp-social-paths button span{font-size:.875rem;color:#354d3d}
+.sp-social-paths button[aria-pressed=true]{background:#dcebdc;border:2px solid #254c31}
+.sp-social-pathways :focus-visible{outline:3px solid #843a0b;outline-offset:3px}
+.sp-social-pathways [hidden]{display:none!important}
+.sp-social-intro{margin:16px 0;line-height:1.6;scroll-margin-top:110px}
+.sp-social-intro h4{font-size:1.1rem;margin:12px 0}
+.sp-social-pathways fieldset{min-width:0}
+.sp-social-pathways button{min-height:44px}
+.sp-social-pathways input[type=checkbox]{width:22px;min-height:22px;align-self:flex-start}
+.sp-social-pathways input,.sp-social-pathways select{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;font:inherit}
+.sp-social-pathways .sp-service-result{overflow-wrap:anywhere}
+@media(max-width:600px){.sp-social-paths{grid-template-columns:minmax(0,1fr)}.sp-social-pathways select,.sp-social-pathways input{width:100%}}
