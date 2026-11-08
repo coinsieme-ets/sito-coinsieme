@@ -19,11 +19,11 @@ test('Cultura: ballo, musei e parchi distinti senza trasformare i luoghi in inco
 function original(){const c={window:{}};for(const file of ['socialita-data','samaritans','tirrenia-todaro'])vm.runInNewContext(fs.readFileSync(path.join(base,file+'.js'),'utf8'),c);return JSON.parse(JSON.stringify(c.window.SportelloSocialitaData.records));}
 test('Socialità: tutte le 45 risorse originali sono conservate integralmente',()=>{
  const r=original();assert.equal(r.length,45);assert.equal(crypto.createHash('sha256').update(JSON.stringify(r)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
- const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,67);assert.equal(new Set(all.map(x=>x.id)).size,67);
- assert.equal(model.filter(all,{journey:'tutte'}).length,67);assert.equal(JSON.stringify(r),before);
+ const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,71);assert.equal(new Set(all.map(x=>x.id)).size,71);
+ assert.equal(model.filter(all,{journey:'tutte'}).length,71);assert.equal(JSON.stringify(r),before);
 });
-test('Socialità: sei percorsi per attività e repertorio alfabetico',()=>{
- assert.deepEqual(model.journeys.map(j=>j.id),['amicizie','centri','cultura','turismo','solidarieta','quartiere']);
+test('Socialità: sette percorsi per attività e repertorio alfabetico',()=>{
+ assert.deepEqual(model.journeys.map(j=>j.id),['amicizie','centri','cultura','giochi','turismo','solidarieta','quartiere']);
  const r=original(),all=[...r,...model.additions];assert.equal(model.filter(all,{journey:'centri'}).length,16);
  for(const j of model.journeys){const selected=model.filter(all,{journey:j.id});assert.equal(new Set(selected.map(x=>x.id)).size,selected.length);assert.ok(selected.length>0);}
  const sorted=model.filter(all);assert.deepEqual(sorted.map(x=>x.name),all.map(x=>x.name).sort((a,b)=>a.localeCompare(b,'it')));
