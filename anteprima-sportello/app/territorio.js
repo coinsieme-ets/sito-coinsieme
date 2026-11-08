@@ -138,6 +138,21 @@
     access:'Necessità di appuntamento e modalità del singolo procedimento non confermate: consultare la scheda ufficiale o il PUA municipale prima della visita.',
     phones:[],emails:office.emails,hours:office.hours,sources:[source(office.url,'Municipio V · '+office.name)],notes:office.notes
   });
+  resources.push({
+    id:'territorio-fabia-mater',category:'salute',subcategory:'ospedali',name:'Clinica Fabia Mater',
+    entity:'Clinica Fabia Mater · SA.CLI. S.p.A.',providerType:'Privato · attività accreditate SSR e attività private distinte',
+    address:'Via Olevano Romano 25, 00171 Roma',zone:'Roma Est · sede della clinica; accesso alla singola prestazione da verificare',
+    description:'Casa di cura privata che distingue sul sito le branche accreditate SSR dalle prestazioni private autorizzate. Gli ambulatori sono indicati separatamente in piazza Sabaudia 25, Roma.',
+    services:['Ricoveri nelle branche dichiarate accreditate SSR','Visite specialistiche, diagnostica ed esami: verificare regime e sede della prestazione'],
+    access:'Contatta la clinica per modalità, documenti e regime della prestazione. Per i ricoveri convenzionati il sito richiede una prescrizione del medico di famiglia o di una struttura pubblica. Non estendere tali condizioni a tutte le visite e agli esami.',
+    phones:[phone('06215921','Centralino e prenotazioni ambulatoriali'),phone('06215924002','Ufficio ricoveri'),phone('06215924714','Ufficio Relazioni con il Pubblico')],
+    emails:[{address:'centralino@fabiamater.it',label:'Centralino'},{address:'ricoveri@fabiamater.it',label:'Ufficio ricoveri'}],
+    costs:'Regime SSR, eventuale ticket o esenzione e costi privati da confermare per la singola prestazione. Nessuna gratuità generalizzata attestata.',
+    verifiedAt:'2026-11-08',verificationScope:'sede',
+    sources:[{url:'https://www.fabiamater.it/contatti/',label:'Fabia Mater · Contatti e sedi',checkedAt:'2026-11-08'},{url:'https://www.fabiamater.it/branche-specialistiche-accreditate-con-il-ssr/',label:'Fabia Mater · Branche SSR e accesso ai ricoveri',checkedAt:'2026-11-08'},{url:'https://www.fabiamater.it/',label:'Fabia Mater · Distinzione fra clinica accreditata e diagnostica privata autorizzata',checkedAt:'2026-11-08'}],
+    links:[{url:'https://www.fabiamater.it/',label:'Sito ufficiale Fabia Mater'},{url:'https://www.google.com/maps/search/?api=1&query=Via%20Olevano%20Romano%2025%2C%20Roma',label:'Mappa della clinica · via Olevano Romano 25'},{url:'https://www.google.com/maps/search/?api=1&query=Piazza%20Sabaudia%2025%2C%20Roma',label:'Mappa degli ambulatori · piazza Sabaudia 25'}],
+    notes:['La distinzione fra attività accreditate e private è riportata dal gestore: non certifica posti contrattualizzati, tempi di attesa o disponibilità. Chiedere conferma per la prestazione desiderata.','Confermare la sede prima di recarsi in struttura. Orari dei singoli servizi e accessibilità fisica non verificati; nessun pronto soccorso o accesso urgente presunto. Nessuna partnership con COINSIEME.']
+  });
   for(const resource of resources){
     Object.assign(resource,{kind:'territoriale',status:'presenza_documentata',verifiedAt:resource.verifiedAt||checked,source:resource.sources[0].url,zone:resource.zone||'Municipio Roma V · copertura della singola prestazione da verificare',links:resource.links||[],costs:resource.costs||null,availability:'La presenza documentata non garantisce disponibilità, accesso, gratuità o presa in carico per la singola prestazione.'});
   }

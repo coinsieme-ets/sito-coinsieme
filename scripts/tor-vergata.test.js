@@ -10,7 +10,7 @@ test('Tor Vergata: un solo ospedale pubblico di Roma sud-est, fonti e recapiti d
  assert.ok(r.links.some(l=>l.url.includes('maps/search/')&&l.url.includes('Oxford%2081')));
 });
 test('Tor Vergata: tutte le precedenti schede territoriali restano identiche',()=>{
- const previous=territory.filter(r=>r.id!==id);
+ const previous=territory.filter(r=>r.id!==id&&r.id!=='territorio-fabia-mater');
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'bf627f28f337e77bae63723486be6c85455fe6a06468da4308952873609378c2');
 });
 test('Tor Vergata: raggiungibile nel percorso ospedali senza duplicazioni',()=>{
