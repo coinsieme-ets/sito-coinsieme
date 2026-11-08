@@ -15,7 +15,9 @@ test('collaudo: percorso autonomo, privato e senza riferimenti al Quartiere',()=
     const file=match[1].split(/[?#]/)[0];
     assert.ok(fs.existsSync(path.join(root,file)),file);
   }
-  assert.equal((homepage.html.match(/href="\/anteprima-sportello\/#esplora-servizi"/g)||[]).length,1);
+  // The existing tool CTA plus the new no-JavaScript search fallback.
+  assert.equal((homepage.html.match(/href="\/anteprima-sportello\/#esplora-servizi"/g)||[]).length,2);
+  assert.match(homepage.html,/<noscript><p>Per la ricerca attiva JavaScript oppure consulta/);
   assert.match(homepage.html,/Sportello COINSIEME · Collaudo/);
   assert.match(homepage.html,/Catalogo in verifica/);
   assert.doesNotMatch(homepage.html,/href="\/anteprima-sportello\/#(?:ascolto|intervista)/);

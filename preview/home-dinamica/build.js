@@ -89,6 +89,10 @@ async function build({withoutImages=false,outputDir=__dirname,articlesInput,news
   html=html.replace('</header>','</header><!-- CMS_TOP_STATUS_START --><div id="top-news-bar" class="current-status"><div class="container"><span>Ora italiana · Europe/Rome</span><span id="top-news-live-date">'+escape(clock.date)+'</span><time id="top-news-live-clock" datetime="'+now.toISOString()+'">'+clock.clock+'</time></div></div><!-- CMS_TOP_STATUS_END -->');
   html=html.replace('</body>','<script src="clock.js" defer></script></body>');
   const styleVersion=crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'style.css'))).digest('hex').slice(0,12);
+  const searchMarkup=`<section class="container site-search" id="site-search" aria-labelledby="site-search-title"><h2 id="site-search-title">Che cosa cerchi?</h2><form role="search" aria-label="Cerca nel sito COINSIEME" hidden><div class="site-search-field"><label class="sr-only" for="site-search-input">Scrivi una parola o un bisogno</label><input id="site-search-input" type="search" placeholder="Una parola o un bisogno" autocomplete="off" spellcheck="false" aria-controls="site-search-results"><button type="button" class="site-search-clear" data-search-clear aria-label="Cancella la ricerca" hidden>×</button></div><button class="site-search-submit" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg>Cerca</button></form><p class="site-search-status" role="status" aria-atomic="true"></p><div class="site-search-results" id="site-search-results" data-search-results hidden><h3 tabindex="-1">Risultati della ricerca</h3><ol></ol><button type="button" class="site-search-more" data-search-more hidden>Mostra altri risultati</button></div><noscript><p>Per la ricerca attiva JavaScript oppure consulta <a href="/anteprima-sportello/#esplora-servizi">lo Sportello</a>, <a href="/casa-che-si-prende-cura/">la Casa</a> e <a href="/articoli.html">gli articoli</a>.</p></noscript></section>`;
+  html=html.replace('<section class="container opening"',searchMarkup+'<section class="container opening"');
+  html=html.replace('</head>','<link rel="stylesheet" href="/css/site-search.css"></head>');
+  html=html.replace('</body>','<script src="search-index.js" defer></script><script src="/js/site-search.js" defer></script></body>');
   html=html.replace('href="style.css"','href="style.css?v='+styleVersion+'"');
   if(state)html=html.replace('</head>','<meta name="coinsieme-public-state" content="'+state.signature+'"></head>');
   if(production){
@@ -106,9 +110,11 @@ async function build({withoutImages=false,outputDir=__dirname,articlesInput,news
       .replaceAll(', media/',', /assets/home-dinamica/media/')
       .replace('src="navigation.js"','src="/assets/home-dinamica/navigation.js"')
       .replace('src="clock.js"','src="/assets/home-dinamica/clock.js"')
+      .replace('src="search-index.js"','src="/assets/home-dinamica/search-index.js"')
       .replace('</head>','<!-- HOME_PRIVACY_START -->'+privacy+'<!-- HOME_PRIVACY_END --></head>')
       .replace('</footer>','<a class="iubenda-cs-preferences-link" href="#">Preferenze cookie</a></footer>');
   }
+  require('../../scripts/search-catalog').write(path.join(outputDir,'search-index.js'),{...(state?.model||rawModel),today});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
   const report={generatedAt:new Date().toISOString(),today,publicationCheckedAt:snapshot.checkedAt,localArticleFiles:articles.length,publicArticleLinks:snapshot.publishedUrls.length,eligibleArticles:eligible(articles,today).length,newsRecords:news.length,eligibleNews:eligible(news,today).length,cover:{id:cover.id,title:cover.title,date:cover.date,reason:cover.reason,sourceImage:cover.image},missingCoverImages:eligible(all,today).filter(x=>!x.image).length,articles:recentArticles.map(x=>x.id),news:recentNews.map(x=>x.id)};
   fs.writeFileSync(path.join(outputDir,'build-report.json'),JSON.stringify(report,null,2));console.log(report);
