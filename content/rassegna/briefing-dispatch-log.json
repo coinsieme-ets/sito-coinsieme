@@ -661,5 +661,17 @@
     "sender": "onboarding@resend.dev",
     "candidateCount": 5,
     "status": "sent"
+  },
+  {
+    "timestamp": "2026-11-09T13:12:06.716Z",
+    "dateIso": "2026-11-09",
+    "dateStr": "9 novembre 2026",
+    "recipient": "segreteria@coinsieme.it",
+    "subject": "Briefing notizie COINSIEME - 9 novembre 2026",
+    "resendMessageId": "01a1c06f-fae5-7141-90d6-3ec0e624cff1",
+    "httpStatus": 200,
+    "sender": "onboarding@resend.dev",
+    "candidateCount": 5,
+    "status": "sent"
   }
 ]
