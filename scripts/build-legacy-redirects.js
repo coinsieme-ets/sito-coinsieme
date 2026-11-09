@@ -4,6 +4,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 
 const redirects = {
+  'articoli/abitare-vicini-': '/articoli/abitare-vicini-vivere-insieme/',
   'articoli/tag/no-profit': '/articoli.html',
   'articoli/.c/cooperative-sociali': '/articoli.html',
   'progetti-e-servizi/supera-le-barriere-digitali-un-servizio-di-prossimità-contro-le-nuove-esclusioni-sociali': '/cosa-facciamo.html',
