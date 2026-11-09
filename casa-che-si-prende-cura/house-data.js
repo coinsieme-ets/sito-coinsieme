@@ -130,21 +130,59 @@ window.CASA_PREVIEW_DATA = {
       image: '../assets/domotica_hero_autonomia.jpg',
       alt: 'Pannello domotico accessibile nel soggiorno'
     },
+    robot: {
+      title: 'Robot per la pulizia dei pavimenti',
+      benefit: 'Ridurre la fatica nelle pulizie quotidiane, senza chinarsi o spingere continuamente un apparecchio.',
+      how: 'Un robot aspirapolvere o lavapavimenti percorre le zone compatibili con il suo sistema. La prova qui sotto mostra un percorso illustrativo predisposto, non la mappatura o le prestazioni di un modello commerciale.',
+      advantages: 'Può aiutare nella manutenzione quotidiana dei pavimenti e lasciare alla persona altre attività.',
+      limits: 'Non riordina oggetti e cavi, non pulisce tutte le superfici e può incontrare difficoltà con soglie, tappeti o ostacoli. Non sostituisce l’assistenza personale.',
+      requirements: 'Verificare accessibilità dei comandi, spazio per la base, manutenzione e manuale del modello. Non lasciare che robot, cavi o base creino ostacoli al passaggio. La simulazione non controlla dispositivi reali.',
+      room: '#prova-robot',
+      image: 'assets/robot-schema.svg',
+      alt: 'Schema di un robot per la pulizia con spazzola laterale',
+      imageNote: 'Simbolo illustrativo, non fotografia di un modello commerciale.'
+    },
+    voce: {
+      title: 'Voce e contatto',
+      benefit: 'Comandare una luce senza usare le mani o parlare con un familiare dal divano: funzioni diverse, da scegliere insieme alla persona.',
+      how: 'Uno smart speaker come Echo con Alexa o un dispositivo Google compatibile riceve comandi vocali per gli apparecchi configurati. Drop In, sui dispositivi Echo predisposti, permette invece un contatto audio o video con persone autorizzate, anche senza premere rispondi.',
+      advantages: 'La voce può sostituire tocchi e digitazione quando hai le mani occupate o muoverti è difficile. Un contatto familiare concordato può rendere più semplice parlare senza prendere il telefono.',
+      limits: 'Non tutte le funzioni sono presenti su tutti i modelli. Drop In non è una funzione universale degli assistenti e non richiede di per sé IA generativa. Alexa+ può rendere il dialogo più naturale, ma può fraintendere e non è un servizio di emergenza.',
+      requirements: 'Provare compatibilità e comprensione della voce, proteggere account e autorizzazioni, concordare i contatti e mantenere un comando fisico accessibile. Le spiegazioni e le fonti sono nelle schede qui sotto.',
+      room: '#comandi-vocali',
+      secondaryLink: '#videocomunicazione',
+      secondaryLabel: 'Scopri videocomunicazione e Drop In',
+      image: 'assets/voce-schema.svg',
+      alt: 'Schema di uno smart speaker: microfono, altoparlante e collegamento per comunicare',
+      imageNote: 'Simbolo illustrativo, non fotografia di un modello commerciale.'
+    },
+    videocamera: {
+      title: 'Videocamere e visione dell’ambiente',
+      benefit: 'Vedere una zona della casa da un’app può facilitare un contatto concordato con chi vi abita, rispettandone la riservatezza.',
+      how: 'Una videocamera compatibile può mostrare immagini in diretta alle persone autorizzate tramite un’app. Alcuni smart display prevedono una funzione dedicata: Amazon distingue Live View dalla conversazione Drop In. L’audio e la registrazione dipendono dal modello e dalle impostazioni.',
+      advantages: 'Puoi vedere l’ambiente inquadrato quando la persona è d’accordo. Per parlare con lei occorre verificare la comunicazione audio bidirezionale: non ogni videocamera la offre.',
+      limits: 'La visione è limitata all’inquadratura; rete, alimentazione o servizio possono interrompersi. La videocamera non garantisce di rilevare cadute o malori e non assicura soccorso. Non è uno strumento da usare per sorvegliare di nascosto.',
+      requirements: 'Concordare finalità e accessi con la persona, considerare conviventi e visitatori, evitare ambienti intimi. Proteggere account, limitare utenti autorizzati e verificare come spegnere la ripresa. Valutare separatamente registrazioni, conservazione e condizioni del servizio.',
+      room: '#videocamere',
+      image: 'assets/videocamera-schema.svg',
+      alt: 'Schema di una videocamera con obiettivo orientato verso una zona della casa',
+      imageNote: 'Simbolo illustrativo, non fotografia di un modello commerciale.'
+    },
     telesoccorso: {
       title: 'Chiamata di aiuto e telesoccorso',
       benefit: 'Un comando accessibile può mettere in contatto con persone o servizi concordati.',
-      how: 'Un pulsante, un dispositivo indossabile o un sensore invia una richiesta a contatti o centrali definite.',
+      how: 'Un pulsante, un dispositivo indossabile o un sensore predisposto invia una richiesta a contatti o centrali definite. Alcuni impianti antifurto, come quelli descritti da Verisure, prevedono un SOS e un canale vivavoce con la centrale: richiesta, conversazione e attivazione degli aiuti sono passaggi distinti.',
       advantages: 'Rende più immediata la richiesta di aiuto quando il telefono non è raggiungibile.',
-      limits: 'Non tutti i sistemi sono servizi di emergenza e nessun dispositivo garantisce da solo l’intervento.',
-      requirements: 'Chiarire chi risponde, tempi, copertura, batterie, costi e continuità del servizio.',
-      room: '#tutta-la-casa'
+      limits: 'Non tutti i sistemi sono servizi di emergenza e nessun dispositivo garantisce da solo l’intervento. Un microfono non dimostra che basti gridare per avviare un SOS; non presumere rilevamento automatico delle cadute o ascolto continuo.',
+      requirements: 'Chiarire chi risponde, tempi, copertura, batterie, costi e continuità del servizio. Per Verisure verificare modello, dotazione indossabile, modalità di pressione e contratto; il dispositivo specifico da portare al collo non è qui confermato. COINSIEME non gestisce allarmi o soccorsi.',
+      room: '#prova-aiuto'
     }
   },
   paths: {
-    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Comandi vocali', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi', 'Vedere chi arriva', 'Serrature intelligenti', 'Motorizzazione della porta'] },
+    fatica: { label: 'Fare meno fatica', terms: ['Luci accessibili', 'Tapparelle', 'Comandi vocali', 'Robot per la pulizia', 'Utensili', 'Apribarattoli', 'Ausili per vestirsi', 'Vedere chi arriva', 'Serrature intelligenti', 'Motorizzazione della porta'] },
     movimento: { label: 'Muoversi meglio dentro casa', terms: ['Prevenzione delle cadute', 'Deambulatore', 'Maniglioni e soglie', 'Rimozione di ostacoli', 'Porte scorrevoli', 'Corrimano', 'Doccia accessibile', 'Motorizzazione della porta'] },
     raggiungere: { label: 'Raggiungere meglio gli oggetti', terms: ['Pinza prensile', 'Piani di lavoro', 'Utensili', 'Oggetti a portata', 'Ausili per vestirsi'] },
-    bagno: { label: 'Rendere il bagno più comodo e sicuro', terms: ['Maniglioni correttamente', 'Doccia accessibile', 'Sollevatore', 'Sedia o sgabello', 'Doccetta', 'Rialzo WC'] },
+    bagno: { label: 'Rendere il bagno più comodo e sicuro', terms: ['Maniglioni correttamente', 'Doccia accessibile', 'Sollevatore', 'Sedia o sgabello', 'Doccetta', 'Rialzo WC', 'Vasca con sportello', 'WC con bidet'] },
     tranquillita: { label: 'Sentirsi più tranquilli a casa', terms: ['Chiamata di aiuto', 'Rilevatori', 'Prevenzione delle cadute', 'Vedere chi arriva', 'Serrature intelligenti', 'Videocomunicazione'] },
     condivisione: { label: 'Usare la casa insieme ad altre persone', terms: ['Comandi vocali', 'Videocomunicazione', 'Piani di lavoro', 'Vassoio e stoviglie', 'Telecomando'] }
   }

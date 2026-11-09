@@ -8,7 +8,7 @@ const html = fs.readFileSync(path.join(root, 'casa-che-si-prende-cura/index.html
 test('Casa: metadati coerenti, canonical stabile e nessun blocco di indicizzazione', () => {
   assert.match(html, /<title>Casa intelligente e domotica assistiva \| COINSIEME<\/title>/);
   assert.match(html, /<h1 id="casa-title">La casa che si prende cura<\/h1>/);
-  assert.match(html, /name="description" content="[^"]*34 schede e tre simulazioni/);
+  assert.match(html, /name="description" content="[^"]*37 schede e quattro simulazioni/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.coinsieme\.it\/casa-che-si-prende-cura\/"/);
   assert.doesNotMatch(html, /noindex/);
   const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
@@ -24,10 +24,10 @@ test('Casa: accessi nativi alle schede e alle tre prove, senza contenuti duplica
     assert.match(html, new RegExp('href="#' + id + '"'));
     assert.equal((html.match(new RegExp('id="' + id + '"', 'g')) || []).length, 1);
   }
-  assert.match(html, /href="#tutta-la-casa">Leggi le 34 schede/);
+  assert.match(html, /href="#tutta-la-casa">Leggi le 37 schede/);
   assert.match(html, /non controllano dispositivi e non inviano richieste/);
-  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length, 34);
-  assert.equal((html.match(/class="hotspot /g) || []).length, 12);
+  assert.equal((html.match(/class="solution(?: featured)?"/g) || []).length,37);
+  assert.equal((html.match(/class="hotspot /g) || []).length,15);
   assert.equal((html.match(/class="room-section(?: alt)?"/g) || []).length, 7);
 });
 

@@ -108,8 +108,10 @@
       roomLink.href = solution.room;
       roomLink.hidden = false;
       if (articleLink) {
-        articleLink.hidden = !solution.article;
-        if (solution.article) articleLink.href = solution.article;
+        const secondary = solution.article || solution.secondaryLink;
+        articleLink.hidden = !secondary;
+        articleLink.textContent = solution.secondaryLabel || 'Approfondisci: aprire senza chiavi e rispondere al citofono da lontano';
+        if (secondary) articleLink.href = secondary;
         else articleLink.removeAttribute('href');
       }
       discoverButton.disabled = false;
