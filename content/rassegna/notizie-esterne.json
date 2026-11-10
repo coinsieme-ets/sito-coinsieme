@@ -1683,7 +1683,7 @@
     "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
-    "ordine_editoriale": 999,
+    "ordine_editoriale": 0,
     "mantieni_in_evidenza_fino_al": "",
     "segnalazioni": [
       "rechzw5XE5enxjqjW"
@@ -2050,7 +2050,7 @@
     "fonte": "COINSIEME · Notizia utile",
     "url_fonte": "https://www.coinsieme.it/rassegna/notizie-utili/incentivi-lavoro-disabilita-ets-2026.html",
     "sintesi_editoriale": "Fino a 12.000 euro una tantum, più una componente mensile fino a 1.000 euro, per assunzioni stabili di persone con disabilità under 35 negli ETS. Domande via PEC entro il 31 dicembre 2026. Requisiti, part-time e adempimenti nelle FAQ aggiornate al 27 ottobre.",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 1,
@@ -2619,6 +2619,27 @@
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recqb8daCPaSuKLVd"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-10-3e40ea6ace3ed352",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-10",
+    "data_pubblicazione": "2026-11-10",
+    "titolo_originale": "Il 9° Premio Nazionale “Turismi Accessibili” a coloro che ridefiniscono il concetto di ospitalità",
+    "titolo_editoriale": "Il 9° Premio Nazionale “Turismi Accessibili” a coloro che ridefiniscono il concetto di ospitalità",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/10/il-9-premio-nazionale-turismi-accessibili-a-coloro-che-ridefiniscono-il-concetto-di-ospitalita/",
+    "sintesi_editoriale": "Abbattere le barriere architettoniche, sensoriali e culturali per trasformare l’accessibilità da vincolo normativo a concreta leva di inclusione sociale e sviluppo economico: è stato questo il filo conduttore del 9° Premio Nazionale “Turismi Accessibili”, promosso dall’Associazione Diritti Dirett...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recBAbn9ID5ur2KE7"
     ]
   }
 ]
