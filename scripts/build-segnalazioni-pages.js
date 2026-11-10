@@ -22,10 +22,21 @@ function page(item,id){
    '<p>Fonte: '+escape(item.fonte)+'</p><p><a href="'+escape(item.url_fonte)+'" target="_blank" rel="noopener noreferrer">Leggi l’articolo sulla fonte originale</a></p></article>');
 }
 function build(root=path.join(__dirname,'..')){
- const items=JSON.parse(fs.readFileSync(path.join(root,'content/rassegna/notizie-esterne.json'),'utf8'));
+ const overlayFile=path.join(root,'scratch/home-editorial.json');
+ const overlay=fs.existsSync(overlayFile)?JSON.parse(fs.readFileSync(overlayFile,'utf8')):{};
+ const items=JSON.parse(fs.readFileSync(path.join(root,'content/rassegna/notizie-esterne.json'),'utf8')).map(x=>({...x,...overlay[x.id]}));
  const dir=path.join(root,'rassegna');fs.mkdirSync(dir,{recursive:true});
  const cards=[];
  for(const item of items){
+  if(!require('./news-editorial-guard').canPublish(item)){
+   // Keep shared URLs usable without republishing unverified editorial content.
+   for(const id of [...new Set([...(item.segnalazioni||[]),...(item.notizie||[])])]){
+    if(!/^rec[a-zA-Z0-9]{14}$/.test(id))throw Error('ID segnalazione non valido nel dataset');
+    const html=shell('Segnalazione in verifica',canonicalUrl(item,id),'<h1>Segnalazione in verifica editoriale</h1><p>Questa segnalazione non viene attualmente proposta nella rassegna. Il contenuto della fonte richiede una verifica prima di una nuova pubblicazione.</p>');
+    fs.writeFileSync(path.join(dir,id+'.html'),html.replace('</head>','<meta name="robots" content="noindex,follow"></head>'));
+   }
+   continue;
+  }
   if(isUsefulNews(item)){
    const file=path.join(root,new URL(item.url_fonte).pathname);
    if(!fs.existsSync(file))throw Error('Scheda COINSIEME completa mancante: '+item.url_fonte);

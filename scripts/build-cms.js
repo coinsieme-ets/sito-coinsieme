@@ -360,7 +360,7 @@ function buildHomeSection(items) {
     ${items.length > 2 ? `<div class="home-editorial-secondary">${items.slice(2, 6).map(x => card(x, false)).join('\n')}</div>` : ''}`;
 }
 
-const ALLOWED_RASSEGNA_STATI = new Set(['segnalata', 'da_valutare', 'approvata', 'pubblica', 'pubblicata', 'scartata', 'archiviata']);
+const ALLOWED_RASSEGNA_STATI = new Set(['segnalata', 'da_verificare', 'da_valutare', 'approvata', 'pubblica', 'pubblicata', 'scartata', 'archiviata']);
 
 function formatDateIt(dateStr) {
   if (!dateStr || !/^\d{4}-\d{2}-\d{2}/.test(String(dateStr).trim())) {
@@ -431,6 +431,7 @@ function getSortedApprovedItems(items) {
   return (items || [])
     .map((item, idx) => ({ item, idx }))
     .filter(({ item }) => {
+      if(require('./news-editorial-guard').needsReview(item))return false;
       // Solo record pubblicabili ('pubblicata' o 'pubblica'; 'approvata' non va online fino ad autorizzazione esplicita)
       if (item.stato !== 'pubblicata' && item.stato !== 'pubblica') return false;
       // Programmazione futura: non mostrare prima della data_pubblicazione

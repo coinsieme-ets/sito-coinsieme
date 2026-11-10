@@ -27,6 +27,7 @@ function reportPreparationErrors(manifest) {
   if (manifest.errors.length && process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '\n### Segnalazioni da correggere\n'+manifest.errors.map(e=>'- '+e.recordId+': '+e.error).join('\n')+'\n');
 }
 function publicItem(news) {
+  if(require('./news-editorial-guard').needsReview(news.fields))throw new EditorialRecordError('Titolo di pagina di errore: verifica editoriale necessaria');
   const item=validateAndNormalizeRecord(news.fields,news.id,news);
   if(!item || /^Aggiornamento da /i.test(title(item.titolo_editoriale))) throw new EditorialRecordError('Titolo o metadati non pubblicabili');
   // This is the public editorial dataset, never the Airtable response or audit payload.
@@ -76,6 +77,9 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
       }
       if(matches.length!==1) throw new EditorialRecordError('Record Notizie non disponibile');
       let n=matches[0];
+      await require('./news-editorial-guard').quarantine(api,n);
+      if(require('./news-editorial-guard').needsReview(n.fields)||['da_verificare','scartata','archiviata'].includes(n.fields.stato))
+        throw new EditorialRecordError('Notizia sospesa o da verificare: nessuna promozione automatica');
       // A submission marked da_pubblicare is explicit editorial approval of that source.
       // Never promote unrelated RSS candidates.
       if(!['pubblica','pubblicata'].includes(n.fields.stato)) {

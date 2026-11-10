@@ -15,6 +15,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const {isErrorTitle}=require('./news-editorial-guard');
 
 const root = path.resolve(__dirname, '..');
 const auditReportPath = path.join(root, 'content', 'rassegna', 'segnalazioni-audit-report.json');
@@ -165,7 +166,8 @@ async function fetchMetadataFromUrl(url) {
       summary,
       source,
       date: dateStr,
-      image
+      image,
+      needsReview: isErrorTitle(title)
     };
   } catch (err) {
     console.warn(`[Segnalazioni] Errore lettura metadati per ${url}: ${err.message}`);
@@ -463,8 +465,8 @@ async function processSegnalazioniMaurizio(options = {}) {
       fonte,
       url_fonte: cleanUrl,
       sintesi_editoriale: sintesi,
-      rilevanza_coinsieme: rilevanza,
-      stato: 'pubblica', // Deroga editoriale esplicita di Maurizio: va in pubblicazione diretta
+      rilevanza_coinsieme: rilevanza + (meta.needsReview ? '\nTitolo di pagina di errore acquisito: verifica editoriale necessaria, anche con HTTP 200.' : ''),
+      stato: meta.needsReview ? 'da_verificare' : 'pubblica',
       priorita: 'alta',
       posizione_sito: 'home_evidenza',
       ordine_editoriale: 10

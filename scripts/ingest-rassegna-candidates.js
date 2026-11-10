@@ -126,6 +126,8 @@ function validateAndEnrichCandidate(item, existingRecords = []) {
 
   const rawTitoloOriginale = (item.titolo_originale || item.titolo || '').trim();
   const rawTitoloEditoriale = (item.titolo_editoriale || item.titolo_originale || item.titolo || '').trim();
+  const errorTitle=require('./news-editorial-guard').needsReview({...item,titolo_editoriale:rawTitoloEditoriale});
+  if(errorTitle)issues.push('Titolo di pagina di errore: verifica editoriale necessaria');
   const rawFonte = (item.fonte || '').trim();
   const rawUrlFonte = (item.url_fonte || item.url || '').trim();
   const rawDataFonte = (item.data_fonte || item.data || '').trim().slice(0, 10);
@@ -160,6 +162,7 @@ function validateAndEnrichCandidate(item, existingRecords = []) {
   if (issues.length > 0 || isPotentialDuplicate) {
     stato = 'segnalata';
   }
+  if(errorTitle)stato='da_verificare';
 
   return {
     record: {

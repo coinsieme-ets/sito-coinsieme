@@ -2472,7 +2472,12 @@
     "sintesi_editoriale": "Aggiornamento e approfondimento segnalato da Maurizio su Page Expired.",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblicata",
+    "stato": "da_verificare",
+    "sospensione_editoriale": {
+      "data": "2026-11-10",
+      "motivo": "Titolo di errore Page Expired acquisito dalla fonte con HTTP 200; sospensione autorizzata, contenuto da verificare senza ricostruzioni dal solo URL.",
+      "stato_precedente": "pubblicata"
+    },
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,

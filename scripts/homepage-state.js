@@ -9,6 +9,7 @@ const order=x=>x!=null&&x!==''&&Number.isFinite(Number(x))?Number(x):999;
 const slug=x=>x.slug||x.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 const day=x=>String(x||'').slice(0,10);
 function normalize(articles,news,today=todayRome()){
+ news=news.filter(x=>!require('./news-editorial-guard').needsReview(x));
  const a=articles.map(x=>({id:slug(x),kind:'article',published:x.visible!==false&&x.date_verified!==false,date:day(x.date||x.data),title:x.title,summary:x.home_summary||x.summary||'',url:'/articoli/'+slug(x)+'/',image:x.image||'',alt:x.image_alt||x.imageAlt||'',position:x.image_position||'center',prominence:x.rilevanza_home||'normale',order:order(x.ordine_home),until:x.mantieni_in_evidenza_fino_al||'',source:x.author||'COINSIEME',category:x.category||'Approfondimento'}));
  const n=news.map(x=>({id:x.id,kind:'news',published:['pubblica','pubblicata'].includes(x.stato)&&day(x.data_pubblicazione||x.data_fonte)<=today,date:day(x.data_fonte),portalDate:day(x.data_pubblicazione),title:x.titolo_editoriale||x.titolo_originale,summary:x.sintesi_editoriale||'',url:x.url_fonte,image:x.immagine_in_evidenza||x.immagine_news||'',alt:'',position:'center',prominence:({home_principale:'principale',home_evidenza:'evidenza',home_normale:'normale'})[x.posizione_sito]||'solo_archivio',order:order(x.ordine_editoriale),until:x.mantieni_in_evidenza_fino_al||'',source:x.fonte,category:x.categoria})).filter(x=>/^https?:\/\//.test(x.url));
  return {articles:a,news:n};

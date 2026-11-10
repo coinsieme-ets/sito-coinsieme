@@ -17,6 +17,8 @@ async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,to
  const manifest={...submissions,news:[],newsErrors:[]};
  for(const record of records.filter(r=>r.fields.stato==='pubblica')){
   try{
+   await require('./news-editorial-guard').quarantine(api,record);
+   if(record.fields.stato==='da_verificare')throw Error('Titolo di pagina di errore: inviato alla verifica editoriale');
    if(String(record.fields.data_pubblicazione||'').slice(0,10)>today)continue;
    const item=seg.publicItem(record),source=sourceUrl(item.url_fonte);
    if(records.filter(r=>sourceUrl(r.fields.url_fonte)===source).length!==1)throw Error('URL fonte duplicato in Airtable: verifica editoriale richiesta');
@@ -37,6 +39,8 @@ async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,to
    priorita:f.priorita||'media',ordine_editoriale:f.ordine_editoriale??999,
    mantieni_in_evidenza_fino_al:f.mantieni_in_evidenza_fino_al||'',data_pubblicazione:f.data_pubblicazione||item.data_pubblicazione};
  });
+ const published=x=>['pubblica','pubblicata'].includes(x.stato);
+ const editorialChanged=home.some((item,i)=>published(item)!==published(dataset[i]));
  manifest.homeTitles=selectHomeNews(home).map(n=>n.titolo_editoriale||n.titolo_originale);
  manifest.homeHtml=renderHomeNews(selectHomeNews(home));
  manifest.homeChanged=section(pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'')!==manifest.homeHtml;
@@ -52,9 +56,9 @@ async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,to
    const response=await fetcher(item.publicUrl,{headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(30000)});
    if(!response.ok||!seg.verifyPage(await response.text(),item)){pendingPagesChanged=true;break;}
   }
-  manifest.count=manifest.homeChanged||pendingPagesChanged?1:0;
+  manifest.count=manifest.homeChanged||pendingPagesChanged||editorialChanged?1:0;
  }
- if(manifest.news.length)write(dataset);
+ if(manifest.news.length||editorialChanged)write(home);
  return manifest;
 }
 async function confirmNews(api,manifest,{fetcher=fetch,retries=12,delay=10000}={}){

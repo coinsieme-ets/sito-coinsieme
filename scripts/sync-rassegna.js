@@ -99,6 +99,7 @@ function normalizePriority(val) {
 }
 
 function validateAndNormalizeRecord(fields, recordId = '', rawRecord = {}) {
+  if(require('./news-editorial-guard').needsReview(fields))return null;
   const rawStato = (fields.stato || fields.Stato || fields.STATO || '').trim().toLowerCase();
   if (!ALLOWED_PUBLISH_STATI.has(rawStato)) {
     return null; // Solo 'pubblica' e 'pubblicata' vanno online. 'approvata' è validata ma attende autorizzazione.
