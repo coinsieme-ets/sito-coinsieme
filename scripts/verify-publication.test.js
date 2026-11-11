@@ -2,6 +2,22 @@ const {test} = require('node:test');
 const assert = require('node:assert/strict');
 const {inspectPage,sourceUrl,verifyPublication,correctionFields,fetchPublicPages} = require('./verify-publication');
 const card = '<article><h3><a href="https://example.org/story?a=1&amp;b=2">Titolo &amp; testo</a></h3></article>';
+test('public verification bypasses stale cache without changing canonical or stored URL',async()=>{
+ const original=global.fetch,requests=[];
+ try{
+  global.fetch=async(url,options)=>{requests.push({url,options});return {ok:true};};
+  const url='https://www.coinsieme.it/rassegna/rec12345678901234.html?existing=1';
+  await require('./verify-publication').fetchPublished(url);
+  await require('./verify-publication').fetchPublished(url);
+  assert.notEqual(requests[0].url,requests[1].url);
+  for(const request of requests){
+   const parsed=new URL(request.url);assert.equal(parsed.origin,'https://www.coinsieme.it');
+   assert.equal(parsed.pathname,new URL(url).pathname);assert.equal(parsed.searchParams.get('existing'),'1');
+   assert.ok(parsed.searchParams.get('_coinsieme_verify'));assert.equal(request.options.cache,'no-store');
+  }
+  assert.equal(url,'https://www.coinsieme.it/rassegna/rec12345678901234.html?existing=1');
+ }finally{global.fetch=original;}
+});
 test('requires actual heading, exact source and title', () => {
   assert.ok(inspectPage(card,'https://example.org/story?a=1&b=2','Titolo & testo'));
   assert.equal(inspectPage(card,'https://example.org/other','Titolo & testo'),false);

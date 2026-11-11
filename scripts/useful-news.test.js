@@ -28,9 +28,12 @@ test('archivio conserva pagina completa e canonical unico, senza seconda pagina 
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
 test('sync riutilizza il record e la pagina completa, preservando identificativo e priorita',async()=>{
- let dataset=[item];const record={id:item.notizie[0],fields:{...item}};
+ const fixture={id:'fixture-useful-news',stato:'pubblica',fonte:'COINSIEME · Notizia utile',categoria:'Lavoro e inclusione',
+  titolo_editoriale:'Scheda utile di collaudo',titolo_originale:'Scheda utile di collaudo',sintesi_editoriale:'Solo dati simulati.',
+  url_fonte:url,data_fonte:'2026-10-28',data_pubblicazione:'2026-10-28',ordine_editoriale:1,notizie:['rec12345678901234']};
+ let dataset=[structuredClone(fixture)];const record={id:fixture.notizie[0],fields:structuredClone(fixture)};
  const manifest=await require('./publish-rassegna').prepare(async()=>({records:[record]}),{pages:[],prepareSegments:async()=>({items:[],errors:[]}),read:()=>dataset,write:x=>{dataset=x;},today:'2026-10-28'});
- assert.equal(manifest.newsErrors.length,0);assert.equal(manifest.news[0].publicUrl,url);assert.equal(dataset.length,1);assert.deepEqual(dataset[0].notizie,item.notizie);assert.equal(dataset[0].ordine_editoriale,1);
+ assert.equal(manifest.newsErrors.length,0);assert.equal(manifest.news[0].publicUrl,url);assert.equal(dataset.length,1);assert.deepEqual(dataset[0].notizie,fixture.notizie);assert.equal(dataset[0].ordine_editoriale,1);
 });
 test('renderer dinamico: badge nelle news e in copertina, date reali e link interni',async()=>{
  const articles=require('./homepage-state').snapshotArticles(require('./test-support/homepage-fixture').snapshot());

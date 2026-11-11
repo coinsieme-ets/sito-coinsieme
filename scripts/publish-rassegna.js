@@ -2,7 +2,7 @@
 // Independent publication inputs; publication confirmation always follows public verification.
 const fs=require('node:fs'), crypto=require('node:crypto');
 const seg=require('./publish-segnalazioni');
-const {sourceUrl,fetchPublicPages}=require('./verify-publication');
+const {sourceUrl,fetchPublished,fetchPublicPages}=require('./verify-publication');
 const {selectHomeNews,renderHomeNews}=require('./home-news');
 const {isUsefulNews}=require('./news-kind');
 const {canonicalUrl}=require('./rassegna-urls');
@@ -10,7 +10,7 @@ const NEWS='tblonsfQ2mnaelCAn', DATA='content/rassegna/notizie-esterne.json';
 async function all(api){const records=[];let offset;do{const r=await api(NEWS+'?pageSize=100'+(offset?'&offset='+encodeURIComponent(offset):''));records.push(...r.records);offset=r.offset;}while(offset);return records;}
 const signature=n=>crypto.createHash('sha256').update(JSON.stringify(seg.publicItem(n))).digest('hex');
 const section=html=>(html.match(/<section id="cosa-si-muove"[\s\S]*?<\/section>/)||[])[0]||'';
-async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,today=require('./home-feature').todayRome(),fetcher=fetch,prepareSegments=seg.prepare,read=()=>JSON.parse(fs.readFileSync(DATA,'utf8')),write=items=>fs.writeFileSync(DATA,JSON.stringify(items,null,2)+'\n')}={}){
+async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,today=require('./home-feature').todayRome(),fetcher=fetchPublished,prepareSegments=seg.prepare,read=()=>JSON.parse(fs.readFileSync(DATA,'utf8')),write=items=>fs.writeFileSync(DATA,JSON.stringify(items,null,2)+'\n')}={}){
  pages=pages||await fetchPublicPages();
  const submissions=await prepareSegments(api,{recordId,pages});
  const records=await all(api), dataset=read();
@@ -61,7 +61,7 @@ async function prepare(api,{recordId,pages,dynamicHome=false,articleInventory,to
  if(manifest.news.length||editorialChanged)write(home);
  return manifest;
 }
-async function confirmNews(api,manifest,{fetcher=fetch,retries=12,delay=10000}={}){
+async function confirmNews(api,manifest,{fetcher=fetchPublished,retries=12,delay=10000}={}){
  const results=[];
  for(const item of manifest.news||[]){
   const currentMatches=n=>n.fields.stato==='pubblica' && signature(n)===item.signature;
@@ -83,6 +83,16 @@ async function confirmNews(api,manifest,{fetcher=fetch,retries=12,delay=10000}={
  }
  return results;
 }
+async function verifyHome(manifest,{fetchPages=fetchPublicPages,retries=12,delay=10000}={}){
+ for(let i=0;i<retries;i++){
+  try{
+   const pages=await fetchPages(),html=pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'';
+   if(manifest.dynamicHome?require('./homepage-state').verify(html,manifest.dynamicHome):section(html)===manifest.homeHtml)return true;
+  }catch(error){if(i+1===retries)console.warn('Verifica homepage inconclusiva: '+error.message);}
+  if(i+1<retries)await new Promise(resolve=>setTimeout(resolve,delay));
+ }
+ return false;
+}
 async function main(mode){
  const api=seg.createApi(process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN||'');
  if(!process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN)throw Error('PAT mancante');
@@ -103,12 +113,11 @@ async function main(mode){
  }else if(mode==='confirm'){
   const manifest=JSON.parse(fs.readFileSync(file,'utf8'));
   const results=await seg.confirm(api,manifest), newsResults=await confirmNews(api,manifest);
-  const pages=await fetchPublicPages(),publicHome=pages.find(p=>p.url==='https://www.coinsieme.it/')?.html||'';
-  const homeVerified=manifest.dynamicHome?require('./homepage-state').verify(publicHome,manifest.dynamicHome):section(publicHome)===manifest.homeHtml;
+  const homeVerified=await verifyHome(manifest);
   fs.writeFileSync('scratch/publication-result.json',JSON.stringify({results,newsResults,homeVerified,homeTitles:manifest.homeTitles,preparationErrors:[...manifest.errors,...(manifest.newsErrors||[])]},null,2)+'\n');
   console.log(JSON.stringify({results,newsResults,homeVerified}));
   if(!homeVerified||[...results,...newsResults].some(r=>r.status==='not_verified_pending'))throw Error('Verifica pubblica incompleta; consultare artifact');
  }else throw Error('Modalita non valida');
 }
 if(require.main===module)main(process.argv[2]).catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={prepare,confirmNews,signature};
+module.exports={prepare,confirmNews,signature,verifyHome};

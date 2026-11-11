@@ -3,6 +3,22 @@ const fs=require('node:fs');
 const {prepare,confirmNews,signature}=require('./publish-rassegna');
 const {renderHomeNews,selectHomeNews}=require('./home-news');
 const {page}=require('./build-segnalazioni-pages');
+test('post-deploy home verification retries stale responses but never accepts wrong content',async()=>{
+ const {verifyHome}=require('./publish-rassegna');
+ const html=renderHomeNews([]),manifest={homeHtml:html};let calls=0;
+ const fetchPages=async()=>[{url:'https://www.coinsieme.it/',html:++calls===1?'old':html}];
+ assert.equal(await verifyHome(manifest,{fetchPages,retries:2,delay:0}),true);assert.equal(calls,2);
+ calls=0;
+ assert.equal(await verifyHome(manifest,{fetchPages:async()=>{calls++;return [{url:'https://www.coinsieme.it/',html:'wrong'}];},retries:2,delay:0}),false);
+ assert.equal(calls,2);
+ assert.equal(await verifyHome(manifest,{fetchPages:async()=>{throw Error('offline');},retries:1,delay:0}),false);
+});
+test('post-deploy dynamic home still requires exact public-state signature',async()=>{
+ const {verifyHome}=require('./publish-rassegna');
+ const manifest={dynamicHome:{signature:'expected',selection:{cover:null,articles:[],news:[]}}};
+ const html='<meta name="coinsieme-public-state" content="wrong"><h1>Vivere meglio, insieme</h1><a href="/anteprima-sportello/#esplora-servizi">Servizi</a>';
+ assert.equal(await verifyHome(manifest,{fetchPages:async()=>[{url:'https://www.coinsieme.it/',html}],retries:2,delay:0}),false);
+});
 const id='rec12345678901234';
 const fields={stato:'pubblica',titolo_editoriale:'Notizia valida per autonomia',url_fonte:'https://example.org/news',fonte:'Fonte',data_fonte:'2026-09-01',posizione_sito:'home_normale'};
 const record={id,fields};

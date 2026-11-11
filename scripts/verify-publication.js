@@ -1,5 +1,10 @@
 'use strict';
 const PAGES = ['https://www.coinsieme.it/', 'https://www.coinsieme.it/articoli.html'];
+function fetchPublished(url, options = {}) {
+  const request = new URL(url);
+  request.searchParams.set('_coinsieme_verify', require('node:crypto').randomUUID());
+  return fetch(request.href, {...options, cache:'no-store', headers:{...options.headers,'Cache-Control':'no-cache, no-store'}});
+}
 function decode(s = '') {
   return String(s).replace(/&#(x[0-9a-f]+|\d+);/gi, (_, n) => String.fromCodePoint(n[0].toLowerCase() === 'x' ? parseInt(n.slice(1), 16) : Number(n)))
     .replace(/&(amp|quot|apos|lt|gt|nbsp|agrave|egrave|eacute|igrave|ograve|ugrave);/gi,
@@ -25,7 +30,7 @@ function inspectPage(html, source, expectedTitle) {
   }
   return false;
 }
-async function fetchPublicPages(fetcher = fetch) {
+async function fetchPublicPages(fetcher = fetchPublished) {
   const pages = [];
   for (const url of PAGES) {
     const res = await fetcher(url, {headers: {'Cache-Control': 'no-cache'}, signal: AbortSignal.timeout(30000)});
@@ -51,4 +56,4 @@ function correctionFields(fields, evidence) {
   if (!evidence.online) return {stato: 'da_pubblicare', data_pubblicazione: null, url_pubblicato: null};
   return {stato: 'pubblicato', url_pubblicato: evidence.publicUrl};
 }
-module.exports = {PAGES, sourceUrl, title, inspectPage, fetchPublicPages, verifyPublication, correctionFields};
+module.exports = {PAGES, sourceUrl, title, inspectPage, fetchPublished, fetchPublicPages, verifyPublication, correctionFields};

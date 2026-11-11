@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
-const {sourceUrl, title, inspectPage, fetchPublicPages, verifyPublication} = require('./verify-publication');
+const {sourceUrl, title, inspectPage, fetchPublished, fetchPublicPages, verifyPublication} = require('./verify-publication');
 const {validateAndNormalizeRecord} = require('./sync-rassegna');
 const {processSegnalazioniMaurizio} = require('./process-segnalazioni-maurizio');
 const BASE='appPqa952bdRrQJNI', SEG='tblStce99L9z4YXAf', NEWS='tblonsfQ2mnaelCAn';
@@ -103,7 +103,7 @@ async function prepare(api,{recordId,processRecord=processSegnalazioniMaurizio,p
   if(manifest.items.length) fs.writeFileSync(DATA,JSON.stringify([...dataset.values()],null,2)+'\n');
   return manifest;
 }
-async function confirm(api,manifest,{fetcher=fetch,retries=12,delay=10000}={}) {
+async function confirm(api,manifest,{fetcher=fetchPublished,retries=12,delay=10000}={}) {
   const results=[];
   for(const item of manifest.items) {
     const before=await api(SEG+'/'+item.recordId);
