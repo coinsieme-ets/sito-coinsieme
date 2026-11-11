@@ -10,6 +10,14 @@
     {id:'solidarieta',name:'Volontariato e solidarietà',text:'Partecipazione solidale e riferimenti per ricevere ascolto.'},
     {id:'quartiere',name:'Comitati di quartiere e cittadinanza attiva',text:'Conoscere le realtà che partecipano alla vita del territorio.'}
   ];
+  const neighborhoodJourneys=[
+    {id:'quartiere',name:'Comitati e partecipazione nel quartiere',text:'Realtà civiche e partecipazione alla vita del territorio.'},
+    {id:'spazi',name:'Prendersi cura degli spazi comuni',text:'Associazioni con attività documentate sul verde e sugli spazi urbani.'},
+    {id:'reti',name:'Reti e solidarietà di prossimità',text:'Realtà territoriali e volontariato: chiedi quali attività siano disponibili.'},
+    {id:'ascolto',name:'Trovare ascolto',text:'Riferimenti documentati per il sostegno emotivo.'}
+  ];
+  function neighborhoodRecord(r){return neighborhoodJourneys.some(j=>inJourney(r,j.id));}
+  function visibleJourneys(ids){return [...(ids.includes('socialita')?journeys.filter(j=>j.id!=='quartiere'):[]),...(ids.includes('vicinato')?neighborhoodJourneys:[])];}
   const checked='2026-11-07';
   const additions=[
     {id:'social-giochi-ludica-romana',name:'Associazione Ludica Romana — Giochi da tavolo',description:'Associazione per incontrarsi e giocare a giochi di società nel quartiere Prenestino-Labicano.',website:'https://www.ludicaromana.it/dove-siamo/',email:'info@ludicaromana.it',operationalAddress:'Sala Santa Maria, complesso dell’asilo della parrocchia Santa Maria Madre della Misericordia, via dei Gordiani 365, Roma',neighborhood:'Prenestino-Labicano',territoryBasis:'Roma Est · ritrovo abituale dichiarato dall’associazione, distinto dalle sedi di singoli eventi.',legalStatus:'Associazione ludica secondo il sito ufficiale',groups:['enti'],fields:['Giochi da tavolo e di società'],journey:'giochi',mode:'presenza',details:['Chiedi calendario attuale, possibilità di partecipare per la prima volta, età, tessera e costi. Gli eventi pubblicati non sono appuntamenti garantiti oggi.','Non sono documentati in questa ricognizione tavoli di burraco, scopa, tressette o briscola. Accessibilità di ingresso, sala e servizi igienici da confermare.'],links:[{url:'https://www.ludicaromana.it/appuntamenti/eventi/',label:'Consulta gli eventi dell’associazione · verifica le date'}],sources:[{url:'https://www.ludicaromana.it/dove-siamo/',label:'Associazione Ludica Romana · Dove siamo',checkedAt:'2026-11-08'}]},
@@ -58,21 +66,24 @@
     if(id==='turismo')return r.journey==='turismo'&&(!mode||r.mode===mode);
     if(id==='solidarieta')return g.includes('volontariato');
     if(id==='quartiere')return g.includes('comitati')||fields.includes('Attivismo civico e partecipazione');
+    if(id==='spazi')return fields.includes('Rigenerazione spazi urbani e cura del verde pubblico')||fields.includes('Orti urbani e agricoltura sociale');
+    if(id==='reti')return g.includes('volontariato')||fields.includes('Reti di prossimità');
+    if(id==='ascolto')return fields.includes('Ascolto e sostegno emotivo');
     return false;
   }
   function filter(records, options={}) {
     const term=(options.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it');
     return records.filter(r=>inJourney(r,options.journey,options.mode)&&(!(options.journey==='turismo'&&r.trip&&!options.past)||r.trip.start>=(options.today||localDay()))&&(!options.group||r.groups.includes(options.group))&&(!options.municipio||r.municipalities.includes(options.municipio))&&(!options.neighborhood||r.neighborhood===options.neighborhood)&&(!options.field||r.fields.includes(options.field))&&[r.name,r.description,...r.fields].join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it').includes(term)).sort((a,b)=>a.name.localeCompare(b.name,'it'));
   }
-  function forCategories(records,ids){return records.filter(r=>ids.includes('socialita')||(r.categories||[]).some(id=>ids.includes(id)));}
-  if(typeof module==='object'&&module.exports){module.exports={filter,groups,forCategories,journeys,additions,inJourney,tripStatus};return;}
+  function forCategories(records,ids){return records.filter(r=>(ids.includes('socialita')&&(journeys.some(j=>!['quartiere','solidarieta'].includes(j.id)&&inJourney(r,j.id))||inJourney(r,'solidarieta')||!neighborhoodRecord(r)))||(ids.includes('vicinato')&&neighborhoodRecord(r)));}
+  if(typeof module==='object'&&module.exports){module.exports={filter,groups,forCategories,journeys,neighborhoodJourneys,visibleJourneys,additions,inJourney,tripStatus};return;}
   const root=document.getElementById('esplora-servizi');
   if(!root)return;
   const make=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
   const section=make('section');section.className='sp-social-catalog sp-social-pathways';section.hidden=true;
   section.setAttribute('aria-labelledby','socialita-titolo');
   const heading=make('h3','Come vorresti trascorrere il tuo tempo?');heading.id='socialita-titolo';section.append(heading);
-  section.append(make('p','Scegli un’attività oppure consulta tutte le associazioni e le risorse. Calendari, costi, iscrizioni e condizioni di accesso vanno confermati direttamente.'));
+  const introduction=make('p');section.append(introduction);
   let journey='inizio';
   function selectJourney(id,selectedMode=''){
     journey=id;inputs.group.value='';inputs.field.value='';inputs.mode.value='';past.checked=false;limit=12;draw();
@@ -86,7 +97,7 @@
   section.append(shortcuts);
   const paths=make('div');paths.className='sp-social-paths';paths.setAttribute('role','group');paths.setAttribute('aria-label','Percorsi di socialità');
   const pathButtons=[];
-  for(const item of [...journeys,{id:'tutte',name:'Vedi tutte le associazioni e le risorse',text:'Repertorio completo, in ordine alfabetico.'}]){
+  for(const item of [...journeys.filter(j=>j.id!=='quartiere'),...neighborhoodJourneys,{id:'tutte',name:'Tutte le risorse di questa categoria',text:'Solo le categorie selezionate, in ordine alfabetico.'}]){
     const button=make('button');button.type='button';button.dataset.journey=item.id;button.setAttribute('aria-pressed','false');button.append(make('strong',item.name),make('span',item.text));
     button.addEventListener('click',()=>selectJourney(item.id));paths.append(button);pathButtons.push(button);
   }
@@ -109,6 +120,14 @@
   const more=make('button','Mostra altre risorse');more.type='button';more.className='btn btn-outline';more.addEventListener('click',()=>{const previous=limit;limit+=12;draw();const next=list.children[previous];if(next)next.querySelector('summary').focus();});
   section.append(count,list,more);root.querySelector('#servizi-risultati').before(section);
   function draw(){
+    const neighborhoodOnly=activeCategories.includes('vicinato')&&!activeCategories.includes('socialita');
+    heading.textContent=neighborhoodOnly?'Partecipare e trovare sostegno nel quartiere':activeCategories.includes('vicinato')?'Socialità e reti di quartiere':'Come vorresti trascorrere il tuo tempo?';
+    introduction.textContent=neighborhoodOnly?'Scegli tra partecipazione civica, cura degli spazi, reti territoriali e ascolto. Le schede descrivono attività documentate, non garantiscono aiuti o interventi disponibili oggi.':'Scegli un’attività per incontrare persone e trascorrere il tempo libero. Calendari, costi, iscrizioni e condizioni di accesso vanno confermati direttamente.';
+    legend.textContent=neighborhoodOnly?'Affina le risorse di vicinato':'Affina le risorse delle categorie selezionate';
+    paths.setAttribute('aria-label',neighborhoodOnly?'Percorsi di vicinato e solidarietà':'Percorsi delle categorie selezionate');
+    shortcuts.hidden=!activeCategories.includes('socialita');
+    const visible=new Set(visibleJourneys(activeCategories).map(j=>j.id));
+    for(const button of pathButtons)button.hidden=button.dataset.journey!=='tutte'&&!visible.has(button.dataset.journey);
     for(const button of pathButtons)button.setAttribute('aria-pressed',String(button.dataset.journey===journey));
     for(const button of shortcutButtons)button.setAttribute('aria-pressed',String(journey==='cultura'&&inputs.mode.value===button.dataset.socialShortcut));
     controls.hidden=journey==='inizio';list.hidden=journey==='inizio';intro.replaceChildren();
@@ -128,7 +147,9 @@
     }else if(journey==='amicizie'){
       intro.append(make('h4','Incontrarsi e fare amicizia'),make('p','Puoi partire da un’attività sul territorio o da una piattaforma digitale. I gruppi social locali saranno inseriti soltanto dopo la verifica di organizzatori e attività.'));
       intro.append(make('p','Le app richiedono di verificare età minima, costi, privacy e condizioni. Non garantiscono amicizie o incontri sicuri. Per un primo incontro scegli un luogo pubblico, avvisa una persona di fiducia e non condividere denaro, documenti o informazioni riservate. Usa gli strumenti di blocco e segnalazione del servizio.'));
-    }else if(journey==='solidarieta')intro.append(make('p','Offrire il proprio tempo e ricevere ascolto sono possibilità diverse: controlla il contenuto della singola scheda. Corsi, selezioni e opportunità di volontariato attuali vanno confermati con l’ente.'));
+    }else if(journey==='solidarieta')intro.append(make('p','Per offrire il tuo tempo consulta l’ente: corsi, selezioni e opportunità attuali vanno confermati. Per ricevere ascolto scegli il percorso dedicato in Vicinato e solidarietà.'));
+    else if(journey==='reti')intro.append(make('p','Reti e associazioni con attività solidali documentate. Contatta direttamente la realtà per conoscere iniziative, destinatari e possibilità di partecipare: non si presumono assistenza domiciliare o aiuti individuali.'));
+    else if(journey==='ascolto')intro.append(make('p','Riferimenti per parlare e ricevere ascolto. Consulta orari e condizioni nella scheda. Non sono servizi di emergenza né sostituiscono l’assistenza sanitaria.'));
     else if(journey!=='inizio')intro.append(make('p','Le attività sono quelle descritte nelle fonti, non appuntamenti garantiti. Il filtro Municipio comprende sedi o ambiti dichiarati: non prova la presenza di un’attività aperta oggi.'));
     list.replaceChildren();const options={...Object.fromEntries(Object.entries(inputs).map(([k,v])=>[k,v.value])),journey,past:past.checked,mode:['amicizie','turismo','cultura','giochi'].includes(journey)?inputs.mode.value:''};const matches=filter(forCategories(records,activeCategories),options);
     count.textContent=failed?'Catalogo non caricato. Restano disponibili le altre opportunità e le fonti nel rapporto.':!loaded?'Caricamento del catalogo…':matches.length+' risorse · '+Math.min(limit,matches.length)+' mostrate';
@@ -157,7 +178,7 @@
       list.append(details);
     }
   }
-  window.SportelloSocialita={get available(){return loaded;},render(ids){activeCategories=ids;section.hidden=!ids.some(id=>['socialita','vicinato'].includes(id));if(section.hidden){for(const input of Object.values(inputs))input.value='';limit=12;}draw();}};
+  window.SportelloSocialita={get available(){return loaded;},render(ids){const changed=activeCategories.filter(id=>['socialita','vicinato'].includes(id)).join(',')!==ids.filter(id=>['socialita','vicinato'].includes(id)).join(',');activeCategories=[...ids];section.hidden=!ids.some(id=>['socialita','vicinato'].includes(id));if(section.hidden||changed){for(const input of Object.values(inputs))input.value='';past.checked=false;journey='inizio';limit=12;}draw();}};
   try {
     records=[...window.SportelloSocialitaData.records,...additions];loaded=true;
     const neighborhoods=[...new Set(records.map(r=>r.neighborhood).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'it'));

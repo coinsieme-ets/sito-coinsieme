@@ -34,7 +34,20 @@ test('Socialità: amicizie digitali distinte dalle attività locali e da gruppi 
  assert.ok(model.filter(all,{journey:'amicizie',mode:'territorio'}).every(r=>r.mode!=='app'));
  assert.equal(model.filter(all,{journey:'amicizie',mode:'social'}).length,0);
  assert.equal(model.filter(all,{journey:'amicizie',mode:'app',municipio:'V'}).length,0);
- assert.equal(model.forCategories(model.additions,['vicinato']).length,0);
+ assert.equal(model.forCategories(model.additions,['vicinato']).length,4);
+});
+test('Socialita e vicinato: percorsi distinti, repertorio unico e nessuna risorsa persa',()=>{
+ const social=model.visibleJourneys(['socialita']).map(j=>j.id),vicino=model.visibleJourneys(['vicinato']).map(j=>j.id);
+ assert.deepEqual(social,['amicizie','centri','cultura','giochi','turismo','solidarieta']);
+ assert.deepEqual(vicino,['quartiere','spazi','reti','ascolto']);
+ assert.ok(social.every(id=>!vicino.includes(id)));
+ const all=[...original(),...model.additions],before=JSON.stringify(all),selected=model.forCategories(all,['vicinato']);
+ assert.ok(selected.length>1);assert.ok(selected.some(r=>r.id==='samaritans-ascolto'));
+ assert.ok(selected.every(r=>!r.trip&&r.mode!=='app'&&r.journey!=='giochi'&&r.mode!=='parchi'));
+ for(const journey of vicino)assert.ok(model.filter(selected,{journey}).length>0,journey);
+ const union=model.forCategories(all,['socialita','vicinato']);assert.equal(union.length,71);assert.equal(new Set(union.map(r=>r.id)).size,71);
+ assert.equal(new Set([...model.forCategories(all,['socialita']),...selected].map(r=>r.id)).size,71);
+ assert.equal(JSON.stringify(all),before);
 });
 test('Socialità: turismo senza barriere distinto dalle offerte non documentate',()=>{
  const all=[...original(),...model.additions],travel=model.filter(all,{journey:'turismo',mode:'senza-barriere'});

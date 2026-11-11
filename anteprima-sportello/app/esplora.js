@@ -36,13 +36,14 @@
     results.replaceChildren();
     root.querySelector('#servizi-empty').hidden=ids.length>0;
     root.querySelector('.sp-results-shortcut').hidden=!ids.length;
-    root.querySelector('#servizi-vai-risultati').textContent=ids.includes('socialita')?'Vedi le opportunità': 'Vedi le opportunità ('+resources.length+')';
+    const hasSocialRepertoire=ids.some(id=>['socialita','vicinato'].includes(id))&&window.SportelloSocialita?.available;
+    root.querySelector('#servizi-vai-risultati').textContent=hasSocialRepertoire?'Vedi le opportunità': 'Vedi le opportunità ('+resources.length+')';
     root.querySelector('#servizi-riepilogo').textContent=ids.length?catalog.areas.filter(a=>ids.includes(a.id)).map(a=>a.title).join(' · '):'Nessun interesse selezionato';
     const verified=resources.filter(catalog.isVerifiedResource).length;
     const orientative=resources.length-verified;
     status.textContent=ids.length?ids.length+(ids.length===1?' interesse selezionato. ':' interessi selezionati. ')+resources.length+(resources.length===1?' scheda: ':' schede: ')+verified+(verified===1?' risorsa con presenza documentata; ':' risorse con presenza documentata; ')+orientative+(orientative===1?' informazione orientativa.':' informazioni orientative.'):'Scegli liberamente uno o più interessi. Non occorre raccontare la tua situazione.';
-    if(ids.includes('socialita'))status.textContent='Per la socialità consulta il repertorio e il suo conteggio filtrato. Altre opportunità selezionate: '+resources.length+'.';
-    if(ids.length&&!resources.length&&!ids.includes('socialita'))results.append(make('p','Nessuna risorsa documentata per questi filtri. La mancata inclusione non prova assenza del servizio: copertura o municipio possono richiedere conferma.'));
+    if(hasSocialRepertoire)status.textContent='Consulta i percorsi delle categorie selezionate e il loro conteggio filtrato. Altre opportunità selezionate: '+resources.length+'.';
+    if(ids.length&&!resources.length&&!hasSocialRepertoire)results.append(make('p','Nessuna risorsa documentata per questi filtri. La mancata inclusione non prova assenza del servizio: copertura o municipio possono richiedere conferma.'));
     const destinations=new Map(),healthTargets=new Map();
     if(ids.includes('salute'))results.append(make('p','Emergenze sanitarie: 112. Per cure non urgenti e orientamento sanitario: 116117. ReCUP serve a prenotare visite ed esami, non a gestire emergenze.','sp-health-notice'));
     const groups=engine.organizeServiceGroups(engine.groupServiceResources(resources,ids,catalog));
