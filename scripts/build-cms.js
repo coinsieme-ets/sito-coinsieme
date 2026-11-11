@@ -659,6 +659,7 @@ async function main() {
   // Validates the same Airtable snapshot, rendered links and privacy block.
   await require('./build-homepage').build();
   require('./build-segnalazioni-pages').build(root);
+  require('./build-assistenza-digitale').build();
   console.log('SEO:', require('./build-seo').build(root, allArticles));
 
   console.log(`Build CMS completata: ${allArticles.length} articoli interni, ${allForIndex.length} card nell'archivio, homepage dinamica, ${rassegnaItems.length} notizie (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);

@@ -3,10 +3,11 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const data=require('../anteprima-sportello/app/psicologia'),catalog=require('../anteprima-sportello/app/servizi'),engine=require('../anteprima-sportello/app/orientamento');
 const ids=data.resources.map(r=>r.id),newRecord=r=>ids.includes(r.id);
 test('Psicologia: sei servizi condivisi, nove categorie, nessun record precedente alterato',()=>{
- assert.equal(data.records.length,6);assert.equal(data.resources.length,7);assert.equal(catalog.resources.length,54);assert.equal(catalog.areas.length,9);
+ assert.equal(data.records.length,6);assert.equal(data.resources.length,7);assert.equal(catalog.resources.length,58);assert.equal(catalog.areas.length,9);
  // Baseline digests from published fde4ac7; fixtures need no .git directory.
  const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
- assert.equal(digest(catalog.resources.filter(r=>r.id!=='territorio-fabia-mater'&&r.id!=='territorio-tor-vergata'&&r.id!=='recup-lazio'&&!newRecord(r)&&r.id!=='info-fisioterapia-domicilio')),'6cd601eef35c7969d10fc8133f447258f18deddd699de5e3058a41f36b1ac403');
+ const historical=catalog.resources.filter(r=>r.id!=='coinsieme-barriere-digitali'&&!r.id.startsWith('facilitazione-roma-')&&r.id!=='territorio-fabia-mater'&&r.id!=='territorio-tor-vergata'&&r.id!=='recup-lazio'&&!newRecord(r)&&r.id!=='info-fisioterapia-domicilio').map(r=>r.id==='info-digitale'?{...r,links:r.links.filter(l=>l.url!=='/assistenza-digitale.html')}:r);
+ assert.equal(digest(historical),'6cd601eef35c7969d10fc8133f447258f18deddd699de5e3058a41f36b1ac403');
  assert.equal(digest(catalog.areas),'b95d9bf1711d601388462442782fbe0b14e3fd3924c10f282adc9faadcee3af5');assert.equal(digest(catalog.subcategories),'7c365be6372c4eb90192914abff961aa2a83072c6b54f5417c6f104e52b1adb1');
  for(const selected of [['salute'],['domicilio'],['salute','domicilio']]){const found=engine.chooseHomeResources(selected,catalog).filter(newRecord);assert.equal(found.length,7);assert.equal(new Set(found.map(r=>r.id)).size,7);}
 });

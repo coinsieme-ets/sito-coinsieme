@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const engine=require('../anteprima-sportello/app/orientamento'),catalog=require('../anteprima-sportello/app/servizi');
 test('Salute: sei raggruppamenti visivi senza nuove categorie o record',()=>{
- assert.equal(engine.healthSections.length,6);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,54);
+ assert.equal(engine.healthSections.length,6);assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,58);
  const items=engine.chooseServiceResources(['salute'],catalog),groups=engine.organizeServiceGroups(engine.groupServiceResources(items,['salute'],catalog));
  assert.deepEqual([...new Set(groups.map(g=>g.healthSection.id))],engine.healthSections.map(s=>s.id));
  assert.equal(groups[0].id,'salute:medici-pediatri');assert.equal(groups[1].id,'salute:prenotazioni');
