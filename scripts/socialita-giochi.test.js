@@ -1,10 +1,10 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict'),crypto=require('node:crypto');
 const model=require('../anteprima-sportello/app/socialita');
-test('Giochi: le 22 aggiunte precedentemente pubblicate rimangono identiche',()=>{
- const previous=model.additions.filter(r=>r.journey!=='giochi');
- assert.equal(previous.length,22);
- assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'481f925b3de6ac3d6c558839c95409fdfd637c473262a9d5babaf87335e1b0ba');
+test('Giochi: le 20 aggiunte non coinvolte nell’aggiornamento dei due parchi rimangono identiche',()=>{
+ const previous=model.additions.filter(r=>r.journey!=='giochi'&&r.mode!=='palestre'&&!['social-parco-centocelle','social-villa-de-sanctis'].includes(r.id));
+ assert.equal(previous.length,20);
+ assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'64c83720e82ba3672f5522377427c52ff42d3a22af7d7ec7c7018a2220e3886d');
 });
 test('Giochi: quattro risorse uniche e tre modalita distinte',()=>{
  const all=model.filter(model.additions,{journey:'giochi'});

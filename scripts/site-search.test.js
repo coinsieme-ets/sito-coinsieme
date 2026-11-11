@@ -18,10 +18,10 @@ test('Ricerca: bisogni comuni, nessuna ricerca vuota e nessun duplicato di desti
  assert.ok(entries.some(e=>e.title==='Policlinico Tor Vergata'&&e.url.endsWith('/risorsa/territorio-tor-vergata')));
  assert.equal(entries.filter(e=>e.url.includes('/farmacia/')).length,6);
 });
-test('Ricerca: tutte le schede Casa e le 71 risorse Socialita sono indicizzate una volta',()=>{
+test('Ricerca: tutte le schede Casa e le 77 risorse Socialita sono indicizzate una volta',()=>{
  const entries=catalog.build(),html=fs.readFileSync(path.join(root,'casa-che-si-prende-cura/index.html'),'utf8');
  assert.equal(entries.filter(e=>e.type==='Casa').length,(html.match(/class="solution(?: [^"]*)?"/g)||[]).length);
- assert.equal(entries.filter(e=>e.url.includes('/sociale/')).length,71);
+ assert.equal(entries.filter(e=>e.url.includes('/sociale/')).length,77);
  assert.ok(entries.every(e=>e.url.startsWith('/')&&!e.url.startsWith('//')&&!e.url.includes('?')));
 });
 test('Ricerca: bozze, date future e fonti esterne non diventano risultati',()=>{
