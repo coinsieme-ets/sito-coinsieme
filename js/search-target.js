@@ -21,10 +21,15 @@
   const [category,kind,id]=parts;
   if(parts.length!==3||!id||id.length>180||!/^[-a-z0-9]+$/.test(id))return;
   const choice=[...document.querySelectorAll('#servizi-scelte input')].find(el=>el.value===category);if(!choice)return;
+  const allAccessibility=document.getElementById('accessibilita-ambito-tutte');if(allAccessibility)allAccessibility.checked=true;
   document.querySelectorAll('#servizi-scelte input').forEach(el=>{el.checked=el===choice;});choice.dispatchEvent(new Event('change',{bubbles:true}));
   let node;
   if(kind==='ambito'){
-   if(category==='socialita'){document.querySelector('[data-journey="tutte"]')?.click();node=document.getElementById('socialita-titolo');}
+   if(category==='digitale'){
+    const option=document.getElementById('accessibilita-ambito-'+id);
+    if(option){option.checked=true;option.dispatchEvent(new Event('change',{bubbles:true}));}
+    node=document.getElementById('accessibilita-filtri');
+   }else if(category==='socialita'){document.querySelector('[data-journey="tutte"]')?.click();node=document.getElementById('socialita-titolo');}
    else node=byData('data-group',category+':'+id)||document.querySelector('#servizi-risultati details')||document.getElementById('servizi-risultati-titolo');
   }else if(kind==='sociale'){
    document.querySelector('[data-journey="tutte"]')?.click();

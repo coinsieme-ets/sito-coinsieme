@@ -27,12 +27,14 @@
   const searchLabel=make('label','Cerca per nome, servizio o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
   homeControls.append(make('p','I filtri riguardano soltanto Assistenza a domicilio. Municipio V e Roma Est includono sedi accertate o territori documentati, non disponibilità garantita. Una sede a Roma non prova copertura in tutta la città. I Municipi non accertati restano da verificare. Nessun operatore è presentato come partner COINSIEME.'));
   results.before(homeControls);
+  const accessibility=window.SportelloAccessibilita.mount(root,catalog,render);
   function render(){
     const ids=selected();homeControls.hidden=!ids.includes('domicilio');
     if(window.SportelloSocialita)window.SportelloSocialita.render(ids);
-    const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value,name:homeName.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne));
+    const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value,name:homeName.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne)).filter(r=>!catalog.sharedResources?.some(shared=>shared.id===r.id)||!ids.includes('mobilita')||ids.includes('digitale')||!window.SportelloMobilita||window.SportelloMobilita.matchesShared(r));
     if(window.SportelloMobilita)for(const item of window.SportelloMobilita.choose(ids))if(!resources.some(r=>r.id===item.id))resources.push(item);
     if(window.SportelloConsegne)resources.push(...window.SportelloConsegne.choose(ids));
+    resources.splice(0,resources.length,...accessibility.select(resources,ids));
     results.replaceChildren();
     root.querySelector('#servizi-empty').hidden=ids.length>0;
     root.querySelector('.sp-results-shortcut').hidden=!ids.length;
@@ -88,6 +90,7 @@
         if(presentation.showHeading)details.append(make('h4',resource.name));
       }else{
         const summary=make('summary',resource.name);summary.append(make('span','Approfondisci','sp-service-invite'));details.append(summary);
+        if(resource.privatePaid)summary.append(make('span','Servizio professionale privato a pagamento','sp-service-badge'));
         if(resource.verificationScope==='psicologia-online'){
           details.classList.add('sp-psychology-'+resource.funding);
           summary.append(make('span',resource.funding==='public'?'Opportunità finanziata pubblicamente':'Servizio privato a pagamento','sp-psychology-kind'));

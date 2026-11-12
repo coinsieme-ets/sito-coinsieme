@@ -23,7 +23,7 @@
   }
   function chooseServiceResources(ids,catalog){
     const allowed=new Set(catalog.areas.filter(area=>ids.includes(area.id)).map(area=>area.id));
-    const selected=catalog.resources.filter(resource=>(resource.categories||[resource.category]).some(id=>allowed.has(id)));
+    const selected=[...catalog.resources,...(catalog.sharedResources||[])].filter(resource=>(resource.categories||[resource.category]).some(id=>allowed.has(id)));
     const covered=new Set(selected.filter(resource=>resource.kind==='territoriale'&&catalog.isVerifiedResource(resource)).filter(resource=>resource.subcategory).map(resource=>resource.category+':'+resource.subcategory));
     return [...new Map(selected.filter(resource=>resource.kind==='territoriale'||!covered.has(resource.category+':'+resource.subcategory)).map(resource=>[resource.id,resource])).values()];
   }

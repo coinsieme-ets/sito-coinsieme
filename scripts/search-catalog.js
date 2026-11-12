@@ -13,8 +13,9 @@ function catalog(){
   entries.push({title:text(title),summary:short(description),type,url,text:text([title,description,extra].join(' ')),...(until?{until}:{} )});
  }
  const services=require('../anteprima-sportello/app/servizi');
- const ordinary=[...services.resources,...services.homeOperators,...services.technicalResources];
+ const ordinary=[...services.resources,...services.homeOperators,...services.technicalResources,...(services.sharedResources||[])];
  const categoryIntros=new Set(['info-domicilio','info-socialita','info-consegne','info-mobilita']);
+ for(const group of require('../anteprima-sportello/app/accessibilita').groups)add(group.name,group.description,target('digitale','ambito',group.id));
  const groupIntros=new Set(['case-ambulatori','ospedali','domiciliare-sanitaria','prevenzione']);
  for(const r of ordinary){
   const kind=categoryIntros.has(r.id)||(r.id.startsWith('info-salute-')&&groupIntros.has(r.subcategory))?'ambito':'risorsa';

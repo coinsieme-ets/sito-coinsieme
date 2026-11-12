@@ -98,6 +98,19 @@
 .sp-social-pathways :focus-visible{outline:3px solid #843a0b;outline-offset:3px}
 .sp-social-pathways [hidden]{display:none!important}
 .sp-social-intro{margin:16px 0;line-height:1.6;scroll-margin-top:110px}
+.sp-accessibility-filters{scroll-margin-top:110px}
+.sp-accessibility-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sp-accessibility-options label{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #456451;border-radius:6px;cursor:pointer;min-width:0}
+.sp-accessibility-options label:first-child{grid-column:1/-1}
+.sp-accessibility-options label:has(input:checked){background:#eaf2ee;border-width:2px;padding:11px}
+.sp-accessibility-options input[type=radio]{flex:0 0 22px;width:22px;height:22px;min-height:22px;margin:2px 0}
+.sp-accessibility-options span{display:block;min-width:0;overflow-wrap:anywhere}
+.sp-accessibility-options strong,.sp-accessibility-options small{display:block}
+.sp-accessibility-options label>span>span{font-weight:400;font-size:.94rem;line-height:1.45;margin-top:4px}
+.sp-accessibility-options small{font-weight:400;margin-top:4px}
+.sp-accessibility-options label:focus-within{outline:3px solid #246548;outline-offset:3px}
+.sp-accessibility-empty{line-height:1.6}
+@media(max-width:600px){.sp-accessibility-options{grid-template-columns:minmax(0,1fr)}}
 .sp-social-intro h4{font-size:1.1rem;margin:12px 0}
 .sp-social-pathways fieldset{min-width:0}
 .sp-social-pathways button{min-height:44px}

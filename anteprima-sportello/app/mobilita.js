@@ -30,13 +30,13 @@
     if(options)for(const [value,text] of options){const opt=make('option',text);opt.value=value;control.append(opt);}else control.type='search';
     wrap.append(control);controls.append(wrap);control.addEventListener(options?'change':'input',()=>root.querySelector('#servizi-scelte').dispatchEvent(new Event('change',{bubbles:true})));return control;
   }
-  const kind=input('mobilita-tipo','Trasporto o ausili',[['','Tutte le tipologie'],...Object.entries(data.groups),['ausili','Noleggio, manutenzione e riparazione ausili']]);
+  const kind=input('mobilita-tipo','Trasporto, ausili o accessibilità',[['','Tutte le tipologie'],...Object.entries(data.groups),['ausili','Noleggio, manutenzione e riparazione ausili'],['accessibilita-spazi','Accessibilità degli spazi e dei servizi']]);
   const territory=input('mobilita-territorio','Territorio servito',[['tutti','Tutte le risorse censite'],['v','Municipio V'],['est','Roma Est · IV, V, VI e VII'],['roma','Roma intera · solo copertura documentata'],['nazionale','Copertura nazionale dichiarata · intervento locale da concordare']]);
   const name=input('mobilita-nome','Cerca per nome o ausilio');
   controls.append(make('p','I servizi cittadini includono i filtri Municipio V e Roma Est, ma non garantiscono vetture in ogni quartiere. Una sede romana non prova copertura dell’intera città. Accompagnamento personale e disponibilità del mezzo sono informazioni distinte.'));
   root.querySelector('#servizi-risultati').before(controls);
   for(const [id,label] of Object.entries(data.groups))window.SportelloServizi.resultGroups.push({id:'mobilita:'+id,label});
   window.SportelloServizi.resultGroups.push({id:'mobilita:ausili',label:'Noleggio, manutenzione e riparazione ausili'});
-  window.SportelloMobilita={choose(ids){controls.hidden=!ids.includes('mobilita');if(controls.hidden){kind.value='';territory.value='tutti';name.value='';return [];}
+  window.SportelloMobilita={matchesShared(resource){return (!kind.value||kind.value===resource.subcategory)&&territory.value==='tutti'&&fold([resource.name,...(resource.keywords||[])].join(' ')).includes(fold(name.value));},choose(ids){controls.hidden=!ids.includes('mobilita');if(controls.hidden){kind.value='';territory.value='tutti';name.value='';return [];}
     return choose(data,{kind:kind.value,territory:territory.value,name:name.value},window.SportelloServizi.technicalResources).map(r=>normalize(r,data,kind.value));}};
 })();

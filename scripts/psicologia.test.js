@@ -2,14 +2,16 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),crypto=require('node:crypto');
 const data=require('../anteprima-sportello/app/psicologia'),catalog=require('../anteprima-sportello/app/servizi'),engine=require('../anteprima-sportello/app/orientamento');
 const ids=data.resources.map(r=>r.id),newRecord=r=>ids.includes(r.id);
+const previousDigital={title:'Assistenza digitale',text:'Smartphone, servizi online e tecnologie utili.',description:'L’affiancamento digitale aiuta a usare strumenti e servizi senza sostituirsi alle scelte della persona. Non condividere password o codici di accesso con soggetti non autorizzati.',recipients:'Chi vuole acquisire familiarita con strumenti digitali e comandi accessibili.',access:'Definire obiettivi, strumenti e garanzie sulla riservatezza. Per ausili e domotica esplora le soluzioni gia raccolte nella Casa.'};
 test('Psicologia: sei servizi condivisi, nove categorie, nessun record precedente alterato',()=>{
  assert.equal(data.records.length,6);assert.equal(data.resources.length,7);assert.equal(catalog.resources.length,58);assert.equal(catalog.areas.length,9);
  // Baseline digests from published fde4ac7; fixtures need no .git directory.
  const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
- const historical=catalog.resources.filter(r=>r.id!=='coinsieme-barriere-digitali'&&!r.id.startsWith('facilitazione-roma-')&&r.id!=='territorio-fabia-mater'&&r.id!=='territorio-tor-vergata'&&r.id!=='recup-lazio'&&!newRecord(r)&&r.id!=='info-fisioterapia-domicilio').map(r=>r.id==='info-digitale'?{...r,links:r.links.filter(l=>l.url!=='/assistenza-digitale.html')}:r);
+ const historical=catalog.resources.filter(r=>r.id!=='coinsieme-barriere-digitali'&&!r.id.startsWith('facilitazione-roma-')&&r.id!=='territorio-fabia-mater'&&r.id!=='territorio-tor-vergata'&&r.id!=='recup-lazio'&&!newRecord(r)&&r.id!=='info-fisioterapia-domicilio').map(r=>r.id==='info-digitale'?{...r,name:previousDigital.title,description:previousDigital.description,recipients:previousDigital.recipients,access:previousDigital.access,links:r.links.filter(l=>l.url!=='/assistenza-digitale.html')}:r);
  assert.equal(digest(historical),'6cd601eef35c7969d10fc8133f447258f18deddd699de5e3058a41f36b1ac403');
  assert.equal(catalog.areas.find(r=>r.id==='socialita').text,'Incontri, cultura, sport e opportunità di relazione');
- const historicalAreas=catalog.areas.map(r=>r.id==='socialita'?{...r,text:'Incontri, cultura e opportunita di relazione.'}:r);
+ assert.equal(catalog.areas.find(r=>r.id==='digitale').title,'Accessibilità e barriere');
+ const historicalAreas=catalog.areas.map(r=>r.id==='socialita'?{...r,text:'Incontri, cultura e opportunita di relazione.'}:r.id==='digitale'?{...r,...previousDigital}:r);
  assert.equal(digest(historicalAreas),'b95d9bf1711d601388462442782fbe0b14e3fd3924c10f282adc9faadcee3af5');assert.equal(digest(catalog.subcategories),'7c365be6372c4eb90192914abff961aa2a83072c6b54f5417c6f104e52b1adb1');
  for(const selected of [['salute'],['domicilio'],['salute','domicilio']]){const found=engine.chooseHomeResources(selected,catalog).filter(newRecord);assert.equal(found.length,7);assert.equal(new Set(found.map(r=>r.id)).size,7);}
 });
