@@ -2654,7 +2654,7 @@
     "sintesi_editoriale": "Dopo il primo ciclo fatto di video centrati per lo più su esperienze di lavoro, partecipazione e autonomia delle persone con autismo, dal 12 novembre saranno disponibili nel web i nuovi video della campagna “La vita in tutte le sue sfumature”, lanciata nella primavera scorsa dall’Associazione ANG...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
@@ -2675,13 +2675,79 @@
     "sintesi_editoriale": "Tra le tante voci presenti in questi giorni ad Antalya, in Turchia, per la COP31, trentunesima Conferenza delle Nazioni Unite sui cambiamenti climatici, c’è anche quella delle persone con disabilità, tra le più colpite dalle conseguenze degli stessi cambiamenti climatici. E il messaggio della ret...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recTYQhcheYEvvL9S"
+    ]
+  },
+  {
+    "id": "skuola-net-sciopero-usb-lunedi-16-novembr-2026-11-12",
+    "categoria": "Lavoro e inclusione",
+    "data_fonte": "2026-11-12",
+    "data_pubblicazione": "2026-11-12",
+    "titolo_originale": "Sciopero USB lunedì 16 novembre: quali servizi scolastici rischiano di saltare",
+    "titolo_editoriale": "Sciopero USB lunedì 16 novembre: quali servizi scolastici rischiano di saltare",
+    "fonte": "Skuola.net",
+    "url_fonte": "https://www.skuola.net/news/scuola/sciopero-cooperative-sociali-16-novembre-2026-scuola.html",
+    "sintesi_editoriale": "Lo sciopero indetto da USB copre anche i turni a cavallo con domenica 15 e martedì 17. A rischio trasporto scolastico, mensa e pre-post scuola. Orari e richieste",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "reciQ2FkDPensnszd"
+    ],
+    "notizie": [
+      "recbo9APu2Dthk0Pz"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-12-56520421808e832d",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-11",
+    "data_pubblicazione": "2026-11-11",
+    "titolo_originale": "Lavoro e disabilità: una piattaforma nazionale che facilita l’incontro tra domanda e offerta",
+    "titolo_editoriale": "Lavoro e disabilità: una piattaforma nazionale che facilita l’incontro tra domanda e offerta",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/11/lavoro-e-disabilita-una-piattaforma-nazionale-che-facilita-lincontro-tra-domanda-e-offerta/",
+    "sintesi_editoriale": "«La nostra piattaforma nazionale facilita l’incontro tra domanda e offerta di lavoro. Non può essere un’alternativa al collocamento pubblico, ma è un tentativo di colmarne le inadempienze»: così, dall’ANDEL (Agenzia Nazionale Disabilità e Lavoro), viene segnalato l’aggiornamento della propria pia...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recisQJi44wikMk7q"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-12-680d9de419134f1c",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-11",
+    "data_pubblicazione": "2026-11-11",
+    "titolo_originale": "“Allenare la Memoria”: tecnologia e intelligenza artificiale per i diritti, la salute e l’uguaglianza sostanziale",
+    "titolo_editoriale": "“Allenare la Memoria”: tecnologia e intelligenza artificiale per i diritti, la salute e l’uguaglianza sostanziale",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/11/allenare-la-memoria-tecnologia-e-intelligenza-artificiale-per-i-diritti-la-salute-e-luguaglianza-sostanziale/",
+    "sintesi_editoriale": "Un servizio digitale di tele-riabilitazione cognitiva per persone con disabilità o fragilità cognitive, con l’obiettivo di garantire continuità ai percorsi riabilitativi, superando le distanze e le difficoltà di spostamento, in particolare per chi vive lontano dai servizi sociosanitari: sarà ques...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "reck0HUBBhJCWMUvh"
     ]
   }
 ]
