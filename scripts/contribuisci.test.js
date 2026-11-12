@@ -1,6 +1,16 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
 const {root,productionFixture,temporary,cleanup}=require('./test-support/homepage-fixture');
 const page=fs.readFileSync(path.join(root,'contribuisci.html'),'utf8');
+test('Partecipa: invito non economico e URL esistente conservato',()=>{
+ assert.match(page,/<title>Partecipa a COINSIEME/);
+ assert.match(page,/<h1 id="contribute-title">Partecipa a COINSIEME<\/h1>/);
+ assert.match(page,/aria-label="Tre modi per partecipare"/);
+ assert.doesNotMatch(page,/Contribuisci a COINSIEME|Scopri come contribuire/);
+ const source=fs.readFileSync(path.join(root,'preview/home-dinamica/build.js'),'utf8');
+ assert.match(source,/Partecipa a COINSIEME/);assert.match(source,/Scopri come partecipare/);
+ assert.match(source,/Condividi un parere sul sito, segnala un servizio utile o proponi un articolo/);
+ assert.match(source,/href="\/contribuisci.html"/);
+});
 test('Contribuisci: tre email esplicite al contatto istituzionale senza invio simulato',()=>{
  const links=[...page.matchAll(/href="(mailto:[^"]+)"/g)].map(m=>new URL(m[1]));assert.equal(links.length,3);
  assert.deepEqual(links.map(u=>u.searchParams.get('subject')),['Parere sul sito COINSIEME','Segnalazione di servizio o soluzione','Proposta di articolo per COINSIEME']);
