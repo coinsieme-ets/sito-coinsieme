@@ -1,0 +1,55 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+test('QC-051: Itinera non presenta indirizzo storico come sede operativa',()=>{
+ const context={window:{}};
+ vm.runInNewContext(fs.readFileSync('anteprima-sportello/app/socialita-data.js','utf8'),context);
+ const items=context.window.SportelloSocialitaData.records.filter(r=>r.id==='albo-118');
+ assert.equal(items.length,1);
+ assert.equal(items[0].operationalAddress,null);
+ assert.equal(items[0].municipalities.length,0);
+ assert.match(items[0].legalAddress,/atto costitutivo/);
+ assert.match(items[0].caution,/Accessibilità non garantita/);
+ assert.match(items[0].description,/centro storico/);
+ assert.equal(items[0].verifiedAt,'2026-11-12');
+});
+test('QC-011: Badaitalia distingue ricerca gratuita, compenso e disponibilita',()=>{
+ const data=require('../anteprima-sportello/app/operatori-domicilio');
+ const items=data.filter(r=>r.id==='operatore-badaitalia');
+ assert.equal(items.length,1);
+ const item=items[0];
+ assert.equal(item.verifiedAt,'2026-11-12');
+ assert.equal(item.coverageMunicipi.length,15);
+ assert.equal(item.publicMunicipi.length,0);
+ assert.match(item.declaredCoverage,/Centocelle, Villa De Sanctis, Tor Pignattara/);
+ assert.match(item.costs,/solo in caso di esito positivo/);
+ assert.match(item.availability,/2–7 giorni/);
+ assert.match(item.hours,/9:00–18:00/);
+ assert.match(item.notes.join(' '),/QC-011/);
+});
+test('QC-008: preavviso, pagamento e disponibilita Samarcanda distinti',()=>{
+ const context={window:{}};
+ vm.runInNewContext(fs.readFileSync('anteprima-sportello/app/mobilita-data.js','utf8'),context);
+ const records=context.window.SportelloMobilitaData.records;
+ const items=records.filter(r=>r.id==='mobilita-samarcanda');
+ assert.equal(items.length,1);
+ const item=items[0];
+ assert.match(item.access,/48 ore lavorative/);
+ assert.doesNotMatch(item.access,/24 ore lavorative/);
+ assert.match(item.access,/stesse per utenti privati e STID/);
+ assert.match(item.coverage,/chiamate al momento.*variabile/);
+ assert.match(item.coverage,/prenotazioni accettate/);
+ assert.match(item.costs,/cambia il metodo di pagamento/);
+ assert.equal(item.verifiedAt,'2026-11-12');
+});
+test('QC-005: conferme commerciali attribuite al gestore, non garanzie COINSIEME',()=>{
+ const item=require('../anteprima-sportello/app/ortopedia24ore');
+ assert.match(item.costs,/compreso il montaggio/);
+ assert.match(item.costs,/Provincia di Roma.*costo variabile/);
+ assert.match(item.availability,/gestore dichiara.*entro 24 ore/);
+ assert.match(item.notes.join(' '),/QC-005 del 12 novembre 2026/);
+ assert.match(item.notes.join(' '),/coincide con il punto vendita Ortopedia100/);
+ assert.match(item.hours,/non significa apertura fisica H24/);
+});

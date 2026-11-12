@@ -17,8 +17,11 @@ test('Cultura: ballo, musei e parchi distinti senza trasformare i luoghi in inco
  assert.match(all.find(r=>r.id==='social-mausoleo-elena').details.join(' '),/condizioni e percorsi possono essere diversi/);
 });
 function original(){const c={window:{}};for(const file of ['socialita-data','samaritans','tirrenia-todaro'])vm.runInNewContext(fs.readFileSync(path.join(base,file+'.js'),'utf8'),c);return JSON.parse(JSON.stringify(c.window.SportelloSocialitaData.records));}
-test('Socialità: tutte le 45 risorse originali sono conservate integralmente',()=>{
- const r=original();assert.equal(r.length,45);assert.equal(crypto.createHash('sha256').update(JSON.stringify(r)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
+test('Socialità: 45 risorse conservate, salvo correzione Itinera QC-051',()=>{
+ const r=original();assert.equal(r.length,45);
+ const itinera=r.find(x=>x.id==='albo-118');assert.equal(itinera.operationalAddress,null);assert.equal(itinera.verifiedAt,'2026-11-12');assert.match(itinera.caution,/QC-051/);
+ const baseline=r.map(x=>{if(x.id!=='albo-118')return x;const {verifiedAt,...old}=x;return {...old,legalAddress:null,operationalAddress:'via augusto dulceri 25',municipalities:['IV','V','VI','VII'],territoryBasis:'Ambiti di attività dichiarati nell’Albo, non Municipio della sede né copertura garantita',description:'Attività dichiarate nell’Albo civico: Attività culturali e artistiche.',caution:'Sede operativa riportata dall’export, non geocodificata. Apertura, calendario e disponibilità da confermare. Nessun rapporto di partnership COINSIEME attestato.'};});
+ assert.equal(crypto.createHash('sha256').update(JSON.stringify(baseline)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
  const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,77);assert.equal(new Set(all.map(x=>x.id)).size,77);
  assert.equal(model.filter(all,{journey:'tutte'}).length,77);assert.equal(JSON.stringify(r),before);
 });
