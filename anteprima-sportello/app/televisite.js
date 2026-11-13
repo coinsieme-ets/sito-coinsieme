@@ -21,6 +21,8 @@
       const details=make('details');details.id='televisite-'+record.id;details.append(make('summary',record.name+' — Scopri modalità e limiti'),make('p',record.description));
       const dl=make('dl');for(const [label,value] of [['Costi e pagamento',record.costs],['Come collegarsi',record.connection],['Prescrizioni e documenti: cosa verificare',record.documents],['Recensioni',record.reviews]])dl.append(make('dt',label),make('dd',value));
       details.append(dl,link('Apri il servizio ufficiale '+record.name,record.url));
+      if(record.verificationNote)details.append(make('p',record.verificationNote));
+      if(record.contactEmail)details.append(link('Assistenza '+record.name+': '+record.contactEmail,'mailto:'+record.contactEmail));
       for(const source of record.sources){const p=make('p');p.append(link(source.label,source.url),' · Consultata il '+data.checkedAt);details.append(p);}
       target.append(details);
     }

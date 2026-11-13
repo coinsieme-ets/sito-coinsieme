@@ -30,7 +30,7 @@ test('Psicologia: prezzi, gratuità limitata, durata e qualifiche dichiarate non
  assert.match(by('psicodigitale').costs,/45 euro individuale, 55 euro coppia/);assert.match(by('santagostino-psiche').costs,/50 euro/);
  assert.match(by('serenis').duration,/45 minuti.*55 minuti/);assert.match(by('psicologo4u').duration,/50 minuti.*15 minuti/);
  assert.match(by('bonus-psiconcologia-lazio').costs,/1.200.*16 colloqui/);assert.match(by('bonus-psiconcologia-lazio').requirements,/40.000/);
- for(const r of data.records){assert.ok(r.credentials&&r.duration&&r.audienceEvidence);assert.ok(r.sources.length>=2);for(const s of r.sources){assert.equal(new URL(s.url).protocol,'https:');assert.equal(s.checkedAt,data.checkedAt);}}
+ for(const r of data.records){assert.ok(r.credentials&&r.duration&&r.audienceEvidence);assert.ok(r.sources.length>=2);for(const s of r.sources){assert.equal(new URL(s.url).protocol,'https:');const contact=r.id==='santagostino-psiche'&&s.url==='https://www.santagostino.it/it/contatti';assert.equal(s.checkedAt,contact?'2026-11-13':data.checkedAt);}}
  assert.match(by('psicologo4u').notes.join(' '),/giurisdizione inglesi/);
 });
 test('Psicologia: misura pubblica distinta, domande non garantite e tariffe private datate',()=>{
