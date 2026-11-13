@@ -2,9 +2,9 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict'),crypto=require('node:crypto');
 const model=require('../anteprima-sportello/app/socialita');
 test('Giochi: le 20 aggiunte non coinvolte nell’aggiornamento dei due parchi rimangono identiche',()=>{
- const previous=model.additions.filter(r=>r.journey!=='giochi'&&r.mode!=='palestre'&&!['social-parco-centocelle','social-villa-de-sanctis','social-auser-prenestino','social-ecomuseo-casilino','social-angeli-noonan','social-universita-popolare-torpignattara'].includes(r.id));
- assert.equal(previous.length,20);
- assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'64c83720e82ba3672f5522377427c52ff42d3a22af7d7ec7c7018a2220e3886d');
+ const previous=model.additions.filter(r=>r.journey!=='giochi'&&r.mode!=='palestre'&&!['social-parco-centocelle','social-villa-de-sanctis','social-auser-prenestino','social-ecomuseo-casilino','social-angeli-noonan','social-universita-popolare-torpignattara','social-ballo-flabart'].includes(r.id));
+ assert.equal(previous.length,19);
+ assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'3106a1d7dc2d5dd039fccf6c1d138b8ebc6504cf9dc793382dafe229db62942b');
 });
 test('Giochi: quattro risorse uniche e tre modalita distinte',()=>{
  const all=model.filter(model.additions.filter(r=>r.id!=='social-scuola-popolare-scacchi'),{journey:'giochi'});

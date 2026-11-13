@@ -14,14 +14,14 @@ test('Connessioni servizi: scheda unica privata, categorie esistenti e reperibil
  assert.equal(item.privatePaid,true);assert.match(item.providerType,/privato a pagamento/);
 });
 test('Connessioni servizi: dati confermati e limiti territoriali, economici e di disponibilita',()=>{
- assert.match(item.zone,/Sede a Roma, senza indirizzo stradale/);assert.match(item.zone,/singolo territorio/);
- assert.equal(item.address,undefined);assert.equal(item.phones,undefined);assert.equal(item.emails[0].address,'info@connessionisociali.it');
+ assert.match(item.zone,/Sede a Roma, Piazza Carlo Magno 21/);assert.match(item.zone,/singolo territorio/);
+ assert.equal(item.address,'Piazza Carlo Magno 21, 00162 Roma');assert.equal(item.phones[0].number,'0692915394');assert.equal(item.emails[0].address,'info@connessionisociali.it');
  assert.equal(item.costs,'Le condizioni economiche sono concordate direttamente con Connessioni Sociali in relazione al servizio di consulenza, al progetto o al percorso formativo richiesto.');
  assert.match(item.notes.join(' '),/confermate direttamente dall’organizzazione/);assert.match(item.notes.join(' '),/online in diretta/);
  assert.match(item.notes.join(' '),/non certifica/);assert.match(item.notes.join(' '),/Casi progettuali, distinti dai servizi/);
- assert.match(item.availability,/non verificati/);assert.equal(item.verifiedAt,'2026-11-12');
+ assert.match(item.availability,/non verificati/);assert.equal(item.verifiedAt,'2026-11-13');
  assert.doesNotMatch(JSON.stringify(item),/tel:|Andrea Venuto/);
- for(const source of item.sources){assert.equal(new URL(source.url).protocol,'https:');assert.equal(source.checkedAt,'2026-11-12');}
+ for(const source of item.sources){assert.equal(new URL(source.url).protocol,'https:');assert.equal(source.checkedAt,source.url==='https://www.connessionisociali.it/'?'2026-11-13':'2026-11-12');}
 });
 test('Connessioni servizi: rilascio separato senza link al futuro articolo',()=>{
  assert.equal(item.links.some(l=>l.url.startsWith('/articoli/')||l.url.startsWith('/preview/')),false);

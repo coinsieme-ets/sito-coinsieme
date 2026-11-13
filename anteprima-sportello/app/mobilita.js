@@ -15,7 +15,7 @@
     if(record.homeKind==='ausili')return record;
     return {...record,category:'mobilita',subcategory:record.groups.includes(kind)?kind:record.groups[0],entity:record.name,zone:record.coverage,
       status:'presenza_documentata',verificationScope:'mobilita',verifiedAt:data.checkedAt,source:record.sourceUrls[0],
-      sources:record.sourceUrls.map(url=>({url,label:'Fonte ufficiale · '+new URL(url).hostname,checkedAt:data.checkedAt})),
+      sources:record.sourceUrls.map(url=>({url,label:'Fonte ufficiale · '+new URL(url).hostname,checkedAt:record.sourceCheckedAt?.[url]||data.checkedAt})),
       availability:'La fonte documenta il servizio o la dichiarazione dell’operatore, non la disponibilità attuale. Nessun soggetto è presentato come partner COINSIEME.',links:[]};
   }
   if(typeof module==='object'&&module.exports){module.exports={choose,matchesTerritory,normalize};return;}

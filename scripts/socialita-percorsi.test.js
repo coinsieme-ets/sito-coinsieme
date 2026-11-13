@@ -9,7 +9,7 @@ test('Mistica: tenuta, parco ricreativo e Capodarco sono risorse distinte, senza
 });
 test('Cultura: ballo, musei e parchi distinti senza trasformare i luoghi in incontri organizzati',()=>{
  const all=model.additions;
- for(const mode of ['ballo','musei','parchi']){const selected=model.filter(all,{journey:'cultura',mode});assert.equal(selected.length,mode==='parchi'?5:2);for(const r of selected){assert.ok(r.operationalAddress);assert.equal(r.sources[0].checkedAt,'2026-11-07');assert.ok(r.website.startsWith('https://'));}}
+ for(const mode of ['ballo','musei','parchi']){const selected=model.filter(all,{journey:'cultura',mode});assert.equal(selected.length,mode==='parchi'?5:2);for(const r of selected){assert.ok(r.operationalAddress);assert.equal(r.sources[0].checkedAt,r.id==='social-ballo-flabart'?'2026-11-13':'2026-11-07');assert.ok(r.website.startsWith('https://'));}}
  const dance=model.filter(all,{journey:'cultura',mode:'ballo',neighborhood:'Centocelle'});assert.equal(dance.length,2);assert.equal(dance.find(r=>r.id==='social-ballo-flabart').phone,'3481158797');
  assert.ok(model.filter(all,{journey:'amicizie',mode:'territorio'}).every(r=>!['musei','parchi'].includes(r.mode)));
  assert.ok(model.filter(all,{journey:'cultura',mode:'altre'}).every(r=>!['ballo','musei','parchi'].includes(r.mode)));
@@ -20,8 +20,8 @@ function original(){const c={window:{}};for(const file of ['socialita-data','sam
 test('Socialità: 45 risorse conservate, salvo correzione Itinera QC-051',()=>{
  const r=original();assert.equal(r.length,45);
  const itinera=r.find(x=>x.id==='albo-118');assert.equal(itinera.operationalAddress,null);assert.equal(itinera.verifiedAt,'2026-11-12');assert.match(itinera.caution,/QC-051/);
- const baseline=r.map(x=>{if(x.id!=='albo-118')return x;const {verifiedAt,...old}=x;return {...old,legalAddress:null,operationalAddress:'via augusto dulceri 25',municipalities:['IV','V','VI','VII'],territoryBasis:'Ambiti di attività dichiarati nell’Albo, non Municipio della sede né copertura garantita',description:'Attività dichiarate nell’Albo civico: Attività culturali e artistiche.',caution:'Sede operativa riportata dall’export, non geocodificata. Apertura, calendario e disponibilità da confermare. Nessun rapporto di partnership COINSIEME attestato.'};});
- assert.equal(crypto.createHash('sha256').update(JSON.stringify(baseline)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
+ const baseline=r.filter(x=>x.id!=='albo-119').map(x=>{if(x.id!=='albo-118')return x;const {verifiedAt,...old}=x;return {...old,legalAddress:null,operationalAddress:'via augusto dulceri 25',municipalities:['IV','V','VI','VII'],territoryBasis:'Ambiti di attività dichiarati nell’Albo, non Municipio della sede né copertura garantita',description:'Attività dichiarate nell’Albo civico: Attività culturali e artistiche.',caution:'Sede operativa riportata dall’export, non geocodificata. Apertura, calendario e disponibilità da confermare. Nessun rapporto di partnership COINSIEME attestato.'};});
+ assert.equal(crypto.createHash('sha256').update(JSON.stringify(baseline)).digest('hex'),'9089c64a99848b9068b35f75d7f3ac09abd2492ca463126e8d5cb826e6876ed4');
  const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,82);assert.equal(new Set(all.map(x=>x.id)).size,82);
  assert.equal(model.filter(all,{journey:'tutte'}).length,82);assert.equal(JSON.stringify(r),before);
 });
