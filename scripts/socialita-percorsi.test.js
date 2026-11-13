@@ -22,8 +22,8 @@ test('Socialità: 45 risorse conservate, salvo correzione Itinera QC-051',()=>{
  const itinera=r.find(x=>x.id==='albo-118');assert.equal(itinera.operationalAddress,null);assert.equal(itinera.verifiedAt,'2026-11-12');assert.match(itinera.caution,/QC-051/);
  const baseline=r.map(x=>{if(x.id!=='albo-118')return x;const {verifiedAt,...old}=x;return {...old,legalAddress:null,operationalAddress:'via augusto dulceri 25',municipalities:['IV','V','VI','VII'],territoryBasis:'Ambiti di attività dichiarati nell’Albo, non Municipio della sede né copertura garantita',description:'Attività dichiarate nell’Albo civico: Attività culturali e artistiche.',caution:'Sede operativa riportata dall’export, non geocodificata. Apertura, calendario e disponibilità da confermare. Nessun rapporto di partnership COINSIEME attestato.'};});
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(baseline)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
- const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,80);assert.equal(new Set(all.map(x=>x.id)).size,80);
- assert.equal(model.filter(all,{journey:'tutte'}).length,80);assert.equal(JSON.stringify(r),before);
+ const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,82);assert.equal(new Set(all.map(x=>x.id)).size,82);
+ assert.equal(model.filter(all,{journey:'tutte'}).length,82);assert.equal(JSON.stringify(r),before);
 });
 test('Socialità: percorsi distinti per attività e repertorio alfabetico',()=>{
  assert.deepEqual(model.journeys.map(j=>j.id),['amicizie','centri','sport','cultura','parchi','ballo','giochi','turismo','solidarieta','quartiere']);
@@ -48,8 +48,8 @@ test('Socialita e vicinato: percorsi distinti, repertorio unico e nessuna risors
  assert.ok(selected.length>1);assert.ok(selected.some(r=>r.id==='samaritans-ascolto'));
  assert.ok(selected.every(r=>!r.trip&&r.mode!=='app'&&r.journey!=='giochi'&&r.mode!=='parchi'));
  for(const journey of vicino)assert.ok(model.filter(selected,{journey}).length>0,journey);
- const union=model.forCategories(all,['socialita','vicinato']);assert.equal(union.length,80);assert.equal(new Set(union.map(r=>r.id)).size,80);
- assert.equal(new Set([...model.forCategories(all,['socialita']),...selected].map(r=>r.id)).size,80);
+ const union=model.forCategories(all,['socialita','vicinato']);assert.equal(union.length,82);assert.equal(new Set(union.map(r=>r.id)).size,82);
+ assert.equal(new Set([...model.forCategories(all,['socialita']),...selected].map(r=>r.id)).size,82);
  assert.equal(JSON.stringify(all),before);
 });
 test('Socialità: turismo senza barriere distinto dalle offerte non documentate',()=>{

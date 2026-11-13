@@ -37,7 +37,7 @@ test('Associazioni sociali: indice di ricerca include esattamente una scheda per
 });
 
 test('Associazioni sociali: aggiunte storiche invariate',()=>{
- const legacy=model.additions.filter(r=>!ids.includes(r.id));
+ const legacy=model.additions.filter(r=>!ids.includes(r.id)&&!['social-scuola-popolare-scacchi','social-universita-popolare-torpignattara'].includes(r.id));
  assert.equal(legacy.length,32);
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(legacy)).digest('hex'),'31630f62713e0e603fb5297ac7db6c32beb9c9802d55cc875a2c6536ae0f33cc');
 });
