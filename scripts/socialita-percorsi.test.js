@@ -22,8 +22,8 @@ test('Socialità: 45 risorse conservate, salvo correzione Itinera QC-051',()=>{
  const itinera=r.find(x=>x.id==='albo-118');assert.equal(itinera.operationalAddress,null);assert.equal(itinera.verifiedAt,'2026-11-12');assert.match(itinera.caution,/QC-051/);
  const baseline=r.map(x=>{if(x.id!=='albo-118')return x;const {verifiedAt,...old}=x;return {...old,legalAddress:null,operationalAddress:'via augusto dulceri 25',municipalities:['IV','V','VI','VII'],territoryBasis:'Ambiti di attività dichiarati nell’Albo, non Municipio della sede né copertura garantita',description:'Attività dichiarate nell’Albo civico: Attività culturali e artistiche.',caution:'Sede operativa riportata dall’export, non geocodificata. Apertura, calendario e disponibilità da confermare. Nessun rapporto di partnership COINSIEME attestato.'};});
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(baseline)).digest('hex'),'ef2089c45b7e2d4b5934ca90d28b78d773bffb275af20b269caa70f7adbb2a37');
- const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,77);assert.equal(new Set(all.map(x=>x.id)).size,77);
- assert.equal(model.filter(all,{journey:'tutte'}).length,77);assert.equal(JSON.stringify(r),before);
+ const before=JSON.stringify(r),all=[...r,...model.additions];assert.equal(all.length,80);assert.equal(new Set(all.map(x=>x.id)).size,80);
+ assert.equal(model.filter(all,{journey:'tutte'}).length,80);assert.equal(JSON.stringify(r),before);
 });
 test('Socialità: percorsi distinti per attività e repertorio alfabetico',()=>{
  assert.deepEqual(model.journeys.map(j=>j.id),['amicizie','centri','sport','cultura','parchi','ballo','giochi','turismo','solidarieta','quartiere']);
@@ -37,7 +37,7 @@ test('Socialità: amicizie digitali distinte dalle attività locali e da gruppi 
  assert.ok(model.filter(all,{journey:'amicizie',mode:'territorio'}).every(r=>r.mode!=='app'));
  assert.equal(model.filter(all,{journey:'amicizie',mode:'social'}).length,0);
  assert.equal(model.filter(all,{journey:'amicizie',mode:'app',municipio:'V'}).length,0);
- assert.equal(model.forCategories(model.additions,['vicinato']).length,4);
+ assert.equal(model.forCategories(model.additions,['vicinato']).length,6);
 });
 test('Socialita e vicinato: percorsi distinti, repertorio unico e nessuna risorsa persa',()=>{
  const social=model.visibleJourneys(['socialita']).map(j=>j.id),vicino=model.visibleJourneys(['vicinato']).map(j=>j.id);
@@ -48,8 +48,8 @@ test('Socialita e vicinato: percorsi distinti, repertorio unico e nessuna risors
  assert.ok(selected.length>1);assert.ok(selected.some(r=>r.id==='samaritans-ascolto'));
  assert.ok(selected.every(r=>!r.trip&&r.mode!=='app'&&r.journey!=='giochi'&&r.mode!=='parchi'));
  for(const journey of vicino)assert.ok(model.filter(selected,{journey}).length>0,journey);
- const union=model.forCategories(all,['socialita','vicinato']);assert.equal(union.length,77);assert.equal(new Set(union.map(r=>r.id)).size,77);
- assert.equal(new Set([...model.forCategories(all,['socialita']),...selected].map(r=>r.id)).size,77);
+ const union=model.forCategories(all,['socialita','vicinato']);assert.equal(union.length,80);assert.equal(new Set(union.map(r=>r.id)).size,80);
+ assert.equal(new Set([...model.forCategories(all,['socialita']),...selected].map(r=>r.id)).size,80);
  assert.equal(JSON.stringify(all),before);
 });
 test('Socialità: turismo senza barriere distinto dalle offerte non documentate',()=>{
@@ -73,7 +73,7 @@ test('Turismo: partenze trascorse o già iniziate non sono proposte come prenota
  assert.ok(!model.filter(trips,{journey:'turismo',today:'2026-12-13'}).some(r=>r.id===salerno.id));
 });
 test('Socialità: volontariato CRI, Protezione civile, Caritas e Sant’Egidio con fonti e limiti',()=>{
- const selected=model.filter(model.additions,{journey:'solidarieta'});assert.equal(selected.length,4);
+ const selected=model.filter(model.additions.filter(r=>r.id.startsWith('social-volontariato-')),{journey:'solidarieta'});assert.equal(selected.length,4);
  for(const r of selected){assert.ok(r.sources.every(s=>s.checkedAt==='2026-11-07'&&s.url.startsWith('https://')));assert.equal(r.municipalities.length,0);assert.ok(r.details.length>=2);}
  assert.equal(selected.find(r=>r.id==='social-volontariato-caritas').phone,'0688815150');
  assert.match(selected.find(r=>r.id==='social-volontariato-protezione-civile').details.join(' '),/non intervenire autonomamente/);
