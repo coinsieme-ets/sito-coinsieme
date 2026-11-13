@@ -2762,7 +2762,7 @@
     "sintesi_editoriale": "Venerd&igrave; 13 novembre 2026, alle ore 17.00 , nel Centro Sociale Anziani San Felicita Fidene, in via Sinalunga 22, si terr&agrave; la presentazione di \"Raggio di Quartiere &ndash; prossimit&agrave; attiva e vicini di cura\".",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,
@@ -2772,6 +2772,27 @@
     ],
     "notizie": [
       "recUb7Nlffq7VKGiY"
+    ]
+  },
+  {
+    "id": "lombardia-scuola-lavoro-disabilita-2026-11-12",
+    "categoria": "Lavoro e inclusione",
+    "data_fonte": "2026-11-12",
+    "data_pubblicazione": "2026-11-12",
+    "titolo_originale": "86 milioni di euro per accompagnare le persone con disabilità dalla scuola al lavoro",
+    "titolo_editoriale": "Lombardia: percorsi integrati dalla scuola al lavoro per le persone con disabilità",
+    "fonte": "Regione Lombardia – Lombardia Speciale",
+    "url_fonte": "https://lombardiaspeciale.regione.lombardia.it/famiglia-ed-inclusione-sociale/accompagnare-persone-disabili-scuola-lavoro",
+    "sintesi_editoriale": "La Regione Lombardia illustra un intervento da 86 milioni di euro per collegare scuola, formazione e inserimento lavorativo. I progetti, di 24 mesi, coinvolgono reti guidate da operatori accreditati e scuole, con orientamento e raccordo con il Collocamento mirato. È un intervento lombardo: la notizia non documenta un bando accessibile nel Lazio.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recOeuEgS9WDhS3XY"
     ]
   }
 ]
