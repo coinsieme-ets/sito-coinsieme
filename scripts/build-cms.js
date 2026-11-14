@@ -215,6 +215,7 @@ function loadAllArticles() {
       image,
       imageIsExternal,
       imageAlt: item.image_alt ? String(item.image_alt).trim() : (image ? `Immagine per: ${item.title.trim()}` : ''),
+      imageCaption: item.image_caption ? String(item.image_caption).trim() : '',
       image_position: item.image_position ? String(item.image_position).trim() : (item.imagePosition ? String(item.imagePosition).trim() : ''),
       social_title: item.social_title ? String(item.social_title).trim() : '',
       social_description: item.social_description ? String(item.social_description).trim() : '',
@@ -236,7 +237,7 @@ function renderArticle(item, template) {
     : '';
   const imageSrc = item.imageIsExternal ? item.image : `../../${item.image}`;
   const imageHtml = item.image
-    ? `<figure style="margin:0 0 40px;"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" style="width:100%; height:auto; border-radius:var(--radius-lg);" loading="lazy"></figure>`
+    ? `<figure style="margin:0 0 40px;"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(item.imageAlt)}" style="width:100%; height:auto; border-radius:var(--radius-lg);" loading="lazy">${item.imageCaption ? `<figcaption style="margin-top:12px;line-height:1.6;">${escapeHtml(item.imageCaption)}</figcaption>` : ''}</figure>`
     : '';
 
   const canonicalUrl = `https://www.coinsieme.it/articoli/${item.slug}/`;
