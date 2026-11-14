@@ -2807,7 +2807,7 @@
     "sintesi_editoriale": "La Cassazione conferma la riqualificazione come lavoro subordinato di rapporti presentati come collaborazioni o volontariato. Rimborsi forfettari non documentati escludono la gratuità; turni, direttive, controlli e inserimento organizzativo sono indizi rilevanti. Gli enti rischiano il recupero dei contributi e devono rispettare le regole sui rimborsi.",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,
@@ -2831,7 +2831,7 @@
     "sintesi_editoriale": "Panoramica sulle particolari caratteristiche di questa nuova handbike, che consente il ciclismo fuoristrada anche ai tetraplegici",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,
@@ -2841,6 +2841,30 @@
     ],
     "notizie": [
       "recnNxQFEz8JBaQ73"
+    ]
+  },
+  {
+    "id": "vita-aggiornamento-da-vita-2026-11-14",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-11-14",
+    "data_pubblicazione": "2026-11-14",
+    "titolo_originale": "Appalti pubblici e cooperazione sociale: tre proposte per difendere contratto e retribuzioni",
+    "titolo_editoriale": "Appalti pubblici e cooperazione sociale: tre proposte per difendere contratto e retribuzioni",
+    "fonte": "Vita",
+    "url_fonte": "https://www.vita.it/idee/appalti-pubblici-e-cooperazione-sociale-tre-proposte-per-difendere-contratto-e-retribuzioni/",
+    "sintesi_editoriale": "Marco Gargiulo, presidente del Consorzio nazionale Idee in Rete, presenta su VITA tre proposte per tutelare il contratto collettivo e le retribuzioni di chi lavora nelle cooperative sociali impegnate negli appalti pubblici.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recvJOu2MnAwcl2mJ"
+    ],
+    "notizie": [
+      "recTwwktgyHgsaxpm"
     ]
   }
 ]
