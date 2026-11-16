@@ -2879,13 +2879,85 @@
     "sintesi_editoriale": "«La ragione più evidente delle mobilitazioni di piazza di questi mesi in Italia e in Europa – scrivono dal Movimento Antiabilista – è il caro vita, cioè l’impossibilità di sostenere le spese quotidiane per il rincaro di carburante, gas e generi alimentari. Ma nel racconto mediatico e nel dibattit...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recVLQ6PVT8aZwU2e"
+    ]
+  },
+  {
+    "id": "pmi-aggiornamento-da-pmi-2026-11-13",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-11-13",
+    "data_pubblicazione": "2026-11-16",
+    "titolo_originale": "Auto cointestata al caregiver con la Legge 104: sì a IVA 4% e detrazione",
+    "titolo_editoriale": "Auto cointestata e Legge 104: il caso del familiare caregiver",
+    "fonte": "Pmi",
+    "url_fonte": "https://www.pmi.it/impresa/contabilita-e-fisco/295810/auto-cointestata-legge-104.html",
+    "sintesi_editoriale": "PMI.it esamina il caso di un’auto cointestata e le condizioni per richiedere le agevolazioni fiscali sull’acquisto del veicolo.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "rec9nCc2Ua0VuE4xW"
+    ],
+    "notizie": [
+      "recr1ulovJAWx4wkh"
+    ]
+  },
+  {
+    "id": "pmi-aggiornamento-da-pmi-2026-11-06",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-11-06",
+    "data_pubblicazione": "2026-11-16",
+    "titolo_originale": "Bando Primi Passi: 114,7 milioni per educatori e cooperative sociali",
+    "titolo_editoriale": "Primi Passi, servizi per le famiglie e ruolo delle cooperative sociali",
+    "fonte": "Pmi",
+    "url_fonte": "https://www.pmi.it/economia/finanziamenti/503352/bando-primi-passi-terzo-settore.html",
+    "sintesi_editoriale": "PMI.it approfondisce l’avviso Primi Passi e le opportunità per educatori e cooperative sociali nei servizi territoriali rivolti alle famiglie con bambini piccoli.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recPDSXXEl9MHXumZ"
+    ],
+    "notizie": [
+      "recfgM8ufpWNXln7P"
+    ]
+  },
+  {
+    "id": "csv-lazio-costruiamo-la-consulta-roma-v-2026-11-20",
+    "categoria": "Welfare e Terzo Settore",
+    "data_fonte": "2026-11-15",
+    "data_pubblicazione": "2026-11-16",
+    "titolo_originale": "Costruiamo la Consulta: nel V Municipio di Roma un’assemblea pubblica per definire obiettivi e percorso di lavoro",
+    "titolo_editoriale": "20 novembre, COINSIEME aderisce a «Costruiamo la Consulta» nel Municipio V",
+    "fonte": "CSV Lazio",
+    "url_fonte": "https://volontariatolazio.it/costruiamo-la-consulta-nel-v-municipio-di-roma-unassemblea-pubblica-per-definire-obiettivi-e-percorso-di-lavoro/",
+    "sintesi_editoriale": "Venerdì 20 novembre alle 17, al Fusolab di via della Bella Villa 96, cittadini, comitati e associazioni discuteranno la proposta di una Consulta della cittadinanza attiva del Municipio V. La Fondazione COINSIEME ETS è tra le 31 realtà aderenti.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 1,
+    "mantieni_in_evidenza_fino_al": "2026-11-20",
+    "segnalazioni": [
+      "recSoXZlADlsuua9l"
+    ],
+    "notizie": [
+      "recYOjo9UWPm7hwJw"
     ]
   }
 ]
