@@ -1,6 +1,6 @@
 'use strict';
 const crypto=require('node:crypto');
-const {validDate,selectCover,eligible}=require('../preview/home-dinamica/selection');
+const {validDate,selectCover,eligible,tier}=require('../preview/home-dinamica/selection');
 const policy=require('../preview/home-dinamica/policy.json');
 const {todayRome}=require('./home-feature');
 const sorted=x=>Array.isArray(x)?x.map(sorted):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,sorted(x[k])])):x;
@@ -11,13 +11,20 @@ const day=x=>String(x||'').slice(0,10);
 function normalize(articles,news,today=todayRome()){
  news=news.filter(x=>!require('./news-editorial-guard').needsReview(x));
  const a=articles.map(x=>({id:slug(x),kind:'article',published:x.visible!==false&&x.date_verified!==false,date:day(x.date||x.data),title:x.title,summary:x.home_summary||x.summary||'',url:'/articoli/'+slug(x)+'/',image:x.image||'',alt:x.image_alt||x.imageAlt||'',position:x.image_position||'center',prominence:x.rilevanza_home||'normale',order:order(x.ordine_home),until:x.mantieni_in_evidenza_fino_al||'',source:x.author||'COINSIEME',category:x.category||'Approfondimento'}));
- const n=news.map(x=>({id:x.id,kind:'news',published:['pubblica','pubblicata'].includes(x.stato)&&day(x.data_pubblicazione||x.data_fonte)<=today,date:day(x.data_fonte),portalDate:day(x.data_pubblicazione),title:x.titolo_editoriale||x.titolo_originale,summary:x.sintesi_editoriale||'',url:x.url_fonte,image:x.immagine_in_evidenza||x.immagine_news||'',alt:'',position:'center',prominence:({home_principale:'principale',home_evidenza:'evidenza',home_normale:'normale'})[x.posizione_sito]||'solo_archivio',order:order(x.ordine_editoriale),until:x.mantieni_in_evidenza_fino_al||'',source:x.fonte,category:x.categoria})).filter(x=>/^https?:\/\//.test(x.url));
+ const n=news.map(x=>({id:x.id,kind:'news',priority:x.priorita||'media',published:['pubblica','pubblicata'].includes(x.stato)&&day(x.data_pubblicazione||x.data_fonte)<=today,date:day(x.data_fonte),portalDate:day(x.data_pubblicazione),title:x.titolo_editoriale||x.titolo_originale,summary:x.sintesi_editoriale||'',url:x.url_fonte,image:x.immagine_in_evidenza||x.immagine_news||'',alt:'',position:'center',prominence:({home_principale:'principale',home_evidenza:'evidenza',home_normale:'normale'})[x.posizione_sito]||'solo_archivio',order:order(x.ordine_editoriale),until:x.mantieni_in_evidenza_fino_al||'',source:x.fonte,category:x.categoria})).filter(x=>/^https?:\/\//.test(x.url));
  return {articles:a,news:n};
 }
 function select(model,today=todayRome()){
- const cover=selectCover([...model.articles,...model.news],today);
+ // An evidence pin belongs to the news column, not the article cover.
+ const coverNews=model.news.filter(x=>x.prominence==='principale');
+ const cover=selectCover([...model.articles,...coverNews],today)||selectCover(model.news,today);
  const recent=items=>eligible(items,today).filter(x=>!cover||x.kind!==cover.kind||x.id!==cover.id).sort((a,b)=>b.date.localeCompare(a.date)||a.id.localeCompare(b.id));
- return {cover,articles:recent(model.articles).slice(0,3),news:recent(model.news).slice(0,4)};
+ const priorities={alta:0,media:1,bassa:2};
+ const rawNews=x=>model.news.find(n=>n.id===x.id);
+ const news=recent(model.news).sort((a,b)=>tier(a,today)-tier(b,today)||
+  (tier(a,today)<3?a.order-b.order||(priorities[a.priority]??1)-(priorities[b.priority]??1):0)||
+  b.date.localeCompare(a.date)||a.id.localeCompare(b.id));
+ return {cover,articles:recent(model.articles).slice(0,3),news:news.slice(0,4)};
 }
 function publicState(articles,news,today=todayRome()){
  const model=normalize(articles,news,today),selection=select(model,today);
@@ -26,7 +33,7 @@ function publicState(articles,news,today=todayRome()){
  // Home-only controls count through their rendered effect, not hidden scheduling metadata.
  const homeOnly=new Set(['rilevanza_home','ordine_home','mantieni_in_evidenza_fino_al','home_summary','image_position']);
  const publicArticles=articles.filter((x,i)=>visible(model.articles[i])).map(x=>Object.fromEntries(Object.entries(x).filter(([key])=>!homeOnly.has(key)))).sort((a,b)=>slug(a).localeCompare(slug(b)));
- const rendered=({order,until,prominence,published,...item})=>item;
+ const rendered=({order,until,prominence,published,priority,...item})=>item;
  const publicNews=model.news.filter(visible).map(rendered).sort((a,b)=>a.id.localeCompare(b.id));
  const publicSelection={cover:selection.cover&&rendered(selection.cover),articles:selection.articles.map(rendered),news:selection.news.map(rendered)};
  const signature=hash({policy,articles:publicArticles,news:publicNews,selection:publicSelection});

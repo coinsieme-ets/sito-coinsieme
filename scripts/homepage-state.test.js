@@ -3,6 +3,21 @@ const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const state=require('./homepage-state');
 const today='2026-10-25';
 const article=(slug,fields={})=>({slug,title:slug,date:'2026-10-24',visible:true,stato:'pubblica',rilevanza_home:'normale',...fields});
+const news=(id,fields={})=>({id,stato:'pubblica',data_fonte:'2026-11-16',data_pubblicazione:'2026-11-16',titolo_editoriale:id,url_fonte:'https://example.org/'+id,fonte:'Fonte',posizione_sito:'home_normale',...fields});
+
+test('notizia fissata resta prima nella colonna fino al giorno incluso senza sostituire articolo principale',()=>{
+ const a=[article('principale',{date:'2026-11-16',rilevanza_home:'principale',ordine_home:0})];
+ const n=[news('consulta',{data_fonte:'2026-11-15',posizione_sito:'home_evidenza',ordine_editoriale:1,priorita:'alta',mantieni_in_evidenza_fino_al:'2026-11-20'}),...['a','b','c','d','e'].map(id=>news(id))];
+ for(const day of ['2026-11-16','2026-11-20']){
+  const s=state.publicState(a,n,day).selection;assert.equal(s.cover.id,'principale');assert.equal(s.news.length,4);assert.equal(s.news[0].id,'consulta');assert.equal(s.news.filter(x=>x.id==='consulta').length,1);
+ }
+ const expired=state.publicState(a,n,'2026-11-21').selection;assert.equal(expired.news[0].id,'a');assert.ok(!expired.news.some(x=>x.id==='consulta'));
+});
+
+test('colonna news rispetta posizione, ordine e priorita prima della recenza, senza bozze o solo archivio',()=>{
+ const n=[news('normale'),news('seconda',{posizione_sito:'home_evidenza',ordine_editoriale:2}),news('media',{posizione_sito:'home_evidenza',ordine_editoriale:1,priorita:'media'}),news('alta',{posizione_sito:'home_evidenza',ordine_editoriale:1,priorita:'alta',data_fonte:'2026-11-10'}),news('bozza',{stato:'proposta'}),news('archivio',{posizione_sito:'solo_rassegna'})];
+ assert.deepEqual(state.publicState([article('cover',{rilevanza_home:'principale'})],n,'2026-11-16').selection.news.map(x=>x.id),['alta','media','seconda','normale']);
+});
 test('stato pubblico: nuovo articolo, bozza e priorita modificano solo lo stato pertinente',()=>{
  const original=[article('uno')],before=state.publicState(original,[],today).signature;
  assert.notEqual(state.publicState([...original,article('due')],[],today).signature,before);
