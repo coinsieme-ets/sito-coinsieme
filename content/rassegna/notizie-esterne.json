@@ -2855,7 +2855,7 @@
     "sintesi_editoriale": "Marco Gargiulo, presidente del Consorzio nazionale Idee in Rete, presenta su VITA tre proposte per tutelare il contratto collettivo e le retribuzioni di chi lavora nelle cooperative sociali impegnate negli appalti pubblici.",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,
@@ -2865,6 +2865,27 @@
     ],
     "notizie": [
       "recTwwktgyHgsaxpm"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-16-6270c2198f6fce54",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-16",
+    "data_pubblicazione": "2026-11-16",
+    "titolo_originale": "Il caro vita, le persone con disabilità e quelle piazze che non le vedono",
+    "titolo_editoriale": "Il caro vita, le persone con disabilità e quelle piazze che non le vedono",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/16/il-caro-vita-le-persone-con-disabilita-e-quelle-piazze-che-non-le-vedono/",
+    "sintesi_editoriale": "«La ragione più evidente delle mobilitazioni di piazza di questi mesi in Italia e in Europa – scrivono dal Movimento Antiabilista – è il caro vita, cioè l’impossibilità di sostenere le spese quotidiane per il rincaro di carburante, gas e generi alimentari. Ma nel racconto mediatico e nel dibattit...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recVLQ6PVT8aZwU2e"
     ]
   }
 ]
