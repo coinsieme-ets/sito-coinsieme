@@ -22,9 +22,13 @@ test('Conferme: Speranza Viva mantiene circa 10.000 euro solo per il canale conv
 test('Conferme: ASL sostituisce il recapito senza presentarlo come prenotazione',()=>{
  const r=mobility.records.find(r=>r.id==='mobilita-asl-dialisi');
  assert.equal(r.emails[0].address,'amministrativa.dipartimenti@aslroma2.it');
- assert.match(r.emails[0].label,/generale, non prenotazioni/);
+ assert.match(r.emails[0].label,/Presentazione della domanda/);
+ assert.equal(r.emails[1].address,'direzione.amministrativa.territorio@pec.aslroma2.it');
+ assert.match(r.address,/Rizzieri 226, piano 7/);assert.match(r.hours,/08:00–13:00/);
+ assert.deepEqual(Array.from(r.coverageMunicipi),['IV','V','VI','VII','VIII','IX']);
+ assert.match(r.notes.join(' '),/risposta diretta.*16 novembre 2026/);
  assert.doesNotMatch(JSON.stringify(r),/amministrativa\.territoriale@/);
- assert.match(r.notes.join(' '),/non una centrale operativa/);assert.match(r.notes.join(' '),/13 novembre 2026/);
+ assert.match(r.notes.join(' '),/Non si tratta di una centrale operativa/);assert.match(r.notes.join(' '),/13 novembre/);
  const rendered=require('../anteprima-sportello/app/mobilita').normalize(r,mobility,'asl');
  assert.equal(rendered.sources[2].checkedAt,'2026-11-13');assert.equal(rendered.sources[0].checkedAt,mobility.checkedAt);
  assert.equal(hash(mobility.records.filter(r=>r.id!=='mobilita-asl-dialisi')),'85f8068ba08b75a970d7804d1c0a8d2032050ab07cfd3d2cfbc78aca189b3dd1');
