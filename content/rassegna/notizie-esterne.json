@@ -2948,7 +2948,7 @@
     "sintesi_editoriale": "La Fondazione COINSIEME ETS aderisce alla proposta «Costruiamo la Consulta» nel Municipio V di Roma. L’appuntamento è venerdì 20 novembre 2026 alle 17 al Fusolab, via della Bella Villa 96, Roma: cittadini, comitati e associazioni discuteranno obiettivi e primi passi della Consulta della cittadinanza attiva. COINSIEME è tra le 31 realtà aderenti indicate da CSV Lazio.",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 1,
@@ -2958,6 +2958,27 @@
     ],
     "notizie": [
       "recYOjo9UWPm7hwJw"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-17-48a3ec4cd34b2cdf",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-16",
+    "data_pubblicazione": "2026-11-16",
+    "titolo_originale": "Viaggio nelle Malattie Rare: comunicazione, linguaggio e inclusione",
+    "titolo_editoriale": "Viaggio nelle Malattie Rare: comunicazione, linguaggio e inclusione",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/16/viaggio-nelle-malattie-rare-comunicazione-linguaggio-e-inclusione/",
+    "sintesi_editoriale": "Un evento durante il quale si esplorerà come il linguaggio possa diventare uno strumento concreto di inclusione e, in taluni casi, di esclusione per chi vive condizioni rare o differenti: sarà questo, il 19 novembre a Milano, la nuova tappa del progetto “ItineRARI – Viaggio nelle Malattie Rare. S...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recLmBXkfoAsiVI8n"
     ]
   }
 ]
