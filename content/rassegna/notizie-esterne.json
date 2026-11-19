@@ -2993,13 +2993,34 @@
     "sintesi_editoriale": "Recentemente l’Unione Europea ha raggiunto un accordo provvisorio su nuove regole volte a rafforzare l’applicazione delle normative sui diritti dei passeggeri con e senza disabilità, un accordo che dovrà ora essere formalmente approvato dal Consiglio e dal Parlamento Europeo. L’obiettivo è miglio...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recezCuReFrl50GRx"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-19-e887770766ac9f26",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-19",
+    "data_pubblicazione": "2026-11-19",
+    "titolo_originale": "Donne, disabilità e diritti. Partiamo dall’accessibilità in ginecologia",
+    "titolo_editoriale": "Donne, disabilità e diritti. Partiamo dall’accessibilità in ginecologia",
+    "fonte": "Vita.it",
+    "url_fonte": "https://www.vita.it/donne-disabilita-e-diritti-partiamo-dallaccessibilita-in-ginecologia/",
+    "sintesi_editoriale": "Il tema dell'inclusione è al centro del convegno “Il diritto alla cura – Dall’invisibilità a percorsi ginecologici accessibili e inclusivi”. In programma a Borgomanero (No) il prossimo 27 novembre l'incontro prende spunto da una ricerca di Uildm su \"Sessualità, maternità,... L'articolo Donne, dis...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recrfSn0QabZhMICQ"
     ]
   }
 ]
