@@ -3014,13 +3014,61 @@
     "sintesi_editoriale": "Il tema dell'inclusione è al centro del convegno “Il diritto alla cura – Dall’invisibilità a percorsi ginecologici accessibili e inclusivi”. In programma a Borgomanero (No) il prossimo 27 novembre l'incontro prende spunto da una ricerca di Uildm su \"Sessualità, maternità,... L'articolo Donne, dis...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
     "mantieni_in_evidenza_fino_al": "",
     "notizie": [
       "recrfSn0QabZhMICQ"
+    ]
+  },
+  {
+    "id": "ntplusdiritto-disabilita-via-libera-del-gove-2026-11-20",
+    "categoria": "Riforma disabilita",
+    "data_fonte": "2026-11-20",
+    "data_pubblicazione": "2026-11-20",
+    "titolo_originale": "Disabilità, via libera del Governo al Codice unico dei diritti e delle tutele",
+    "titolo_editoriale": "Disabilità, via libera del Governo al Codice unico dei diritti e delle tutele",
+    "fonte": "Ntplusdiritto",
+    "url_fonte": "https://ntplusdiritto.ilsole24ore.com/art/disabilita-via-libera-governo-codice-unico-diritti-e-tutele-AJBTCCLC",
+    "sintesi_editoriale": "Primo sì del Consiglio dei ministri al decreto legislativo che riordina la normativa. Nuove regole anche per lo spettacolo e la polizia penitenziaria",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "alta",
+    "posizione_sito": "home_evidenza",
+    "ordine_editoriale": 10,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recsh3V892ydwblG0"
+    ],
+    "notizie": [
+      "recBeBna5mKYTVGl0"
+    ]
+  },
+  {
+    "id": "accessibilita-digitale-controllo-continuo-pmi-20261120",
+    "categoria": "Domotica & Tecnologia",
+    "data_fonte": "2026-11-19",
+    "data_pubblicazione": "2026-11-20",
+    "titolo_originale": "European Accessibility Act: perché un audit non basta più",
+    "titolo_editoriale": "Accessibilità digitale: perché un controllo iniziale non basta",
+    "fonte": "PMI.it",
+    "url_fonte": "https://www.pmi.it/impresa/normativa/503995/european-accessibility-act-accessibilita-continua.html",
+    "sintesi_editoriale": "Un sito può diventare meno accessibile dopo un aggiornamento, un nuovo modulo o l’aggiunta di un banner. L’approfondimento di PMI.it richiama l’importanza di verifiche periodiche, correzioni integrate nel lavoro degli sviluppatori e controlli dopo ogni rilascio. Per chi incontra barriere digitali, poter acquistare, prenotare o pagare online in autonomia dipende anche da questa attenzione quotidiana.",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "segnalazioni": [
+      "recv8CXAbAZUz1kk6"
+    ],
+    "notizie": [
+      "recB3edkLKkgL4Wqa"
     ]
   }
 ]
