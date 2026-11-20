@@ -18,7 +18,7 @@
     {id:'visite-private-televisite',category:'salute',name:'Visite specialistiche e televisite, anche da casa',description:'Orientamento alle piattaforme di prenotazione privata: prezzi, collegamento in video e limiti da verificare con lo specialista. Non è un servizio di urgenza.'},
     {id:'case-ambulatori',category:'salute',name:'Case della Comunità e poliambulatori',description:'Informazioni da raccogliere sulle strutture di prossimità e sui relativi servizi. Questa scheda non attesta sedi aperte o prestazioni disponibili.'},
     {id:'ospedali',category:'salute',name:'Ospedali e presidi sanitari',description:'Un riferimento per il futuro elenco dei presidi del territorio. Nessuna struttura, disponibilità o modalità di prenotazione è verificata in questa anteprima.'},
-    {id:'domiciliare-sanitaria',category:'salute',name:'Assistenza domiciliare sanitaria e infermieristica',description:'Un ambito distinto dall’aiuto domestico e dall’assistenza familiare. Requisiti, percorsi di accesso e servizi territoriali saranno documentati con fonti ufficiali.'},
+    {id:'domiciliare-sanitaria',category:'salute',name:'Assistenza domiciliare sanitaria e infermieristica',description:'Percorsi pubblici ADI e servizi infermieristici privati sono distinti. Le schede riportano copertura dichiarata, recapiti e limiti della verifica: non disponibilità in tempo reale.'},
     {id:'continuita-assistenziale',category:'salute',name:'Continuità assistenziale',description:'116117 per cure non urgenti e accesso telefonico alla guardia medica; AmbuFest per cure primarie ad accesso diretto. Per emergenze sanitarie chiama il 112.'},
     {id:'farmacie',category:'salute',name:'Farmacie e servizi territoriali',description:'Farmacie notturne e H24, aperture domenicali e festive, consegne e spedizioni documentate. I turni giornalieri vanno consultati sul sito dell’Ordine.'},
     {id:'prevenzione',category:'salute',name:'Consultori, screening e prevenzione',description:'Informazioni orientative sui percorsi di consultorio, screening e prevenzione. Destinatari, sedi e modalità di accesso richiedono verifica prima della pubblicazione di schede territoriali.'}
@@ -52,6 +52,8 @@
     {id:'diritti:generale',category:'diritti',label:'Orientamento generale sui diritti'}
   ];
   const homeOperators=typeof module==='object'&&module.exports?require('./operatori-domicilio.js'):root.SportelloOperatoriDomicilio;
+  const nursingResources=typeof module==='object'&&module.exports?require('./infermieri-data.js'):root.SportelloInfermieriData;
+  resultGroups.push({id:'domicilio:infermieristica',category:'domicilio',label:'Infermieri a domicilio'});
   resultGroups.push({id:'domicilio:badante',label:'Badanti e assistenti familiari'},{id:'domicilio:cooperativa',label:'Cooperative di assistenza domiciliare'},{id:'domicilio:pubblico',label:'Servizi pubblici e orientamento all’assistenza'});
   const technicalResources=[typeof module==='object'&&module.exports?require('./ecomoby.js'):root.SportelloEcoMoby,typeof module==='object'&&module.exports?require('./ortopedia24ore.js'):root.SportelloOrtopedia24ore];
   resultGroups.push({id:'domicilio:ausili',label:'Noleggio e assistenza tecnica per ausili domestici'});
@@ -60,6 +62,6 @@
   resultGroups.push({id:'mobilita:accessibilita-spazi',label:'Accessibilità degli spazi e dei servizi'});
   const accessibility=typeof module==='object'&&module.exports?require('./accessibilita.js'):root.SportelloAccessibilita;
   for(const group of accessibility.groups)resultGroups.push({id:'digitale:'+group.id,label:group.name});
-  const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,technicalResources,sharedResources,isVerifiedResource};
+  const data={version:5,pilot:'Municipio Roma V',territoryPriorities:['Municipio Roma V','ASL Roma 2'],areas,subcategories,resultGroups,resources,homeOperators,nursingResources,technicalResources,sharedResources,isVerifiedResource};
   if(typeof module==='object'&&module.exports)module.exports=data;else root.SportelloServizi=data;
 })(typeof window==='undefined'?globalThis:window);

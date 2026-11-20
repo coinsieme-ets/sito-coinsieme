@@ -21,6 +21,10 @@
   const [category,kind,id]=parts;
   if(parts.length!==3||!id||id.length>180||!/^[-a-z0-9]+$/.test(id))return;
   const choice=[...document.querySelectorAll('#servizi-scelte input')].find(el=>el.value===category);if(!choice)return;
+  // An explicit card link must not inherit filters from a previously opened service.
+  for(const [id,value] of [['domicilio-tipo','tutti'],['domicilio-territorio','tutti'],['domicilio-nome','']]){
+   const control=document.getElementById(id);if(control)control.value=value;
+  }
   const allAccessibility=document.getElementById('accessibilita-ambito-tutte');if(allAccessibility)allAccessibility.checked=true;
   document.querySelectorAll('#servizi-scelte input').forEach(el=>{el.checked=el===choice;});choice.dispatchEvent(new Event('change',{bubbles:true}));
   let node;

@@ -69,6 +69,86 @@
       qualifications:'Abilitazione dichiarata dal gestore; nominativo e iscrizione all’Albo del fisioterapista assegnato non verificati. Controllarli prima di concordare il percorso.',phone:'0685912646',email:'info@fisiosalaria.it',url:'https://www.fisiosalaria.it/fisioterapia-domicilio-roma',
       caution:'Nessuna convenzione SSR o partnership COINSIEME viene attribuita alla prestazione. Tempi e disponibilità non accertati.',sources:[source('FisioSalaria: servizio domiciliare, sedi e listino pubblicato','https://www.fisiosalaria.it/fisioterapia-domicilio-roma')]}
   ];
+  providers.push(
+    {id:'alessandro-faiella',name:'Dott. Alessandro Faiella · Fisioterapia a domicilio',regime:'privato',label:'Professionista privato · prestazioni a pagamento',asls:[],verification:'parziale',types:['motoria','mobilita'],
+      description:'Fisioterapia domiciliare in ambito ortopedico e neurologico, secondo il profilo professionale pubblicato da Medelit. La presenza a Roma Est è confermata dal Presidente della Fondazione, non da un riscontro diretto del professionista.',
+      seats:'Roma Est: presenza confermata dal Presidente il 20 novembre 2026. Nessun indirizzo di ambulatorio verificato in questa scheda.',
+      coverage:'Il profilo Medelit documenta attività domiciliare a Roma. Zona specifica, disponibilità e modalità della visita vanno concordate; non si presume copertura di tutti i quartieri di Roma Est.',
+      access:'Richiesta diretta al professionista oppure tramite il profilo Medelit. Il telefono sotto è quello della scheda Google segnalata alla Fondazione, non un numero confermato direttamente dal professionista. Nessuna prenotazione gestita da COINSIEME.',
+      costs:'Prestazioni private a pagamento. Importi e condizioni non riportati: richiedere preventivo per la zona e la prestazione necessaria.',
+      qualifications:'Il profilo Medelit descrive la laurea in Fisioterapia e l’attività domiciliare. L’iscrizione attuale all’Albo non è stata verificata individualmente: controllarla prima di concordare il trattamento.',
+      contacts:[{label:'Recapito professionale dalla scheda Google segnalata · da riconfermare',phone:'3497507990'}],url:'https://www.medelit.com/it/chi-siamo/professionisti/faiella-fisioterapista-roma/',
+      caution:'Non è una conferma diretta del professionista, né una garanzia di disponibilità. Distinte le informazioni del fornitore dalla conferma territoriale del Presidente. Nessuna convenzione SSR o partnership attribuita.',
+      sources:[{label:'Medelit · profilo di Alessandro Faiella e attività domiciliare a Roma; pagina consultata direttamente',url:'https://www.medelit.com/it/chi-siamo/professionisti/faiella-fisioterapista-roma/',checkedAt:'2026-11-20'}]},
+    {id:'fisio-home-marco-russo',name:'Fisio Home · centro del Dott. Marco Russo',regime:'privato',label:'Centro privato · fisioterapia domiciliare a pagamento',asls:[],verification:'parziale',types:['motoria','postoperatoria','mobilita'],
+      description:'Il centro dichiara fisioterapia a domicilio per persone con difficoltà di movimento o nel recupero post-operatorio, previa verifica della zona e della disponibilità.',
+      seats:'Via Francesco Laparelli 124, 00176 Roma, secondo il sito ufficiale. L’indirizzo non attesta accessibilità fisica dello studio.',
+      coverage:'Roma Est e Sud-Est sono indicate dal gestore per il servizio domiciliare. Concordare il singolo indirizzo, disponibilità e assistenza necessaria; nessuna copertura universale garantita.',
+      access:'Contattare il centro indicando zona e prestazione richiesta. Non inviare dati sanitari a COINSIEME. Prenotazione e accordi avvengono direttamente con il centro.',
+      costs:'Servizio privato a pagamento; tariffe domiciliari non verificate. Richiedere preventivo, eventuali maggiorazioni di trasferta e condizioni di cancellazione. Non si attribuiscono convenzioni SSR o rimborsi assicurativi al singolo caso.',
+      qualifications:'Sul sito il responsabile dichiara un’iscrizione professionale. Iscrizione attuale all’Albo e identità del fisioterapista assegnato non verificate individualmente da COINSIEME.',phone:'0621128892',email:'info@fisioterapiaroma.eu',url:'https://www.fisioterapiaroma.eu/fisioterapia-domiciliare-a-roma/',
+      caution:'Dati ricavati dal sito ufficiale il 20 novembre 2026, non confermati direttamente dal centro. Tempi, disponibilità e condizioni economiche da concordare. Nessuna partnership con COINSIEME.',
+      sources:[{label:'Fisio Home · servizio domiciliare e zone dichiarate',url:'https://www.fisioterapiaroma.eu/fisioterapia-domiciliare-a-roma/',checkedAt:'2026-11-20'},{label:'Fisio Home · sede, telefono ed email sul sito ufficiale',url:'https://www.fisioterapiaroma.eu/',checkedAt:'2026-11-20'}]}
+  );
+  providers.push(...[
+    {id:'teresa-delle-fave',name:'Teresa delle Fave · Fisioterapia a domicilio',types:['motoria','mobilita'],
+      description:'La fisioterapista dichiara terapie manuali domiciliari, anche per mobilizzazione e riabilitazione motoria. Le terapie strumentali del suo sito sono indicate solo in ambulatorio, non a domicilio.',
+      seats:'Ambulatorio dichiarato: FKT Gruppo Fantauzzi, via Altavilla Irpina 17, Roma. Accessibilità fisica non verificata.',
+      coverage:'Zone dichiarate: Centocelle, Alessandrino, Tuscolana, Cinecittà, Anagnina, Romanina, Morena, Capannelle e Appio Claudio. Verificare il singolo indirizzo e l’appuntamento.',
+      phone:'3493947304',url:'https://www.teresadellefave.it/'},
+    {id:'don-bosco-home-care-fisio',name:'Don Bosco Home Care · Fisioterapia a domicilio',types:['motoria','postoperatoria','mobilita'],
+      description:'Il gestore presenta sedute fisioterapiche domiciliari per anziani, persone con ridotta mobilità o nel recupero post-operatorio, con valutazione iniziale del percorso.',
+      seats:'Il riferimento riguarda il servizio domiciliare. Indirizzo della sede non verificato in questa ricognizione.',
+      coverage:'Roma è il territorio dichiarato dal gestore, che cita anche Tuscolano, Cinecittà e Prenestino. Copertura puntuale e disponibilità vanno confermate; non sono riprese le promesse di attivazione entro tempi prestabiliti.',
+      url:'https://www.donboscohomecare.it/servizi/fisioterapia-a-domicilio/'},
+    {id:'privatassistenza-appia-tuscolana-fisio',name:'PrivatAssistenza Roma Appia Tuscolana · Fisioterapia a domicilio',types:['motoria','postoperatoria','mobilita'],
+      description:'Il centro presenta fisioterapia domiciliare, rieducazione motoria e percorsi post-intervento per persone anziane o con difficoltà di movimento.',
+      seats:'Via Assisi 97, Roma, secondo la pagina del centro. La sede non prova accessibilità o disponibilità domiciliare.',
+      coverage:'Zone dichiarate dal centro: Tuscolana, Appia Tuscolana, Appio Latino, Prenestino Centocelle e Prenestino Labicano. Concordare la copertura dell’indirizzo richiesto.',
+      phone:'0676967914',url:'https://www.privatassistenza.it/roma/centro-roma-tuscolano/fisioterapia-a-domicilio/'},
+    {id:'fisioterapia-preneste-domicilio',name:'Fisioterapia Preneste · Servizio a domicilio',types:['motoria','mobilita'],
+      description:'Il centro dichiara anche un servizio fisioterapico a domicilio. Le attività svolte nello studio o in piscina non sono automaticamente disponibili nell’abitazione.',
+      seats:'Via Prenestina 238, 00176 Roma, secondo il sito ufficiale.',
+      coverage:'Sede sul territorio Prenestino; la pagina non definisce il bacino del servizio domiciliare. Non si deduce la copertura del Municipio V o di tutta Roma dalla sede: chiedere conferma della zona.',
+      phone:'0627800465',url:'https://www.fisioterapiapreneste.it/chi-siamo/'},
+    {id:'luigi-litta-domicilio',name:'Luigi Litta · Fisioterapia domiciliare nella provincia sud-est',types:['motoria','mobilita'],
+      description:'Il profilo professionale pubblicato su AIFI descrive fisioterapia domiciliare in ambito ortopedico e neurologico.',
+      seats:'Il profilo indica domicilio dei pazienti nella provincia di Roma e attività in studio ai Castelli Romani. Nessun indirizzo di studio verificato qui.',
+      coverage:'Provincia sud-est di Roma, zone Prenestina, Casilina e Tuscolana, secondo il profilo AIFI. Non si equipara questa indicazione alla copertura di tutti i quartieri di Roma Est: concordare comune e indirizzo.',
+      qualifications:'Il profilo AIFI riporta laurea in Fisioterapia e iscrizione FNOFI Lazio n. 355. Sono dichiarazioni del profilo: l’iscrizione corrente non è stata verificata direttamente nell’Albo. AIFI non è un ulteriore erogatore del servizio.',
+      phone:'3387679955',email:'luigi.77@virgilio.it',url:'https://fisioterapisti.aifi.net/luigi-litta/'},
+    {id:'fisionoleggio-top-physio-domicilio',name:'Fisionoleggio · Servizio domiciliare Top Physio',types:['motoria','postoperatoria','mobilita'],
+      description:'Il sito di fisioterapia domiciliare presenta il servizio Top Physio e identifica Fisionoleggio S.r.l. nei contatti. Sono riuniti in una sola scheda, non conteggiati come operatori distinti.',
+      seats:'Sede operativa dichiarata: via della Stazione Tuscolana 122, Roma. Altra sede nei contatti: via degli Olmetti 34, Formello.',
+      coverage:'Il gestore dichiara un servizio nazionale. La sede romana non garantisce copertura di ogni quartiere: richiedere espressamente disponibilità e condizioni per Roma Est.',
+      phone:'3351317516',url:'https://www.fisioterapiadomiciliare.com/',sourceUrls:['https://www.fisioterapiadomiciliare.com/','https://www.fisioterapiadomiciliare.com/contatti/']},
+    {id:'centro-fisioterapia-roma-domicilio',name:'Centro Fisioterapia Roma · Servizio a domicilio',types:['motoria','postoperatoria','mobilita'],
+      description:'Il centro presenta fisioterapia domiciliare, riabilitazione motoria e post-operatoria per persone con difficoltà a raggiungere lo studio.',
+      seats:'Via Aurelia 429, interno 1/b, Roma, secondo il sito del centro. Non è una sede di Roma Est.',
+      coverage:'Il gestore dichiara Roma entro e oltre il raccordo e cita anche Centocelle, Colli Aniene e Tuscolano. Concordare il singolo indirizzo: la dichiarazione non attesta disponibilità attuale.',
+      phone:'0666018356',url:'https://www.centrofisioterapiaroma.it/fisioterapia-a-domicilio-roma/'}
+  ].map(({sourceUrls,...record})=>({
+    regime:'privato',label:'Prestazioni private a pagamento · servizio domiciliare dichiarato',asls:[],verification:'parziale',
+    access:'Contattare direttamente il professionista o il centro dal recapito o sito indicato, precisando zona e prestazione necessaria. COINSIEME non prenota e non raccoglie dati sanitari.',
+    costs:'Prestazioni a pagamento: richiedere un preventivo aggiornato, eventuali costi di trasferta e condizioni di cancellazione. Nessuna tariffa, gratuità o copertura SSR o assicurativa viene garantita da questa scheda.',
+    qualifications:'Attività fisioterapica dichiarata nella fonte indicata. Identità e iscrizione attuale all’Albo del professionista incaricato non verificate individualmente da COINSIEME: controllarle prima del trattamento.',
+    caution:'Informazioni ricavate da fonti pubbliche consultate il 20 novembre 2026, non da una conferma diretta a COINSIEME. Disponibilità, tempi e idoneità al singolo caso da concordare. Nessuna partnership attribuita.',
+    ...record,sources:(sourceUrls||[record.url]).map(url=>({url,label:record.id==='luigi-litta-domicilio'?'AIFI · profilo professionale con attività domiciliare dichiarata':record.name+' · sito del fornitore',checkedAt:'2026-11-20'}))
+  })));
+  providers.push({id:'domus-salus-fisioterapia',name:'Domus Salus / Ital Salus · Fisioterapia domiciliare',entity:'Domus Salus / Soccorso Medico Domiciliare · P. IVA 01222340570',regime:'privato',label:'Prestazioni private a pagamento',asls:[],verification:'parziale',coverageBasis:'roma-est',description:'Il gestore presenta un servizio di fisioterapia domiciliare per recupero motorio e riabilitazione, da concordare con il professionista.',seats:'Via Nomentana 122, Roma. Non è una sede di Roma Est.',coverage:'La pagina fisioterapica cita Roma Est, fra cui Centocelle, Alessandrino, Prenestino, Collatina e Tor Sapienza. Disponibilità da confermare per il singolo indirizzo.',access:'Contatto diretto con il gestore per prestazione, professionista incaricato e preventivo.',costs:'Prestazioni private a pagamento: chiedere preventivo aggiornato e condizioni di cancellazione.',qualifications:'Identità e iscrizione del fisioterapista incaricato non verificate individualmente.',caution:'Un solo soggetto: i siti Domus Salus e Soccorso Medico Domiciliare riportano la stessa partita IVA. Nessuna conferma diretta o partnership con COINSIEME.',phone:'3518688821',url:'https://www.domussalus.it/specialisti/fisioterapista-a-domicilio-roma/',sources:[{url:'https://www.domussalus.it/specialisti/fisioterapista-a-domicilio-roma/',label:'Domus Salus · fisioterapia domiciliare e zone servite',checkedAt:'2026-11-20'}]});
+  const shared=typeof module==='object'&&module.exports?require('./cure-domiciliari-data.js'):root.SportelloCureDomiciliariData;
+  providers.push(...[...shared.adi.filter(r=>!r.existingPhysioId),...shared.privateCenters].map(r=>({
+    id:r.id+'-fisioterapia',name:r.name+' · Fisioterapia a domicilio',entity:r.entity||r.name,regime:r.regime,
+    label:r.regime==='adi'?'Percorso ADI · valutazione e PAI della ASL':'Prestazioni private a pagamento',
+    asls:r.regime==='adi'?['roma2']:[],verification:'parziale',coverageBasis:r.coverageBasis,
+    description:r.regime==='adi'?'L’ente descrive interventi riabilitativi domiciliari nell’ambito dell’ADI. Le prestazioni e la frequenza dipendono dalla valutazione e dal piano della ASL.':'Servizio fisioterapico domiciliare dichiarato dal centro, distinto dalle prestazioni infermieristiche. Attività specifiche da concordare.',
+    seats:r.address||'Sede non riportata in questa scheda: consultare la fonte del gestore.',coverage:r.coverage,
+    access:r.regime==='adi'?'Richiesta attraverso medico e servizio territoriale; valutazione ASL e PAI. Non si presenta l’ente come un fisioterapista privato prenotabile direttamente.':'Contatto diretto con il centro per quartiere, prestazione e preventivo.',
+    costs:r.regime==='adi'?'A carico del servizio sanitario soltanto nel percorso autorizzato e per le prestazioni del PAI. Condizioni attuali da verificare con la ASL.':'Preventivo da concordare con il centro: nessuna tariffa o gratuità confermata.',
+    qualifications:'Figure riabilitative dichiarate dall’ente; nominativo e iscrizione del fisioterapista incaricato da verificare individualmente.',
+    caution:[r.regime==='adi'?'Elenco ASL del 2025: contratto corrente, disponibilità e assegnabilità non attestati.':'Dati del sito pubblico, non conferma diretta a COINSIEME.',r.sourceNote||''].filter(Boolean).join(' '),
+    phone:r.phone,email:r.email,url:r.url,sources:r.sources
+  })));
   intro.keywords.push(...providers.map(r=>r.name),'vivicare');
   function chooseProviders(options={}){
     const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it');

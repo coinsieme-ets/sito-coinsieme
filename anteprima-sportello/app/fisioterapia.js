@@ -1,8 +1,13 @@
 (() => {
   'use strict';
   const data=window.SportelloFisioterapiaData;
-  function groupCaption(group){return group.id==='domicilio:fisioterapia'?data.paths.length+' percorsi · '+data.providers.length+' erogatori documentati':null;}
-  function selectionCaption(resources){return resources.length===1&&resources[0].id===data.intro.id?'Fisioterapia: '+data.paths.length+' percorsi di orientamento e '+data.providers.length+' erogatori documentati. Non sono disponibilità verificate.':null;}
+  function providerCaption(){
+    const privateCount=data.providers.filter(record=>record.regime==='privato').length;
+    const publicCount=data.providers.length-privateCount;
+    return publicCount+' enti nei percorsi ASL · '+privateCount+' '+(privateCount===1?'operatore privato':'operatori privati');
+  }
+  function groupCaption(group){return group.id==='domicilio:fisioterapia'?providerCaption():null;}
+  function selectionCaption(resources){return resources.length===1&&resources[0].id===data.intro.id?'Fisioterapia: '+providerCaption()+'. Conteggi complessivi di percorsi diversi, non professionisti disponibili nella tua zona.':null;}
   const make=(tag,text,cls)=>{const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el;};
   function link(label,url){const a=make('a',label);a.href=url;return a;}
   function sources(target,items){
@@ -29,9 +34,10 @@
     const choices=make('div',null,'sp-physio-paths'),buttons=[];
     const content=make('section');content.id='fisioterapia-percorso';content.hidden=true;
     const heading=make('h4');heading.id='fisioterapia-percorso-titolo';heading.tabIndex=-1;content.setAttribute('aria-labelledby',heading.id);
-    const note=make('aside',null,'sp-physio-note');note.setAttribute('aria-label','Nota informativa COINSIEME');note.append(make('strong','Il ruolo di COINSIEME'),make('p',resource.access+' COINSIEME non è un intermediario sanitario: non raccoglie documenti clinici né gestisce pagamenti.'),make('p','Il riepilogo generale del catalogo conta questo ambito come una scheda di orientamento. Al suo interno sono documentati '+data.providers.length+' erogatori, non '+data.providers.length+' professionisti disponibili.'));
-    for(const item of resource.links)note.append(link(item.label,item.url));
-    const body=make('div');content.append(heading,body);section.append(choices,make('p',data.guides.length+' riferimenti ASL · '+data.providers.length+' erogatori documentati · Fonti verificate il '+data.checkedAt+'.','sp-physio-meta'),note,content);
+    const note=make('aside',null,'sp-physio-note');note.setAttribute('aria-label','Nota informativa COINSIEME');note.append(make('strong','Il ruolo di COINSIEME'),make('p',resource.access+' COINSIEME non è un intermediario sanitario: non raccoglie documenti clinici né gestisce pagamenti.'),make('p','Scegli il percorso ASL oppure quello privato. Gli enti dei percorsi ASL non sono tre ulteriori professionisti privati prenotabili: accesso, autorizzazioni e disponibilità dipendono dal percorso. I risultati possono ridursi con i filtri territoriali.'));
+    const body=make('div');content.append(heading,body);section.append(choices,make('p',providerCaption()+' · Le guide ASL e l’Albo FNOFI sono riferimenti informativi separati. Le date di verifica sono indicate nelle singole fonti.','sp-physio-meta'),note,content);
+    const register=make('aside',null,'sp-physio-note');register.setAttribute('aria-label','Verifica del professionista, non servizio domiciliare');register.append(make('strong','Albo FNOFI: verifica del professionista, non servizio a domicilio'),make('p','L’Albo serve a verificare l’iscrizione di un fisioterapista. Non indica chi effettui visite a domicilio, non prenota prestazioni e non attesta disponibilità o copertura territoriale. Non è conteggiato tra gli erogatori.'));
+    for(const item of resource.links)register.append(link(item.label,item.url));section.append(register);
     const current={path:null,asl:'roma2',regime:'tutti',query:'',type:'tutti'};
     function control(parent,id,label,items,value,onChange){
       const wrapper=make('label',label),select=make('select');select.id=id;
@@ -87,7 +93,7 @@
       const filters=make('fieldset',null,'sp-physio-filters');filters.append(make('legend','Cerca nelle schede private documentate'));body.append(filters);
       const label=make('label','Nome o prestazione'),search=make('input');search.id='fisioterapia-nome';search.type='search';search.autocomplete='off';search.value=current.query;label.append(search);filters.append(label);
       control(filters,'fisioterapia-tipo','Prestazione dichiarata',[['tutti','Tutte le prestazioni documentate'],['motoria','Riabilitazione motoria'],['postoperatoria','Fisioterapia post-operatoria'],['mobilita','Mobilità e mobilizzazioni']],current.type,v=>{current.type=v;update();});
-      const update=providers(body,()=>({path:'privato',type:current.type,query:current.query}));search.addEventListener('input',()=>{current.query=search.value;update();});sources(body,[data.sources.albo]);
+      const update=providers(body,()=>({path:'privato',type:current.type,query:current.query}));search.addEventListener('input',()=>{current.query=search.value;update();});
     }
     function helpPath(){
       const list=make('ol');

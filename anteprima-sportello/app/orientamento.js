@@ -23,7 +23,7 @@
   }
   function chooseServiceResources(ids,catalog){
     const allowed=new Set(catalog.areas.filter(area=>ids.includes(area.id)).map(area=>area.id));
-    const selected=[...catalog.resources,...(catalog.sharedResources||[])].filter(resource=>(resource.categories||[resource.category]).some(id=>allowed.has(id)));
+    const selected=[...catalog.resources,...(catalog.sharedResources||[]),...(catalog.nursingResources||[])].filter(resource=>(resource.categories||[resource.category]).some(id=>allowed.has(id)));
     const covered=new Set(selected.filter(resource=>resource.kind==='territoriale'&&catalog.isVerifiedResource(resource)).filter(resource=>resource.subcategory).map(resource=>resource.category+':'+resource.subcategory));
     return [...new Map(selected.filter(resource=>resource.kind==='territoriale'||!covered.has(resource.category+':'+resource.subcategory)).map(resource=>[resource.id,resource])).values()];
   }
@@ -44,6 +44,7 @@
     if(resource.remoteItaly&&['v','est','roma','nazionale'].includes(territory))return true;
     if(territory==='nazionale')return resource.coverageClass==='nazionale_dichiarata';
     if(territory==='roma')return resource.allRomeDeclared===true;
+    if(territory==='est'&&resource.homeKind==='infermieristica'&&(resource.coverageBasis==='roma-est'||resource.allRomeDeclared===true))return true;
     const municipi=[resource.seatMunicipio,...(resource.coverageMunicipi||[])];
     if(territory==='v')return municipi.includes('V');
     if(territory==='est')return municipi.some(m=>['IV','V','VI','VII'].includes(m));
@@ -57,12 +58,12 @@
     const publicItems=catalog.resources.filter(r=>publicIds.includes(r.id)).map(r=>({...r,category:'domicilio',categories:['domicilio'],subcategory:'pubblico',homeKind:'pubblico',coverageMunicipi:['V'],publicMunicipi:['V'],allRomeDeclared:false,coverageStatus:'Percorso competente nel Municipio V; accesso individuale da valutare'}));
     const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it');
     const shared=catalog.resources.filter(r=>r.homeKind&&r.categories?.includes('domicilio'));
-    const home=[...(catalog.homeOperators||[]),...publicItems,...(catalog.technicalResources||[]),...shared].filter(r=>(!options.kind||options.kind==='tutti'||r.homeKind===options.kind)&&homeTerritoryMatches(r,options.territory)&&fold([r.name,...(r.keywords||[])].join(' ')).includes(fold(options.name))).map(r=>r.categories?.includes('domicilio')?{...r,category:'domicilio',categories:['domicilio']}:r);
+    const home=[...(catalog.homeOperators||[]),...publicItems,...(catalog.technicalResources||[]),...shared,...(catalog.nursingResources||[])].filter(r=>(!options.kind||options.kind==='tutti'||r.homeKind===options.kind)&&homeTerritoryMatches(r,options.territory)&&fold([r.name,...(r.keywords||[])].join(' ')).includes(fold(options.name))).map(r=>r.categories?.includes('domicilio')?{...r,category:'domicilio',categories:['domicilio']}:r);
     if(home.some(r=>r.verificationScope==='psicologia-online')&&!home.some(r=>r.id==='info-sostegno-psicologico-online'))home.unshift({...shared[0],category:'domicilio',categories:['domicilio']});
     return [...new Map([...home,...other].map(r=>[r.id,r])).values()];
   }
   function hasDocumentedRomeCoverage(catalog){
-    return [...(catalog.homeOperators||[]),...(catalog.technicalResources||[])].some(r=>r.allRomeDeclared===true&&catalog.isVerifiedResource(r));
+    return [...(catalog.homeOperators||[]),...(catalog.technicalResources||[]),...(catalog.nursingResources||[])].some(r=>r.allRomeDeclared===true&&catalog.isVerifiedResource(r));
   }
   function servicePresentation(resource,group,catalog){
     const inline=resource.id.startsWith('info-')&&resource.status==='informazione_orientativa'&&!catalog.isVerifiedResource(resource);

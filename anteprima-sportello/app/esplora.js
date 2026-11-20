@@ -21,7 +21,7 @@
     for(const [value,text] of items){const option=make('option',text);option.value=value;select.append(option);}
     wrapper.append(select);homeControls.append(wrapper);select.addEventListener('change',render);return select;
   }
-  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici'],['psicologia','Sostegno psicologico online'],['fisioterapia','Fisioterapia e riabilitazione a domicilio']]);
+  const homeKind=selectControl('domicilio-tipo','Che cosa cerchi?',[['tutti','Tutte le tipologie'],['badante','Cerco una badante o un assistente familiare'],['cooperativa','Cerco una cooperativa di assistenza domiciliare'],['pubblico','Cerco i servizi sociali del Municipio'],['ausili','Assistenza tecnica per ausili domestici'],['psicologia','Sostegno psicologico online'],['fisioterapia','Fisioterapia e riabilitazione a domicilio'],['infermieristica','Infermieri a domicilio']]);
   const homeTerritory=selectControl('domicilio-territorio','Territorio',[['tutti','Tutti gli operatori censiti'],['v','Municipio Roma V'],['est','Roma Est · Municipi IV, V, VI e VII'],['roma','Tutta Roma · solo copertura espressamente dichiarata']].filter(([value])=>value!=='roma'||engine.hasDocumentedRomeCoverage(catalog)));
   const national=make('option','Copertura nazionale dichiarata · intervento locale da concordare');national.value='nazionale';homeTerritory.append(national);
   const searchLabel=make('label','Cerca per nome, servizio o ausilio'),homeName=make('input');homeName.type='search';homeName.id='domicilio-nome';searchLabel.append(homeName);homeControls.append(searchLabel);homeName.addEventListener('input',render);
@@ -64,13 +64,20 @@
         target=healthTargets.get(info.id);
       }
       if(group.collapsible){
-        const caption=window.SportelloFisioterapia?.groupCaption(group);
+        const nursingCount=group.resources.filter(r=>r.homeKind==='infermieristica').length;
+        const nursingPrivate=group.resources.filter(r=>r.homeKind==='infermieristica'&&r.privatePaid).length;
+        const caption=group.id==='domicilio:infermieristica'?nursingPrivate+' servizi privati · '+(nursingCount-nursingPrivate)+' percorsi ASL':window.SportelloFisioterapia?.groupCaption(group);
         const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:group.healthSection?'':' ('+group.resources.length+')'));
         section.dataset.group=group.id;
         const hint=make('span','Esplora questo ambito','sp-service-invite');summary.append(hint);
         const parent=target;section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);parent.append(section);
         if(group.id==='domicilio:badante'){const p=make('p'),a=make('a','Prima di scegliere: fiducia, costo complessivo, notti e assistenza condivisa');a.href='/articoli/badante-condominio-fiducia-costi-assistenza-condivisa/';p.append(a);target.append(p);}
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
+        if(nursingCount){
+          target.append(make('p','Infermieri, non assistenti familiari né sportelli informativi. I servizi privati richiedono un preventivo; i percorsi ADI richiedono valutazione e piano della ASL. Le prestazioni sono dichiarate, non garantite: conferma quartiere, disponibilità e prescrizione quando necessaria. Alcuni riferimenti indicano Roma senza dettagliare Roma Est. Per emergenze chiama il 112.'));
+          target.append(make('p','Gli enti ADI sono riscontrati nell’elenco ASL Roma 2 del 15 maggio 2025: il documento non prova contratto attuale, posti disponibili o copertura di tutto il quadrante est.'));
+          const p=make('p'),a=make('a','Verifica l’iscrizione del singolo infermiere all’Albo FNOPI');a.href='https://www.fnopi.it/gli-ordini-provinciali/ricerca-albo/';a.rel='noopener noreferrer';p.append(a,document.createTextNode(' · L’Albo non è un erogatore domiciliare e non è incluso nel conteggio.'));target.append(p);
+        }
         section.addEventListener('toggle',()=>{hint.textContent=section.open?'Chiudi questo ambito':'Esplora questo ambito';});
       }
       for(const resource of group.resources)destinations.set(resource.id,{target,group});
@@ -106,7 +113,11 @@
       if(resource.verificationScope==='mobilita')fields.splice(5,0,['Tipo di mezzo',resource.vehicle],['Accessibilità del trasporto',resource.accessibility],['Accompagnamento personale distinto dal mezzo',resource.personalAssistance]);
       if(resource.verificationScope==='consegne')fields.splice(5,0,['Canali documentati',resource.orderingChannels]);
       if(resource.homeKind&&resource.verificationScope!=='psicologia-online')fields.splice(2,0,['Municipio della sede',resource.seatMunicipio||'Non accertato in questa ricognizione'],['Territorio dichiarato dall’operatore',resource.declaredCoverage],['Municipi con iscrizione RUC documentata',resource.publicMunicipi&&resource.verificationScope==='operatore'?(resource.publicMunicipi.length?resource.publicMunicipi.join(', ')+' · iscrizione, non contratto attivo o disponibilità garantiti':'Non documentati in questa ricognizione'):null],['Stato della verifica territoriale',resource.coverageStatus]);
-      for(const [label,value] of fields){if(value){dl.append(make('dt',label),make('dd',value));}}details.append(dl);
+      for(const [label,value] of fields){if(value){
+        if(resource.homeKind==='infermieristica'&&label==='Servizi citati nella fonte, non disponibilità in tempo reale'){
+          const dd=make('dd'),list=make('ul');for(const service of resource.services)list.append(make('li',service));dd.append(list);dl.append(make('dt','Prestazioni dichiarate dall’operatore · da concordare'),dd);
+        }else dl.append(make('dt',label),make('dd',value));
+      }}details.append(dl);
       details.append(make('p',resource.availability));
       for(const note of resource.notes||[])details.append(make('p',note,'sp-service-caution'));
       for(const phone of resource.phones||[]){const p=make('p'),a=make('a',phone.label+': '+phone.number);a.href='tel:'+phone.number;p.append(a);details.append(p);}
