@@ -3083,7 +3083,7 @@
     "sintesi_editoriale": "Alessandro Bardini racconta la sua esperienza forense tra montascale inaccessibili, spazi della professione ostili",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "alta",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 10,
@@ -3093,6 +3093,48 @@
     ],
     "notizie": [
       "recShnUlXiUSGfvfR"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-21-d820ecebfeb003cd",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-20",
+    "data_pubblicazione": "2026-11-20",
+    "titolo_originale": "Il mare da vivere anche attraverso canali diversi dalla vista",
+    "titolo_editoriale": "Il mare da vivere anche attraverso canali diversi dalla vista",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/20/il-mare-da-vivere-anche-attraverso-canali-diversi-dalla-vista/",
+    "sintesi_editoriale": "Offrire alle persone con disabilità visiva l’opportunità di vivere un’esperienza accessibile, coinvolgente e condivisa di pesca dalla barca, dimostrando come il mare e le attività sportive possano diventare occasioni di autonomia, partecipazione e inclusione: sarà questo l’iniziativa in programma...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recnj3kVcmYt5fiLQ"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-21-f3be33e76fbd009d",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-20",
+    "data_pubblicazione": "2026-11-20",
+    "titolo_originale": "Assistenza all’autonomia e alla comunicazione: le ore non si possono ridurre senza adeguata giustificazione",
+    "titolo_editoriale": "Assistenza all’autonomia e alla comunicazione: le ore non si possono ridurre senza adeguata giustificazione",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/20/assistenza-allautonomia-e-alla-comunicazione-le-ore-non-si-possono-ridurre-senza-adeguata-giustificazione/",
+    "sintesi_editoriale": "Una recente Sentenza del TAR della Sicilia, riguardante la quantificazione delle ore di assistenza specialistica all’autonomia e alla comunicazione per una studentessa con disabilità, ha ribadito una volta ancora che il Piano Educativo Individualizzato (PEI) è uno strumento sostanziale di persona...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recqZIik94LG1hUuQ"
     ]
   }
 ]
