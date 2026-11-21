@@ -32,10 +32,10 @@ test('collaudo: cataloghi completi, correzioni territoriali e nessuna richiesta 
     vm.runInContext(fs.readFileSync(path.join(base,'app',name),'utf8'),context);
   }
   const data=context.window.SportelloConsegneData;
-  assert.equal(data.records.length,17);
+  assert.equal(data.records.length,18);
   const pending=data.pending.filter(r=>/Peppe|Cotto e Mangiato/.test(r.name));
   assert.equal(pending.length,2);
-  for(const r of pending){assert.equal(r.statusLabel,'Servizio di consegna da riconfermare');assert.equal(r.deliveryCoverageVerified,false);assert.equal(r.deliveryAreas.length,0);}
+  for(const r of pending){assert.equal(r.statusLabel,/Cotto/.test(r.name)?'Ristorazione al mercato, asporto e catering':'Servizio di consegna da riconfermare');assert.equal(r.deliveryCoverageVerified,false);assert.equal(r.deliveryAreas.length,0);}
   for(const name of fs.readdirSync(path.join(base,'app'))){
     const js=fs.readFileSync(path.join(base,'app',name),'utf8');
     assert.doesNotMatch(js,/fetch\(|XMLHttpRequest|sendBeacon|localStorage|sessionStorage/);
