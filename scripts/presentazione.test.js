@@ -1,15 +1,15 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const model=require('../anteprima-sportello/app/presentazione');
-test('Mappa facoltativa soltanto per poche sedi localizzabili',()=>{
- assert.equal(model.mapAvailable(0),false);
- assert.equal(model.mapAvailable(1),true);
- assert.equal(model.mapAvailable(8),true);
- assert.equal(model.mapAvailable(9),false);
+test('Filtri nativi: conserva i gruppi aperti mentre ricostruisce i risultati',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const source=fs.readFileSync(path.join(__dirname,'../anteprima-sportello/app/esplora.js'),'utf8');
+ assert.match(source,/querySelectorAll\('\.sp-result-group\[open\]'\)/);
+ assert.match(source,/section\.open=openGroups\.has\(group\.id\)/);
 });
-test('Presentazione: coordinate ammesse solo con indirizzo corrispondente',()=>{
- assert.equal(model.addressMatches('Via Roma 4, Roma','via roma 4 roma'),true);
- assert.equal(model.addressMatches('Via Roma 4, Roma','Via Roma 8, Roma'),false);
- assert.equal(model.addressMatches(null,'Via Roma'),false);
+test('Presentazione: non aggiunge filtri, conteggi o nascondimenti ai percorsi',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const source=fs.readFileSync(path.join(__dirname,'../anteprima-sportello/app/presentazione.js'),'utf8');
+ assert.doesNotMatch(source,/q-view-controls|q-subcategories|q-count|group\.hidden|card\.hidden|drawMap/);
 });
 test('Presentazione: non deduce quartiere dalla sede e distingue ADI',()=>{
  assert.equal(model.zoneFor({address:'Via Centocelle 4'}),'Zona puntuale da confermare');

@@ -89,11 +89,13 @@
       const update=providers(operatorSection,()=>({path:'pubblico',asl:current.asl,regime:current.regime,query:current.query}));renderGuides();
     }
     function privatePath(){
-      body.append(make('p','Prestazioni private a pagamento, da richiedere direttamente all’operatore. Verifica prima nominativo e iscrizione all’Albo del professionista, appropriatezza del percorso, preventivo e condizioni di cancellazione. COINSIEME non prenota, non raccoglie dati clinici e non incassa pagamenti.'),make('p','La copertura di Roma è dichiarata dal gestore: non sono disponibili riscontri puntuali per i singoli Municipi. Per questo non viene proposto un filtro territoriale che potrebbe suggerire disponibilità accertate.'));
+      body.append(make('p','Servizi privati a pagamento: conferma direttamente zona, disponibilità e preventivo. COINSIEME non prenota prestazioni.'));
+      const advice=make('details');advice.append(make('summary','Prima di contattare un fisioterapista'),make('p','Prestazioni private a pagamento, da richiedere direttamente all’operatore. Verifica prima nominativo e iscrizione all’Albo del professionista, appropriatezza del percorso, preventivo e condizioni di cancellazione. COINSIEME non prenota, non raccoglie dati clinici e non incassa pagamenti.'),make('p','La copertura di Roma è dichiarata dal gestore: non sono disponibili riscontri puntuali per i singoli Municipi. Per questo non viene proposto un filtro territoriale che potrebbe suggerire disponibilità accertate.'));
       const filters=make('fieldset',null,'sp-physio-filters');filters.append(make('legend','Cerca nelle schede private documentate'));body.append(filters);
       const label=make('label','Nome o prestazione'),search=make('input');search.id='fisioterapia-nome';search.type='search';search.autocomplete='off';search.value=current.query;label.append(search);filters.append(label);
       control(filters,'fisioterapia-tipo','Prestazione dichiarata',[['tutti','Tutte le prestazioni documentate'],['motoria','Riabilitazione motoria'],['postoperatoria','Fisioterapia post-operatoria'],['mobilita','Mobilità e mobilizzazioni']],current.type,v=>{current.type=v;update();});
       const update=providers(body,()=>({path:'privato',type:current.type,query:current.query}));search.addEventListener('input',()=>{current.query=search.value;update();});
+      body.append(advice);
     }
     function helpPath(){
       const list=make('ol');

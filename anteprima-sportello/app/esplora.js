@@ -29,6 +29,7 @@
   results.before(homeControls);
   const accessibility=window.SportelloAccessibilita.mount(root,catalog,render);
   function render(){
+    const openGroups=new Set([...results.querySelectorAll('.sp-result-group[open]')].map(group=>group.dataset.group));
     const ids=selected();homeControls.hidden=!ids.includes('domicilio');
     if(window.SportelloSocialita)window.SportelloSocialita.render(ids);
     const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value,name:homeName.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne)).filter(r=>!catalog.sharedResources?.some(shared=>shared.id===r.id)||!ids.includes('mobilita')||ids.includes('digitale')||!window.SportelloMobilita||window.SportelloMobilita.matchesShared(r));
@@ -69,14 +70,15 @@
         const caption=group.id==='domicilio:infermieristica'?nursingPrivate+' servizi privati · '+(nursingCount-nursingPrivate)+' percorsi ASL':window.SportelloFisioterapia?.groupCaption(group);
         const section=make('details',null,'sp-result-group'),summary=make('summary',group.label+(caption?' · '+caption:group.healthSection?'':' ('+group.resources.length+')'));
         section.dataset.group=group.id;
+        section.open=openGroups.has(group.id)||Boolean(homeName.value.trim()&&group.id.startsWith('domicilio:'));
         const hint=make('span','Esplora questo ambito','sp-service-invite');summary.append(hint);
         const parent=target;section.append(summary);target=make('div',null,'sp-result-group-content');section.append(target);parent.append(section);
         if(group.id==='domicilio:badante'){const p=make('p'),a=make('a','Prima di scegliere: fiducia, costo complessivo, notti e assistenza condivisa');a.href='/articoli/badante-condominio-fiducia-costi-assistenza-condivisa/';p.append(a);target.append(p);}
         if(group.id==='domicilio:pubblico')target.append(make('p','PUA e uffici sociali orientano e valutano l’accesso: non sono prestazioni domiciliari. L’ADI è invece assistenza sanitaria, distinta dalla badante. Nessuna richiesta viene attivata qui.'));
         if(nursingCount){
-          target.append(make('p','Infermieri, non assistenti familiari né sportelli informativi. I servizi privati richiedono un preventivo; i percorsi ADI richiedono valutazione e piano della ASL. Le prestazioni sono dichiarate, non garantite: conferma quartiere, disponibilità e prescrizione quando necessaria. Alcuni riferimenti indicano Roma senza dettagliare Roma Est. Per emergenze chiama il 112.'));
-          target.append(make('p','Gli enti ADI sono riscontrati nell’elenco ASL Roma 2 del 15 maggio 2025: il documento non prova contratto attuale, posti disponibili o copertura di tutto il quadrante est.'));
-          const p=make('p'),a=make('a','Verifica l’iscrizione del singolo infermiere all’Albo FNOPI');a.href='https://www.fnopi.it/gli-ordini-provinciali/ricerca-albo/';a.rel='noopener noreferrer';p.append(a,document.createTextNode(' · L’Albo non è un erogatore domiciliare e non è incluso nel conteggio.'));target.append(p);
+          target.append(make('p','Servizi privati a preventivo e percorsi ASL su valutazione. Conferma zona, disponibilità e prestazioni direttamente con il servizio. Per emergenze: 112.'));
+          const guidance=make('details');guidance.append(make('summary','Accesso, prestazioni e verifica dei professionisti'),make('p','Infermieri, non assistenti familiari né sportelli informativi. I servizi privati richiedono un preventivo; i percorsi ADI richiedono valutazione e piano della ASL. Le prestazioni sono dichiarate, non garantite: conferma quartiere, disponibilità e prescrizione quando necessaria. Alcuni riferimenti indicano Roma senza dettagliare Roma Est. Per emergenze chiama il 112.'),make('p','Gli enti ADI sono riscontrati nell’elenco ASL Roma 2 del 15 maggio 2025: il documento non prova contratto attuale, posti disponibili o copertura di tutto il quadrante est.'));
+          const p=make('p'),a=make('a','Verifica l’iscrizione del singolo infermiere all’Albo FNOPI');a.href='https://www.fnopi.it/gli-ordini-provinciali/ricerca-albo/';a.rel='noopener noreferrer';p.append(a,document.createTextNode(' · L’Albo non è un erogatore domiciliare e non è incluso nel conteggio.'));guidance.append(p);target.append(guidance);
         }
         section.addEventListener('toggle',()=>{hint.textContent=section.open?'Chiudi questo ambito':'Esplora questo ambito';});
       }
