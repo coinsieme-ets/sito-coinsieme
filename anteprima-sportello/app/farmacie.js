@@ -9,13 +9,13 @@
   const p=make('p'),a=link('Consulta i turni ufficiali aggiornati dell’Ordine',data.turns);a.className='btn btn-primary';p.append(a);notice.append(p,make('p','Scegli la data sul sito dell’Ordine e telefona prima di partire. Questo catalogo non acquisisce i turni giornalieri: nessuna farmacia è indicata come di turno oggi o aperta adesso. H24 dichiarata, apertura domenicale e turno festivo sono informazioni diverse.'));
   notice.append(link('Pagina Cittadino: turni e liste H24',data.official));target.append(notice);
   target.append(make('p','Consegna locale e spedizione tramite corriere non sono equivalenti. Conferma zona, tempi, costi, disponibilità dei prodotti e gestione della ricetta con la farmacia.'),make('p','La vendita online di medicinali con ricetta non è consentita. Per medicinali senza ricetta usa solo venditori autorizzati. Un servizio di recapito concordato con il farmacista non dimostra che tutti i farmaci siano consegnabili; non inviare ricette o indirizzi a COINSIEME.'),make('p','Per le farmacie censite non sono stati accertati i singoli medicinali con ricetta recapitabili né le relative procedure. L’autorizzazione alla vendita online dei singoli siti non è verificata in questo catalogo.'),link('Ministero della Salute: vendita online di medicinali',data.law),make('p','Nessuna farmacia è presentata come partner COINSIEME. Accessibilità fisica degli ingressi e modalità di servizio notturno non verificate sul posto.'));
-  const section=make('section');section.className='sp-social-catalog';const fields=make('fieldset');fields.append(make('legend','Cerca il servizio della farmacia'));
+  const section=make('section');section.className='sp-social-catalog';const fields=make('fieldset');fields.append(make('legend','Consulta le farmacie censite'));
   const modeLabel=make('label','Modalità di consultazione'),mode=make('select');mode.id='farmacie-mode';
   for(const [value,text] of [['tutte','Tutte le schede censite'],['notturne','Farmacie notturne e H24'],['festive','Domenica, festivi e turni'],['consegna','Consegna locale o spedizione tramite corriere']]){const opt=make('option',text);opt.value=value;mode.append(opt);}modeLabel.append(mode);
-  const nameLabel=make('label','Cerca per nome, indirizzo o riferimento territoriale'),name=make('input');name.type='search';name.autocomplete='off';name.id='farmacie-name';nameLabel.append(name);fields.append(modeLabel,nameLabel);
+  fields.append(modeLabel);
   const count=make('p');count.setAttribute('role','status');const list=make('div');section.append(fields,count,list);target.append(section);
   function render(){
-   const matches=data.choose(window.SportelloConsegneData,{mode:mode.value,name:name.value});list.replaceChildren();count.textContent=matches.length+' farmacie censite per questi filtri. Servizi documentati, non disponibilità in tempo reale.';
+   const matches=data.choose(window.SportelloConsegneData,{mode:mode.value});list.replaceChildren();count.textContent=matches.length+' farmacie censite per questi filtri. Servizi documentati, non disponibilità in tempo reale.';
    if(mode.value==='festive')list.append(make('p','Le schede indicano H24 o aperture domenicali dichiarate, non il turno della giornata. Per tutte le altre farmacie consulta l’Ordine alla data che ti interessa.'));
    if(!matches.length)list.append(make('p','Nessun risultato censito: non significa che manchino farmacie aperte nella zona. Consulta i turni ufficiali sopra.'));
    for(const record of matches){
@@ -31,7 +31,7 @@
     for(const source of record.sources){const p=make('p');p.append(link(source.label,source.url),' · Consultata il '+source.checkedAt);details.append(p);}list.append(details);
    }
   }
-  mode.addEventListener('change',render);name.addEventListener('input',render);render();
+  mode.addEventListener('change',render);render();
  }
  window.SportelloFarmacie={decorate};
 })();

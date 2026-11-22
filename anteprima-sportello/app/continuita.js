@@ -19,7 +19,7 @@
       controls[key]=el;wrap.append(el);fields.append(wrap);el.addEventListener(options?'change':'input',render);
     }
     control('profile','Prestazione',[['tutti','Adulti e pediatrico'],['adulti','Adulti'],['pediatrico','Pediatrico']]);
-    control('zone','Zona documentata',[['tutte','Tutte le zone'],...data.sites.map(site=>[site.zone,site.zone])]);control('name','Cerca sede, indirizzo o zona');
+    control('zone','Zona documentata',[['tutte','Tutte le zone'],...data.sites.map(site=>[site.zone,site.zone])]);
     const count=make('p');count.setAttribute('role','status');const list=make('div');section.append(fields,count,list);target.append(section);
     function render(){
       const records=data.choose(catalog,Object.fromEntries(Object.entries(controls).map(([key,el])=>[key,el.value])));count.textContent=records.length+' sedi AmbuFest documentate per i filtri scelti.';list.replaceChildren();

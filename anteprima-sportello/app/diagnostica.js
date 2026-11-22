@@ -13,12 +13,11 @@
     const fields=make('fieldset');fields.append(make('legend','Cerca un esame a domicilio'));
     const label=make('label','Tipo di prestazione'),type=make('select');type.id='diagnostica-tipo';
     for(const [value,text] of [['tutti','Tutte le prestazioni'],...data.types]){const option=make('option',text);option.value=value;type.append(option);}label.append(type);
-    const searchLabel=make('label','Nome o sede dell’operatore'),name=make('input');name.id='diagnostica-nome';name.type='search';name.autocomplete='off';searchLabel.append(name);
-    const reset=make('button','Azzera i filtri diagnostica');reset.type='button';reset.className='btn btn-secondary';fields.append(label,searchLabel,reset);
+    const reset=make('button','Azzera i filtri diagnostica');reset.type='button';reset.className='btn btn-secondary';fields.append(label,reset);
     const status=make('p');status.setAttribute('role','status');status.setAttribute('aria-atomic','true');
     const list=make('div');section.append(fields,status,list);target.append(section);
     function render(){
-      const records=data.choose({type:type.value,name:name.value});list.replaceChildren();status.textContent=records.length+' operatori. Copertura e disponibilità da confermare.';
+      const records=data.choose({type:type.value});list.replaceChildren();status.textContent=records.length+' operatori. Copertura e disponibilità da confermare.';
       if(!records.length)list.append(make('p','Nessun operatore censito per questa ricerca; non significa che la prestazione non esista.'));
       for(const r of records){
         const card=make('details');card.id='diagnostica-'+r.id;card.setAttribute('data-diagnostica-id',r.id);card.append(make('summary',r.name),make('p',r.description));
@@ -30,8 +29,8 @@
         for(const s of r.sources){const p=make('p');p.append(link(s.label,s.url),' · Consultata il '+s.checkedAt);card.append(p);}list.append(card);
       }
     }
-    type.addEventListener('change',render);name.addEventListener('input',render);
-    reset.addEventListener('click',()=>{type.value='tutti';name.value='';render();type.focus();});render();
+    type.addEventListener('change',render);
+    reset.addEventListener('click',()=>{type.value='tutti';render();type.focus();});render();
   }
   window.SportelloDiagnostica={decorate};
 })();

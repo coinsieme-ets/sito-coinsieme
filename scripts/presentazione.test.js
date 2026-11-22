@@ -1,5 +1,12 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const model=require('../anteprima-sportello/app/presentazione');
+test('Elenchi brevi: nessun campo testuale aggiuntivo nei quattro moduli',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ for(const [file,id]of [['farmacie','farmacie-name'],['continuita','continuita-name'],['diagnostica','diagnostica-nome'],['coabitazione','coabitazione-nome']]){
+  const source=fs.readFileSync(path.join(__dirname,'../anteprima-sportello/app/'+file+'.js'),'utf8');
+  assert.ok(!source.includes(id),file);
+ }
+});
 test('Filtri nativi: conserva i gruppi aperti mentre ricostruisce i risultati',()=>{
  const fs=require('node:fs'),path=require('node:path');
  const source=fs.readFileSync(path.join(__dirname,'../anteprima-sportello/app/esplora.js'),'utf8');

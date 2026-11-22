@@ -30,6 +30,8 @@
   const accessibility=window.SportelloAccessibilita.mount(root,catalog,render);
   function render(){
     const openGroups=new Set([...results.querySelectorAll('.sp-result-group[open]')].map(group=>group.dataset.group));
+    searchLabel.hidden=homeKind.value==='fisioterapia';
+    if(searchLabel.hidden)homeName.value='';
     const ids=selected();homeControls.hidden=!ids.includes('domicilio');
     if(window.SportelloSocialita)window.SportelloSocialita.render(ids);
     const resources=engine.chooseHomeResources(ids,catalog,{kind:homeKind.value,territory:homeTerritory.value,name:homeName.value}).filter(r=>(r.category!=='socialita'||!window.SportelloSocialita?.available)&&(r.category!=='mobilita'||!window.SportelloMobilita)&&(r.category!=='consegne'||!window.SportelloConsegne)).filter(r=>!catalog.sharedResources?.some(shared=>shared.id===r.id)||!ids.includes('mobilita')||ids.includes('digitale')||!window.SportelloMobilita||window.SportelloMobilita.matchesShared(r));
