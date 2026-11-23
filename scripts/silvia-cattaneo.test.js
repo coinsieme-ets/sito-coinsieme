@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const article=require('../content/articoli/partecipare-alle-scelte-anche-quando-serve-aiuto.json');
 test('Il contributo di Silvia conserva firma, sei paragrafi e autonomia editoriale',()=>{
  assert.equal(article.author,'Silvia Cattaneo');
- assert.equal(article.rilevanza_home,'normale');
+ assert.equal(article.rilevanza_home,'evidenza');
  assert.equal(article.body.split('\n\n**Silvia Cattaneo**')[0].split('\n\n').length,6);
  assert.match(article.body,/purché entrambe siano davvero disponibili/);
  assert.match(article.body,/è meglio non attribuire una preferenza per comodità/);
