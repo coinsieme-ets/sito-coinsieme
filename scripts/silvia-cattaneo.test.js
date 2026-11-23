@@ -12,3 +12,13 @@ test('Il contributo di Silvia conserva firma, sei paragrafi e autonomia editoria
  assert.doesNotMatch(article.body,/@gmail\.com|Disponibilità a concordare/);
  assert.equal(article.image,'');
 });
+test('Il richiamo News usa il record autorevole e rimanda al contributo firmato',()=>{
+ const items=require('../content/rassegna/notizie-esterne.json');
+ const matches=items.filter(x=>x.notizie?.includes('recishR8d0NuvlnDj'));
+ assert.equal(matches.length,1);
+ const item=matches[0];
+ assert.equal(item.url_fonte,'https://www.coinsieme.it/articoli/'+article.slug+'/');
+ assert.equal(item.titolo_editoriale,article.title);
+ assert.match(item.fonte,/Silvia Cattaneo/);
+ assert.equal(require('./publish-segnalazioni').publicItem({id:'recishR8d0NuvlnDj',fields:item}).url_fonte,item.url_fonte);
+});
