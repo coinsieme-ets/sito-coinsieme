@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const catalog=require('../anteprima-sportello/app/servizi'),engine=require('../anteprima-sportello/app/orientamento');
 const item=require('../anteprima-sportello/app/accessibilita-spazi')[0];
 test('Connessioni servizi: scheda unica privata, categorie esistenti e reperibilita trasversale',()=>{
- assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,58);
+ assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,59);
  assert.equal(catalog.sharedResources.length,1);assert.equal(catalog.isVerifiedResource(item),true);
  for(const ids of [['digitale'],['mobilita'],['digitale','mobilita'],['digitale','mobilita','domicilio']]){
   const found=engine.chooseHomeResources(ids,catalog).filter(r=>r.id===item.id);assert.equal(found.length,1);

@@ -41,7 +41,10 @@ test('collaudo: cataloghi completi, correzioni territoriali e nessuna richiesta 
     assert.doesNotMatch(js,/fetch\(|XMLHttpRequest|sendBeacon|localStorage|sessionStorage/);
   }
   const catalog=require('../anteprima-sportello/app/servizi');
-  assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,58);
+  assert.equal(catalog.areas.length,9);assert.equal(catalog.resources.length,59);
+  const avi=catalog.resources.filter(r=>r.id==='avi-vita-indipendente-anemoni');
+  assert.equal(avi.length,1);assert.equal(avi[0].phones[0].number,'0687930332');
+  assert.match(avi[0].notes.join(' '),/In attesa di conferma dati/);
   const {choose}=require('../anteprima-sportello/app/consegne');
   assert.equal(choose(data,{channel:'telefono'}).length,2);
   assert.equal(choose(data,{query:'Peppe'}).length,0);
