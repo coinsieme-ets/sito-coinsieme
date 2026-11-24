@@ -55,8 +55,8 @@ test('public page validation accepts the production renderer but rejects incompl
     assert.equal((await fetchPublicPages(respond(fixture.html))).length,2);
     for(const broken of [
       fixture.html.replace('name="coinsieme-public-state"','name="other-state"'),
-      fixture.html.replace('id="updates-title"','id="missing-updates"'),
-      fixture.html.replace('id="projects-title"','id="missing-projects"'),
+      fixture.html.replace('id="community-editorial-title"','id="missing-updates"'),
+      fixture.html.replace('id="community-foundation-title"','id="missing-projects"'),
       fixture.html.replaceAll('href="/anteprima-sportello/#esplora-servizi"','href="/sportello/"'),
       '<html>COINSIEME<!--'+fixture.html+'--></html>'
     ])await assert.rejects(fetchPublicPages(respond(broken)),/Struttura sito inattesa/);

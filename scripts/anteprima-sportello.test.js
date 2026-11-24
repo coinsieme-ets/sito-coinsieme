@@ -18,8 +18,8 @@ test('collaudo: percorso autonomo, privato e senza riferimenti al Quartiere',()=
   // The existing tool CTA plus the new no-JavaScript search fallback.
   assert.equal((homepage.html.match(/href="\/anteprima-sportello\/#esplora-servizi"/g)||[]).length,2);
   assert.match(homepage.html,/<noscript><p>Per la ricerca attiva JavaScript oppure consulta/);
-  assert.match(homepage.html,/Sportello COINSIEME · Collaudo/);
-  assert.match(homepage.html,/Catalogo in verifica/);
+  assert.doesNotMatch(homepage.html,/Sportello COINSIEME · Collaudo/);
+  assert.match(homepage.html,/requisiti, costi e disponibilità/);
   assert.doesNotMatch(homepage.html,/href="\/anteprima-sportello\/#(?:ascolto|intervista)/);
   assert.match(html,/id="esplora-servizi"/);
   for(const file of ['domotica.html','persone-famiglie.html','casa-che-si-prende-cura/index.html','sportello/index.html']){

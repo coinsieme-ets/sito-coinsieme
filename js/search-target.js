@@ -22,7 +22,7 @@
   if(parts.length!==3||!id||id.length>180||!/^[-a-z0-9]+$/.test(id))return;
   const choice=[...document.querySelectorAll('#servizi-scelte input')].find(el=>el.value===category);if(!choice)return;
   // An explicit card link must not inherit filters from a previously opened service.
-  for(const [id,value] of [['domicilio-tipo','tutti'],['domicilio-territorio','tutti'],['domicilio-nome','']]){
+  for(const [id,value] of [['domicilio-tipo','tutti'],['domicilio-territorio','tutti'],['domicilio-nome',''],['mobilita-tipo',''],['mobilita-territorio','tutti'],['mobilita-nome','']]){
    const control=document.getElementById(id);if(control)control.value=value;
   }
   const allAccessibility=document.getElementById('accessibilita-ambito-tutte');if(allAccessibility)allAccessibility.checked=true;
@@ -34,6 +34,8 @@
     if(option){option.checked=true;option.dispatchEvent(new Event('change',{bubbles:true}));}
     node=document.getElementById('accessibilita-filtri');
    }else if(category==='socialita'){document.querySelector('[data-journey="tutte"]')?.click();node=document.getElementById('socialita-titolo');}
+   else if(category==='mobilita'&&id==='mobilita')node=document.getElementById('mobilita-tipo')?.closest('fieldset');
+   else if(category==='domicilio'&&id==='domicilio')node=document.getElementById('domicilio-tipo')?.closest('fieldset');
    else node=byData('data-group',category+':'+id)||document.querySelector('#servizi-risultati details')||document.getElementById('servizi-risultati-titolo');
   }else if(kind==='sociale'){
    document.querySelector('[data-journey="tutte"]')?.click();

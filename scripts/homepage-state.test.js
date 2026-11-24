@@ -79,10 +79,10 @@ test('renderer produzione isolato: snapshot, privacy, dipendenze, copertina e ri
  const root=path.resolve(__dirname,'..'),before=fs.readFileSync(path.join(root,'index.html'),'utf8');
  try{
   const result=await require('./build-homepage').build({snapshot,news:[],outputDir:dir,writeIndex:false});
-  assert.match(result.html,/<h1>Vivere meglio, insieme<\/h1>/);
+  assert.match(result.html,/<h1\b[^>]*>Vivere meglio, insieme<\/h1>/);
   assert.match(result.html,/HOME_PRIVACY_START/);assert.match(result.html,/data-iub-purposes="4"/);
-  assert.match(result.html,/id="top-news-live-clock"/);assert.doesNotMatch(result.html,/noindex,nofollow/);
-  assert.match(result.html,/src="\/assets\/home-dinamica\/clock.js"/);
+  assert.doesNotMatch(result.html,/id="top-news-live-clock"/);assert.doesNotMatch(result.html,/noindex,nofollow/);
+  assert.match(result.html,/href="\/assets\/home-dinamica\/community.css/);
   assert.equal(state.verify(result.html,result.state),true);
   assert.equal(state.verify(result.html.replace(result.state.signature,'0'.repeat(64)),result.state),false);
   for(const file of ['clock.js','navigation.js','style.css'])assert.ok(fs.existsSync(path.join(dir,file)));

@@ -29,11 +29,12 @@ test('Domotica: richiamo breve, senza trasferire il contenuto tecnico',()=>{
  assert.match(main,/href="\/casa-che-si-prende-cura\/"/);
  assert.match(main,/domotica-assistiva-coinsieme.mp4/);
 });
-test('Homepage: Domotica e Trilogia restano distinte dopo la rigenerazione',async()=>{
+test('Homepage: Domotica e Trilogia restano distinte nel percorso Cosa facciamo',async()=>{
  const result=await productionFixture();try{
-  const cards=[...result.html.matchAll(/<article class="project-entry"[\s\S]*?<\/article>/g)].map(m=>m[0]);
-  assert.equal(cards.length,4);assert.match(cards[0],/href="\/domotica.html"/);assert.match(cards[3],/href="\/trilogia-di-vita.html"/);
-  assert.match(read('index.html'),/href="\/trilogia-di-vita.html"/);
+  assert.match(result.html,/href="\/cosa-facciamo.html"/);
+  const hub=read('cosa-facciamo.html');
+  assert.ok(hub.includes('href="domotica.html"'));assert.ok(hub.includes('href="trilogia-di-vita.html"'));
+  assert.equal((result.html.match(/class="project-entry"/g)||[]).length,0);
  }finally{result.cleanup();}
 });
 test('Trilogia: contenuti senza JS e inclusione nei due pacchetti Pages esistenti',()=>{

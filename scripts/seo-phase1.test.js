@@ -46,6 +46,6 @@ test('Organization usa soltanto dati istituzionali documentati e non altera il c
   const org=JSON.parse(matches[0][1]),source=JSON.parse(fs.readFileSync(path.join(root,'content/organization.json'),'utf8'));
   assert.deepEqual(org,source.organization);assert.equal(org['@type'],'Organization');assert.equal(org.address.streetAddress,'Via Enrico Giglioli 54A');assert.equal(org.email,'segreteria@coinsieme.it');assert.equal(org.logo,'https://www.coinsieme.it/assets/logo-symbol.png');assert.ok(!('telephone' in org));assert.ok(!('sameAs' in org));assert.ok(!('sources' in org));
   const contacts=fs.readFileSync(path.join(root,'contatti.html'),'utf8');for(const value of [org.address.streetAddress,org.address.postalCode,org.email])assert.ok(contacts.includes(value));
-  assert.equal((result.html.match(/class="project-entry"/g)||[]).length,4);assert.match(result.html,/candidata e ancora in valutazione/);
+  assert.equal((result.html.match(/class="project-entry"/g)||[]).length,0);assert.match(result.html,/id="community-foundation-title"/);assert.match(fs.readFileSync(path.join(root,'cosa-facciamo.html'),'utf8'),/finanziamento e avvio non sono confermati/);
  }finally{result.cleanup();}
 });

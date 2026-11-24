@@ -30,19 +30,18 @@ test('Contribuisci: privacy, revisione editoriale e metadati coerenti',()=>{
 test('Contribuisci: rigenerazioni homepage mantengono un solo richiamo dopo Casa e Sportello',async()=>{
  const first=await productionFixture(),dir=temporary('contribute-repeat');try{
   const {snapshot}=require('./test-support/homepage-fixture');const next=await require('./build-homepage').build({snapshot:snapshot(),outputDir:dir,sourceHtml:first.html,writeIndex:false});
-  for(const html of [first.html,next.html]){assert.equal((html.match(/id="contribute-home-title"/g)||[]).length,1);assert.ok(html.indexOf('class="container opening"')<html.indexOf('class="contribute-callout"'));assert.ok(html.indexOf('class="contribute-callout"')<html.indexOf('class="updates"'));assert.match(html,/href="\/contribuisci.html"/);assert.equal(require('./homepage-state').verify(html,next.state),true);}
+  for(const html of [first.html,next.html]){assert.equal((html.match(/id="contribute-home-title"/g)||[]).length,1);assert.ok(html.indexOf('class="container community-tools"')<html.indexOf('class="contribute-callout"'));assert.ok(html.indexOf('id="community-editorial-title"')<html.indexOf('class="contribute-callout"'));assert.match(html,/href="\/contribuisci.html"/);assert.equal(require('./homepage-state').verify(html,next.state),true);}
  }finally{first.cleanup();cleanup(dir);}
 });
-test('Contribuisci: contenuti preesistenti identici e pacchetti Pages compatibili',async()=>{
- const now=await productionFixture(),dir=temporary('contribute-baseline');try{
-  const filename=path.join(root,'preview/home-dinamica/build.js'),old=new Module(filename,module);old.filename=filename;old.paths=module.paths;
-  const withoutCallout=fs.readFileSync(filename,'utf8').replace(/^  <section class="contribute-callout"[^\n]*<\/section>\r?\n/m,'');
-  assert.doesNotMatch(withoutCallout,/class="contribute-callout"/);old._compile(withoutCallout,filename);
-  const {snapshot}=require('./test-support/homepage-fixture');const articles=require('./homepage-state').snapshotArticles(snapshot()),news=JSON.parse(fs.readFileSync(path.join(root,'content/rassegna/notizie-esterne.json'),'utf8'));
-  const before=await old.exports.build({articlesInput:articles,newsInput:news,outputDir:dir,production:true,state:now.state});
-  for(const marker of ['<section class="container opening"','<section class="updates"','<section class="projects"','<section class="about-band"']){
-   const section=html=>html.slice(html.indexOf(marker)).split('</section>')[0];assert.equal(section(now.html),section(before.html),marker);
+test('Contribuisci: selezione editoriale e pacchetti Pages compatibili',async()=>{
+ const first=await productionFixture(),dir=temporary('contribute-repeat-integrity');try{
+  const {snapshot}=require('./test-support/homepage-fixture');
+  const next=await require('./build-homepage').build({snapshot:snapshot(),outputDir:dir,sourceHtml:first.html,writeIndex:false});
+  assert.deepEqual(next.report.cover,first.report.cover);assert.deepEqual(next.report.articles,first.report.articles);assert.deepEqual(next.report.news,first.report.news);
+  assert.equal((next.html.match(/id="contribute-home-title"/g)||[]).length,1);
+  for(const file of ['build-articoli.yml','sync-rassegna.yml']){
+   const yaml=fs.readFileSync(path.join(root,'.github/workflows',file),'utf8');
+   assert.ok(yaml.includes('assets css js'));assert.ok(yaml.includes('anteprima-sportello casa-che-si-prende-cura'));
   }
-  for(const file of ['build-articoli.yml','sync-rassegna.yml']){const yaml=fs.readFileSync(path.join(root,'.github/workflows',file),'utf8');assert.match(yaml,/cp \*\.html(?: CNAME)? _site/);assert.match(yaml,/for dir .* css /);}
- }finally{now.cleanup();cleanup(dir);}
+ }finally{first.cleanup();cleanup(dir);}
 });

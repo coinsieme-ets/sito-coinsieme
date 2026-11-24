@@ -46,14 +46,14 @@ before(()=>{
  buildLog+=child(['scripts/check-publication-build.js']);
 });
 after(()=>{if(workspace)cleanup(workspace);});
-test('build reale offline ripetuta: layout, rassegna, privacy, orologio e pagine protette',()=>{
+test('build reale offline ripetuta: layout, rassegna, privacy e pagine protette',()=>{
  assert.ok(!fs.existsSync(path.join(workspace,'scratch/home-preview-publication.json')));
  const html=fs.readFileSync(path.join(workspace,'index.html'),'utf8');
- assert.match(buildLog,/Build CMS completata/);assert.match(html,/<h1>Vivere meglio, insieme<\/h1>/);
+ assert.match(buildLog,/Build CMS completata/);assert.match(html,/<h1\b[^>]*>Vivere meglio, insieme<\/h1>/);
  assert.match(buildLog,/VERIFICHE RIGOROSE SUPERATE CON 0 ERRORI/);
  assert.match(buildLog,/Schede verificate prima del deploy/);
- assert.match(html,/Aggiornamento locale di collaudo/);assert.match(html,/id="top-news-live-clock"/);
- assert.match(html,/id="updates-title"/);assert.match(html,/id="projects-title"/);
+ assert.match(html,/Aggiornamento locale di collaudo/);assert.doesNotMatch(html,/id="top-news-live-clock"/);
+ assert.match(html,/id="community-editorial-title"/);assert.match(html,/id="community-foundation-title"/);
  assert.equal((html.match(/HOME_PRIVACY_START/g)||[]).length,1);
  assert.equal((html.match(/iubenda-cs-preferences-link/g)||[]).length,1);
  assert.deepEqual(protectedFiles(workspace),initialProtected);

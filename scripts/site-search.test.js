@@ -36,7 +36,7 @@ test('Ricerca: HTML e indice rigenerati insieme senza cambiare la selezione edit
  const fixture=await require('./test-support/homepage-fixture').productionFixture();
  try{
   assert.match(fixture.html,/<h2 id="site-search-title">Che cosa cerchi\?<\/h2>/);
-  assert.ok(fixture.html.indexOf('id="site-search"')<fixture.html.indexOf('<section class="container opening"'));
+  assert.ok(fixture.html.indexOf('class="container community-tools"')<fixture.html.indexOf('id="site-search"'));assert.ok(fixture.html.indexOf('id="site-search"')<fixture.html.indexOf('id="community-editorial-title"'));
   const c={window:{}};vm.runInNewContext(fs.readFileSync(path.join(fixture.dir,'search-index.js'),'utf8'),c);
   assert.ok(c.window.CoinsiemeSearchIndex.length>200);
   assert.match(fixture.html,/src="\/assets\/home-dinamica\/search-index.js"/);

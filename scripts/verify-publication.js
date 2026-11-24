@@ -37,9 +37,11 @@ async function fetchPublicPages(fetcher = fetchPublished) {
     if (!res.ok) throw new Error('Verifica sito inconclusiva: HTTP ' + res.status + ' ' + url);
     const html = await res.text();
     const visible = visibleHtml(html);
-    const dynamicHome = /<meta\b[^>]*name="coinsieme-public-state"[^>]*content="[a-f0-9]{64}"/.test(visible) &&
+    const layoutPresent = ['id="updates-title"','id="projects-title"'].every(marker=>visible.includes(marker)) ||
+      ['class="community-home"','class="community-needs"','id="community-editorial-title"','id="community-foundation-title"'].every(marker=>visible.includes(marker));
+    const dynamicHome = layoutPresent && /<meta\b[^>]*name="coinsieme-public-state"[^>]*content="[a-f0-9]{64}"/.test(visible) &&
       /<h1\b[^>]*>\s*Vivere meglio, insieme\s*<\/h1>/.test(visible) &&
-      ['id="main-content"','id="updates-title"','id="projects-title"',
+      ['id="main-content"',
         'href="/casa-che-si-prende-cura/"','href="/anteprima-sportello/#esplora-servizi"'].every(marker => visible.includes(marker));
     if (!html.includes('</html>') || !html.includes('COINSIEME') ||
         (url === PAGES[0] && !html.includes('CMS_RASSEGNA_SECTION_END') && !dynamicHome) ||
