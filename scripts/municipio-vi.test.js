@@ -3,6 +3,11 @@ const assert=require('node:assert/strict');
 const catalog=require('../anteprima-sportello/app/servizi');
 const engine=require('../anteprima-sportello/app/orientamento');
 const ids=['vi-pua-torrenova','vi-disabili-adulti','vi-adi-distretto-6'];
+test('Municipio VI: i collegamenti civici scelgono la categoria che mostra la scheda',()=>{
+  const entries=require('./search-catalog').catalog();
+  assert.ok(entries.some(e=>e.url==='/anteprima-sportello/#cerca=vicinato/sociale/albo-12'));
+  assert.ok(!entries.some(e=>e.url==='/anteprima-sportello/#cerca=socialita/sociale/albo-12'));
+});
 test('Municipio VI: schede uniche, fonti pubbliche e competenza distinta',()=>{
   for(const id of ids){
     const rows=catalog.resources.filter(r=>r.id===id);

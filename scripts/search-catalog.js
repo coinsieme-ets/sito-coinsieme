@@ -34,7 +34,7 @@ function catalog(){
  for(const site of continuita.choose(services))add('AmbuFest — '+site.address,'Cure primarie ad accesso diretto negli orari previsti. '+site.zone,target('salute','ambufest',site.id));
  const c={window:{}};for(const file of ['socialita-data','samaritans','tirrenia-todaro'])vm.runInNewContext(fs.readFileSync(path.join(app,file+'.js'),'utf8'),c,{timeout:1000});
  const social=require('../anteprima-sportello/app/socialita');
- for(const r of [...c.window.SportelloSocialitaData.records,...social.additions])add(r.name,r.description,target('socialita','sociale',r.id),'Sportello',(r.fields||[]).join(' '),r.trip?.start);
+ for(const r of [...c.window.SportelloSocialitaData.records,...social.additions])add(r.name,r.description,target(social.forCategories([r],['socialita']).length?'socialita':'vicinato','sociale',r.id),'Sportello',(r.fields||[]).join(' '),r.trip?.start);
  // Solution cards are flat articles in the existing static HTML, never a second catalogue.
  const casa=fs.readFileSync(path.join(root,'casa-che-si-prende-cura/index.html'),'utf8');
  for(const match of casa.matchAll(/<article\b[^>]*class="solution(?: [^"]*)?"[^>]*>([\s\S]*?)<\/article>/g)){
