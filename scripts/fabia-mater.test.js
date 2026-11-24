@@ -7,7 +7,7 @@ test('Fabia Mater: una sola scheda, sedi e regimi distinti',()=>{
  assert.ok(r.sources.every(s=>s.checkedAt==='2026-11-08'));assert.match(r.costs,/Nessuna gratuità generalizzata/);assert.match(r.notes.join(' '),/accessibilità fisica non verificati/);
 });
 test('Fabia Mater: tutte le schede territoriali precedenti restano identiche',()=>{
- assert.equal(crypto.createHash('sha256').update(JSON.stringify(territory.filter(r=>r.id!=='territorio-fabia-mater'))).digest('hex'),'6d08d029d46ec4ac92210b3dde13b6bf51966fd84796316cfdd8648b3e3de607');
+ assert.equal(crypto.createHash('sha256').update(JSON.stringify(territory.filter(r=>r.id!=='territorio-fabia-mater'&&!r.id.startsWith('vi-')))).digest('hex'),'6d08d029d46ec4ac92210b3dde13b6bf51966fd84796316cfdd8648b3e3de607');
 });
 test('Fabia Mater: nel gruppo ospedali e nella ricerca unica, senza duplicati',()=>{
  const groups=engine.organizeServiceGroups(engine.groupServiceResources(engine.chooseServiceResources(['salute'],catalog),['salute'],catalog));

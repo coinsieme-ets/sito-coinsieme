@@ -41,12 +41,14 @@
   function homeTerritoryMatches(resource,territory){
     if(!territory||territory==='tutti')return true;
     if(resource.status==='informazione_orientativa'&&resource.territorialScope==='generale')return true;
-    if(resource.remoteItaly&&['v','est','roma','nazionale'].includes(territory))return true;
+    if(resource.remoteItaly&&['v','vi','est','roma','nazionale'].includes(territory))return true;
+    if(territory==='vi'&&resource.allRomeDeclared===true)return true;
     if(territory==='nazionale')return resource.coverageClass==='nazionale_dichiarata';
     if(territory==='roma')return resource.allRomeDeclared===true;
     if(territory==='est'&&resource.homeKind==='infermieristica'&&(resource.coverageBasis==='roma-est'||resource.allRomeDeclared===true))return true;
     const municipi=[resource.seatMunicipio,...(resource.coverageMunicipi||[])];
     if(territory==='v')return municipi.includes('V');
+    if(territory==='vi')return municipi.includes('VI');
     if(territory==='est')return municipi.some(m=>['IV','V','VI','VII'].includes(m));
     return false;
   }
