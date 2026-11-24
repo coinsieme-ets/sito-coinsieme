@@ -29,6 +29,6 @@ test('Scacchi e UPTP: indicizzazione senza duplicazioni',()=>{
  for(const id of ids)assert.equal(entries.filter(e=>e.url.endsWith('/sociale/'+id)).length,1);
 });
 test('Scacchi e UPTP: le 34 aggiunte non interessate dalla verifica FlaBArt conservate integralmente',()=>{
- const legacy=model.additions.filter(r=>!ids.includes(r.id)&&r.id!=='social-ballo-flabart');assert.equal(legacy.length,34);
+ const legacy=model.additions.filter(r=>!ids.includes(r.id)&&!['social-ballo-flabart','social-cidp-italia'].includes(r.id));assert.equal(legacy.length,34);
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(legacy)).digest('hex'),'b18d81f4a3bdb2f411be3cfabeb9efdc72263d09d5d81a7d9d0039dd92938b9f');
 });

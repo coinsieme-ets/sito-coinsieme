@@ -2,7 +2,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict'),crypto=require('node:crypto');
 const model=require('../anteprima-sportello/app/socialita');
 test('Giochi: le 20 aggiunte non coinvolte nell’aggiornamento dei due parchi rimangono identiche',()=>{
- const previous=model.additions.filter(r=>r.journey!=='giochi'&&r.mode!=='palestre'&&!['social-parco-centocelle','social-villa-de-sanctis','social-auser-prenestino','social-ecomuseo-casilino','social-angeli-noonan','social-universita-popolare-torpignattara','social-ballo-flabart'].includes(r.id));
+ const previous=model.additions.filter(r=>r.journey!=='giochi'&&r.mode!=='palestre'&&!['social-parco-centocelle','social-villa-de-sanctis','social-auser-prenestino','social-ecomuseo-casilino','social-angeli-noonan','social-universita-popolare-torpignattara','social-ballo-flabart','social-cidp-italia'].includes(r.id));
  assert.equal(previous.length,19);
  assert.equal(crypto.createHash('sha256').update(JSON.stringify(previous)).digest('hex'),'3106a1d7dc2d5dd039fccf6c1d138b8ebc6504cf9dc793382dafe229db62942b');
 });

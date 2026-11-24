@@ -37,7 +37,7 @@ test('Conferme: FlaBArt non propone la casella respinta e conserva il telefono p
  const r=model.additions.find(r=>r.id==='social-ballo-flabart');assert.equal(r.email,null);
  assert.equal(r.phone,'3481158797');assert.match(r.details[0],/utente sconosciuto/);
  assert.ok(r.links.some(l=>l.url==='https://www.facebook.com/flabartartechedanzaacsdroma/'));
- assert.equal(hash(model.additions.filter(r=>r.id!=='social-ballo-flabart')),'0833acf61fa2984db4ec06e94c0e99fabae8364fc58e3afea744dd9edb0519db');
+ assert.equal(hash(model.additions.filter(r=>!['social-ballo-flabart','social-cidp-italia'].includes(r.id))),'0833acf61fa2984db4ec06e94c0e99fabae8364fc58e3afea744dd9edb0519db');
 });
 test('Conferme: ricerca e identificativi unici, senza nuova scheda Cuore Digitale',()=>{
  const entries=require('./search-catalog').catalog();
