@@ -3107,7 +3107,7 @@
     "sintesi_editoriale": "Offrire alle persone con disabilità visiva l’opportunità di vivere un’esperienza accessibile, coinvolgente e condivisa di pesca dalla barca, dimostrando come il mare e le attività sportive possano diventare occasioni di autonomia, partecipazione e inclusione: sarà questo l’iniziativa in programma...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
@@ -3128,7 +3128,7 @@
     "sintesi_editoriale": "Una recente Sentenza del TAR della Sicilia, riguardante la quantificazione delle ore di assistenza specialistica all’autonomia e alla comunicazione per una studentessa con disabilità, ha ribadito una volta ancora che il Piano Educativo Individualizzato (PEI) è uno strumento sostanziale di persona...",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_normale",
     "ordine_editoriale": 999,
@@ -3149,11 +3149,76 @@
     "sintesi_editoriale": "Ricevere aiuto non significa rinunciare alla propria voce. Silvia Cattaneo propone una riflessione sulle piccole scelte quotidiane delle persone anziane: offrire alternative reali, dare tempo alla risposta e rispettare anche un rifiuto. Il contributo integrale, firmato dall’autrice, è pubblicato su COINSIEME.",
     "immagine_in_evidenza": "",
     "immagine_news": "",
-    "stato": "pubblica",
+    "stato": "pubblicata",
     "priorita": "media",
     "posizione_sito": "home_evidenza",
     "ordine_editoriale": 1,
     "mantieni_in_evidenza_fino_al": "",
-    "notizie": ["recishR8d0NuvlnDj"]
+    "notizie": [
+      "recishR8d0NuvlnDj"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-25-1baa6ed4f7cd20d3",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-24",
+    "data_pubblicazione": "2026-11-24",
+    "titolo_originale": "ANMIL – A Roma “I figli della frettolosa”, teatro e disabilità diventano esperienza condivisa",
+    "titolo_editoriale": "ANMIL – A Roma “I figli della frettolosa”, teatro e disabilità diventano esperienza condivisa",
+    "fonte": "Forum Terzo Settore",
+    "url_fonte": "https://www.forumterzosettore.it/2026/11/24/anmil-a-roma-i-figli-della-frettolosa-teatro-e-disabilita-diventano-esperienza-condivisa/",
+    "sintesi_editoriale": "Dal 3 al 6 dicembre, a Roma, la Compagnia Berardi Casolari porta in scena I figli della frettolosa, un progetto teatrale che coinvolge persone con e senza disabilità. In collaborazione con IRFA-ANMIL e A.T.C. Saltimbanco ETS, lo spettacolo trasforma esperienze, voci e vissuti in materia teatrale,...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recLxZH3haoQ4lBJU"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-25-46ac4a850d35bed6",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-25",
+    "data_pubblicazione": "2026-11-25",
+    "titolo_originale": "È l’ora di dare finalmente voce alla violenza contro le donne e le ragazze con disabilità!",
+    "titolo_editoriale": "È l’ora di dare finalmente voce alla violenza contro le donne e le ragazze con disabilità!",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/25/e-lora-di-dare-finalmente-voce-alla-violenza-contro-le-donne-e-le-ragazze-con-disabilita/",
+    "sintesi_editoriale": "«Intendiamo accendere i riflettori su una realtà spesso ignorata dal dibattito pubblico e dalle stesse politiche di prevenzione che è la violenza contro le donne con disabilità le quali sono esposte a un rischio significativamente più alto di subire abusi fisici, psicologici, sessuali ed economic...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "recWthkqjWxKuKSwS"
+    ]
+  },
+  {
+    "id": "rssbrief-2026-11-25-d597759de7aed14f",
+    "categoria": "Welfare e autonomia",
+    "data_fonte": "2026-11-24",
+    "data_pubblicazione": "2026-11-24",
+    "titolo_originale": "Accessibilità domestica e fine anno: tra la corsa alle detrazioni e il diritto a scelte consapevoli",
+    "titolo_editoriale": "Accessibilità domestica e fine anno: tra la corsa alle detrazioni e il diritto a scelte consapevoli",
+    "fonte": "Superando",
+    "url_fonte": "https://superando.it/2026/11/24/accessibilita-domestica-e-fine-anno-tra-la-corsa-alle-detrazioni-e-il-diritto-a-scelte-consapevoli/",
+    "sintesi_editoriale": "Con l’avvicinarsi della chiusura dell’anno solare si ripresenta puntuale un fenomeno ben noto a chi si occupa di tutela dei diritti delle persone anziane, con disabilità o dei loro caregiver: la pressione commerciale legata alle scadenze fiscali. Ma la tutela dell’accessibilità domestica non può ...",
+    "immagine_in_evidenza": "",
+    "immagine_news": "",
+    "stato": "pubblica",
+    "priorita": "media",
+    "posizione_sito": "home_normale",
+    "ordine_editoriale": 999,
+    "mantieni_in_evidenza_fino_al": "",
+    "notizie": [
+      "receNTq9ARrRTqPBn"
+    ]
   }
 ]
