@@ -7,25 +7,31 @@ const root=path.join(__dirname,'..');
 const snapshotFile=path.join(root,'scratch/articles-editorial.json');
 function inventory(){
  const {parseArticleDate}=require('./build-cms');
- return fs.readdirSync(path.join(root,'content/articoli')).filter(n=>n.endsWith('.json')).sort().map(name=>{
+ const local=fs.readdirSync(path.join(root,'content/articoli')).filter(n=>n.endsWith('.json')).sort().map(name=>{
  const raw=fs.readFileSync(path.join(root,'content/articoli',name),'utf8');const item=JSON.parse(raw.replace(/^\uFEFF/,''));
  const slug=item.slug?.trim()||item.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))throw Error('Slug non valido');
  return {name,item,slug,date:parseArticleDate(item),hash:crypto.createHash('sha256').update(raw).digest('hex')};
  });
+ const privateItems=require('./editorial-calendar').readPrivate();
+ return [...local.filter(a=>!privateItems.some(p=>p.name===a.name)),...privateItems];
 }
 function metadata(a){return {id_cms:a.name,titolo:a.item.title,rubrica:a.item.rubrica==='tecnologie-che-aiutano'?'Tecnologie che aiutano':a.item.rubrica||'',categoria:a.item.category||'',tipo_contenuto:a.item.content_type||'',autore:a.item.author||'',url_articolo:'https://www.coinsieme.it/articoli/'+a.slug+'/'};}
 function initialFields(a,existing=false){return {...metadata(a),stato:existing?'pubblica':'bozza',data_pubblicazione:a.date,...editorialFields(a.item),mantieni_in_evidenza_fino_al:a.item.mantieni_in_evidenza_fino_al||null};}
-function decision(fields,today=todayRome()){
+function decision(fields,today=todayRome(),now=new Date()){
+ const planned=require('./editorial-calendar').scheduled(fields);
  if(!['bozza','pubblica'].includes(fields.stato))throw Error('Stato articolo mancante o non valido');
  const date=fields.data_pubblicazione||'';
  if(date&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||new Date(date).toISOString().slice(0,10)!==date))throw Error('Data pubblicazione non valida');
  if(fields.stato==='pubblica'&&!date)throw Error('Data pubblicazione obbligatoria per pubblicare');
- return {...editorialFields(fields),date,stato:fields.stato,visible:fields.stato==='pubblica'&&date<=today};
+ return {...editorialFields(fields),date,stato:fields.stato,programmato_il:planned,autorizza_social:fields.autorizza_social===true,verificato_online_il:fields.verificato_online_il||'',visible:fields.stato==='pubblica'&&date<=today&&(!planned||Date.parse(planned)<=now.getTime())};
 }
 async function sync(api,articles=inventory()){
  const read=async()=>{const result=[];let offset;do{const r=await api(TABLE+'?pageSize=100'+(offset?'&offset='+encodeURIComponent(offset):''));result.push(...r.records);offset=r.offset;}while(offset);return result;};
- let records=await read();const ids=new Set();for(const r of records){if(ids.has(r.fields.id_cms))throw Error('id_cms duplicato');ids.add(r.fields.id_cms);}
+ let records=await read();
+ // Explicit test inventories never write the production private cache.
+ if(arguments.length<2){require('./editorial-calendar').cachePrivate(records);articles=inventory();}
+ const ids=new Set();for(const r of records){if(ids.has(r.fields.id_cms))throw Error('id_cms duplicato');ids.add(r.fields.id_cms);}
  const creates=[],updates=[];
  for(const a of articles){const record=records.find(r=>r.fields.id_cms===a.name);if(!record)creates.push({fields:initialFields(a)});else{const fields=Object.fromEntries(Object.entries(metadata(a)).filter(([k,v])=>(record.fields[k]||'')!==v));if(Object.keys(fields).length)updates.push({id:record.id,fields});}}
  for(const [method,rows] of [['POST',creates],['PATCH',updates]])for(let i=0;i<rows.length;i+=10)await api(TABLE,method,{records:rows.slice(i,i+10)});
@@ -41,6 +47,6 @@ function readSnapshot(){
  return s;
 }
 function apply(item,name,snapshot){if(!snapshot)return item;const f=snapshot.articles[name];if(!f)throw Error('Articolo assente nello snapshot');return {...item,...decision({...f,data_pubblicazione:f.date})};}
-async function main(){const token=process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN;if(!token)throw Error('Credenziale Airtable mancante');const {createApi}=require('./publish-segnalazioni');const result=await sync(createApi(token));fs.mkdirSync(path.dirname(snapshotFile),{recursive:true});fs.writeFileSync(snapshotFile,JSON.stringify(result.snapshot,null,2));console.log('Articoli Airtable: '+Object.keys(result.snapshot.articles).length+', nuove bozze '+result.created+', metadati aggiornati '+result.updated);}
+async function main(){const token=process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN;if(!token)throw Error('Credenziale Airtable mancante');const {createApi}=require('./publish-segnalazioni');const result=await sync(createApi(token));fs.mkdirSync(path.dirname(snapshotFile),{recursive:true});fs.writeFileSync(snapshotFile,JSON.stringify(result.snapshot,null,2));await require('./editorial-calendar').materializeImages(inventory(),result.snapshot);console.log('Articoli Airtable: '+Object.keys(result.snapshot.articles).length+', nuove bozze '+result.created+', metadati aggiornati '+result.updated);}
 module.exports={TABLE,inventory,metadata,initialFields,decision,sync,readSnapshot,apply,main};
 if(require.main===module)main().catch(e=>{console.error(e.message);process.exitCode=1;});

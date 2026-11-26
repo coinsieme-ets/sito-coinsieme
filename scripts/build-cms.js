@@ -156,12 +156,11 @@ function loadAllArticles() {
   const editorial=require("./articles-editorial");
   const snapshot=editorial.readSnapshot();
   if (!fs.existsSync(newArticlesDir)) return [];
-  const files = fs.readdirSync(newArticlesDir).filter((name) => name.endsWith('.json')).sort();
+  const files = editorial.inventory();
   const seen = new Set();
 
-  return files.map((name) => {
-    const file = path.join(newArticlesDir, name);
-    const item = editorial.apply(readJson(file),name,snapshot);
+  return files.map(({name,item:source}) => {
+    const item = editorial.apply(source,name,snapshot);
     assert(item.title && item.title.trim(), `${name}: titolo mancante`);
     
     // Auto-generate slug from title if omitted or empty
@@ -664,12 +663,13 @@ async function main() {
   await require('./build-homepage').build();
   require('./build-segnalazioni-pages').build(root);
   require('./build-assistenza-digitale').build();
+  await require('./editorial-calendar').build();
   console.log('SEO:', require('./build-seo').build(root, allArticles));
 
   console.log(`Build CMS completata: ${allArticles.length} articoli interni, ${allForIndex.length} card nell'archivio, homepage dinamica, ${rassegnaItems.length} notizie (${approvedRassegna.length} approvate/online), ${convertedImages} HEIC/HEIF convertiti in WebP.`);
 }
 
-module.exports={parseArticleDate,loadAllArticles,buildHomeSection};
+module.exports={parseArticleDate,loadAllArticles,buildHomeSection,main};
 if(require.main===module)main().catch((error) => {
   console.error(error.message);
   process.exit(1);

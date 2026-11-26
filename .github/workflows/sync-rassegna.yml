@@ -118,6 +118,7 @@ jobs:
           done
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
           node scripts/check-pages-sportello.js _site
+          node scripts/check-editorial-privacy.js _site
       - uses: actions/configure-pages@v5
         if: steps.prepare.outputs.count != '0' && steps.entry.outputs.run == 'true'
       - uses: actions/upload-pages-artifact@v3
@@ -145,6 +146,11 @@ jobs:
         env:
           AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
         run: node scripts/publish-rassegna.js confirm
+      - name: Conferma articoli effettivamente online
+        if: steps.deployment.outcome == 'success'
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+        run: node scripts/editorial-calendar.js confirm
       - name: Conserva esclusivamente il dataset editoriale pubblicato
         if: steps.deployment.outcome == 'success'
         run: |

@@ -31,7 +31,7 @@ function publicState(articles,news,today=todayRome()){
  // No run time, sync time, draft metadata, or pubblica -> pubblicata transition.
  const visible=x=>x.published&&validDate(x.date)&&x.date<=today;
  // Home-only controls count through their rendered effect, not hidden scheduling metadata.
- const homeOnly=new Set(['rilevanza_home','ordine_home','mantieni_in_evidenza_fino_al','home_summary','image_position']);
+ const homeOnly=new Set(['rilevanza_home','ordine_home','mantieni_in_evidenza_fino_al','home_summary','image_position','_private_image_base64','verificato_online_il']);
  const publicArticles=articles.filter((x,i)=>visible(model.articles[i])).map(x=>Object.fromEntries(Object.entries(x).filter(([key])=>!homeOnly.has(key)))).sort((a,b)=>slug(a).localeCompare(slug(b)));
  const rendered=({order,until,prominence,published,priority,...item})=>item;
  const publicNews=model.news.filter(visible).map(rendered).sort((a,b)=>a.id.localeCompare(b.id));

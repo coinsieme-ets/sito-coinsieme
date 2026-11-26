@@ -98,6 +98,7 @@ jobs:
           # 4. Copia eventuali file di servizio se presenti (robots, sitemap, favicon)
           cp robots.txt sitemap.xml favicon* _site/ 2>/dev/null || true
           node scripts/check-pages-sportello.js _site
+          node scripts/check-editorial-privacy.js _site
 
       - name: Configurazione GitHub Pages
         uses: actions/configure-pages@v5
@@ -150,3 +151,12 @@ jobs:
         id: deployment
         if: steps.freshness.outputs.fresh == 'true'
         uses: actions/deploy-pages@v4
+
+      - name: Conferma articoli effettivamente online
+        if: steps.deployment.outcome == 'success'
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
+        run: |
+          npm ci
+          node scripts/refresh-home-editorial.js
+          node scripts/editorial-calendar.js confirm

@@ -31,3 +31,7 @@ Thumbs.db
 
 # Homepage image derivatives generated at build time
 /assets/home/generated/
+
+/assets/editoriale/
+
+/_site/
