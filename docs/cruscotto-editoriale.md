@@ -4,20 +4,21 @@ Interfaccia Airtable: https://airtable.com/appPqa952bdRrQJNI/pbdatROJ9veet1iKw
 Tabella articoli: tbldu5S3r7ZppEF1y.
 
 ## Responsabilita
-- CMS/Git: titolo, testo, immagini, autore, categoria, tipo e rubrica. I testi non sono duplicati in Airtable.
-- Airtable: stato, data_pubblicazione, rilevanza_home, ordine_home, mantieni_in_evidenza_fino_al.
+- Articoli nuovi o programmati: documento completo e copertina nella fonte Airtable riservata, campo contenuto_riservato_json. Non salvarli nel CMS/Git pubblico prima della pubblicazione.
+- CMS/Git: sorgenti storici gia pubblicati. Vedere [Calendario editoriale e promozione social](calendario-editoriale.md) per il flusso attuale.
+- Airtable: stato, data_pubblicazione, programmato_il, autorizza_social, rilevanza_home, ordine_home, mantieni_in_evidenza_fino_al.
 - id_cms corrisponde al nome del file: non modificarlo o rinominare file senza migrazione dedicata.
-- I campi descrittivi sono aggiornati dal CMS e non vanno modificati in Airtable.
+- I campi descrittivi derivano dal documento riservato o dal sorgente storico; modificare il documento sorgente per cambiare testo e metadati, e mantenere id_cms coerente con lo slug.
 
 ## Uso
-1. Scrivere/salvare un nuovo articolo nel CMS. Il deploy lo registra in Airtable come bozza e non lo include sul sito.
+1. Per un nuovo articolo creare il record in Airtable con stato=bozza e documento completo in contenuto_riservato_json. Conservare anche la copertina privatamente secondo la guida del calendario; non commettere testi o immagini delle bozze nel repository pubblico.
 2. Nel Cruscotto aprire Articoli COINSIEME e selezionare il record.
-3. Impostare stato=pubblica e la data. Una data futura programma la disponibilita dal primo deploy utile successivo.
+3. Dopo approvazione impostare stato=pubblica, data_pubblicazione e programmato_il con data/ora e fuso coerenti. La disponibilita parte dal primo deploy utile successivo all’istante previsto. Impostare autorizza_social solo con consenso esplicito alla promozione.
 4. Scegliere principale/evidenza/normale/solo_archivio, ordine e scadenza eventuale. Scadenza vuota mantiene la priorita.
-5. Attendere il workflow programmato esistente (22 e 23 UTC), oppure avviare manualmente Build e Deploy GitHub Pages in GitHub Actions. Anche i salvataggi CMS avviano il workflow.
-6. Verificare il deploy e il link pubblico: pubblica e una decisione editoriale, non un'attestazione di pubblicazione completata.
+5. Il workflow sync-rassegna controlla il calendario ogni 15 minuti, anche senza nuove notizie. In alternativa avviare Build e Deploy GitHub Pages. GitHub Actions puo subire ritardi: l’orario programmato e un embargo minimo.
+6. Il controllo dopo il deploy verifica il link canonico e registra verificato_online_il. Solo gli articoli online autorizzati vengono inclusi nel registro pubblico per ChatGPT/Metricool; controllare anche pagina e immagine prima di programmare il post.
 
-Gli 86 articoli presenti al passaggio conservano le impostazioni iniziali. Nessuna modifica al flusso Notizie/Segnalazioni. Non aumentata la frequenza dei workflow.
+I sorgenti storici gia pubblicati mantengono il percorso CMS/Git. Il calendario si integra nel workflow esistente senza aggiungere uno scheduler o cambiare la grafica del sito.
 Questa prima versione non ritira pagine gia generate: impostarle a bozza o a una data futura blocca la build, senza cancellare pagine o URL. Per escludere dalla home usare solo_archivio mantenendo pubblica.
 
 ## Garanzie tecniche
