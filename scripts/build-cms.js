@@ -208,6 +208,7 @@ function loadAllArticles() {
       contentType: item.content_type ? String(item.content_type).trim() : 'approfondimento',
       summary: item.summary.trim(),
       body: item.body,
+      related_articles: item.related_articles,
       author: item.author ? String(item.author).trim() : '',
       date: articleDate,
       date_verified: item.date_verified,
@@ -224,9 +225,11 @@ function loadAllArticles() {
   });
 }
 
-function renderArticle(item, template) {
-  const bodyHtml = markdownToHtml(item.body);
-  const words = item.body.trim().split(/\s+/).length;
+function renderArticle(item, template, published = []) {
+  const related = require('./article-related').relatedArticles(item, published);
+  const relatedHtml = related.length ? `<nav aria-label="Leggi anche"><h2>Leggi anche</h2><ul>${related.map(a=>`<li><a href="https://www.coinsieme.it/articoli/${encodeURIComponent(a.slug)}/">${escapeHtml(a.title)}</a></li>`).join('')}</ul></nav>` : '';
+  const bodyHtml = markdownToHtml(item.body) + relatedHtml;
+  const words = bodyHtml.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).length;
   const readingMinutes = Math.max(1, Math.ceil(words / 220));
   const authorHtml = item.author
     ? `<span>di <strong style="color:var(--marrone);">${escapeHtml(item.author)}</strong></span><span aria-hidden="true">·</span>`
@@ -635,7 +638,7 @@ async function main() {
   for (const item of allArticles) {
     const outputDir = path.join(articlesDir, item.slug);
     fs.mkdirSync(outputDir, { recursive: true });
-    fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate), 'utf8');
+    fs.writeFileSync(path.join(outputDir, 'index.html'), renderArticle(item, articleTemplate, allArticles), 'utf8');
   }
 
   const allForIndex = allArticles.map((item) => ({
