@@ -4,7 +4,7 @@ const {slug}=require('../js/site-search');
 const root=path.resolve(__dirname,'..'),app=path.join(root,'anteprima-sportello/app');
 const text=s=>String(s||'').replace(/<[^>]*>/g,' ').replace(/&(?:amp|quot|lt|gt|nbsp|apos);/g,e=>({'&amp;':'&','&quot;':'"','&lt;':'<','&gt;':'>','&nbsp;':' ','&apos;':"'"}[e])).replace(/&#(x[0-9a-f]+|\d+);/gi,(_,n)=>String.fromCodePoint(n[0].toLowerCase()==='x'?parseInt(n.slice(1),16):Number(n))).replace(/\s+/g,' ').trim();
 const short=s=>{const t=text(s);return t.length>190?t.slice(0,187).replace(/\s+\S*$/,'')+'…':t;};
-function data(name){const c={window:{}};vm.runInNewContext(fs.readFileSync(path.join(app,name+'.js'),'utf8'),c,{timeout:1000});return Object.values(c.window)[0];}
+function data(name){if(name==='farmacie-data')return require('../anteprima-sportello/app/farmacie-data');const c={window:{}};vm.runInNewContext(fs.readFileSync(path.join(app,name+'.js'),'utf8'),c,{timeout:1000});return Object.values(c.window)[0];}
 function target(category,kind,id){return '/anteprima-sportello/#cerca='+[category,kind,id].map(encodeURIComponent).join('/');}
 function catalog(){
  const entries=[],seen=new Set();
@@ -25,7 +25,7 @@ function catalog(){
  for(const [name,category,kind] of [['diagnostica','salute','diagnostica'],['televisite','salute','televisite'],['farmacie','salute','farmacia'],['residenziali','salute','residenza'],['mobilita','mobilita','risorsa'],['consegne','consegne','risorsa'],['coabitazione','abitare','coabitazione']]){
   const d=data(name+'-data');
   const records=name==='farmacie'?d.choose(data('consegne-data')):d.records;
-  for(const r of records)add(r.name,r.description||r.opening||r.services?.map(s=>s.description).join(' ')||r.delivery,target(category,kind,r.id),'Sportello',[r.address,r.coverage,r.reference,(r.fields||[]).join(' ')].filter(Boolean).join(' '));
+  for(const r of records)add(r.name,r.description||r.opening||r.services?.map(s=>s.description).join(' ')||r.delivery,target(category,kind,r.id),'Sportello',[r.address,r.coverage,r.reference,(r.fields||[]).join(' '),name==='farmacie'?[r.network,...(r.services||[]).map(s=>s.label+' '+s.availability)].filter(Boolean).join(' '):''].filter(Boolean).join(' '));
  }
  const physio=require('../anteprima-sportello/app/fisioterapia-data');
  for(const p of physio.providers)add(p.name,p.description,target('domicilio',p.regime==='privato'?'fisio-privato':'fisio-pubblico',p.id));

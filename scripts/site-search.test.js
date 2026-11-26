@@ -16,7 +16,7 @@ test('Ricerca: bisogni comuni, nessuna ricerca vuota e nessun duplicato di desti
  assert.equal(model.search(entries,'zzzzzzinesistente').length,0);
  assert.ok(model.search(entries,'aiuto a casa').slice(0,5).some(e=>/Assistenza domiciliare|Badant/.test(e.title)));
  assert.ok(entries.some(e=>e.title==='Policlinico Tor Vergata'&&e.url.endsWith('/risorsa/territorio-tor-vergata')));
- assert.equal(entries.filter(e=>e.url.includes('/farmacia/')).length,6);
+ assert.equal(entries.filter(e=>e.url.includes('/farmacia/')).length,25);
 });
 test('Ricerca: tutte le schede Casa e le 83 risorse Socialita sono indicizzate una volta',()=>{
  const entries=catalog.build(),html=fs.readFileSync(path.join(root,'casa-che-si-prende-cura/index.html'),'utf8');
