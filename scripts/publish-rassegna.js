@@ -99,7 +99,9 @@ async function main(mode){
  fs.mkdirSync('scratch',{recursive:true});
  const file='scratch/publication-manifest.json';
  if(mode==='prepare'){
+  const calendarChanged=await require('./editorial-calendar').changed(api);
   const manifest=await prepare(api,{recordId:process.env.SEGNALAZIONE_RECORD_ID||'',dynamicHome:true});
+  if(calendarChanged)manifest.count=Math.max(1,manifest.count);
   // Retry a pending status confirmation without rebuilding an already correct site.
   if(manifest.count===0&&(manifest.items.length||manifest.news.length)){
    const results=[...await seg.confirm(api,manifest,{retries:1}),...await confirmNews(api,manifest,{retries:1})];
