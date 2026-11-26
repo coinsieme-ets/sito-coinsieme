@@ -40,6 +40,8 @@ Ogni articolo contiene:
 
 Il registro non espone bozze, programmazioni future, identificativi Airtable, contenuti privati, esiti social o dati di accesso. Viene caricato nello stesso artefatto delle pagine: non diventa pubblico prima dell'articolo. Il consenso è indipendente dall'approvazione editoriale e predefinito a false.
 
+La procedura vale per tutti gli articoli futuri: conservare documento e copertina non ancora pubblicati nella fonte riservata, approvare la pubblicazione e impostare la data/ora; attivare `autorizza_social` solo con consenso esplicito. L'autorizzazione a pubblicare sul sito non autorizza da sola la promozione social. Il registro si aggiorna automaticamente dopo lo scadere dell'embargo e diventa accessibile insieme alle pagine nel deploy. La regia ChatGPT deve inoltre verificare che pagina e JPEG rispondano correttamente prima di creare un post su Metricool.
+
 ## Aggiornamento automatico
 
 `sync-rassegna.yml` controlla già ogni 15 minuti il sito. Il calendario è incluso nel confronto, anche se non ci sono nuove notizie nella rassegna. La costruzione è idempotente e riprende al successivo controllo se un'esecuzione viene ritardata. Anche `build-articoli.yml` aggiorna il registro a ogni deploy manuale o push.
